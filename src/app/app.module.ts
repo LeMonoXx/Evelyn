@@ -7,11 +7,13 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { OAuthModule } from 'angular-oauth2-oidc';
+import { EveLoginComponent } from './eve-login/eve-login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent
+    DashboardComponent,
+    EveLoginComponent
   ],
   imports: [
     HttpClientModule,
@@ -20,7 +22,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
     OAuthModule.forRoot({
       resourceServer: {
         sendAccessToken: true,
-        allowedUrls: ['http://www.angular.at/api/']
+        allowedUrls: ['http://www.angular.at/api/', 'https://login.eveonline.com']
       }
     })
   ],
