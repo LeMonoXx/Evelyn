@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
   // Url des Authorization-Servers
-  export const issuer: 'https://login.eveonline.com/v2/oauth/authorize/';
+ // export const issuer: 'https://login.eveonline.com/v2/oauth/authorize/';
   
-  export const tokenEndpoint: 'https://login.eveonline.com/v2/oauth/token';
+ // export const tokenEndpoint: 'https://login.eveonline.com/v2/oauth/token';
 
 @Component({
   selector: 'app-eve-login',
