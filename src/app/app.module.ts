@@ -5,13 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { EveLoginComponent } from './eve-login/eve-login.component';
-import { AuthInterceptor } from './auth.interceptor';
-import { RegisterComponent } from './register/register.component';
-import { SecureComponent } from './secure/secure.component';
-import { NotFoundComponent } from './not-found/not-found.component';
-import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -29,11 +24,7 @@ import {MatIconModule} from '@angular/material/icon';
   declarations: [
     AppComponent,
     DashboardComponent,
-    EveLoginComponent,
-    RegisterComponent,
-    SecureComponent,
-    NotFoundComponent,
-    LoginComponent
+    EveLoginComponent
   ],
   imports: [
     HttpClientModule,
@@ -54,11 +45,6 @@ import {MatIconModule} from '@angular/material/icon';
     MatFormFieldModule
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    }
   ],
   bootstrap: [AppComponent]
 })

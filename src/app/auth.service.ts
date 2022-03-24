@@ -1,94 +1,168 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, tap, throwError } from 'rxjs';
-import { TokenService } from './token.service';
+import jwt_decode from "jwt-decode";
+import { environment } from 'src/environments/environment';
 
-const OAUTH_CLIENT = 'express-client';
-const OAUTH_SECRET = 'express-secret';
-const API_URL = 'https://login.eveonline.com/v2/oauth/authorize/';
+export interface IJWTToken {
+    scp: string[] | string;
+    jti: string;
+    kid: string;
+    sub: string;
+    azp: string;
+    name: string;
+    owner: string;
+    exp: number;
+    iss: string;
+}
 
-const HTTP_OPTIONS = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/x-www-form-urlencoded',
-    Authorization: 'Basic ' + btoa(OAUTH_CLIENT + ':' + OAUTH_SECRET)
-  })
-};
+export interface IAuthResponseData {
+    access_token: string;
+    token_type: string;
+    expires_in: number;
+    refresh_token: string;
+}
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class AuthService {
 
-  redirectUrl = '';
+    // private static refreshInterval;
 
-  constructor(private http: HttpClient, private tokenService: TokenService) { }
+    private static defaultHeaders = {'Content-Type': 'application/x-www-form-urlencoded'};
 
-  login(loginData: any): Observable<any> {
-    this.tokenService.removeToken();
-    this.tokenService.removeRefreshToken();
-    const body = new HttpParams()
-      .set('username', loginData.username)
-      .set('password', loginData.password)
-      .set('grant_type', 'password');
+    private static scopes = [
+        'publicData',
+        'esi-location.read_location.v1',
+        'esi-skills.read_skills.v1',
+        'esi-wallet.read_character_wallet.v1',
+        'esi-universe.read_structures.v1',
+        'esi-assets.read_assets.v1',
+        'esi-markets.structure_markets.v1',
+        'esi-characters.read_standings.v1',
+        'esi-markets.read_character_orders.v1',
+        'esi-contracts.read_character_contracts.v1'
+    ];
 
-    return this.http.post<any>(API_URL + 'oauth/token', body, HTTP_OPTIONS)
-      .pipe(
-        tap(res => {
-          this.tokenService.saveToken(res.access_token);
-          this.tokenService.saveRefreshToken(res.refresh_token);
-        }),
-        catchError(AuthService.handleError)
-      );
-  }
+    public static async startAuth() {
+        const randomChallengeString = AuthService.createRandomString(32);
+        const encodedRandomString = AuthService.base64urlEncode(randomChallengeString);
 
-  refreshToken(refreshData: any): Observable<any> {
-    this.tokenService.removeToken();
-    this.tokenService.removeRefreshToken();
-    const body = new HttpParams()
-      .set('refresh_token', refreshData.refresh_token)
-      .set('grant_type', 'refresh_token');
-    return this.http.post<any>(API_URL + 'oauth/token', body, HTTP_OPTIONS)
-      .pipe(
-        tap(res => {
-          this.tokenService.saveToken(res.access_token);
-          this.tokenService.saveRefreshToken(res.refresh_token);
-        }),
-        catchError(AuthService.handleError)
-      );
-  }
+        const hashedString = await AuthService.hashSHA256(encodedRandomString);
+        const encodedHash = AuthService.base64urlEncode(hashedString);
 
-  logout(): void {
-    this.tokenService.removeToken();
-    this.tokenService.removeRefreshToken();
-  }
+        const randomStateString = AuthService.createRandomString(32);
+        const state = AuthService.base64urlEncode(randomStateString);
 
-  register(data: any): Observable<any> {
-    return this.http.post<any>(API_URL + 'oauth/signup', data)
-      .pipe(
-        tap(_ => AuthService.log('register')),
-        catchError(AuthService.handleError)
-      );
-  }
+        const params = new HttpParams()
+            .set('response_type', 'code')
+            .set('redirect_uri', encodeURI(environment.ssoCallbackURL))
+            .set('client_id', environment.clientID)
+            .set('scope', AuthService.scopes.join(' '))
+            .set('code_challenge', encodedHash)
+            .set('code_challenge_method', 'S256')
+            .set('state', state);
 
-  secured(): Observable<any> {
-    return this.http.get<any>(API_URL + 'secret')
-      .pipe(catchError(AuthService.handleError));
-  }
+        const redirectUrl = 'https://login.eveonline.com/v2/oauth/authorize/?' + params.toString();
 
-  private static handleError(error: HttpErrorResponse): any {
-    if (error.error instanceof ErrorEvent) {
-      console.error('An error occurred:', error.error.message);
-    } else {
-      console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
+        return {
+            encodedRandomString,
+            redirectUrl,
+            state,
+        };
     }
-    
-    return throwError(() =>
-      'Something bad happened; please try again later.');
-  }
 
-  private static log(message: string): any {
-    console.log(message);
-  }
+    /**
+     * Checks if a auth token is still valid.
+     *
+     * Not valid if:
+     * - No token saved.
+     * - Token expiry is less than one minute from now.
+     */
+    public static isAuthValid(token?: string): boolean {
+        if (!token) {
+            return false;
+        }
+
+        const auth = JSON.parse(token) as IAuthResponseData;
+        const jwt = jwt_decode<IJWTToken>(auth.access_token);
+
+        const maxExpiryTime = (Date.now() / 1000) + 60; // Now + one minute.
+
+        return (jwt.exp > maxExpiryTime);
+    }
+
+    /**
+     * Checks if a refresh token is still valid.
+     *
+     * Not valid if:
+     * - No token saved.
+     * - Token expiry is more than 30 days ago.
+     *
+     * NOTE: Does not consider revocation of the refresh token.
+     */
+    public static isRefreshValid(token?: string) {
+        if (!token) {
+            return false;
+        }
+
+        const auth = JSON.parse(token) as IAuthResponseData;
+        const jwt = jwt_decode<IJWTToken>(auth.access_token);
+
+        const maxRefreshTokenAge = (Date.now() / 1000) - 2592000; // Now - 30 days.
+
+        return jwt.exp > maxRefreshTokenAge;
+    }
+
+    private static createRandomString(bytes: number) {
+        const bytesArray = new Uint8Array(bytes);
+        return String.fromCharCode(...crypto.getRandomValues(bytesArray));
+    }
+
+    private static base64urlEncode(str: string) {
+        return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+    }
+
+    private static async hashSHA256(str: string) {
+        return String.fromCharCode(...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str))));
+    }
+
+    constructor(
+        private readonly http: HttpClient,
+    ) { }
+
+    public async getAuthToken(code: string, codeVerifier: string): Promise<IAuthResponseData> {
+
+        const body = new HttpParams()
+            .set('grant_type', 'authorization_code')
+            .set('code', code)
+            .set('client_id', environment.clientID)
+            .set('code_verifier', codeVerifier);
+
+        return this.http.post<any>('https://login.eveonline.com/v2/oauth/token', body, {
+            headers: AuthService.defaultHeaders,
+        }).toPromise();
+    }
+
+    public async refreshToken(refreshToken: string) {
+        const body = new HttpParams()
+            .set('grant_type', 'refresh_token')
+            .set('refresh_token', refreshToken)
+            .set('client_id', environment.clientID);
+
+        return this.http.post<any>('https://login.eveonline.com/v2/oauth/token', body, {
+            headers: AuthService.defaultHeaders,
+        }).toPromise();
+    }
+
+    public async revokeToken(refreshToken: string) {
+        const body = new HttpParams()
+            .set('token', refreshToken)
+            .set('token_type_hint', 'refresh_token')
+            .set('client_id', environment.clientID);
+
+        return this.http.post<any>('https://login.eveonline.com/v2/oauth/revoke', body, {
+            headers: AuthService.defaultHeaders,
+        }).toPromise();
+    }
 }
