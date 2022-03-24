@@ -1,1 +1,5 @@
-<button class="loginButton" type="button" (click)="startLogin()"></button>
+<button *ngIf="!authValid" class="loginButton" type="button" (click)="startLogin()"></button>
+
+<div *ngIf="authValid">
+ Logged in!
+</div>

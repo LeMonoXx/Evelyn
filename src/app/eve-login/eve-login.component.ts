@@ -12,14 +12,12 @@ import { AuthService, IAuthResponseData } from '../auth.service';
   templateUrl: './eve-login.component.html',
   styleUrls: ['./eve-login.component.scss']
 })
-export class EveLoginComponent implements OnInit {
+export class EveLoginComponent {
 
   public static auth = false;
 
   constructor(
-    private authService: AuthService,
-    private route: ActivatedRoute,
-    private router: Router,
+    private authService: AuthService
     ) { }
 
   public static validateAuth() {
@@ -60,37 +58,6 @@ export class EveLoginComponent implements OnInit {
       sessionStorage.setItem('state', state);
 
       window.location.href = redirectUrl;
-  }
-
-  public async ngOnInit() {
-    const state = this.route.snapshot.queryParamMap.get('state');
-    const savedState = sessionStorage.getItem('state');
-
-    if (!state || !savedState || state !== savedState) {
-        // Something went wrong, clear everything so the user can try again.
-        sessionStorage.clear();
-        this.router.navigate(['/']);
-        console.log('Something went wrong, clear everything so the user can try again.');
-        return;
-    }
-
-    sessionStorage.removeItem('state');
-
-    const code = this.route.snapshot.queryParamMap.get('code');
-    const encodedRandomString = sessionStorage.getItem('challenge');
-
-    if(code && encodedRandomString) {
-      console.log('code and encodedRandomString existing');
-      const token = await this.authService.getAuthToken(code, encodedRandomString);
-
-      sessionStorage.setItem('token', JSON.stringify(token));
-      sessionStorage.removeItem('challenge');
-  
-      this.router.navigate(['/']).then();
-    }
-    else {
-      console.log('code or encodedRandomString empty');
-    }
   }
 
   startLogin(): void {
