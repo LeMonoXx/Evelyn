@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { AuthService, IAuthResponseData } from '../auth.service';
 import { CharacterService } from '../character.service';
 
@@ -20,8 +20,16 @@ export class EveLoginComponent {
   public statusObs = this.characterService
               .getServerStatus()
               .pipe(
-                tap(s => console.log(s))
+                tap(s => console.log(s)),
+                map(s => s['players'])
               );
+
+  public characterObs = this.characterService
+  .getCharacterInformation()
+  .pipe(
+    tap(c => console.log(c)),
+    map(c => c['name'])
+  );
 
   constructor(
     private authService: AuthService,
@@ -70,9 +78,5 @@ export class EveLoginComponent {
   startLogin(): void {
     console.log("startLogin started");
     this.doAuth();
-  }
-
-  public getStatus(): Observable<string> {
-   return this.statusObs;
   }
 }

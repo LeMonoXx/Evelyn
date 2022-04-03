@@ -8,11 +8,17 @@ import { environment } from 'src/environments/environment';
 })
 export class CharacterService {
 
+  // Sourly Kashada: 92648793
   constructor(private http: HttpClient) { }
 
-  public getServerStatus(): Observable<string> {
+  public getServerStatus(): Observable<any> {
     const url = environment.esiBaseUrl + '/status/';
-    return this.http.get<string>(url)
+    return this.http.get<any>(url)
+}
+
+public getCharacterInformation(characterId: number = 92648793): Observable<any> {
+  const url = environment.esiBaseUrl + `/characters/${characterId}/`;
+  return this.http.get<any>(url)
 }
 
 }

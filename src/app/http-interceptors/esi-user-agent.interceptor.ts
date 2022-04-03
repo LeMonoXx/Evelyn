@@ -13,7 +13,7 @@ export class EsiUserAgentInterceptor implements HttpInterceptor {
 
         if (request.url.includes(environment.esiBaseUrl)) {
             request = request.clone({
-                setHeaders: {'X-User-Agent': `EveTrader ${environment.version}, by #MonoXx Kashada`},
+                setHeaders: {'X-User-Agent': `EveTrader ${environment.version}, by MonoXx Kashada`},
             });
         }
 

@@ -2,6 +2,8 @@
 
 <div *ngIf="authValid">
  Logged in!
-
- {{ getStatus() | async }}
+<br>
+ {{ (statusObs | async) }}
+ <br>
+ {{ characterObs | async }}
 </div>
