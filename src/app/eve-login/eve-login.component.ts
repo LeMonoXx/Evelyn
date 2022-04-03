@@ -28,7 +28,7 @@ export class EveLoginComponent {
   .getAuthenticatedCharacterInfo()
   .pipe(
     tap(c => console.log(c)),
-    map(c => c['name'])
+    map(c => c['CharacterName'])
   );
 
   constructor(

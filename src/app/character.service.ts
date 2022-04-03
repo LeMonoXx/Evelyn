@@ -22,7 +22,7 @@ public getCharacterInformation(characterId: number = 92648793): Observable<any> 
 }
 
 public getAuthenticatedCharacterInfo() : Observable<any> {
-  return this.http.get<any>(environment.esiVerifyUrl, { observe: 'response' })
+  return this.http.get<any>(environment.esiVerifyUrl)
 }
 
 }

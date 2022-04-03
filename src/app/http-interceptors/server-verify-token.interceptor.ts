@@ -21,8 +21,7 @@ export class ServerVerifyTokenInterceptor implements HttpInterceptor {
                 request = request.clone({
                     setHeaders: {
                         'Authorization':  `Bearer ${auth.access_token}`,
-                        'X-User-Agent': `EveTrader ${environment.version}, by MonoXx Kashada`
-                        
+                        'X-User-Agent': `EveTrader ${environment.version}, by MonoXx Kashada`                       
                     },
                 });
             }
