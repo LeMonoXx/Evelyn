@@ -21,4 +21,8 @@ public getCharacterInformation(characterId: number = 92648793): Observable<any> 
   return this.http.get<any>(url)
 }
 
+public getAuthenticatedCharacterInfo() : Observable<any> {
+  return this.http.get<any>(environment.esiVerifyUrl, { observe: 'response' })
+}
+
 }

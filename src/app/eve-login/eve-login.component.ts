@@ -25,7 +25,7 @@ export class EveLoginComponent {
               );
 
   public characterObs = this.characterService
-  .getCharacterInformation()
+  .getAuthenticatedCharacterInfo()
   .pipe(
     tap(c => console.log(c)),
     map(c => c['name'])
