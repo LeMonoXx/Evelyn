@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, tap } from 'rxjs';
 import { AuthService, IAuthResponseData } from '../auth.service';
+import { CharacterService } from '../character.service';
 
   // Url des Authorization-Servers
  // export const issuer: 'https://login.eveonline.com/v2/oauth/authorize/';
@@ -13,11 +15,17 @@ import { AuthService, IAuthResponseData } from '../auth.service';
   styleUrls: ['./eve-login.component.scss']
 })
 export class EveLoginComponent {
-
   public static auth = false;
+  
+  public statusObs = this.characterService
+              .getServerStatus()
+              .pipe(
+                tap(s => console.log(s))
+              );
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private characterService: CharacterService
     ) { }
 
   public static validateAuth() {
@@ -62,5 +70,9 @@ export class EveLoginComponent {
   startLogin(): void {
     console.log("startLogin started");
     this.doAuth();
+  }
+
+  public getStatus(): Observable<string> {
+   return this.statusObs;
   }
 }

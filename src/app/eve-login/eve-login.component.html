@@ -2,4 +2,6 @@
 
 <div *ngIf="authValid">
  Logged in!
+
+ {{ getStatus() | async }}
 </div>

@@ -19,7 +19,7 @@ export class ServerTokenInterceptor implements HttpInterceptor {
                 const auth = JSON.parse(token) as IAuthResponseData;
 
                 request = request.clone({
-                    setHeaders: {'x-evetrader-token': auth.access_token },
+                    setHeaders: {'Authorization':  'Bearer ' + auth.access_token },
                 });
             }
         }

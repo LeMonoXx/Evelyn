@@ -21,6 +21,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import { AuthComponent } from './auth/auth.component';
 import { httpInterceptorProviders } from './http-interceptors';
+import { CharacterService } from './character.service';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { httpInterceptorProviders } from './http-interceptors';
     MatFormFieldModule
   ],
   providers: [
-    httpInterceptorProviders
+    httpInterceptorProviders,
+    CharacterService
   ],
   bootstrap: [AppComponent]
 })
