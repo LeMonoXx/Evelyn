@@ -20,6 +20,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import { AuthComponent } from './auth/auth.component';
+import { httpInterceptorProviders } from './http-interceptors';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { AuthComponent } from './auth/auth.component';
     MatFormFieldModule
   ],
   providers: [
+    httpInterceptorProviders
   ],
   bootstrap: [AppComponent]
 })

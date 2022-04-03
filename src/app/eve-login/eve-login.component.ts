@@ -51,7 +51,6 @@ export class EveLoginComponent {
   }
 
   public async doAuth() {
-
       const {encodedRandomString, redirectUrl, state} = await AuthService.startAuth();
 
       sessionStorage.setItem('challenge', encodedRandomString);
