@@ -14,6 +14,8 @@
             <div *ngIf="characterPortraitObs | async as portrait">
                 <img [src]="portrait.px64x64">
             </div>
+
+            <mat-icon (click)="revokeAuth()" color="primary">logout</mat-icon>
         </div>
     </div>
 </div>
