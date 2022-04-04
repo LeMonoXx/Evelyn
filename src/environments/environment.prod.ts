@@ -3,6 +3,6 @@ export const environment = {
   esiBaseUrl: 'https://esi.evetech.net/latest',
   esiVerifyUrl: 'https://esi.evetech.net/verify/',
   production: true,
-  ssoCallbackURL: 'https://evetrader.monoxnet.de/auth',
+  ssoCallbackURL: 'https://evelyn.monoxnet.de/auth',
   version: '1.0.0'
 };

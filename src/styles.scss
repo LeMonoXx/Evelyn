@@ -1,4 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
+/* ==========================================================================
+   General styles:
+   ========================================================================== */
+
+   body {
+    color: var(--foreground);
+    background-color: var(--background);
+    font-size: 1em;
+    line-height: 1.4;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0px;
+  }
+
+  audio,
+  canvas,
+  iframe,
+  img,
+  svg,
+  video {
+    vertical-align: middle;
+  }
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; }
+
+p {
+  margin: 0px;
+}

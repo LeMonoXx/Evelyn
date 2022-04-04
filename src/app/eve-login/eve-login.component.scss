@@ -1,7 +1,27 @@
+.loginComponent {
+    overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .loginButtonContainer {  
+        float: right;
+    }
 
-.loginButton {
-    width: 195px;
-    height: 32px;
-    background-image: url("/assets/eve-sso-login-black-small.png");
-    background-repeat: no-repeat;
+    .authCharacterContainer {
+        float: right;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 85%;
+
+        img {
+            margin-left: 5px;
+            width: 36px;
+        }
+    }
 }
+
+
+
+

@@ -1,0 +1,58 @@
+@use '@angular/material' as mat;
+@import 'colors.scss';
+
+/* ==========================================================================
+      Main-Color-Palette for Material-Components
+   ========================================================================== */
+
+$main-color-palette: (
+  100: $accent1-soft3,
+  300: $accent1-soft2,
+  400: $accent1-soft1,
+  500: $accent1,
+  600: $accent1-strong1,
+  700: $accent1-strong2,
+  800: $accent1-strong3,
+  contrast: (
+    100: $foreground-soft3,
+    300: $foreground-soft2,
+    400: $foreground-soft1,
+    500: $foreground,
+    600: $foreground-strong1,
+    700: $foreground-strong2,
+    800: $foreground-strong3
+  )
+);
+
+$accent2-color-palette: (
+  100: $accent2-soft3,
+  300: $accent2-soft2,
+  400: $accent2-soft1,
+  500: $accent2,
+  600: $accent2-strong1,
+  700: $accent2-strong2,
+  800: $accent2-strong3,
+  contrast: (
+    100: $foreground-soft3,
+    300: $foreground-soft2,
+    400: $foreground-soft1,
+    500: $foreground,
+    600: $foreground-strong1,
+    700: $foreground-strong2,
+    800: $foreground-strong3
+  )
+);
+
+/* ==========================================================================
+      Setting the Main-Color-Palette for Components
+   ========================================================================== */
+
+@import '@angular/material/theming';
+@include mat.core();
+
+$custom-theme-primary: mat.define-palette($main-color-palette);
+$custom-theme-accent: mat.define-palette($accent2-color-palette);
+
+$custom-theme: mat.define-light-theme($custom-theme-primary, $custom-theme-accent);
+
+@include mat.all-component-themes($custom-theme);
