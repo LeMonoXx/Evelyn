@@ -1,9 +1,15 @@
 <button *ngIf="!authValid" class="loginButton" type="button" (click)="startLogin()"></button>
 
 <div *ngIf="authValid">
- Logged in!
-<br>
- {{ (statusObs | async) }}
- <br>
- {{ characterObs | async }}
+    <div *ngIf="statusObs | async as serverStatus">
+        {{ serverStatus.players }}
+    </div>
+    
+    <div *ngIf="characterObs | async as authChar">
+        {{ authChar.CharacterName }}
+
+        <div *ngIf="characterPortraitObs | async as portrait">
+            <img [src]="portrait.px64x64">
+        </div>
+    </div>
 </div>

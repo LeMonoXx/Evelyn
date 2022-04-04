@@ -1,40 +1,41 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable, switchMap, tap } from 'rxjs';
 import { AuthService, IAuthResponseData } from '../auth.service';
 import { CharacterService } from '../character.service';
-
-  // Url des Authorization-Servers
- // export const issuer: 'https://login.eveonline.com/v2/oauth/authorize/';
-  
- // export const tokenEndpoint: 'https://login.eveonline.com/v2/oauth/token';
+import { AuthenticatedCharacter, Portrait, ServerStatus } from '../models';
 
 @Component({
   selector: 'app-eve-login',
   templateUrl: './eve-login.component.html',
   styleUrls: ['./eve-login.component.scss']
 })
-export class EveLoginComponent {
+export class EveLoginComponent implements OnInit{
   public static auth = false;
   
-  public statusObs = this.characterService
-              .getServerStatus()
-              .pipe(
-                tap(s => console.log(s)),
-                map(s => s['players'])
-              );
-
-  public characterObs = this.characterService
-  .getAuthenticatedCharacterInfo()
-  .pipe(
-    tap(c => console.log(c)),
-    map(c => c['CharacterName'])
-  );
+  public statusObs : Observable<ServerStatus> | undefined;
+  public characterObs : Observable<AuthenticatedCharacter> | undefined;
+  public characterPortraitObs : Observable<Portrait> | undefined;
 
   constructor(
     private authService: AuthService,
     private characterService: CharacterService
     ) { }
+
+  public ngOnInit(): void {
+      this.statusObs = this.characterService
+      .getServerStatus();
+
+      this.characterObs = this.characterService
+      .getAuthenticatedCharacterInfo()
+      .pipe(
+        tap(c => console.log(c))
+      );
+
+      this.characterPortraitObs = this.characterObs.pipe(
+        switchMap(authChar => this.characterService.getCharacterImage(authChar.CharacterID))
+      );
+  }
 
   public static validateAuth() {
       const token = sessionStorage.getItem('token');
