@@ -1,15 +1,21 @@
-<button *ngIf="!authValid" class="loginButton" type="button" (click)="startLogin()"></button>
-
-<div *ngIf="authValid">
+<div class="loginComponent">
     <div *ngIf="statusObs | async as serverStatus">
         {{ serverStatus.players }}
     </div>
-    
-    <div *ngIf="characterObs | async as authChar">
-        {{ authChar.CharacterName }}
 
-        <div *ngIf="characterPortraitObs | async as portrait">
-            <img [src]="portrait.px64x64">
+    <div *ngIf="!authValid" class="loginButtonContainer">
+        <input type="image" src="../../assets/icons/eve-sso-login-black-small.png" (click)="startLogin()"/> 
+        <!-- <button *ngIf="!authValid" class="loginButton" type="button" (click)="startLogin()"></button> -->
+    </div>
+
+    <div *ngIf="authValid">
+        <div class="authCharacterContainer" *ngIf="characterObs | async as authChar">   
+            {{ authChar.CharacterName }}        
+            <div *ngIf="characterPortraitObs | async as portrait">
+                <img [src]="portrait.px64x64">
+            </div>
+
+            <mat-icon (click)="revokeAuth()">logout</mat-icon>
         </div>
     </div>
 </div>

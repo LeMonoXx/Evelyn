@@ -1,0 +1,12 @@
+@import 'src/styles/variables';
+@import 'src/styles/functions';
+
+.loginComponent {
+    z-index: 998;
+    position: sticky;
+    top: 0px;
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background: $accent1;
+}
