@@ -19,16 +19,21 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+
 import { AuthComponent } from './auth/auth.component';
 import { httpInterceptorProviders } from './http-interceptors';
 import { CharacterService } from './character.service';
+import { EsiDataRepositoryService } from './repositories/esi-data-repository.service';
+import { EveSearchComponent } from './eve-search/eve-search.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     EveLoginComponent,
-    AuthComponent
+    AuthComponent,
+    EveSearchComponent
   ],
   imports: [
     HttpClientModule,
@@ -46,10 +51,12 @@ import { CharacterService } from './character.service';
     MatIconModule,
     MatButtonModule,
     MatCardModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatAutocompleteModule
   ],
   providers: [
     httpInterceptorProviders,
+    EsiDataRepositoryService,
     CharacterService
   ],
   bootstrap: [AppComponent]

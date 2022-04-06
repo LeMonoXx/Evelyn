@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ServerStatus, Character, AuthenticatedCharacter, Portrait } from './models/index';
+import { EsiDataRepositoryService } from './repositories/esi-data-repository.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,8 @@ import { ServerStatus, Character, AuthenticatedCharacter, Portrait } from './mod
 export class CharacterService {
 
   // Sourly Kashada: 92648793
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, 
+    private esiDataService: EsiDataRepositoryService) { }
 
   public getServerStatus(): Observable<ServerStatus> {
     const url = environment.esiBaseUrl + '/status/';

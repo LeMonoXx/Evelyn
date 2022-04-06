@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EsiDataRepositoryService } from '../repositories/esi-data-repository.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(public esiDataService: EsiDataRepositoryService) { }
 
   ngOnInit(): void {
   }

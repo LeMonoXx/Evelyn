@@ -4,6 +4,7 @@ import { map, Observable, switchMap, tap } from 'rxjs';
 import { AuthService, IAuthResponseData } from '../auth.service';
 import { CharacterService } from '../character.service';
 import { AuthenticatedCharacter, Portrait, ServerStatus } from '../models';
+import { EsiDataRepositoryService } from '../repositories/esi-data-repository.service';
 
 @Component({
   selector: 'app-eve-login',
@@ -19,6 +20,7 @@ export class EveLoginComponent implements OnInit{
 
   constructor(
     private authService: AuthService,
+    public esiDataService: EsiDataRepositoryService,
     private characterService: CharacterService
     ) { }
 
