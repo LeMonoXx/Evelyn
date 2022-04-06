@@ -7,4 +7,8 @@ import { Injectable } from '@angular/core';
 export class EsiDataRepositoryService {
 
   constructor(private httpClient: HttpClient) { }
+
+  public findItemByName(searchName: string) : any {
+    return undefined;
+  }
 }
