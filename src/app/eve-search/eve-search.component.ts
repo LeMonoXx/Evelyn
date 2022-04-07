@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { BehaviorSubject, debounceTime, filter, map, Observable, publishReplay, ReplaySubject, Subject, switchMap } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { debounceTime, filter, map, Observable, switchMap } from 'rxjs';
 import { MarketerSearchResult } from '../models';
 import { EsiDataRepositoryService } from '../repositories/esi-data-repository.service';
 import { EveMarketerDataRepositoryService } from '../repositories/evemarketer-data-repository.service';
+import { InputErrorStateMatcher } from '../shared';
 
 @Component({
   selector: 'app-eve-search',
@@ -12,18 +13,30 @@ import { EveMarketerDataRepositoryService } from '../repositories/evemarketer-da
 })
 export class EveSearchComponent implements OnInit {
 
-  myControl = new FormControl();
-  options: MarketerSearchResult[] = [];
+  options: FormGroup;
+  itemNameControl = new FormControl(null, [Validators.minLength(4), Validators.required]);
+  itemCountControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.max(25000), Validators.min(1)])
+
+  typeCount: number = 1;
   mySearchObs: Observable<MarketerSearchResult> = new Observable();
   autoCompleteObs: Observable<MarketerSearchResult[]> | undefined;
   currentItemImageSourceObs: Observable<string> | undefined;
+  matcher: InputErrorStateMatcher;
 
   constructor(
+    fb: FormBuilder,
     private eveMarketerDataService : EveMarketerDataRepositoryService,
-    private esiDataService: EsiDataRepositoryService) { }
+    private esiDataService: EsiDataRepositoryService) { 
+      this.options = fb.group({
+        itemName: this.itemNameControl,
+        itemCount: this.itemCountControl,
+      });
+
+      this.matcher = new InputErrorStateMatcher();
+    }
 
   ngOnInit(): void {
-    this.autoCompleteObs = this.myControl.valueChanges.pipe(
+    this.autoCompleteObs = this.itemNameControl.valueChanges.pipe(
       filter((value: string) => value.length > 2),
       debounceTime(500),
       switchMap((value: string) => {
@@ -32,7 +45,7 @@ export class EveSearchComponent implements OnInit {
     )
 
     this.mySearchObs = this.autoCompleteObs.pipe(
-      filter(proposals => this.myControl.value.toString().toLowerCase() === proposals[0]?.name.toLowerCase()),
+      filter(proposals => this.itemNameControl.value.toString().toLowerCase() === proposals[0]?.name.toLowerCase()),
       map(result => {
         var first = result[0];
         console.log('mySearchObs: next',first);  
@@ -44,8 +57,5 @@ export class EveSearchComponent implements OnInit {
         console.log('getImageUrlForType for', item);  
         return this.esiDataService.getImageUrlForType(item.id, 64);
       }));
-
-
   }
-
 }
