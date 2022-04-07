@@ -21,7 +21,7 @@ export class ItemSearchCacheInterceptor implements HttpInterceptor {
         if(request.headers.get("reset")) {
             this.cache.delete(request.url)
         }
-
+        
         const cachedResponse = this.cache.get(request.url)
 
         if(cachedResponse) {

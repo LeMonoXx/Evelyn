@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, shareReplay } from 'rxjs';
+import { map, Observable, shareReplay } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { SearchResult } from '../models';
 
@@ -19,13 +19,17 @@ export class EsiDataRepositoryService {
     return this.postRequest(url, `["${searchName}"]`);
   }
 
-  public getImageForType(typeId: number) {
-    const url = `https://imageserver.eveonline.com/Type/${typeId}_128.png`
-   return this.getRequest<string>(url);
+  public getImageUrlForType(typeId: number, size: number = 64) : string {
+    const url = `https://imageserver.eveonline.com/Type/${typeId}_${size}.png`
+    return url;
   }
 
-  private getRequest<T>(url: string ): Observable<T> {
-    return this.httpClient.get<T>(url).pipe(shareReplay(1));
+  private getRequest<T>(url: string, headers? : HttpHeaders): Observable<T> {
+    const options = { 
+      headers: headers, 
+    };
+
+    return this.httpClient.get<T>(url, options).pipe(shareReplay(1));
   }
 
   private postRequest<T>(url: string, body: any): Observable<T> {

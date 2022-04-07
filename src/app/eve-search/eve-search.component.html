@@ -14,7 +14,8 @@
     </mat-form-field>
 </form>
 
-<div *ngIf="(mySearchObs | async) as def">
-  <img *src="currentItemImageSourceObs | async">
-  {{ def.name }}
+<div *ngIf="(mySearchObs | async) as foundItem">
+  <img class="foundItemImage" [src]="currentItemImageSourceObs | async">
+  {{ foundItem.name }}
+  {{ foundItem.id }}
 </div>

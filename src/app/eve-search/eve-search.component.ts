@@ -14,7 +14,7 @@ export class EveSearchComponent implements OnInit {
 
   myControl = new FormControl();
   options: MarketerSearchResult[] = [];
-  mySearchObs: Observable<MarketerSearchResult> = new ReplaySubject();
+  mySearchObs: Observable<MarketerSearchResult> = new Observable();
   autoCompleteObs: Observable<MarketerSearchResult[]> | undefined;
   currentItemImageSourceObs: Observable<string> | undefined;
 
@@ -23,18 +23,16 @@ export class EveSearchComponent implements OnInit {
     private esiDataService: EsiDataRepositoryService) { }
 
   ngOnInit(): void {
-
     this.autoCompleteObs = this.myControl.valueChanges.pipe(
       filter((value: string) => value.length > 2),
       debounceTime(500),
       switchMap((value: string) => {
-        console.log('form changed to: ', value);  
         return this.eveMarketerDataService.getAutoCompleteSuggestions(value);
       })
     )
 
     this.mySearchObs = this.autoCompleteObs.pipe(
-      filter(proposals => this.myControl.value === proposals[0]?.name),
+      filter(proposals => this.myControl.value.toString().toLowerCase() === proposals[0]?.name.toLowerCase()),
       map(result => {
         var first = result[0];
         console.log('mySearchObs: next',first);  
@@ -42,7 +40,12 @@ export class EveSearchComponent implements OnInit {
     }));
 
     this.currentItemImageSourceObs = this.mySearchObs.pipe(
-        switchMap(item => this.esiDataService.getImageForType(item.id)));
+      map(item => {
+        console.log('getImageUrlForType for', item);  
+        return this.esiDataService.getImageUrlForType(item.id, 64);
+      }));
+
+
   }
 
 }
