@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { EvemarketerDataRepositoryService } from './evemarketer-data-repository.service';
+import { EveMarketerDataRepositoryService } from './evemarketer-data-repository.service';
 
 describe('EvemarketerDataRepositoryService', () => {
-  let service: EvemarketerDataRepositoryService;
+  let service: EveMarketerDataRepositoryService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(EvemarketerDataRepositoryService);
+    service = TestBed.inject(EveMarketerDataRepositoryService);
   });
 
   it('should be created', () => {

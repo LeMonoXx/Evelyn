@@ -42,15 +42,20 @@ export class EveLoginComponent implements OnInit{
   public static validateAuth() {
       const token = sessionStorage.getItem('token');
 
-      if(token)
+      if(token) {
         if (AuthService.isAuthValid(token)) {
-          EveLoginComponent.auth = true;
-          console.log('auth is true');
+
+          if(!EveLoginComponent.auth)
+            EveLoginComponent.auth = true;
+
+         // console.log('auth is true');
             return;
         }
 
-      sessionStorage.removeItem('token');
-      console.log('removed token from storage');
+        sessionStorage.removeItem('token');
+       console.log('removed token from storage');
+      }
+
       EveLoginComponent.auth = false;
   }
 

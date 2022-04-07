@@ -53,6 +53,6 @@ $accent2-color-palette: (
 $custom-theme-primary: mat.define-palette($main-color-palette);
 $custom-theme-accent: mat.define-palette($accent2-color-palette);
 
-$custom-theme: mat.define-light-theme($custom-theme-primary, $custom-theme-accent);
+$custom-theme: mat.define-dark-theme($custom-theme-primary, $custom-theme-accent);
 
 @include mat.all-component-themes($custom-theme);

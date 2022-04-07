@@ -5,3 +5,5 @@ export * from './search-result'
 
 export * from './character/character'
 export * from './character/portrait'
+
+export * from './eve-maketer/marketer-search-result'

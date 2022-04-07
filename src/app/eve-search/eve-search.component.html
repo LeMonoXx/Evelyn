@@ -1,16 +1,20 @@
 <form class="example-form">
     <mat-form-field>
-      <mat-label>Number</mat-label>
+      <mat-label>Item</mat-label>
       <input type="text"
-             placeholder="Pick one"
-             aria-label="Number"
+             placeholder="Item name"
              matInput
              [formControl]="myControl"
              [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let option of options" [value]="option">
-          {{option}}
+        <mat-option *ngFor="let option of (autoCompleteObs | async)" [value]="option.name">
+          {{option.name}}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
 </form>
+
+<div *ngIf="(mySearchObs | async) as def">
+  <img *src="currentItemImageSourceObs | async">
+  {{ def.name }}
+</div>

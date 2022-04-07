@@ -26,6 +26,7 @@ import { httpInterceptorProviders } from './http-interceptors';
 import { CharacterService } from './character.service';
 import { EsiDataRepositoryService } from './repositories/esi-data-repository.service';
 import { EveSearchComponent } from './eve-search/eve-search.component';
+import { EveMarketerDataRepositoryService as EveMarketerDataRepositoryService } from './repositories/evemarketer-data-repository.service';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { EveSearchComponent } from './eve-search/eve-search.component';
   providers: [
     httpInterceptorProviders,
     EsiDataRepositoryService,
+    EveMarketerDataRepositoryService,
     CharacterService
   ],
   bootstrap: [AppComponent]

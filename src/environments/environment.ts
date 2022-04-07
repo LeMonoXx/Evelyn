@@ -5,6 +5,7 @@
 export const environment = {
   clientID: 'ce8fa705b7794e968dcff5331db42e9f',
   esiBaseUrl: 'https://esi.evetech.net/latest',
+  eveMarketerBaseUrl: 'https://evemarketer.com/api/v1',
   esiVerifyUrl: 'https://esi.evetech.net/verify/',
   production: false,
   ssoCallbackURL: 'http://localhost:4200/auth/',
