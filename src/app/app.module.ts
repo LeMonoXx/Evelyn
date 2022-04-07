@@ -27,6 +27,7 @@ import { CharacterService } from './character.service';
 import { EsiDataRepositoryService } from './repositories/esi-data-repository.service';
 import { EveSearchComponent } from './eve-search/eve-search.component';
 import { EveMarketerDataRepositoryService as EveMarketerDataRepositoryService } from './repositories/evemarketer-data-repository.service';
+import { ItemStationPriceComponent } from './market/item-station-price/item-station-price.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { EveMarketerDataRepositoryService as EveMarketerDataRepositoryService } 
     DashboardComponent,
     EveLoginComponent,
     AuthComponent,
-    EveSearchComponent
+    EveSearchComponent,
+    ItemStationPriceComponent
   ],
   imports: [
     HttpClientModule,
