@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { combineLatest, Observable, switchMap, tap } from 'rxjs';
+import { combineLatest, mergeMap, Observable, switchMap, tap } from 'rxjs';
 import { MarketEntry } from 'src/app/models';
 import { ItemIdentifier, MarketService } from 'src/app/shared';
 
@@ -29,8 +29,7 @@ export class ItemStationPriceComponent implements OnInit {
 
     if(this.sellStation$ && this.itemIdentifier$) {
       this.marketData$ = combineLatest([this.sellStation$, this.itemIdentifier$]).pipe(
-        switchMap(([sellStation, itemIdentifier]) =>  {
-          console.log("marketData$ triggered")
+        mergeMap(([sellStation, itemIdentifier]) =>  {
           return this.marketService.getStructureMarketForItem(sellStation, itemIdentifier.id, false)
           .pipe(tap(e => console.log("getStructureMarketForItem")))
         }

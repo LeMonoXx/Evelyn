@@ -28,13 +28,9 @@ export class MarketService {
   public getStructureMarketForItem(structureId: number, itemId: number, isBuyOrder: boolean): Observable<MarketEntry[]> {
       return this.getStructureMarketEntries(structureId).pipe(
         map(entries => {
-
           console.log("entries length: " + entries.length);
-          return entries.filter(e => e.type_id == itemId && e.is_buy_order == isBuyOrder)
-                .sort(e => e.price)
-                
-      }
-          )
+          return entries.filter(e => e.type_id == itemId && e.is_buy_order == isBuyOrder)                
+        })
       );
   }
 }
