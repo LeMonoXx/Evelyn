@@ -2,12 +2,11 @@
    <app-eve-login></app-eve-login> 
 </div>
 
-
 <p>dashboard works!</p>
 
 <app-eve-search class="app-eve-search"></app-eve-search>
 
-<eve-item-station-price 
-   [stationId]="$any(1038457641673)"
-   [itemId]="$any(33620)">
+<eve-item-station-price *ngIf="authValid"
+   [sellStation$]="currentSellStationObs"
+   [itemIdentifier$]="currentItemObs">
 </eve-item-station-price>

@@ -36,6 +36,7 @@ export class AuthComponent implements OnInit {
         const token = await this.authService.getAuthToken(code, encodedRandomString);
   
         sessionStorage.setItem('token', JSON.stringify(token));
+        console.log(token);
         sessionStorage.removeItem('challenge');
     
         this.router.navigate(['/']).then();

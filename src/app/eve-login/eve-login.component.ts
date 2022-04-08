@@ -12,8 +12,7 @@ import { EsiDataRepositoryService } from '../repositories/esi-data-repository.se
   styleUrls: ['./eve-login.component.scss']
 })
 export class EveLoginComponent implements OnInit{
-  public static auth = false;
-  
+
   public statusObs : Observable<ServerStatus> | undefined;
   public characterObs : Observable<AuthenticatedCharacter> | undefined;
   public characterPortraitObs : Observable<Portrait> | undefined;
@@ -39,29 +38,8 @@ export class EveLoginComponent implements OnInit{
       );
   }
 
-  public static validateAuth() {
-      const token = AuthService.getAccessToken();
-
-      if(token) {
-        if (AuthService.isAuthValid(token)) {
-
-          if(!EveLoginComponent.auth)
-            EveLoginComponent.auth = true;
-
-         // console.log('auth is true');
-            return;
-        }
-
-        AuthService.removeAccessToken();
-       console.log('removed token from storage');
-      }
-
-      EveLoginComponent.auth = false;
-  }
-
-  public get authValid() {
-      EveLoginComponent.validateAuth();
-      return EveLoginComponent.auth;
+  public get authValid() : boolean {
+      return AuthService.hasValidAccessToken();
   }
 
   public async revokeAuth() {

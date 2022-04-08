@@ -24,7 +24,7 @@ export class EsiDataRepositoryService {
     return url;
   }
 
-  private getRequest<T>(url: string, headers? : HttpHeaders): Observable<T> {
+  public getRequest<T>(url: string, headers? : HttpHeaders): Observable<T> {
     const options = { 
       headers: headers, 
     };

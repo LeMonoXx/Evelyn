@@ -4,7 +4,7 @@ import { debounceTime, filter, map, Observable, switchMap } from 'rxjs';
 import { MarketerSearchResult } from '../models';
 import { EsiDataRepositoryService } from '../repositories/esi-data-repository.service';
 import { EveMarketerDataRepositoryService } from '../repositories/evemarketer-data-repository.service';
-import { InputErrorStateMatcher } from '../shared';
+import { InputErrorStateMatcher, ItemSearchService } from '../shared';
 
 @Component({
   selector: 'app-eve-search',
@@ -26,7 +26,8 @@ export class EveSearchComponent implements OnInit {
   constructor(
     fb: FormBuilder,
     private eveMarketerDataService : EveMarketerDataRepositoryService,
-    private esiDataService: EsiDataRepositoryService) { 
+    private esiDataService: EsiDataRepositoryService,
+    private itemSearchService: ItemSearchService) { 
       this.options = fb.group({
         itemName: this.itemNameControl,
         itemCount: this.itemCountControl,
@@ -48,11 +49,13 @@ export class EveSearchComponent implements OnInit {
       filter(proposals => this.itemNameControl.value.toString().toLowerCase() === proposals[0]?.name.toLowerCase()),
       map(result => {
         var first = result[0];
-        console.log('mySearchObs: next',first);  
+        console.log('mySearchObs: next',first);
+        this.itemSearchService.setCurrentItem({ id: first.id, name: first.name });
         return first;
     }));
 
-    this.currentItemImageSourceObs = this.mySearchObs.pipe(
+    this.itemSearchService
+    this.currentItemImageSourceObs = this.itemSearchService.CurrentItemObs.pipe(
       map(item => {
         console.log('getImageUrlForType for', item);  
         return this.esiDataService.getImageUrlForType(item.id, 64);

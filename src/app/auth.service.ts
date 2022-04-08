@@ -100,6 +100,21 @@ export class AuthService {
         sessionStorage.removeItem('token');
     }
 
+    public static hasValidAccessToken() : boolean {
+        const token = AuthService.getAccessToken();
+  
+        if(token) {
+          if (AuthService.isAuthValid(token)) {
+            return true;
+          }
+  
+          AuthService.removeAccessToken();
+         console.log('removed token from storage');
+        }
+  
+        return false;
+    }
+
     /**
      * Checks if a refresh token is still valid.
      *

@@ -28,6 +28,7 @@ import { EsiDataRepositoryService } from './repositories/esi-data-repository.ser
 import { EveSearchComponent } from './eve-search/eve-search.component';
 import { EveMarketerDataRepositoryService as EveMarketerDataRepositoryService } from './repositories/evemarketer-data-repository.service';
 import { ItemStationPriceComponent } from './market/item-station-price/item-station-price.component';
+import { ItemSearchService, MarketService } from './shared';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,9 @@ import { ItemStationPriceComponent } from './market/item-station-price/item-stat
     httpInterceptorProviders,
     EsiDataRepositoryService,
     EveMarketerDataRepositoryService,
-    CharacterService
+    CharacterService,
+    ItemSearchService,
+    MarketService
   ],
   bootstrap: [AppComponent]
 })
