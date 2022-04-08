@@ -1,7 +1,7 @@
 import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { IAuthResponseData } from '../auth.service';
+import { AuthService, IAuthResponseData } from '../auth.service';
 
 /**
  * Interceptor to add the x-evie-token header when communicating with the backend server.
@@ -13,7 +13,7 @@ export class ServerTokenInterceptor implements HttpInterceptor {
 
         if (request.url.includes(environment.esiBaseUrl)) {
 
-            const token = sessionStorage.getItem('token');
+            const token = AuthService.getAccessToken();
 
             if(token) {
                 const auth = JSON.parse(token) as IAuthResponseData;

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, shareReplay } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { SearchResult } from '../models';
 
@@ -11,7 +11,7 @@ export class EsiDataRepositoryService {
 
   constructor(
     private httpClient: HttpClient,
-) { }
+  ) { }
 
   public findItemByName(searchName: string) : Observable<SearchResult> {
     const url = environment.esiBaseUrl + '/latest/universe/ids/';

@@ -92,6 +92,14 @@ export class AuthService {
         return (jwt.exp > maxExpiryTime);
     }
 
+    public static getAccessToken() : string | null {
+        return sessionStorage.getItem('token');;
+    }
+
+    public static removeAccessToken(): void {
+        sessionStorage.removeItem('token');
+    }
+
     /**
      * Checks if a refresh token is still valid.
      *

@@ -40,7 +40,7 @@ export class EveLoginComponent implements OnInit{
   }
 
   public static validateAuth() {
-      const token = sessionStorage.getItem('token');
+      const token = AuthService.getAccessToken();
 
       if(token) {
         if (AuthService.isAuthValid(token)) {
@@ -52,7 +52,7 @@ export class EveLoginComponent implements OnInit{
             return;
         }
 
-        sessionStorage.removeItem('token');
+        AuthService.removeAccessToken();
        console.log('removed token from storage');
       }
 
@@ -65,12 +65,12 @@ export class EveLoginComponent implements OnInit{
   }
 
   public async revokeAuth() {
-      const token = sessionStorage.getItem('token');
+      const token = AuthService.getAccessToken();
 
       if(token) {
         const auth = JSON.parse(token) as IAuthResponseData;
         this.authService.revokeToken(auth.refresh_token).then();
-        sessionStorage.removeItem('token');
+        AuthService.removeAccessToken();
       }
   }
 
