@@ -1,8 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, shareReplay } from 'rxjs';
+import { map, mergeMap, Observable, shareReplay, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { SearchResult } from '../models';
+import { EsiHeaders } from './esi-headers';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,41 @@ export class EsiDataRepositoryService {
     };
 
     return this.httpClient.get<T>(url, options).pipe(shareReplay(1));
+  }
+
+  public getPagingRequest<T>(url: string, headers? : HttpHeaders): Observable<T> {
+    const options = { 
+      headers: headers
+    };
+
+    const result = this.httpClient.get<T>(url, {observe: 'response'}).pipe(
+      switchMap(async response => {
+        let totalPages = 1;
+        let finalResult : T[] = [];
+
+        if(response.body) {
+          finalResult.push(response.body);
+        }
+ 
+        if(response.headers.has(EsiHeaders.ESI_PAGING_HEADER_NAME)){
+          totalPages = Number(response.headers.get(EsiHeaders.ESI_PAGING_HEADER_NAME))         
+          
+          let curPage = 1;
+          while(curPage < totalPages) {
+            // we start with page=1. so we count up directly
+            curPage++;
+            await this.httpClient.get<T>( url + `?page=${curPage}`, options)
+            .pipe(map(newPageValues => finalResult.push(newPageValues))).toPromise();
+
+            console.log('finalResult length is: ' + finalResult.length)
+
+          }
+        }
+        return finalResult;
+      }),
+      mergeMap(r => r),
+      shareReplay(1));
+    return result;
   }
 
   private postRequest<T>(url: string, body: any): Observable<T> {
