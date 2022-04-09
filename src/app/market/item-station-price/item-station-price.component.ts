@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { combineLatest, mergeMap, Observable, switchMap, tap } from 'rxjs';
+import { combineLatest, map, mergeMap, Observable, switchMap, tap } from 'rxjs';
 import { MarketEntry } from 'src/app/models';
 import { ItemIdentifier, MarketService } from 'src/app/shared';
 
@@ -20,6 +20,7 @@ export class ItemStationPriceComponent implements OnInit {
   public itemIdentifier$: Observable<ItemIdentifier>;
   
   public marketData$: Observable<MarketEntry[]>;
+  public lowestSell$: Observable<MarketEntry>;
 
   constructor(private marketService: MarketService) {
 
@@ -29,12 +30,11 @@ export class ItemStationPriceComponent implements OnInit {
 
     if(this.sellStation$ && this.itemIdentifier$) {
       this.marketData$ = combineLatest([this.sellStation$, this.itemIdentifier$]).pipe(
-        mergeMap(([sellStation, itemIdentifier]) =>  {
-          return this.marketService.getStructureMarketForItem(sellStation, itemIdentifier.id, false)
-          .pipe(tap(e => console.log("getStructureMarketForItem")))
-        }
-          ));
-     
+        mergeMap(([sellStation, itemIdentifier]) =>  
+          this.marketService.getStructureMarketForItem(sellStation, itemIdentifier.id, false)
+        ));
+
+        this.lowestSell$ = this.marketData$.pipe(map(entries => entries[0]));
     }
   }
 

@@ -1,4 +1,9 @@
-import { NgModule } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
+import localeDeExtra from '@angular/common/locales/extra/de';
+registerLocaleData(localeDe, 'de-DE', localeDeExtra);
+
+import { DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -64,7 +69,9 @@ import { ItemSearchService, MarketService } from './shared';
     EveMarketerDataRepositoryService,
     CharacterService,
     ItemSearchService,
-    MarketService
+    MarketService,
+    { provide: LOCALE_ID, useValue: 'de-DE' }, // this is needed to have the currency symbol on the right side
+    {provide: DEFAULT_CURRENCY_CODE, useValue: 'ISK'}
   ],
   bootstrap: [AppComponent]
 })

@@ -7,6 +7,6 @@
     station: {{ sellStation }}
 </div>
 
-<div *ngIf="marketData$ |async as marketData">
-    {{ marketData | json}}
+<div *ngIf="lowestSell$ |async as lowestSell">
+    {{ lowestSell.price | currency }}
 </div>

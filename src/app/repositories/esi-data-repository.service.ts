@@ -33,15 +33,15 @@ export class EsiDataRepositoryService {
     return this.httpClient.get<T>(url, options).pipe(shareReplay(1));
   }
 
-  public getPagingRequest(url: string, headers? : HttpHeaders): Observable<MarketEntry[]> {
+  public getPagingRequest<T>(url: string, headers? : HttpHeaders): Observable<Array<T>> {
     const options = { 
       headers: headers
     };
 
-    const result = this.httpClient.get<MarketEntry[]>(url, {observe: 'response'}).pipe(
+    const result = this.httpClient.get<Array<T>>(url, {observe: 'response'}).pipe(
       map(response => {
         let totalPages = 1;
-        let resultSet: Observable<MarketEntry[]>[] = [];
+        let resultSet: Observable<Array<T>>[] = [];
 
         if(response.body) {
           resultSet.push(of(response.body));
@@ -58,7 +58,7 @@ export class EsiDataRepositoryService {
         while(curPage < result.totalPages) {
               // we start with page=1. so we count up directly
               curPage++;
-              const newRequest = this.httpClient.get<MarketEntry[]>( url + `?page=${curPage}`, options);
+              const newRequest = this.httpClient.get<Array<T>>( url + `?page=${curPage}`, options);
               result.resultSet.push(newRequest);
             }
         return result.resultSet;
