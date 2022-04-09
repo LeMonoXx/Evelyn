@@ -15,14 +15,7 @@ export class MarketService {
   public getStructureMarketEntries(structureId: number) : Observable<MarketEntry[]> {
     const page = 1;
     const url = environment.esiBaseUrl + `/markets/structures/${structureId}/`
-    var result = this.esiDataService.getPagingRequest<MarketEntry[]>(url)
-    .pipe(tap(entries => {
-      console.log("result pages: " + entries.length)
-      // console.log(entries[5].price);
-    }));
-
-    return result;
-    // return this.esiDataService.getRequest<MarketEntry[]>(url);
+    return this.esiDataService.getPagingRequest(url);
   }
 
   public getStructureMarketForItem(structureId: number, itemId: number, isBuyOrder: boolean): Observable<MarketEntry[]> {
