@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, mergeMap, Observable, shareReplay, switchMap } from 'rxjs';
+import { concatAll, concatMap, flatMap, forkJoin, map, merge, mergeAll, mergeMap, Observable, of, shareReplay, switchMap, toArray, zip } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { SearchResult } from '../models';
+import { MarketEntry, SearchResult } from '../models';
 import { EsiHeaders } from './esi-headers';
 
 @Injectable({
@@ -33,38 +33,39 @@ export class EsiDataRepositoryService {
     return this.httpClient.get<T>(url, options).pipe(shareReplay(1));
   }
 
-  public getPagingRequest<T>(url: string, headers? : HttpHeaders): Observable<T> {
+  public getPagingRequest<T>(url: string, headers? : HttpHeaders): Observable<Array<T>> {
     const options = { 
       headers: headers
     };
 
-    const result = this.httpClient.get<T>(url, {observe: 'response'}).pipe(
-      switchMap(async response => {
+    const result = this.httpClient.get<Array<T>>(url, {observe: 'response'}).pipe(
+      map(response => {
         let totalPages = 1;
-        let finalResult : T[] = [];
+        let resultSet: Observable<Array<T>>[] = [];
 
         if(response.body) {
-          finalResult.push(response.body);
+          resultSet.push(of(response.body));
         }
  
-        if(response.headers.has(EsiHeaders.ESI_PAGING_HEADER_NAME)){
+        if(response.headers.has(EsiHeaders.ESI_PAGING_HEADER_NAME)) {
           totalPages = Number(response.headers.get(EsiHeaders.ESI_PAGING_HEADER_NAME))         
-          
-          let curPage = 1;
-          while(curPage < totalPages) {
-            // we start with page=1. so we count up directly
-            curPage++;
-            await this.httpClient.get<T>( url + `?page=${curPage}`, options)
-            .pipe(map(newPageValues => finalResult.push(newPageValues))).toPromise();
-
-            console.log('finalResult length is: ' + finalResult.length)
-
-          }
         }
-        return finalResult;
+
+        return { resultSet: resultSet, totalPages: totalPages };
+      }), 
+      map(result => {
+        let curPage = 1;
+        while(curPage < result.totalPages) {
+              // we start with page=1. so we count up directly
+              curPage++;
+              const newRequest = this.httpClient.get<Array<T>>( url + `?page=${curPage}`, options);
+              result.resultSet.push(newRequest);
+            }
+        return result.resultSet;
       }),
-      mergeMap(r => r),
-      shareReplay(1));
+      switchMap(a => forkJoin(a)),
+      map(fork => fork.reduce((result, arr) => [...result, ...arr], []))
+    );
     return result;
   }
 

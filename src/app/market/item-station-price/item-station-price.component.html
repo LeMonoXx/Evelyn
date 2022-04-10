@@ -7,6 +7,17 @@
     station: {{ sellStation }}
 </div>
 
-<div *ngIf="marketData$ |async as marketData">
-    {{ marketData | json}}
+<!-- <div *ngIf="marketData$ | async as marketData">
+
+</div> -->
+
+<div *ngIf="calculatedSellData$ | async as calculatedSellData">
+    Brutto Sell Price: {{ calculatedSellData.grossSellPrice | currency }}
+    Broker Fee: {{ calculatedSellData.brokerFee | currency }}
+    Sales Tax: {{ calculatedSellData.saleTax | currency }}
+    Netto Sell Price: {{ calculatedSellData.nettoSalePrice | currency }}
+
+    Profit
+    Shipping Cost: {{ calculatedSellData.shippingCost| currency }}
+    After Shipping Profit: {{ calculatedSellData.afterShippingProfit | currency }}
 </div>

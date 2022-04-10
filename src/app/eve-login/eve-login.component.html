@@ -1,6 +1,6 @@
 <div class="loginComponent">
-    <div *ngIf="statusObs | async as serverStatus">
-        {{ serverStatus.players }}
+    <div *ngIf="statusObs | async as serverStatus" class="serverStatus">
+        {{ serverStatus?.players }}
     </div>
 
     <div *ngIf="!authValid" class="loginButtonContainer">
