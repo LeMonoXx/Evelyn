@@ -6,7 +6,17 @@
 
 <app-eve-search class="app-eve-search"></app-eve-search>
 
-<eve-item-station-price *ngIf="authValid"
+
+<ng-container *ngIf="authValid; else NotAuthenticated" >
+   <eve-item-station-price *ngIf="authValid"
+   [numberCount$]="numberCountObs"
    [sellStation$]="currentSellStationObs"
    [itemIdentifier$]="currentItemObs">
 </eve-item-station-price>
+</ng-container>
+
+<ng-template #NotAuthenticated>
+   <div class="notAuthenticated">
+      You need to login, to see the station market.
+   </div>
+</ng-template>

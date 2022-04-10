@@ -14,12 +14,14 @@ export class DashboardComponent implements OnInit {
 
   public currentItemObs: Observable<ItemIdentifier>;
   public currentSellStationObs: Observable<number> = new BehaviorSubject(1038457641673);
+  public numberCountObs: Observable<number>;
 
   constructor(public esiDataService: EsiDataRepositoryService,
     public eveMarketerDataService: EveMarketerDataRepositoryService,
     public itemSearchService: ItemSearchService) {
 
       this.currentItemObs = this.itemSearchService.CurrentItemObs;
+      this.numberCountObs = this.itemSearchService.ItemCountObs;
      }
 
   ngOnInit(): void {
