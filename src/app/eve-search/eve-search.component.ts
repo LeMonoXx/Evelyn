@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, filter, map, Observable, Subscription, switchMap } from 'rxjs';
 import { MarketerSearchResult } from '../models';
@@ -9,7 +9,8 @@ import { InputErrorStateMatcher, ItemSearchService } from '../shared';
 @Component({
   selector: 'app-eve-search',
   templateUrl: './eve-search.component.html',
-  styleUrls: ['./eve-search.component.scss']
+  styleUrls: ['./eve-search.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class EveSearchComponent implements OnInit, OnDestroy {
 

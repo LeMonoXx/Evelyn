@@ -9,13 +9,34 @@
     padding-left: 15px;
     padding-right: 15px;
     background: $accent1;
+
+    .loginWidth {
+        width: 100%;
+    }
 }
 
-.app-eve-search {
-    width: 300px;
-}
+/* Create two unequal columns that floats next to each other */
+.dashColumn {
+    float: left;
+    padding-top: 20px;
+    overflow: hidden;
+  }
+  
+  .dashLeft {
+    width: 20%;
+  }
+  
+  .dashRight {
+    width: 80%;
+  }
+
 
 .notAuthenticated {
     font-style: italic;
     text-align: center;
+}
+
+.dashStationPrice {
+    width: 200px;
+    background-color: yellow;
 }

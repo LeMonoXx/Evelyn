@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { combineLatest, concat, forkJoin, map, mergeMap, Observable, startWith, switchMap, tap, zip } from 'rxjs';
 import { MarketEntry } from 'src/app/models';
 import { ItemIdentifier, MarketService, SellPrice } from 'src/app/shared';
@@ -6,7 +6,8 @@ import { ItemIdentifier, MarketService, SellPrice } from 'src/app/shared';
 @Component({
   selector: 'eve-item-station-price',
   templateUrl: './item-station-price.component.html',
-  styleUrls: ['./item-station-price.component.scss']
+  styleUrls: ['./item-station-price.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ItemStationPriceComponent implements OnInit {
 

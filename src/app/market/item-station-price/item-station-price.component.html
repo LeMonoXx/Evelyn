@@ -1,23 +1,31 @@
-<p>item-station-price works!</p>
-<div *ngIf="itemIdentifier$ | async as itemIdentifier">
+<!-- <div *ngIf="itemIdentifier$ | async as itemIdentifier">
     item: {{ itemIdentifier | json }}
-</div>
-
-<div *ngIf="sellStation$ | async as sellStation">
-    station: {{ sellStation }}
-</div>
-
-<!-- <div *ngIf="marketData$ | async as marketData">
-
 </div> -->
 
-<div *ngIf="calculatedSellData$ | async as calculatedSellData">
-    Brutto Sell Price: {{ calculatedSellData.grossSellPrice | currency }}
-    Broker Fee: {{ calculatedSellData.brokerFee | currency }}
-    Sales Tax: {{ calculatedSellData.saleTax | currency }}
-    Netto Sell Price: {{ calculatedSellData.nettoSalePrice | currency }}
+<div *ngIf="sellStation$ | async as sellStation" class="stationName">
+    Station Name {{ sellStation }}
+</div>
 
-    Profit
-    Shipping Cost: {{ calculatedSellData.shippingCost| currency }}
-    After Shipping Profit: {{ calculatedSellData.afterShippingProfit | currency }}
+<div *ngIf="calculatedSellData$ | async as calculatedSellData">
+    <div>
+        Brutto Sell Price: {{ calculatedSellData.grossSellPrice | currency }}
+    </div>
+    <div>
+        Broker Fee: {{ calculatedSellData.brokerFee | currency }}
+    </div>
+    <div>
+        Sales Tax: {{ calculatedSellData.saleTax | currency }}
+    </div>
+    <div>
+        Netto Sell Price: {{ calculatedSellData.nettoSalePrice | currency }}
+    </div>
+    <div>
+        Profit
+    </div>
+    <div>
+        Shipping Cost: {{ calculatedSellData.shippingCost| currency }}
+    </div>
+    <div>
+        After Shipping Profit: {{ calculatedSellData.afterShippingProfit | currency }}
+    </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { EsiDataRepositoryService } from '../repositories/esi-data-repository.service';
@@ -8,7 +8,8 @@ import { ItemIdentifier, ItemSearchService } from '../shared';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DashboardComponent implements OnInit {
 

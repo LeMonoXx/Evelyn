@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable, switchMap, tap } from 'rxjs';
 import { AuthService, IAuthResponseData } from '../auth.service';
@@ -9,7 +9,8 @@ import { EsiDataRepositoryService } from '../repositories/esi-data-repository.se
 @Component({
   selector: 'app-eve-login',
   templateUrl: './eve-login.component.html',
-  styleUrls: ['./eve-login.component.scss']
+  styleUrls: ['./eve-login.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class EveLoginComponent implements OnInit{
 
