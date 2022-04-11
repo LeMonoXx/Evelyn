@@ -27,4 +27,16 @@ export class MarketService {
         })
       );
   }
+
+  public getRegionMarketForItem(itemId: number, regionId: number = 10000002, orderType: string = "sell"): Observable<MarketEntry[]> {
+    // We do not need to load pages of the resultm becuase we filter for a type_id, and the service response in a single page
+    const url = environment.esiBaseUrl + `/markets/${regionId}/orders/?order_type=${orderType}&page=1&type_id=${itemId}`
+
+    return this.esiDataService.getRequest<MarketEntry[]>(url).pipe(
+      map(entries => {
+        console.log("getRegionMarketForItem entries length: " + entries.length);
+        return entries.sort((a, b) => a.price - b.price)
+        //.filter(e => e.location_id == 60003760)
+      }));
+  }
 }

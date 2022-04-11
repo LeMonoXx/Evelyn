@@ -1,8 +1,6 @@
-import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { concatAll, concatMap, flatMap, forkJoin, map, merge, mergeAll, mergeMap, Observable, of, shareReplay, switchMap, toArray, zip } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { ItemDetails, MarketEntry, SearchResult } from '../models';
+import { forkJoin, map, Observable, of, shareReplay, switchMap } from 'rxjs';
 import { EsiHeaders } from './esi-headers';
 
 @Injectable({
@@ -13,17 +11,6 @@ export class EsiDataRepositoryService {
   constructor(
     private httpClient: HttpClient,
   ) { }
-
-  public findItemByName(searchName: string) : Observable<SearchResult> {
-    const url = environment.esiBaseUrl + '/universe/ids/';
-
-    return this.postRequest(url, `["${searchName}"]`);
-  }
-
-  public getItemDetails(typeId: number) : Observable<ItemDetails> {
-    const url = environment.esiBaseUrl + `/universe/types/${typeId}/`
-    return this.getRequest<ItemDetails>(url);
-  }
 
   public getImageUrlForType(typeId: number, size: number = 64) : string {
     const url = `https://imageserver.eveonline.com/Type/${typeId}_${size}.png`
@@ -74,7 +61,7 @@ export class EsiDataRepositoryService {
     return result;
   }
 
-  private postRequest<T>(url: string, body: any): Observable<T> {
+  public postRequest<T>(url: string, body: any): Observable<T> {
     return this.httpClient.post<T>(url, body);
   }
 }

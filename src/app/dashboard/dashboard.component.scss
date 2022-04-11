@@ -14,7 +14,10 @@
         width: 100%;
     }
 }
-
+    
+.stationPriceContainer {
+  max-width: 600px;
+}
 /* Create two unequal columns that floats next to each other */
 .dashColumn {
     float: left;
@@ -29,6 +32,7 @@
   .dashRight {
     width: 80%;
   }
+
 
 .notAuthenticated {
     font-style: italic;

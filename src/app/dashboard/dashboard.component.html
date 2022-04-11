@@ -7,10 +7,12 @@
 </div>
 
 <ng-container *ngIf="authValid; else NotAuthenticated">
-   <div class="dashColumn dashRight">
+   <div class="stationPriceContainer dashColumn dashRight">
       <eve-item-station-price
+
          *ngIf="authValid"
          [numberCount$]="numberCountObs"
+         [buyStation$]="currentBuyStationObs"
          [sellStation$]="currentSellStationObs"
          [itemIdentifier$]="currentItemObs"
          [itemDetails$]="itemDetailsObs">

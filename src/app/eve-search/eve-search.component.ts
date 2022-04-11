@@ -30,7 +30,6 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   constructor(
     fb: FormBuilder,
     private eveMarketerDataService : EveMarketerDataRepositoryService,
-    private esiDataService: EsiDataRepositoryService,
     private itemSearchService: ItemSearchService) { 
       this.options = fb.group({
         itemName: this.itemNameControl,

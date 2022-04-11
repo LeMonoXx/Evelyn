@@ -3,6 +3,7 @@ import { map, Observable, ReplaySubject, shareReplay, startWith, Subject, switch
 import { ItemDetails } from 'src/app/models';
 import { EsiDataRepositoryService } from 'src/app/repositories/esi-data-repository.service';
 import { ItemIdentifier } from '../models/item-identifier';
+import { UniverseService } from './universe.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,13 +18,13 @@ export class ItemSearchService {
 
   public CurrentItemDetailsObs: Observable<ItemDetails>;
 
-  constructor(esiDataService: EsiDataRepositoryService) {
+  constructor(universeService: UniverseService) {
     this.CurrentItemObs = this.currentItem$.asObservable()
                                       .pipe(
                                         shareReplay(1));
 
     this.CurrentItemDetailsObs = this.CurrentItemObs.pipe(
-      switchMap(item => esiDataService.getItemDetails(item.id))
+      switchMap(item => universeService.getItemDetails(item.id))
       );
 
     this.ItemCountObs = this.itemCount$.asObservable()

@@ -5,3 +5,4 @@ export * from './models/sell-price'
 
 export * from './services/item-search.service'
 export * from './services/market.service'
+export * from './services/universe.service'

@@ -13,3 +13,7 @@ export * from './market/market-entry'
 export * from './types/dogma-attribute'
 export * from './types/dogma-effect'
 export * from './types/item-details'
+
+export * from './universe/position'
+export * from './universe/structure-details'
+export * from './universe/station-details'

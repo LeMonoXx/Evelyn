@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { AuthService } from '../auth.service';
-import { ItemDetails } from '../models';
+import { ItemDetails, StationDetails, StructureDetails } from '../models';
 import { EsiDataRepositoryService } from '../repositories/esi-data-repository.service';
 import { EveMarketerDataRepositoryService } from '../repositories/evemarketer-data-repository.service';
-import { ItemIdentifier, ItemSearchService } from '../shared';
+import { ItemIdentifier, ItemSearchService, MarketService, UniverseService } from '../shared';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,13 +15,16 @@ import { ItemIdentifier, ItemSearchService } from '../shared';
 export class DashboardComponent implements OnInit {
 
   public currentItemObs: Observable<ItemIdentifier>;
-  public currentSellStationObs: Observable<number> = new BehaviorSubject(1038457641673);
+  public currentSellStationObs: Observable<StructureDetails>;
   public numberCountObs: Observable<number>;
   public itemDetailsObs: Observable<ItemDetails>;
+  public currentBuyStationObs: Observable<StationDetails>;
 
   constructor(public esiDataService: EsiDataRepositoryService,
     public eveMarketerDataService: EveMarketerDataRepositoryService,
-    public itemSearchService: ItemSearchService) {
+    public itemSearchService: ItemSearchService,
+    public universeService: UniverseService,
+    public marketService: MarketService) {
 
       this.currentItemObs = this.itemSearchService.CurrentItemObs;
       this.numberCountObs = this.itemSearchService.ItemCountObs;
@@ -29,7 +32,9 @@ export class DashboardComponent implements OnInit {
      }
 
   ngOnInit(): void {
-
+    
+    this.currentSellStationObs = this.universeService.getStructureDetails(1038457641673);
+    this.currentBuyStationObs = this.universeService.getStationDetails(60003760);            
   }
 
   public get authValid() : boolean {

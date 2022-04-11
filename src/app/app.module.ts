@@ -25,6 +25,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatDividerModule} from '@angular/material/divider';
 
 import { AuthComponent } from './auth/auth.component';
 import { httpInterceptorProviders } from './http-interceptors';
@@ -33,7 +34,7 @@ import { EsiDataRepositoryService } from './repositories/esi-data-repository.ser
 import { EveSearchComponent } from './eve-search/eve-search.component';
 import { EveMarketerDataRepositoryService as EveMarketerDataRepositoryService } from './repositories/evemarketer-data-repository.service';
 import { ItemStationPriceComponent } from './market/item-station-price/item-station-price.component';
-import { ItemSearchService, MarketService } from './shared';
+import { ItemSearchService, MarketService, UniverseService } from './shared';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { ItemSearchService, MarketService } from './shared';
     
     FormsModule,
     ReactiveFormsModule,
+    MatDividerModule,
     MatInputModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
@@ -70,6 +72,7 @@ import { ItemSearchService, MarketService } from './shared';
     CharacterService,
     ItemSearchService,
     MarketService,
+    UniverseService,
     { provide: LOCALE_ID, useValue: 'de-DE' }, // this is needed to have the currency symbol on the right side
     {provide: DEFAULT_CURRENCY_CODE, useValue: 'ISK'}
   ],

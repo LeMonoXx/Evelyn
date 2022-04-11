@@ -1,28 +1,110 @@
 @import 'src/styles/variables';
 @import 'src/styles/functions';
 
-.itemInfoContainer{
-    color: $foreground-soft2;
+.itemInfoContainer {
+    padding: 5px;
+    color: $foreground-soft1;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     flex-wrap: nowrap;
     flex-direction: row;
 
-    .itemDetails{
-        margin: 5px;
+    .itemInfo {
+        display: inline-flex;
 
-        .itemInfoName{
-            font-style: italic;
-        }
-    
-        .itemInfoId {
-            font-size: 70%;
-            font-style: italic;
+        .itemDetails {
+            margin: 5px;
+            .itemInfoName{
+                font-style: italic;
+            }
+        
+            .itemInfoId {
+                font-size: 70%;
+                font-style: italic;
+                color: $foreground-soft2;
+            }
         }
     }
+
+
+    .stationRoute {
+        margin: 5px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        .stationName {
+            font-size: 80%;
+        }
+    
+        .fromToStationIcon {
+            width: 15px;
+            height: 15px;
+            line-height: 15px;
+        }
+    }
+
 }
 
-.sellHeader {
-    background-color: $accent1;
+
+.sellCostsContainer {
+    padding: 5px;
+
+    .quickInfoBuySell {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+    }
+
+    .negativeNumber {
+        color: $accent2;
+    }
+
+    .negativeProfit {
+        color: $accent2-strong3;
+        font-weight: bold;
+    }
+
+    .positivProfit {
+        color: $accent3-strong3;
+        font-weight: bold;
+    }
+
+    .positivNumber {
+        color: $accent3;
+    }
+
+    .sellHeader {
+        background-color: $accent1;
+    }
+
+    .priceEntryDiv {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: nowrap;
+        align-content: center;
+
+        .titleLabel{
+            width: 120px;
+            padding-right: 10px;
+            overflow: hidden;
+            text-align: left;
+            display: inline-block;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .valueLabel{
+            overflow: hidden;
+            text-align: right;
+            display: inline-block;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+
 }

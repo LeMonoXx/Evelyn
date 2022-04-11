@@ -1,8 +1,10 @@
 export interface SellPrice {
+    singleBuyPrice: number;
+    buyPriceX: number;
     // the sell price for a single item
-    sellPrice: number;
+    singleSellPrice: number;
     // the sell price for number of x item
-    grossSellPrice: number, 
+    sellPriceX: number, 
     brokerFee: number, 
     saleTax: number, 
     nettoSalePrice: number,
