@@ -2,7 +2,18 @@
     item: {{ itemIdentifier | json }}
 </div> -->
 
-<div *ngIf="sellStation$ | async as sellStation" class="stationName">
+<div *ngIf="(itemIdentifier$ | async) as item" class="itemInfoContainer">
+    <div *ngIf="(currentItemImageSourceObs | async) as imageSource">
+        <img class="foundItemImage" [src]="imageSource">
+    </div>
+    <div class="itemDetails">
+        <div class="itemInfoName">{{ item.name }}</div>
+        <div class="itemInfoId">{{ item.id }}</div>
+        <div *ngIf="itemDetails$ | async as itemDetails" class="itemInfoId"> {{ itemDetails.packaged_volume }} m³ </div>
+    </div>
+</div>
+
+<div *ngIf="sellStation$ | async as sellStation" class="sellHeader">
     Station Name {{ sellStation }}
 </div>
 
@@ -19,7 +30,7 @@
     <div>
         Netto Sell Price: {{ calculatedSellData.nettoSalePrice | currency }}
     </div>
-    <div>
+    <div class="sellHeader">
         Profit
     </div>
     <div>

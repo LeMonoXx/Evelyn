@@ -23,7 +23,9 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   autoCompleteObs: Observable<MarketerSearchResult[]> | undefined;
   currentItemImageSourceObs: Observable<string> | undefined;
   matcher: InputErrorStateMatcher;
+  
   itemCountSubscription: Subscription;
+  searchSubscription: Subscription;
 
   constructor(
     fb: FormBuilder,
@@ -47,14 +49,14 @@ export class EveSearchComponent implements OnInit, OnDestroy {
       })
     )
 
-    this.mySearchObs = this.autoCompleteObs.pipe(
+    this.searchSubscription = this.autoCompleteObs.pipe(
       filter(proposals => this.itemNameControl.value.toString().toLowerCase() === proposals[0]?.name.toLowerCase()),
       map(result => {
         var first = result[0];
         console.log('mySearchObs: next',first);
         this.itemSearchService.setCurrentItem({ id: first.id, name: first.name });
         return first;
-    }));
+    })).subscribe();
 
     this.itemCountSubscription = this.itemCountControl.valueChanges.pipe(
       filter((value: number) => value > 0),
@@ -64,14 +66,15 @@ export class EveSearchComponent implements OnInit, OnDestroy {
       })
     ).subscribe()
 
-    this.currentItemImageSourceObs = this.itemSearchService.CurrentItemObs.pipe(
-      map(item => {
-        console.log('getImageUrlForType for', item);  
-        return this.esiDataService.getImageUrlForType(item.id, 64);
-      }));
+    // this.currentItemImageSourceObs = this.itemSearchService.CurrentItemObs.pipe(
+    //   map(item => {
+    //     console.log('getImageUrlForType for', item);  
+    //     return this.esiDataService.getImageUrlForType(item.id, 64);
+    //   }));
   }
 
   ngOnDestroy() {
     this.itemCountSubscription.unsubscribe()
+    this.searchSubscription.unsubscribe()
 }
 }

@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { concatAll, concatMap, flatMap, forkJoin, map, merge, mergeAll, mergeMap, Observable, of, shareReplay, switchMap, toArray, zip } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { MarketEntry, SearchResult } from '../models';
+import { ItemDetails, MarketEntry, SearchResult } from '../models';
 import { EsiHeaders } from './esi-headers';
 
 @Injectable({
@@ -15,9 +15,14 @@ export class EsiDataRepositoryService {
   ) { }
 
   public findItemByName(searchName: string) : Observable<SearchResult> {
-    const url = environment.esiBaseUrl + '/latest/universe/ids/';
+    const url = environment.esiBaseUrl + '/universe/ids/';
 
     return this.postRequest(url, `["${searchName}"]`);
+  }
+
+  public getItemDetails(typeId: number) : Observable<ItemDetails> {
+    const url = environment.esiBaseUrl + `/universe/types/${typeId}/`
+    return this.getRequest<ItemDetails>(url);
   }
 
   public getImageUrlForType(typeId: number, size: number = 64) : string {

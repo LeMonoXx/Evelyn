@@ -1,7 +1,28 @@
 @import 'src/styles/variables';
 @import 'src/styles/functions';
 
+.itemInfoContainer{
+    color: $foreground-soft2;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
 
-.stationName {
+    .itemDetails{
+        margin: 5px;
+
+        .itemInfoName{
+            font-style: italic;
+        }
+    
+        .itemInfoId {
+            font-size: 70%;
+            font-style: italic;
+        }
+    }
+}
+
+.sellHeader {
     background-color: $accent1;
 }

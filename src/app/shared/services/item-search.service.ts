@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject, shareReplay, startWith, Subject } from 'rxjs';
+import { map, Observable, ReplaySubject, shareReplay, startWith, Subject, switchMap } from 'rxjs';
+import { ItemDetails } from 'src/app/models';
+import { EsiDataRepositoryService } from 'src/app/repositories/esi-data-repository.service';
 import { ItemIdentifier } from '../models/item-identifier';
 
 @Injectable({
@@ -13,10 +15,16 @@ export class ItemSearchService {
   private currentItem$ : Subject<ItemIdentifier> = new ReplaySubject(1);
   public CurrentItemObs: Observable<ItemIdentifier>;
 
-  constructor() {
+  public CurrentItemDetailsObs: Observable<ItemDetails>;
+
+  constructor(esiDataService: EsiDataRepositoryService) {
     this.CurrentItemObs = this.currentItem$.asObservable()
                                       .pipe(
                                         shareReplay(1));
+
+    this.CurrentItemDetailsObs = this.CurrentItemObs.pipe(
+      switchMap(item => esiDataService.getItemDetails(item.id))
+      );
 
     this.ItemCountObs = this.itemCount$.asObservable()
                                       .pipe(

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { combineLatest, concat, forkJoin, map, mergeMap, Observable, startWith, switchMap, tap, zip } from 'rxjs';
-import { MarketEntry } from 'src/app/models';
+import { ItemDetails, MarketEntry } from 'src/app/models';
+import { EsiDataRepositoryService } from 'src/app/repositories/esi-data-repository.service';
 import { ItemIdentifier, MarketService, SellPrice } from 'src/app/shared';
 
 @Component({
@@ -17,15 +18,27 @@ export class ItemStationPriceComponent implements OnInit {
   public sellStation$ : Observable<number>; //1038457641673
   @Input()
   public itemIdentifier$: Observable<ItemIdentifier>;
+  @Input()
+  public itemDetails$: Observable<ItemDetails>
   
   public marketData$: Observable<MarketEntry[]>;
   public calculatedSellData$: Observable<SellPrice>;
+  public currentItemImageSourceObs: Observable<string>;
 
-  constructor(private marketService: MarketService) {
+  constructor(
+    private marketService: MarketService, 
+    private esiDataService: EsiDataRepositoryService) {
 
    }
 
   ngOnInit(): void {
+
+    this.currentItemImageSourceObs = this.itemIdentifier$.pipe(
+      map(item => {
+        console.log('getImageUrlForType for', item);  
+        return this.esiDataService.getImageUrlForType(item.id, 64);
+      }));
+
       this.marketData$ = combineLatest([this.sellStation$, this.itemIdentifier$]).pipe(
         mergeMap(([sellStation, itemIdentifier]) =>  
           this.marketService.getStructureMarketForItem(sellStation, itemIdentifier.id, false)
@@ -36,6 +49,7 @@ export class ItemStationPriceComponent implements OnInit {
           console.log("calculatedSellData map");
 
           const prices: SellPrice = { 
+            sellPrice: 0,
             grossSellPrice: 0,
             brokerFee: 0,
             saleTax: 0,
@@ -50,6 +64,7 @@ export class ItemStationPriceComponent implements OnInit {
             const brokerFee =  sellPrice / 100 * 2.5;
             const saleTax = sellPrice / 100 * 3.6;
    
+            prices.sellPrice = entries[0].price
             prices.grossSellPrice = sellPrice;
             prices.brokerFee = brokerFee;
             prices.saleTax = saleTax;

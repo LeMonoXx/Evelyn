@@ -9,3 +9,7 @@ export * from './character/portrait'
 export * from './eve-maketer/marketer-search-result'
 
 export * from './market/market-entry'
+
+export * from './types/dogma-attribute'
+export * from './types/dogma-effect'
+export * from './types/item-details'
