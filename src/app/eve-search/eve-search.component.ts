@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, filter, map, Observable, Subscription, switchMap } from 'rxjs';
 import { MarketerSearchResult } from '../models';
-import { EsiDataRepositoryService } from '../repositories/esi-data-repository.service';
 import { EveMarketerDataRepositoryService } from '../repositories/evemarketer-data-repository.service';
 import { InputErrorStateMatcher, ItemSearchService } from '../shared';
 
@@ -38,18 +37,18 @@ export class EveSearchComponent implements OnInit, OnDestroy {
 
       this.matcher = new InputErrorStateMatcher();
     }
-
+ 
   ngOnInit(): void {
     this.autoCompleteObs = this.itemNameControl.valueChanges.pipe(
-      filter((value: string) => value.length > 2),
+      filter((value: string) => value?.trim().length > 2),
       debounceTime(500),
       switchMap((value: string) => {
-        return this.eveMarketerDataService.getAutoCompleteSuggestions(value);
+        return this.eveMarketerDataService.getAutoCompleteSuggestions(value?.trim());
       })
     )
 
     this.searchSubscription = this.autoCompleteObs.pipe(
-      filter(proposals => this.itemNameControl.value.toString().toLowerCase() === proposals[0]?.name.toLowerCase()),
+      filter(proposals => this.itemNameControl.value.toString().trim().toLowerCase() === proposals[0]?.name.toLowerCase()),
       map(result => {
         var first = result[0];
         console.log('mySearchObs: next',first);

@@ -29,12 +29,9 @@ import {MatDividerModule} from '@angular/material/divider';
 
 import { AuthComponent } from './auth/auth.component';
 import { httpInterceptorProviders } from './http-interceptors';
-import { CharacterService } from './character.service';
-import { EsiDataRepositoryService } from './repositories/esi-data-repository.service';
 import { EveSearchComponent } from './eve-search/eve-search.component';
-import { EveMarketerDataRepositoryService as EveMarketerDataRepositoryService } from './repositories/evemarketer-data-repository.service';
 import { ItemStationPriceComponent } from './market/item-station-price/item-station-price.component';
-import { ItemSearchService, MarketService, UniverseService } from './shared';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -50,6 +47,8 @@ import { ItemSearchService, MarketService, UniverseService } from './shared';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    
+    SharedModule,
     
     FormsModule,
     ReactiveFormsModule,
@@ -67,14 +66,8 @@ import { ItemSearchService, MarketService, UniverseService } from './shared';
   ],
   providers: [
     httpInterceptorProviders,
-    EsiDataRepositoryService,
-    EveMarketerDataRepositoryService,
-    CharacterService,
-    ItemSearchService,
-    MarketService,
-    UniverseService,
     { provide: LOCALE_ID, useValue: 'de-DE' }, // this is needed to have the currency symbol on the right side
-    {provide: DEFAULT_CURRENCY_CODE, useValue: 'ISK'}
+    { provide: DEFAULT_CURRENCY_CODE, useValue: 'ISK' }
   ],
   bootstrap: [AppComponent]
 })

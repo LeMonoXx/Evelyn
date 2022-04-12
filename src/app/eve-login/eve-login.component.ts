@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { map, Observable, switchMap, tap } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { AuthService, IAuthResponseData } from '../auth.service';
-import { CharacterService } from '../character.service';
 import { AuthenticatedCharacter, Portrait, ServerStatus } from '../models';
 import { EsiDataRepositoryService } from '../repositories/esi-data-repository.service';
+import { CharacterService } from '../shared';
 
 @Component({
   selector: 'app-eve-login',
