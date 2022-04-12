@@ -17,7 +17,6 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   itemNameControl = new FormControl(null, [Validators.minLength(4), Validators.required]);
   itemCountControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.max(25000), Validators.min(1)])
 
-  typeCount: number = 1;
   mySearchObs: Observable<MarketerSearchResult> = new Observable();
   autoCompleteObs: Observable<MarketerSearchResult[]> | undefined;
   currentItemImageSourceObs: Observable<string> | undefined;

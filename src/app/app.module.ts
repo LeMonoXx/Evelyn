@@ -8,7 +8,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { StationToStationTradeComponent } from './StationToStationTrade/station-to-station-trade.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { EveLoginComponent } from './eve-login/eve-login.component';
@@ -36,7 +36,7 @@ import { SharedModule } from './shared/shared.module';
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
+    StationToStationTradeComponent,
     EveLoginComponent,
     AuthComponent,
     EveSearchComponent,

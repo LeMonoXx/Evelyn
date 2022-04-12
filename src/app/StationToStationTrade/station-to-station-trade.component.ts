@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { ItemDetails, StationDetails, StructureDetails } from '../models';
 import { EsiDataRepositoryService } from '../repositories/esi-data-repository.service';
@@ -7,12 +7,12 @@ import { EveMarketerDataRepositoryService } from '../repositories/evemarketer-da
 import { ItemIdentifier, ItemSearchService, MarketService, UniverseService } from '../shared';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  selector: 'app-station-to-station-trade',
+  templateUrl: './station-to-station-trade.component.html',
+  styleUrls: ['./station-to-station-trade.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class DashboardComponent implements OnInit {
+export class StationToStationTradeComponent implements OnInit {
 
   public currentItemObs: Observable<ItemIdentifier>;
   public currentSellStationObs: Observable<StructureDetails>;
