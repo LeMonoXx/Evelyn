@@ -1,6 +1,7 @@
 export const environment = {
-  clientID: 'ce8fa705b7794e968dcff5331db42e9f',
+  clientID: '7401bbc48fd24f8c9d5c2a3dbec9ca48',
   esiBaseUrl: 'https://esi.evetech.net/latest',
+  eveMarketerBaseUrl: 'https://evemarketer.com/api/v1',
   esiVerifyUrl: 'https://esi.evetech.net/verify/',
   production: true,
   ssoCallbackURL: 'https://evelyn.monoxnet.de/auth',
