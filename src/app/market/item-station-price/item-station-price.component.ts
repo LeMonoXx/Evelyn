@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { combineLatest, map, mergeMap, Observable, switchMap } from 'rxjs';
 import { ItemDetails, MarketEntry, StationDetails, StructureDetails } from 'src/app/models';
 import { EsiDataRepositoryService } from 'src/app/repositories/esi-data-repository.service';
-import { ItemIdentifier, MarketService, SellPrice } from 'src/app/shared';
+import { CalculateShippingCost, ItemIdentifier, MarketService, SellPrice } from 'src/app/shared';
 
 @Component({
   selector: 'eve-item-station-price',
@@ -65,8 +65,7 @@ export class ItemStationPriceComponent implements OnInit {
             saleTax: 0,
             nettoSalePrice: 0,
             profit: 0,
-            shippingCost: 0,
-            afterShippingProfit: 0,
+            shippingCost: 0
           };
 
           if(buyEntries && buyEntries.length > 0){
@@ -89,19 +88,11 @@ export class ItemStationPriceComponent implements OnInit {
 
             prices.nettoSalePrice = (sellPriceForX - brokerFee) - saleTax;
 
-            prices.profit = (prices.nettoSalePrice - prices.buyPriceX);
-            prices.shippingCost = this.calculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, count);
-            prices.afterShippingProfit = prices.profit - prices.shippingCost;
+            prices.shippingCost = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, count);
+            prices.profit = (prices.nettoSalePrice - prices.buyPriceX) - prices.shippingCost;
 
           }
             return prices;
         }));
   }
-
-  private calculateShippingCost(singleItemBuyCost: number, cubicMeters: number, itemCount: number, cubicMeterPrice: number = 550) : number {
-    var costs = ((singleItemBuyCost * itemCount) / 100 ) * 1.5 + ((itemCount * cubicMeters) * cubicMeterPrice)
-
-    return costs;
-  }
-
 }

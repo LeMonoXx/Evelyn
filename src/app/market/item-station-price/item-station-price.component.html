@@ -1,83 +1,78 @@
-<div *ngIf="(itemIdentifier$ | async) as item" class="itemInfoContainer">
-    <div class="itemInfo">
-        <div *ngIf="(currentItemImageSourceObs | async) as imageSource">
-            <img class="foundItemImage" [src]="imageSource">
+<div class="stationPriceContainer">
+    <div *ngIf="(itemIdentifier$ | async) as item" class="itemInfoContainer">
+        <div class="itemInfo">
+            <div *ngIf="(currentItemImageSourceObs | async) as imageSource">
+                <img class="foundItemImage" [src]="imageSource">
+            </div>
+            <div class="itemDetails">
+                <div class="itemInfoName" [title]="item.name">{{ item.name }}</div>
+                <div class="itemInfoId">{{ item.id }}</div>
+                <div *ngIf="itemDetails$ | async as itemDetails" class="itemInfoId"> {{ itemDetails.packaged_volume }} m³ </div>
+            </div>
         </div>
-        <div class="itemDetails">
-            <div class="itemInfoName">{{ item.name }}</div>
-            <div class="itemInfoId">{{ item.id }}</div>
-            <div *ngIf="itemDetails$ | async as itemDetails" class="itemInfoId"> {{ itemDetails.packaged_volume }} m³ </div>
+        <div class="stationRoute">
+            <div *ngIf="buyStation$ | async as buyStation" class="stationName">
+                {{ buyStation.name }}
+            </div>
+            <div class="fromToStationIcon">
+                <mat-icon [inline]="true">arrow_downward</mat-icon>
+            </div>
+            <div *ngIf="sellStation$ | async as sellStation" class="stationName">
+                {{ sellStation.name }}
+            </div>
         </div>
     </div>
-    <div class="stationRoute">
-        <div *ngIf="buyStation$ | async as buyStation" class="stationName">
-            {{ buyStation.name }}
-        </div>
-        <div class="fromToStationIcon">
-            <mat-icon [inline]="true">arrow_downward</mat-icon>
-        </div>
-        <div *ngIf="sellStation$ | async as sellStation" class="stationName">
-            {{ sellStation.name }}
-        </div>
-    </div>
-</div>
-   
+    
 
-<div *ngIf="calculatedSellData$ | async as calculatedSellData" class="sellCostsContainer">
+    <div *ngIf="calculatedSellData$ | async as calculatedSellData" class="sellCostsContainer">
 
-    <mat-divider></mat-divider>
+        <mat-divider></mat-divider>
 
-    <div class="quickInfoBuySell">
+        <div class="quickInfoBuySell">
+            <div class="priceEntryDiv">
+                <label class="titleLabel">Buying</label>
+                <label class="negativeNumber valueLabel">{{ calculatedSellData.singleBuyPrice * -1 | currency }}</label>
+            </div>
+            <div class="priceEntryDiv">
+                <label class="titleLabel">Selling</label>
+                <label class="positivNumber valueLabel">{{ calculatedSellData.singleSellPrice | currency }}</label>
+            </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
         <div class="priceEntryDiv">
-            <label class="titleLabel">Buying</label>
-            <label class="negativeNumber valueLabel">{{ calculatedSellData.singleBuyPrice * -1 | currency }}</label>
+            <label class="titleLabel">Total Buy Cost</label>
+            <label class="negativeNumber valueLabel">{{ calculatedSellData.buyPriceX * -1 | currency }}</label>
+        </div>
+
+        <div class="priceEntryDiv">
+            <label class="titleLabel">Brutto Sell Price</label>
+            <label class="positivNumber valueLabel">{{ calculatedSellData.sellPriceX | currency }}</label>
         </div>
         <div class="priceEntryDiv">
-            <label class="titleLabel">Selling</label>
-            <label class="positivNumber valueLabel">{{ calculatedSellData.singleSellPrice | currency }}</label>
+            <label class="titleLabel">Broker Fee</label>
+            <label class="negativeNumber valueLabel">{{ calculatedSellData.brokerFee * -1 | currency }}</label>
         </div>
-    </div>
-
-    <mat-divider></mat-divider>
-
-    <div class="priceEntryDiv">
-        <label class="titleLabel">Total Buy Cost</label>
-        <label class="negativeNumber valueLabel">{{ calculatedSellData.buyPriceX * -1 | currency }}</label>
-    </div>
-
-    <div class="priceEntryDiv">
-        <label class="titleLabel">Brutto Sell Price</label>
-        <label class="positivNumber valueLabel">{{ calculatedSellData.sellPriceX | currency }}</label>
-    </div>
-    <div class="priceEntryDiv">
-        <label class="titleLabel">Broker Fee</label>
-        <label class="negativeNumber valueLabel">{{ calculatedSellData.brokerFee * -1 | currency }}</label>
-    </div>
-    <div class="priceEntryDiv">
-        <label class="titleLabel">Tax</label>
-        <label class="negativeNumber valueLabel">{{ calculatedSellData.saleTax * -1 | currency }}</label>
-    </div>
-    <div class="priceEntryDiv">
-        <label class="titleLabel">Netto Sell Price</label>
-        <label class="positivNumber valueLabel">{{ calculatedSellData.nettoSalePrice | currency }}</label>
-    </div>
-    <mat-divider></mat-divider>
-    <div class="priceEntryDiv">
-        <label class="titleLabel">Profit</label>
-        <label class="valueLabel"
-            [ngClass]="calculatedSellData.profit <= 0 ? 'negativeProfit' : 'positivProfit'">
-            {{ calculatedSellData.profit | currency }}
-        </label>       
-    </div>
-    <div class="priceEntryDiv">
-        <label class="titleLabel">Shipping Cost</label>
-        <label class="negativeNumber valueLabel">{{ calculatedSellData.shippingCost * -1 | currency }}</label>
-    </div>
-    <div class="priceEntryDiv">
-        <label class="titleLabel">Shipping Profit</label>
-        <label class="valueLabel" 
-            [ngClass]="calculatedSellData.afterShippingProfit <= 0 ? 'negativeProfit' : 'positivProfit'">
-            {{ calculatedSellData.afterShippingProfit | currency }}
-        </label>
+        <div class="priceEntryDiv">
+            <label class="titleLabel">Tax</label>
+            <label class="negativeNumber valueLabel">{{ calculatedSellData.saleTax * -1 | currency }}</label>
+        </div>
+        <div class="priceEntryDiv">
+            <label class="titleLabel">Netto Sell Price</label>
+            <label class="positivNumber valueLabel">{{ calculatedSellData.nettoSalePrice | currency }}</label>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="priceEntryDiv">
+            <label class="titleLabel">Shipping Cost</label>
+            <label class="negativeNumber valueLabel">{{ calculatedSellData.shippingCost * -1 | currency }}</label>
+        </div>
+        <div class="priceEntryDiv">
+            <label class="titleLabel">Profit</label>
+            <label class="valueLabel"
+                [ngClass]="calculatedSellData.profit <= 0 ? 'negativeProfit' : 'positivProfit'">
+                {{ calculatedSellData.profit | currency }}
+            </label>       
+        </div>
     </div>
 </div>

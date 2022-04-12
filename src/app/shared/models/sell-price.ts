@@ -8,7 +8,6 @@ export interface SellPrice {
     brokerFee: number, 
     saleTax: number, 
     nettoSalePrice: number,
-    profit: number,
     shippingCost: number,
-    afterShippingProfit: number
+    profit: number
 }

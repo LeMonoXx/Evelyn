@@ -1,110 +1,117 @@
 @import 'src/styles/variables';
 @import 'src/styles/functions';
+   
+.stationPriceContainer {
+    width: 400px;
 
-.itemInfoContainer {
-    padding: 5px;
-    color: $foreground-soft1;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: nowrap;
-    flex-direction: row;
+    .itemInfoContainer {
+        padding: 5px;
+        color: $foreground-soft1;
 
-    .itemInfo {
-        display: inline-flex;
+        .itemInfo {
+            display: inline-flex;
+            width: 400px;
 
-        .itemDetails {
+            .itemDetails {
+                margin: 5px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                
+                .itemInfoName{
+                    font-style: italic;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            
+                .itemInfoId {
+                    font-size: 70%;
+                    font-style: italic;
+                    color: $foreground-soft2;
+                }
+            }
+        }
+
+
+        .stationRoute {
             margin: 5px;
-            .itemInfoName{
-                font-style: italic;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+
+            .stationName {
+                font-size: 80%;
             }
         
-            .itemInfoId {
-                font-size: 70%;
-                font-style: italic;
-                color: $foreground-soft2;
+            .fromToStationIcon {
+                width: 15px;
+                height: 15px;
+                line-height: 15px;
             }
         }
+
     }
 
 
-    .stationRoute {
-        margin: 5px;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
+    .sellCostsContainer {
+        padding: 5px;
 
-        .stationName {
-            font-size: 80%;
-        }
-    
-        .fromToStationIcon {
-            width: 15px;
-            height: 15px;
-            line-height: 15px;
-        }
-    }
-
-}
-
-
-.sellCostsContainer {
-    padding: 5px;
-
-    .quickInfoBuySell {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-evenly;
-    }
-
-    .negativeNumber {
-        color: $accent2;
-    }
-
-    .negativeProfit {
-        color: $accent2-strong3;
-        font-weight: bold;
-    }
-
-    .positivProfit {
-        color: $accent3-strong3;
-        font-weight: bold;
-    }
-
-    .positivNumber {
-        color: $accent3;
-    }
-
-    .sellHeader {
-        background-color: $accent1;
-    }
-
-    .priceEntryDiv {
-        display: flex;
-        justify-content: space-between;
-        flex-direction: row;
-        align-items: center;
-        flex-wrap: nowrap;
-        align-content: center;
-
-        .titleLabel{
-            width: 120px;
-            padding-right: 10px;
-            overflow: hidden;
-            text-align: left;
-            display: inline-block;
-            white-space: nowrap;
-            text-overflow: ellipsis;
+        .quickInfoBuySell {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
         }
 
-        .valueLabel{
-            overflow: hidden;
-            text-align: right;
-            display: inline-block;
-            white-space: nowrap;
-            text-overflow: ellipsis;
+        .negativeNumber {
+            color: $accent2;
         }
-    }
 
+        .negativeProfit {
+            color: $accent2-strong3;
+            font-weight: bold;
+        }
+
+        .positivProfit {
+            color: $accent3-strong3;
+            font-weight: bold;
+        }
+
+        .positivNumber {
+            color: $accent3;
+        }
+
+        .sellHeader {
+            background-color: $accent1;
+        }
+
+        .priceEntryDiv {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+            align-items: center;
+            flex-wrap: nowrap;
+            align-content: center;
+
+            .titleLabel{
+                width: 120px;
+                padding-right: 10px;
+                overflow: hidden;
+                text-align: left;
+                display: inline-block;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+
+            .valueLabel{
+                overflow: hidden;
+                text-align: right;
+                display: inline-block;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+
+    }
 }

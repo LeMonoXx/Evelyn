@@ -3,6 +3,12 @@
   width: 100%;
   display: inline-grid;
   padding: 5px;
+
+  .itemSearchInput {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .mat-option {

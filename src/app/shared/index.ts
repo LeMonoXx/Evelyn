@@ -7,3 +7,5 @@ export * from './services/item-search.service'
 export * from './services/market.service'
 export * from './services/universe.service'
 export * from './services/character.service'
+
+export * from './functions/shipping-costs'
