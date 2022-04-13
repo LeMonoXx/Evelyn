@@ -1,23 +1,27 @@
-<div class="loginComponent">
+<div class="appevelogin">
    <app-eve-login class="loginWidth"></app-eve-login> 
 </div>
 
-<div class="dashColumn dashLeft">
-   <app-eve-search></app-eve-search>
+<div class="mainContent">
+   <div class="searchContent">
+      <app-eve-search></app-eve-search>
+   </div>
+
+   <div class="stationPriceContent">   
+      <ng-container *ngIf="authValid; else NotAuthenticated">
+            <eve-item-station-price
+               *ngIf="authValid"
+               [numberCount$]="numberCountObs"
+               [buyStation$]="currentBuyStationObs"
+               [sellStation$]="currentSellStationObs"
+               [itemIdentifier$]="currentItemObs"
+               [itemDetails$]="itemDetailsObs">
+            </eve-item-station-price>
+      
+      </ng-container>  
+   </div>
 </div>
 
-<ng-container *ngIf="authValid; else NotAuthenticated">
-   <div class="dashColumn dashRight">
-      <eve-item-station-price
-         *ngIf="authValid"
-         [numberCount$]="numberCountObs"
-         [buyStation$]="currentBuyStationObs"
-         [sellStation$]="currentSellStationObs"
-         [itemIdentifier$]="currentItemObs"
-         [itemDetails$]="itemDetailsObs">
-      </eve-item-station-price>
-   </div>
-</ng-container>
 
 <ng-template #NotAuthenticated>
    <div class="notAuthenticated">

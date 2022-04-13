@@ -1,38 +1,46 @@
 @import 'src/styles/variables';
 @import 'src/styles/functions';
 
-.loginComponent {
+.appevelogin {
     z-index: 998;
     position: sticky;
     top: 0px;
     padding: 10px;
-    padding-left: 15px;
-    padding-right: 15px;
     background: $accent1;
 
     .loginWidth {
         width: 100%;
     }
 }
- 
-/* Create two unequal columns that floats next to each other */
-.dashColumn {
-    float: left;
-    padding-top: 20px;
-    overflow: hidden;
-  }
-  
-  .dashLeft {
-    width: 20%;
-  }
-  
-  .dashRight {
-    width: 80%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+
+.mainContent {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+  padding: 10px;
+
+  @include breakpoint(770px) {
+    flex-direction: column;
   }
 
+  .searchContent {
+    flex: 0 0 200px;
+
+    @include breakpoint(770px) {
+      flex: auto;
+    }
+  }
+
+  .stationPriceContent {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: row;
+
+    @include breakpoint(770px) {
+      justify-content: center;
+    }
+  }
+}
 
 .notAuthenticated {
     font-style: italic;
