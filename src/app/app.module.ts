@@ -32,7 +32,8 @@ import { httpInterceptorProviders } from './http-interceptors';
 import { EveSearchComponent } from './eve-search/eve-search.component';
 import { ItemStationPriceComponent } from './market/item-station-price/item-station-price.component';
 import { SharedModule } from './shared/shared.module';
-import { ProductionComponent } from './Production/production/production.component'
+import { ProductionModule } from './production/production.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +50,7 @@ import { ProductionComponent } from './Production/production/production.componen
     BrowserAnimationsModule,
     
     SharedModule,
+    ProductionModule,
     
     FormsModule,
     ReactiveFormsModule,

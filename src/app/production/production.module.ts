@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-
+import { ProductionComponent } from './production.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    ProductionComponent
+  ],
   imports: [
     CommonModule
   ]
