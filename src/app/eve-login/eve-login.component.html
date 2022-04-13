@@ -3,6 +3,10 @@
         {{ serverStatus?.players }}
     </div>
 
+    <li><a routerLink="/StationToStationTrade" routerLinkActive="active">StationToStationTrade</a></li>
+
+    <li><a routerLink="/production" routerLinkActive="active">production</a></li>
+
     <div *ngIf="!authValid" class="loginButtonContainer">
         <input type="image" src="../../assets/icons/eve-sso-login-black-small.png" (click)="startLogin()"/> 
         <!-- <button *ngIf="!authValid" class="loginButton" type="button" (click)="startLogin()"></button> -->

@@ -2,8 +2,20 @@
 @import '../styles/functions';
 
 .container {
-    background-color: $background;
-    color: $foreground;
-    font: $text-font-family;
-    height: 100%;
+  background-color: $background;
+  color: $foreground;
+  font: $text-font-family;
+  height: 100%;
+
+  .appevelogin {
+      z-index: 998;
+      position: sticky;
+      top: 0px;
+      padding: 10px;
+      background: $accent1;
+
+      .loginWidth {
+          width: 100%;
+      }
   }
+}

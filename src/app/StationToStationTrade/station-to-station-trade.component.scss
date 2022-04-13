@@ -1,18 +1,6 @@
 @import 'src/styles/variables';
 @import 'src/styles/functions';
 
-.appevelogin {
-    z-index: 998;
-    position: sticky;
-    top: 0px;
-    padding: 10px;
-    background: $accent1;
-
-    .loginWidth {
-        width: 100%;
-    }
-}
-
 .mainContent {
   display: flex;
   flex-direction: row;

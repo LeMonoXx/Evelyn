@@ -17,7 +17,7 @@ export class AuthComponent implements OnInit {
     public async ngOnInit() {
       const state = this.route.snapshot.queryParamMap.get('state');
       const savedState = sessionStorage.getItem('state');
-  
+
       if (!state || !savedState || state !== savedState) {
           // Something went wrong, clear everything so the user can try again.
           sessionStorage.clear();
