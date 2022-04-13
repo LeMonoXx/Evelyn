@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'StationToStationTrade', pathMatch: 'full' },
   { path: 'auth', component: AuthComponent },
   { path: 'StationToStationTrade', component: StationToStationTradeComponent },
+  { path: 'production', component: StationToStationTradeComponent },
 ];
 
 @NgModule({
