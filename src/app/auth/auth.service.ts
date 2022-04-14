@@ -4,9 +4,8 @@ import jwt_decode from "jwt-decode";
 import { BehaviorSubject, first, map, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AppCookieService } from './app-cookie.service';
-import { base64urlEncode, createRandomString, hashSHA256 } from './auth';
-import { ESI_API_SCOPES } from './auth/scopes';
-import { CustomUrlEncoder } from './repositories/custom-url-encoder';
+import { base64urlEncode, createRandomString, CustomUrlEncoder, hashSHA256 } from '../auth';
+import { ESI_API_SCOPES } from '../auth';
 
 export interface IJWTToken {
     scp: string[] | string;

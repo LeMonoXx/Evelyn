@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthService, IAuthResponseData } from '../auth.service';
+import { AuthService, IAuthResponseData } from '../auth';
 import { ItemDetails, StationDetails, StructureDetails } from '../models';
 import { EsiDataRepositoryService } from '../repositories/esi-data-repository.service';
 import { EveMarketerDataRepositoryService } from '../repositories/evemarketer-data-repository.service';

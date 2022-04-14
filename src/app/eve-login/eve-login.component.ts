@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Observable, switchMap, tap } from 'rxjs';
-import { AuthService, IAuthResponseData } from '../auth.service';
+import { IAuthResponseData, AuthService } from '../auth';
 import { AuthenticatedCharacter, Portrait, ServerStatus } from '../models';
 import { EsiDataRepositoryService } from '../repositories/esi-data-repository.service';
 import { CharacterService } from '../shared';
