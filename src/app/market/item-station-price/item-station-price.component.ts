@@ -38,7 +38,6 @@ export class ItemStationPriceComponent implements OnInit {
   ngOnInit(): void {
     this.currentItemImageSourceObs = this.itemIdentifier$.pipe(
       map(item => {
-        console.log('getImageUrlForType for', item);  
         return this.esiDataService.getImageUrlForType(item.id, 64);
       }));
 
@@ -54,8 +53,6 @@ export class ItemStationPriceComponent implements OnInit {
 
         this.calculatedSellData$ = combineLatest([this.numberCount$, this.itemBuyCostObs, this.itemDetails$, this.itemSellCostObs$]).pipe(
           map(([count, buyEntries, itemDetails, sellEntries]) => {
-          console.log("calculatedSellData map");
-
           const prices: SellPrice = {
             singleBuyPrice: 0,
             buyPriceX: 0,
@@ -68,8 +65,9 @@ export class ItemStationPriceComponent implements OnInit {
             shippingCost: 0
           };
 
+          // the buyEntries are not actual "Buy-Orders".
+          // those are the sell-orders we ar buying from.
           if(buyEntries && buyEntries.length > 0){
-            console.log("buyEntries length: " + buyEntries.length);
             prices.singleBuyPrice = buyEntries[0].price;
             prices.buyPriceX = prices.singleBuyPrice * count;
           }

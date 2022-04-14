@@ -6,7 +6,6 @@
    <div class="stationPriceContent">   
       <ng-container *ngIf="authValid; else NotAuthenticated">
             <eve-item-station-price
-               *ngIf="authValid"
                [numberCount$]="numberCountObs"
                [buyStation$]="currentBuyStationObs"
                [sellStation$]="currentSellStationObs"

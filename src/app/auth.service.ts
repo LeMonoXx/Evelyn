@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import jwt_decode from "jwt-decode";
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject, shareReplay, startWith, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 export interface IJWTToken {
@@ -29,8 +29,10 @@ export interface IAuthResponseData {
 export class AuthService {
 
     // private static refreshInterval;
-
+    
+    private validAuthentication$ : Subject<boolean> = new ReplaySubject(1);
     public HasValidAuthenticationObs: Observable<boolean>;
+
 
     private static defaultHeaders = {'Content-Type': 'application/x-www-form-urlencoded'};
 
@@ -173,21 +175,39 @@ export class AuthService {
     constructor(
         private readonly http: HttpClient,
     ) {
+
+        // this.HasValidAuthenticationObs = this.validAuthentication$.asObservable()
+        //     .pipe(
+        //     startWith(false), 
+        //     shareReplay(1));
+
             this.HasValidAuthenticationObs = new Observable((observer) => {
                 const token = AuthService.getAccessToken();
                 var valid = AuthService.hasValidAccessToken();
-          
-                if(valid)
+                
+                if(!token) {
+                    observer.next(false);
+                    return;
+                }
+
+                if(valid) {
                     observer.next(valid);
+                    return;
+                }
                 
-                console.log("Token was not valid anymore. Refresh started.")
-                
-                this.refreshToken(token).then(newToken => {
-                    console.log("refreshToken.then: " + newToken);
-                    sessionStorage.setItem('token', JSON.stringify(newToken));
-                    observer.next(AuthService.hasValidAccessToken())
-                });
-               ;
+                if(AuthService.isRefreshValid(token)) {
+                    console.log("Token was not valid anymore. Refresh started.");
+
+                    this.refreshToken(token).then(newToken => {
+                        console.log("refreshToken.then: " + JSON.stringify(newToken));
+                        sessionStorage.setItem('token', JSON.stringify(newToken));
+                        observer.next(AuthService.hasValidAccessToken())
+                        return;
+                    });
+                }
+
+                observer.next(false);
+                return;
             })
 
      }

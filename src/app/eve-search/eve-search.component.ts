@@ -50,7 +50,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
       filter(proposals => this.itemNameControl.value.toString().trim().toLowerCase() === proposals[0]?.name.toLowerCase()),
       map(result => {
         var first = result[0];
-        console.log('mySearchObs: next',first);
+
         this.itemSearchService.setCurrentItem({ id: first.id, name: first.name });
         return first;
     })).subscribe();
@@ -62,12 +62,6 @@ export class EveSearchComponent implements OnInit, OnDestroy {
         this.itemSearchService.setItemCount(value);
       })
     ).subscribe()
-
-    // this.currentItemImageSourceObs = this.itemSearchService.CurrentItemObs.pipe(
-    //   map(item => {
-    //     console.log('getImageUrlForType for', item);  
-    //     return this.esiDataService.getImageUrlForType(item.id, 64);
-    //   }));
   }
 
   ngOnDestroy() {

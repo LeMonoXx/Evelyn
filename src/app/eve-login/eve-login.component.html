@@ -7,9 +7,9 @@
 
     <a routerLink="/production" routerLinkActive="active">Production</a>
 
-    <!-- <div *ngIf="hasValidAuthenticationObs | async as isAuth">
-        isAuth: {{ isAuth }}
-    </div> -->
+    <div *ngIf="authValid">
+        auth is valid!
+    </div>
 
     <div *ngIf="!authValid" class="loginButtonContainer">
         <input type="image" src="../../assets/icons/eve-sso-login-black-small.png" (click)="startLogin()"/> 
