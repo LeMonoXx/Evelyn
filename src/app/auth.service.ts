@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import jwt_decode from "jwt-decode";
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 export interface IJWTToken {
@@ -28,6 +29,8 @@ export interface IAuthResponseData {
 export class AuthService {
 
     // private static refreshInterval;
+
+    public HasValidAuthenticationObs: Observable<boolean>;
 
     private static defaultHeaders = {'Content-Type': 'application/x-www-form-urlencoded'};
 
@@ -79,21 +82,29 @@ export class AuthService {
      * - No token saved.
      * - Token expiry is less than one minute from now.
      */
-    public static isAuthValid(token?: string): boolean {
+    public static isAuthValid(token?: IAuthResponseData): boolean {
         if (!token) {
             return false;
         }
 
-        const auth = JSON.parse(token) as IAuthResponseData;
-        const jwt = jwt_decode<IJWTToken>(auth.access_token);
+        const jwt = jwt_decode<IJWTToken>(token.access_token);
 
         const maxExpiryTime = (Date.now() / 1000) + 60; // Now + one minute.
 
         return (jwt.exp > maxExpiryTime);
     }
 
-    public static getAccessToken() : string | null {
-        return sessionStorage.getItem('token');;
+    public static getAccessToken() : IAuthResponseData | null {
+        const tokenJson = sessionStorage.getItem('token');
+
+        let tokenObject: IAuthResponseData | null = null;
+
+        if(tokenJson) {
+            tokenObject = JSON.parse(tokenJson) as IAuthResponseData;
+            return tokenObject;
+        }
+
+        return tokenObject;
     }
 
     public static removeAccessToken(): void {
@@ -124,17 +135,26 @@ export class AuthService {
      *
      * NOTE: Does not consider revocation of the refresh token.
      */
-    public static isRefreshValid(token?: string) {
-        if (!token) {
+    public static isRefreshValid(authReponseData: IAuthResponseData | null) {
+        if (!authReponseData) {
             return false;
         }
 
-        const auth = JSON.parse(token) as IAuthResponseData;
-        const jwt = jwt_decode<IJWTToken>(auth.access_token);
+        const jwt = jwt_decode<IJWTToken>(authReponseData.access_token);
 
         const maxRefreshTokenAge = (Date.now() / 1000) - 2592000; // Now - 30 days.
 
         return jwt.exp > maxRefreshTokenAge;
+    }
+
+    public static getRefreshToken(): string {
+        const token = this.getAccessToken();  
+
+        if(token) {
+            return token.refresh_token;
+        }
+
+        return "";
     }
 
     private static createRandomString(bytes: number) {
@@ -152,7 +172,25 @@ export class AuthService {
 
     constructor(
         private readonly http: HttpClient,
-    ) { }
+    ) {
+            this.HasValidAuthenticationObs = new Observable((observer) => {
+                const token = AuthService.getAccessToken();
+                var valid = AuthService.hasValidAccessToken();
+          
+                if(valid)
+                    observer.next(valid);
+                
+                console.log("Token was not valid anymore. Refresh started.")
+                
+                this.refreshToken(token).then(newToken => {
+                    console.log("refreshToken.then: " + newToken);
+                    sessionStorage.setItem('token', JSON.stringify(newToken));
+                    observer.next(AuthService.hasValidAccessToken())
+                });
+               ;
+            })
+
+     }
 
     public async getAuthToken(code: string, codeVerifier: string): Promise<IAuthResponseData> {
 
@@ -167,10 +205,14 @@ export class AuthService {
         }).toPromise();
     }
 
-    public async refreshToken(refreshToken: string) {
+    public async refreshToken(authReponseData: IAuthResponseData | null) {
+        if (!authReponseData) {
+            return;
+        }
+
         const body = new HttpParams()
             .set('grant_type', 'refresh_token')
-            .set('refresh_token', refreshToken)
+            .set('refresh_token', authReponseData.refresh_token)
             .set('client_id', environment.clientID);
 
         return this.http.post<any>('https://login.eveonline.com/v2/oauth/token', body, {
@@ -178,9 +220,13 @@ export class AuthService {
         }).toPromise();
     }
 
-    public async revokeToken(refreshToken: string) {
+    public async revokeToken(authReponseData: IAuthResponseData | null) {
+        if (!authReponseData) {
+            return;
+        }
+
         const body = new HttpParams()
-            .set('token', refreshToken)
+            .set('token', authReponseData.refresh_token)
             .set('token_type_hint', 'refresh_token')
             .set('client_id', environment.clientID);
 

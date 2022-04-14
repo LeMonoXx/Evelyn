@@ -16,12 +16,10 @@ export class ServerVerifyTokenInterceptor implements HttpInterceptor {
             const token = AuthService.getAccessToken();
 
             if(token) {
-                const auth = JSON.parse(token) as IAuthResponseData;
-
                 request = request.clone({
                     setHeaders: {
-                        'Authorization':  `Bearer ${auth.access_token}`,
-                        'X-User-Agent': `EveTrader ${environment.version}, by MonoXx Kashada`                       
+                        'Authorization':  `Bearer ${token.access_token}`,
+                        'X-User-Agent': `Evelyn ${environment.version}, by MonoXx Kashada`                       
                     },
                 });
             }

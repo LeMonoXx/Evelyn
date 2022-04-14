@@ -16,10 +16,8 @@ export class ServerTokenInterceptor implements HttpInterceptor {
             const token = AuthService.getAccessToken();
 
             if(token) {
-                const auth = JSON.parse(token) as IAuthResponseData;
-
                 request = request.clone({
-                    setHeaders: {'Authorization':  'Bearer ' + auth.access_token },
+                    setHeaders: {'Authorization':  'Bearer ' + token.access_token },
                 });
             }
         }

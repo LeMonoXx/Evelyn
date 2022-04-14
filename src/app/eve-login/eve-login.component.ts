@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Observable, switchMap, tap } from 'rxjs';
 import { AuthService, IAuthResponseData } from '../auth.service';
@@ -16,6 +17,7 @@ export class EveLoginComponent implements OnInit{
   public statusObs : Observable<ServerStatus> | undefined;
   public characterObs : Observable<AuthenticatedCharacter> | undefined;
   public characterPortraitObs : Observable<Portrait> | undefined;
+  public hasValidAuthenticationObs : Observable<boolean>;
 
   constructor(
     private authService: AuthService,
@@ -36,6 +38,8 @@ export class EveLoginComponent implements OnInit{
       this.characterPortraitObs = this.characterObs.pipe(
         switchMap(authChar => this.characterService.getCharacterImage(authChar.CharacterID))
       );
+
+    //  this.hasValidAuthenticationObs = this.authService.HasValidAuthenticationObs;
   }
 
   public get authValid() : boolean {
@@ -46,8 +50,7 @@ export class EveLoginComponent implements OnInit{
       const token = AuthService.getAccessToken();
 
       if(token) {
-        const auth = JSON.parse(token) as IAuthResponseData;
-        this.authService.revokeToken(auth.refresh_token).then();
+        this.authService.revokeToken(token).then();
         AuthService.removeAccessToken();
       }
   }
