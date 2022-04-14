@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { forkJoin, map, Observable, of, shareReplay, switchMap } from 'rxjs';
-import { AuthService } from '../auth.service';
 import { EsiHeaders } from './esi-headers';
 
 @Injectable({
@@ -10,8 +9,7 @@ import { EsiHeaders } from './esi-headers';
 export class EsiDataRepositoryService {
 
   constructor(
-    private httpClient: HttpClient,
-    private authService: AuthService
+    private httpClient: HttpClient
   ) { }
 
   public getImageUrlForType(typeId: number, size: number = 64) : string {
@@ -23,12 +21,8 @@ export class EsiDataRepositoryService {
     const options = { 
       headers: headers, 
     };
-    return this.authService.HasValidAuthenticationObs.pipe(
-      switchMap(access =>
-      this.httpClient.get<T>(url, options).pipe(shareReplay(1))
-    ))
 
-    // return this.httpClient.get<T>(url, options).pipe(shareReplay(1));
+    return this.httpClient.get<T>(url, options).pipe(shareReplay(1));
   }
 
   public getPagingRequest<T>(url: string, headers? : HttpHeaders): Observable<Array<T>> {
@@ -65,13 +59,7 @@ export class EsiDataRepositoryService {
       map(fork => fork.reduce((result, arr) => [...result, ...arr], []))
     );
 
-
-    return this.authService.HasValidAuthenticationObs.pipe(
-      switchMap(access =>
-        result
-    ))
-
-    // return result;
+    return result;
   }
 
   public postRequest<T>(url: string, body: any): Observable<T> {

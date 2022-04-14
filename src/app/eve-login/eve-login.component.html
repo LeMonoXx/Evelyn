@@ -7,16 +7,16 @@
 
     <a routerLink="/production" routerLinkActive="active">Production</a>
 
-    <div *ngIf="authValid">
+    <div *ngIf="authStatus | async">
         auth is valid!
     </div>
 
-    <div *ngIf="!authValid" class="loginButtonContainer">
+    <div *ngIf="!(authStatus | async)" class="loginButtonContainer">
         <input type="image" src="../../assets/icons/eve-sso-login-black-small.png" (click)="startLogin()"/> 
         <!-- <button *ngIf="!authValid" class="loginButton" type="button" (click)="startLogin()"></button> -->
     </div>
 
-    <div *ngIf="authValid">
+    <div *ngIf="authStatus | async">
         <div class="authCharacterContainer" *ngIf="characterObs | async as authChar">   
             {{ authChar.CharacterName }}        
             <div *ngIf="characterPortraitObs | async as portrait">

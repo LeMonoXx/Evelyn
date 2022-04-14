@@ -8,7 +8,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { StationToStationTradeComponent } from './StationToStationTrade/station-to-station-trade.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { EveLoginComponent } from './eve-login/eve-login.component';
@@ -26,22 +25,21 @@ import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDividerModule} from '@angular/material/divider';
-
-import { AuthComponent } from './auth/auth.component';
 import { httpInterceptorProviders } from './http-interceptors';
 import { EveSearchComponent } from './eve-search/eve-search.component';
 import { ItemStationPriceComponent } from './market/item-station-price/item-station-price.component';
 import { SharedModule } from './shared/shared.module';
 import { ProductionModule } from './production/production.module';
+import { StationToStationTradeComponent } from './station-to-station-trade/station-to-station-trade.component';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     StationToStationTradeComponent,
-    EveLoginComponent,
-    AuthComponent,
     EveSearchComponent,
-    ItemStationPriceComponent
+    ItemStationPriceComponent,
+    EveLoginComponent
   ],
   imports: [
     HttpClientModule,
@@ -51,6 +49,7 @@ import { ProductionModule } from './production/production.module';
     
     SharedModule,
     ProductionModule,
+    AuthModule,
     
     FormsModule,
     ReactiveFormsModule,

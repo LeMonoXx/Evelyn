@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Observable, switchMap, tap } from 'rxjs';
-import { AuthService, IAuthResponseData } from '../auth.service';
+import { IAuthResponseData, AuthService } from '../auth';
 import { AuthenticatedCharacter, Portrait, ServerStatus } from '../models';
 import { EsiDataRepositoryService } from '../repositories/esi-data-repository.service';
 import { CharacterService } from '../shared';
@@ -18,6 +18,7 @@ export class EveLoginComponent implements OnInit{
   public characterObs : Observable<AuthenticatedCharacter> | undefined;
   public characterPortraitObs : Observable<Portrait> | undefined;
   public hasValidAuthenticationObs : Observable<boolean>;
+  public authStatus: Observable<IAuthResponseData | null>;
 
   constructor(
     private authService: AuthService,
@@ -26,6 +27,8 @@ export class EveLoginComponent implements OnInit{
     ) { }
 
   public ngOnInit(): void {
+      this.authStatus = this.authService.authObs;
+
       this.statusObs = this.characterService
       .getServerStatus();
 
@@ -38,25 +41,18 @@ export class EveLoginComponent implements OnInit{
       this.characterPortraitObs = this.characterObs.pipe(
         switchMap(authChar => this.characterService.getCharacterImage(authChar.CharacterID))
       );
-
-    //  this.hasValidAuthenticationObs = this.authService.HasValidAuthenticationObs;
-  }
-
-  public get authValid() : boolean {
-      return AuthService.hasValidAccessToken();
   }
 
   public async revokeAuth() {
-      const token = AuthService.getAccessToken();
+      const token = AuthService.authValue;
 
       if(token) {
         this.authService.revokeToken(token).then();
-        AuthService.removeAccessToken();
       }
   }
 
   public async doAuth() {
-      const {encodedRandomString, redirectUrl, state} = await AuthService.startAuth();
+      const {encodedRandomString, redirectUrl, state} = await this.authService.startAuth();
 
       sessionStorage.setItem('challenge', encodedRandomString);
       sessionStorage.setItem('state', state);

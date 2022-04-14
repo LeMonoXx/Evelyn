@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService } from './auth.service';
 
 @Component({
     selector: 'app-auth',
@@ -32,11 +32,8 @@ export class AuthComponent implements OnInit {
       const encodedRandomString = sessionStorage.getItem('challenge');
   
       if(code && encodedRandomString) {
-        console.log('code and encodedRandomString existing');
-        const token = await this.authService.getAuthToken(code, encodedRandomString);
-  
-        sessionStorage.setItem('token', JSON.stringify(token));
-        console.log(token);
+        await this.authService.getAuthToken(code, encodedRandomString).toPromise();
+
         sessionStorage.removeItem('challenge');
     
         this.router.navigate(['/']).then();

@@ -1,7 +1,7 @@
 import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { AuthService, IAuthResponseData } from '../auth.service';
+import { AuthService } from '../auth';
 
 /**
  * Interceptor to add the x-evie-token header when communicating with the backend server.
@@ -9,11 +9,15 @@ import { AuthService, IAuthResponseData } from '../auth.service';
 @Injectable()
 export class ServerVerifyTokenInterceptor implements HttpInterceptor {
 
+    constructor() { }
+    
     public intercept(request: HttpRequest<any>, next: HttpHandler) {
+
+
 
         if (request.url === environment.esiVerifyUrl) {
 
-            const token = AuthService.getAccessToken();
+            const token = AuthService.authValue;
 
             if(token) {
                 request = request.clone({
