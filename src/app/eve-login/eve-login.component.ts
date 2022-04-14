@@ -18,6 +18,7 @@ export class EveLoginComponent implements OnInit{
   public characterObs : Observable<AuthenticatedCharacter> | undefined;
   public characterPortraitObs : Observable<Portrait> | undefined;
   public hasValidAuthenticationObs : Observable<boolean>;
+  public authStatus: Observable<IAuthResponseData | null>;
 
   constructor(
     private authService: AuthService,
@@ -26,6 +27,8 @@ export class EveLoginComponent implements OnInit{
     ) { }
 
   public ngOnInit(): void {
+      this.authStatus = this.authService.authObs;
+
       this.statusObs = this.characterService
       .getServerStatus();
 
@@ -42,21 +45,20 @@ export class EveLoginComponent implements OnInit{
     //  this.hasValidAuthenticationObs = this.authService.HasValidAuthenticationObs;
   }
 
-  public get authValid() : boolean {
-      return AuthService.hasValidAccessToken();
-  }
+  // public get authValid() : IAuthResponseData | null {
+  //     return this.authService.authValue();
+  // }
 
   public async revokeAuth() {
-      const token = AuthService.getAccessToken();
+      const token = this.authService.authValue;
 
       if(token) {
         this.authService.revokeToken(token).then();
-        AuthService.removeAccessToken();
       }
   }
 
   public async doAuth() {
-      const {encodedRandomString, redirectUrl, state} = await AuthService.startAuth();
+      const {encodedRandomString, redirectUrl, state} = await this.authService.startAuth();
 
       sessionStorage.setItem('challenge', encodedRandomString);
       sessionStorage.setItem('state', state);

@@ -23,12 +23,8 @@ export class EsiDataRepositoryService {
     const options = { 
       headers: headers, 
     };
-    return this.authService.HasValidAuthenticationObs.pipe(
-      switchMap(access =>
-      this.httpClient.get<T>(url, options).pipe(shareReplay(1))
-    ))
 
-    // return this.httpClient.get<T>(url, options).pipe(shareReplay(1));
+    return this.httpClient.get<T>(url, options).pipe(shareReplay(1));
   }
 
   public getPagingRequest<T>(url: string, headers? : HttpHeaders): Observable<Array<T>> {
@@ -65,13 +61,7 @@ export class EsiDataRepositoryService {
       map(fork => fork.reduce((result, arr) => [...result, ...arr], []))
     );
 
-
-    return this.authService.HasValidAuthenticationObs.pipe(
-      switchMap(access =>
-        result
-    ))
-
-    // return result;
+    return result;
   }
 
   public postRequest<T>(url: string, body: any): Observable<T> {

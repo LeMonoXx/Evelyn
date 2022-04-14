@@ -33,10 +33,10 @@ export class AuthComponent implements OnInit {
   
       if(code && encodedRandomString) {
         console.log('code and encodedRandomString existing');
-        const token = await this.authService.getAuthToken(code, encodedRandomString);
+        const token = await this.authService.getAuthToken(code, encodedRandomString).toPromise();
   
         sessionStorage.setItem('token', JSON.stringify(token));
-        console.log(token);
+        console.log(JSON.stringify(token));
         sessionStorage.removeItem('challenge');
     
         this.router.navigate(['/']).then();

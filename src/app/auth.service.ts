@@ -1,8 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import jwt_decode from "jwt-decode";
-import { Observable, ReplaySubject, shareReplay, startWith, Subject } from 'rxjs';
+import { BehaviorSubject, first, map, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { AppCookieService } from './app-cookie.service';
+import { ESI_API_SCOPES } from './auth/scopes';
+import { CustomUrlEncoder } from './repositories/custom-url-encoder';
 
 export interface IJWTToken {
     scp: string[] | string;
@@ -28,28 +31,17 @@ export interface IAuthResponseData {
 })
 export class AuthService {
 
-    // private static refreshInterval;
-    
-    private validAuthentication$ : Subject<boolean> = new ReplaySubject(1);
-    public HasValidAuthenticationObs: Observable<boolean>;
+    private authSubject: BehaviorSubject<IAuthResponseData | null>;
+    public authObs: Observable<IAuthResponseData  | null>;
+    private refreshTokenTimeout: NodeJS.Timeout;
 
+    public get authValue(): IAuthResponseData | null {
+        return this.authSubject.value;
+    }
 
     private static defaultHeaders = {'Content-Type': 'application/x-www-form-urlencoded'};
 
-    private static scopes = [
-        'publicData',
-        'esi-location.read_location.v1',
-        'esi-skills.read_skills.v1',
-        'esi-wallet.read_character_wallet.v1',
-        'esi-universe.read_structures.v1',
-        'esi-assets.read_assets.v1',
-        'esi-markets.structure_markets.v1',
-        'esi-markets.read_character_orders.v1',
-        'esi-contracts.read_character_contracts.v1',
-        'esi-universe.read_structures.v1'
-    ];
-
-    public static async startAuth() {
+    public async startAuth() {
         const randomChallengeString = AuthService.createRandomString(32);
         const encodedRandomString = AuthService.base64urlEncode(randomChallengeString);
 
@@ -63,7 +55,7 @@ export class AuthService {
             .set('response_type', 'code')
             .set('redirect_uri', encodeURI(environment.ssoCallbackURL))
             .set('client_id', environment.clientID)
-            .set('scope', AuthService.scopes.join(' '))
+            .set('scope', ESI_API_SCOPES.join(' '))
             .set('code_challenge', encodedHash)
             .set('code_challenge_method', 'S256')
             .set('state', state);
@@ -84,7 +76,7 @@ export class AuthService {
      * - No token saved.
      * - Token expiry is less than one minute from now.
      */
-    public static isAuthValid(token?: IAuthResponseData): boolean {
+    public isAuthValid(token?: IAuthResponseData): boolean {
         if (!token) {
             return false;
         }
@@ -96,38 +88,6 @@ export class AuthService {
         return (jwt.exp > maxExpiryTime);
     }
 
-    public static getAccessToken() : IAuthResponseData | null {
-        const tokenJson = sessionStorage.getItem('token');
-
-        let tokenObject: IAuthResponseData | null = null;
-
-        if(tokenJson) {
-            tokenObject = JSON.parse(tokenJson) as IAuthResponseData;
-            return tokenObject;
-        }
-
-        return tokenObject;
-    }
-
-    public static removeAccessToken(): void {
-        sessionStorage.removeItem('token');
-    }
-
-    public static hasValidAccessToken() : boolean {
-        const token = AuthService.getAccessToken();
-  
-        if(token) {
-          if (AuthService.isAuthValid(token)) {
-            return true;
-          }
-  
-          AuthService.removeAccessToken();
-         console.log('removed token from storage');
-        }
-  
-        return false;
-    }
-
     /**
      * Checks if a refresh token is still valid.
      *
@@ -137,7 +97,7 @@ export class AuthService {
      *
      * NOTE: Does not consider revocation of the refresh token.
      */
-    public static isRefreshValid(authReponseData: IAuthResponseData | null) {
+    public isRefreshValid(authReponseData: IAuthResponseData | null) {
         if (!authReponseData) {
             return false;
         }
@@ -149,8 +109,8 @@ export class AuthService {
         return jwt.exp > maxRefreshTokenAge;
     }
 
-    public static getRefreshToken(): string {
-        const token = this.getAccessToken();  
+    public getRefreshToken(): string {
+        const token = this.authValue;  
 
         if(token) {
             return token.refresh_token;
@@ -159,6 +119,27 @@ export class AuthService {
         return "";
     }
 
+
+    private startRefreshTokenTimer() {
+        // parse json object from base64 encoded jwt token
+        const jwtToken = this.authValue;
+
+        if(jwtToken) {
+            // set a timeout to refresh the token a minute before it expires
+            const timeoutMs = + (jwtToken.expires_in - 60) * 1000;
+            console.log("setup refreshTokenTimeout - timout: ", timeoutMs);
+            this.refreshTokenTimeout = setTimeout(() => {
+                console.log("refreshTokenTimeout executing started!");
+                // we use first(). that will result in a single execution, 
+                // the subscription gets destroyed afterwards
+                this.refreshToken(jwtToken.refresh_token).pipe(first()).subscribe();
+            }, timeoutMs);
+        }
+    }
+
+    private stopRefreshTokenTimer() {
+        clearTimeout(this.refreshTokenTimeout);
+    }
     private static createRandomString(bytes: number) {
         const bytesArray = new Uint8Array(bytes);
         return String.fromCharCode(...crypto.getRandomValues(bytesArray));
@@ -174,45 +155,29 @@ export class AuthService {
 
     constructor(
         private readonly http: HttpClient,
+        private readonly cookieService: AppCookieService
     ) {
-
-        // this.HasValidAuthenticationObs = this.validAuthentication$.asObservable()
-        //     .pipe(
-        //     startWith(false), 
-        //     shareReplay(1));
-
-            this.HasValidAuthenticationObs = new Observable((observer) => {
-                const token = AuthService.getAccessToken();
-                var valid = AuthService.hasValidAccessToken();
-                
-                if(!token) {
-                    observer.next(false);
-                    return;
-                }
-
-                if(valid) {
-                    observer.next(valid);
-                    return;
-                }
-                
-                if(AuthService.isRefreshValid(token)) {
-                    console.log("Token was not valid anymore. Refresh started.");
-
-                    this.refreshToken(token).then(newToken => {
-                        console.log("refreshToken.then: " + JSON.stringify(newToken));
-                        sessionStorage.setItem('token', JSON.stringify(newToken));
-                        observer.next(AuthService.hasValidAccessToken())
-                        return;
-                    });
-                }
-
-                observer.next(false);
-                return;
+        const refresh_tokenCookie = cookieService.get("refresh_token") as string;
+        this.authSubject = new BehaviorSubject<IAuthResponseData | null>(null);
+        this.authObs = this.authSubject.asObservable().pipe(
+            map(r => {
+                console.log("authObs: ", r)
+            return r;
             })
+        );
+        
+        if(refresh_tokenCookie && refresh_tokenCookie != "null"){
+            console.log("found existing refresh_tokenCookie => init", refresh_tokenCookie);
+            this.refreshToken(refresh_tokenCookie).pipe(first()).subscribe();
+           // this.authSubject = new BehaviorSubject<IAuthResponseData | null>(auth);
+        } else {
+            console.log("no existing refresh_tokenCookie");
+
+        }
 
      }
 
-    public async getAuthToken(code: string, codeVerifier: string): Promise<IAuthResponseData> {
+    public getAuthToken(code: string, codeVerifier: string): Observable<IAuthResponseData> {
 
         const body = new HttpParams()
             .set('grant_type', 'authorization_code')
@@ -222,28 +187,44 @@ export class AuthService {
 
         return this.http.post<any>('https://login.eveonline.com/v2/oauth/token', body, {
             headers: AuthService.defaultHeaders,
-        }).toPromise();
+        }).pipe(
+            map(auth => {
+                this.cookieService.set("refresh_token", auth.refresh_token);
+                this.authSubject.next(auth);
+                this.startRefreshTokenTimer();
+                return auth;
+        }));
     }
 
-    public async refreshToken(authReponseData: IAuthResponseData | null) {
-        if (!authReponseData) {
-            return;
+    public refreshToken(refresh_token: string): Observable<IAuthResponseData | null> {
+        if (!refresh_token) {
+            console.log("refreshToken canceled! authReponseData was null.")
+            return of(null);
         }
 
-        const body = new HttpParams()
+        console.log("refresh with: ", refresh_token);
+
+        const body = new HttpParams({encoder: new CustomUrlEncoder() })
             .set('grant_type', 'refresh_token')
-            .set('refresh_token', authReponseData.refresh_token)
+            .set('refresh_token', refresh_token)
             .set('client_id', environment.clientID);
 
-        return this.http.post<any>('https://login.eveonline.com/v2/oauth/token', body, {
-            headers: AuthService.defaultHeaders,
-        }).toPromise();
+        return this.http.post<IAuthResponseData>('https://login.eveonline.com/v2/oauth/token', body).pipe(
+            map(auth => {
+                this.cookieService.set("refresh_token", auth.refresh_token);
+                this.authSubject.next(auth);
+                this.startRefreshTokenTimer();
+                return auth;
+        }));
     }
 
     public async revokeToken(authReponseData: IAuthResponseData | null) {
         if (!authReponseData) {
             return;
         }
+
+        this.stopRefreshTokenTimer();
+        this.authSubject.next(null);
 
         const body = new HttpParams()
             .set('token', authReponseData.refresh_token)
