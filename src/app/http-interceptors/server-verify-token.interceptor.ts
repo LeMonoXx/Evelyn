@@ -1,7 +1,7 @@
 import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { AuthService, IAuthResponseData } from '../auth.service';
+import { AuthService } from '../auth.service';
 
 /**
  * Interceptor to add the x-evie-token header when communicating with the backend server.

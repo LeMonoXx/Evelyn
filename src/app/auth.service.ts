@@ -161,12 +161,7 @@ export class AuthService {
         let refresh_tokenCookie = cookieService.get("refresh_token") as string;
 
         AuthService.authSubject = new BehaviorSubject<IAuthResponseData | null>(null);
-        this.authObs = AuthService.authSubject.asObservable().pipe(
-            map(r => {
-                console.log("authObs: ", r)
-            return r;
-            })
-        );
+        this.authObs = AuthService.authSubject.asObservable();
         
         if(refresh_tokenCookie && refresh_tokenCookie != "null") {
                     
@@ -174,15 +169,9 @@ export class AuthService {
                 refresh_tokenCookie += "==";
                 console.log("refresh_tokenCookie added ==", refresh_tokenCookie);
             }
-                
 
-            console.log("found existing refresh_tokenCookie => init", refresh_tokenCookie);
             this.refreshToken(refresh_tokenCookie).pipe(first()).subscribe();
-           // this.authSubject = new BehaviorSubject<IAuthResponseData | null>(auth);
-        } else {
-            console.log("no existing refresh_tokenCookie");
         }
-
      }
 
     public getAuthToken(code: string, codeVerifier: string): Observable<IAuthResponseData> {
@@ -198,7 +187,7 @@ export class AuthService {
         }).pipe(
             map(auth => {
                 this.cookieService.set("refresh_token", auth.refresh_token);
-                AuthService.authSubject.next(auth);
+                AuthService.setAuthValue(auth);
                 this.startRefreshTokenTimer();
                 return auth;
         }));
@@ -206,11 +195,8 @@ export class AuthService {
 
     public refreshToken(refresh_token: string): Observable<IAuthResponseData | null> {
         if (!refresh_token) {
-            console.log("refreshToken canceled! authReponseData was null.")
             return of(null);
         }
-
-        console.log("refresh with: ", refresh_token);
 
         const body = new HttpParams({encoder: new CustomUrlEncoder() })
             .set('grant_type', 'refresh_token')
@@ -232,6 +218,7 @@ export class AuthService {
         }
 
         this.stopRefreshTokenTimer();
+        this.cookieService.remove("refresh_token");
         AuthService.authSubject.next(null);
 
         const body = new HttpParams()

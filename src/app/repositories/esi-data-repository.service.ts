@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { forkJoin, map, Observable, of, shareReplay, switchMap } from 'rxjs';
-import { AuthService } from '../auth.service';
 import { EsiHeaders } from './esi-headers';
 
 @Injectable({
