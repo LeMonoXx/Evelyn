@@ -13,21 +13,21 @@ export class CharacterService {
   constructor(private esiDataService: EsiDataRepositoryService) { }
 
   public getServerStatus(): Observable<ServerStatus> {
-    const url = environment.esiBaseUrl + '/status/';
-    return this.esiDataService.getRequest<ServerStatus>(url)
-}
+      const url = environment.esiBaseUrl + '/status/';
+      return this.esiDataService.getRequest<ServerStatus>(url)
+  }
 
-public getCharacterInformation(characterId: number): Observable<Character> {
-  const url = environment.esiBaseUrl + `/characters/${characterId}/`;
-  return this.esiDataService.getRequest<Character>(url)
-}
+  public getCharacterInformation(characterId: number): Observable<Character> {
+    const url = environment.esiBaseUrl + `/characters/${characterId}/`;
+    return this.esiDataService.getRequest<Character>(url)
+  }
 
-public getAuthenticatedCharacterInfo() : Observable<AuthenticatedCharacter> {
-  return this.esiDataService.getRequest<AuthenticatedCharacter>(environment.esiVerifyUrl)
-}
+  public getAuthenticatedCharacterInfo() : Observable<AuthenticatedCharacter> {
+    return this.esiDataService.getRequest<AuthenticatedCharacter>(environment.esiVerifyUrl)
+  }
 
-public getCharacterImage(characterId: number): Observable<Portrait> {
-  const url = environment.esiBaseUrl + `/characters/${characterId}/portrait/`;
-  return this.esiDataService.getRequest<Portrait>(url)
-}
+  public getCharacterImage(characterId: number): Observable<Portrait> {
+    const url = environment.esiBaseUrl + `/characters/${characterId}/portrait/`;
+    return this.esiDataService.getRequest<Portrait>(url)
+  }
 }
