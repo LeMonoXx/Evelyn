@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { base64urlEncode } from './auth';
 
 @Injectable({
     providedIn: 'root',
@@ -34,6 +35,7 @@ export class AppCookieService {
     }
 
     set(key: string, value: string) {
+        //const escaped =  base64urlEncode(value);
         document.cookie = key + '=' + (value || '') + "; path=/";
     }
 }

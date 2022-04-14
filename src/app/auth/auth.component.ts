@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AppCookieService } from '../app-cookie.service';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { AuthService } from '../auth.service';
 export class AuthComponent implements OnInit {
 
     constructor(
+      private readonly cookieService: AppCookieService,
         private readonly authService: AuthService,
         private readonly route: ActivatedRoute,
         private readonly router: Router,
@@ -34,9 +36,16 @@ export class AuthComponent implements OnInit {
       if(code && encodedRandomString) {
         console.log('code and encodedRandomString existing');
         const token = await this.authService.getAuthToken(code, encodedRandomString).toPromise();
-  
-        sessionStorage.setItem('token', JSON.stringify(token));
-        console.log(JSON.stringify(token));
+        
+        if(token) {
+          console.log("set cookie: ", token.refresh_token)
+          this.cookieService.set("refresh_token", token.refresh_token);
+          console.log("get cookie: ", this.cookieService.get("refresh_token"))
+          AuthService.setAuthValue(token);
+          this.authService.startRefreshTokenTimer();
+        }
+       // sessionStorage.setItem('token', JSON.stringify(token));
+       // console.log(JSON.stringify(token));
         sessionStorage.removeItem('challenge');
     
         this.router.navigate(['/']).then();

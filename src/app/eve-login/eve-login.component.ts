@@ -41,16 +41,10 @@ export class EveLoginComponent implements OnInit{
       this.characterPortraitObs = this.characterObs.pipe(
         switchMap(authChar => this.characterService.getCharacterImage(authChar.CharacterID))
       );
-
-    //  this.hasValidAuthenticationObs = this.authService.HasValidAuthenticationObs;
   }
 
-  // public get authValid() : IAuthResponseData | null {
-  //     return this.authService.authValue();
-  // }
-
   public async revokeAuth() {
-      const token = this.authService.authValue;
+      const token = AuthService.authValue;
 
       if(token) {
         this.authService.revokeToken(token).then();

@@ -9,13 +9,13 @@ import { AuthService, IAuthResponseData } from '../auth.service';
 @Injectable()
 export class ServerTokenInterceptor implements HttpInterceptor {
 
-    constructor(private authService: AuthService) { }
+    constructor() { }
 
     public intercept(request: HttpRequest<any>, next: HttpHandler) {
 
         if (request.url.includes(environment.esiBaseUrl)) {
 
-            const token = this.authService.authValue;
+            const token = AuthService.authValue;
 
             if(token) {
                 request = request.clone({

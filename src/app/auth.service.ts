@@ -4,6 +4,7 @@ import jwt_decode from "jwt-decode";
 import { BehaviorSubject, first, map, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AppCookieService } from './app-cookie.service';
+import { base64urlEncode, createRandomString, hashSHA256 } from './auth';
 import { ESI_API_SCOPES } from './auth/scopes';
 import { CustomUrlEncoder } from './repositories/custom-url-encoder';
 
@@ -31,25 +32,29 @@ export interface IAuthResponseData {
 })
 export class AuthService {
 
-    private authSubject: BehaviorSubject<IAuthResponseData | null>;
+    private static authSubject: BehaviorSubject<IAuthResponseData | null>;
     public authObs: Observable<IAuthResponseData  | null>;
     private refreshTokenTimeout: NodeJS.Timeout;
 
-    public get authValue(): IAuthResponseData | null {
-        return this.authSubject.value;
+    public static get authValue(): IAuthResponseData | null {
+        return AuthService.authSubject.value;
+    }
+
+    public static setAuthValue(auth: IAuthResponseData): void {
+        AuthService.authSubject.next(auth);
     }
 
     private static defaultHeaders = {'Content-Type': 'application/x-www-form-urlencoded'};
 
     public async startAuth() {
-        const randomChallengeString = AuthService.createRandomString(32);
-        const encodedRandomString = AuthService.base64urlEncode(randomChallengeString);
+        const randomChallengeString = createRandomString(32);
+        const encodedRandomString = base64urlEncode(randomChallengeString);
 
-        const hashedString = await AuthService.hashSHA256(encodedRandomString);
-        const encodedHash = AuthService.base64urlEncode(hashedString);
+        const hashedString = await hashSHA256(encodedRandomString);
+        const encodedHash = base64urlEncode(hashedString);
 
-        const randomStateString = AuthService.createRandomString(32);
-        const state = AuthService.base64urlEncode(randomStateString);
+        const randomStateString = createRandomString(32);
+        const state = base64urlEncode(randomStateString);
 
         const params = new HttpParams()
             .set('response_type', 'code')
@@ -110,7 +115,7 @@ export class AuthService {
     }
 
     public getRefreshToken(): string {
-        const token = this.authValue;  
+        const token = AuthService.authValue;  
 
         if(token) {
             return token.refresh_token;
@@ -120,11 +125,11 @@ export class AuthService {
     }
 
 
-    private startRefreshTokenTimer() {
+    public startRefreshTokenTimer() {
         // parse json object from base64 encoded jwt token
-        const jwtToken = this.authValue;
+        const jwtToken = AuthService.authValue;
 
-        if(jwtToken) {
+        if(jwtToken && jwtToken.expires_in > 0) {
             // set a timeout to refresh the token a minute before it expires
             const timeoutMs = + (jwtToken.expires_in - 60) * 1000;
             console.log("setup refreshTokenTimeout - timout: ", timeoutMs);
@@ -132,7 +137,15 @@ export class AuthService {
                 console.log("refreshTokenTimeout executing started!");
                 // we use first(). that will result in a single execution, 
                 // the subscription gets destroyed afterwards
-                this.refreshToken(jwtToken.refresh_token).pipe(first()).subscribe();
+                this.refreshToken(jwtToken.refresh_token).pipe(
+                    map(auth => {
+                        if(auth) {
+                            this.cookieService.set("refresh_token", auth.refresh_token);
+                            AuthService.setAuthValue(auth);
+                        }
+                    }),
+                    first())
+                    .subscribe();
             }, timeoutMs);
         }
     }
@@ -140,39 +153,34 @@ export class AuthService {
     private stopRefreshTokenTimer() {
         clearTimeout(this.refreshTokenTimeout);
     }
-    private static createRandomString(bytes: number) {
-        const bytesArray = new Uint8Array(bytes);
-        return String.fromCharCode(...crypto.getRandomValues(bytesArray));
-    }
-
-    private static base64urlEncode(str: string) {
-        return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
-    }
-
-    private static async hashSHA256(str: string) {
-        return String.fromCharCode(...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str))));
-    }
 
     constructor(
         private readonly http: HttpClient,
-        private readonly cookieService: AppCookieService
-    ) {
-        const refresh_tokenCookie = cookieService.get("refresh_token") as string;
-        this.authSubject = new BehaviorSubject<IAuthResponseData | null>(null);
-        this.authObs = this.authSubject.asObservable().pipe(
+        private readonly cookieService: AppCookieService) {
+        
+        let refresh_tokenCookie = cookieService.get("refresh_token") as string;
+
+        AuthService.authSubject = new BehaviorSubject<IAuthResponseData | null>(null);
+        this.authObs = AuthService.authSubject.asObservable().pipe(
             map(r => {
                 console.log("authObs: ", r)
             return r;
             })
         );
         
-        if(refresh_tokenCookie && refresh_tokenCookie != "null"){
+        if(refresh_tokenCookie && refresh_tokenCookie != "null") {
+                    
+            if(!refresh_tokenCookie.endsWith("==")) {
+                refresh_tokenCookie += "==";
+                console.log("refresh_tokenCookie added ==", refresh_tokenCookie);
+            }
+                
+
             console.log("found existing refresh_tokenCookie => init", refresh_tokenCookie);
             this.refreshToken(refresh_tokenCookie).pipe(first()).subscribe();
            // this.authSubject = new BehaviorSubject<IAuthResponseData | null>(auth);
         } else {
             console.log("no existing refresh_tokenCookie");
-
         }
 
      }
@@ -190,7 +198,7 @@ export class AuthService {
         }).pipe(
             map(auth => {
                 this.cookieService.set("refresh_token", auth.refresh_token);
-                this.authSubject.next(auth);
+                AuthService.authSubject.next(auth);
                 this.startRefreshTokenTimer();
                 return auth;
         }));
@@ -212,7 +220,7 @@ export class AuthService {
         return this.http.post<IAuthResponseData>('https://login.eveonline.com/v2/oauth/token', body).pipe(
             map(auth => {
                 this.cookieService.set("refresh_token", auth.refresh_token);
-                this.authSubject.next(auth);
+                AuthService.authSubject.next(auth);
                 this.startRefreshTokenTimer();
                 return auth;
         }));
@@ -224,7 +232,7 @@ export class AuthService {
         }
 
         this.stopRefreshTokenTimer();
-        this.authSubject.next(null);
+        AuthService.authSubject.next(null);
 
         const body = new HttpParams()
             .set('token', authReponseData.refresh_token)

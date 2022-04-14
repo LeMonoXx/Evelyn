@@ -10,8 +10,7 @@ import { EsiHeaders } from './esi-headers';
 export class EsiDataRepositoryService {
 
   constructor(
-    private httpClient: HttpClient,
-    private authService: AuthService
+    private httpClient: HttpClient
   ) { }
 
   public getImageUrlForType(typeId: number, size: number = 64) : string {

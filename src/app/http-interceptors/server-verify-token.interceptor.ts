@@ -9,7 +9,7 @@ import { AuthService, IAuthResponseData } from '../auth.service';
 @Injectable()
 export class ServerVerifyTokenInterceptor implements HttpInterceptor {
 
-    constructor(private authService: AuthService) { }
+    constructor() { }
     
     public intercept(request: HttpRequest<any>, next: HttpHandler) {
 
@@ -17,7 +17,7 @@ export class ServerVerifyTokenInterceptor implements HttpInterceptor {
 
         if (request.url === environment.esiVerifyUrl) {
 
-            const token = this.authService.authValue;
+            const token = AuthService.authValue;
 
             if(token) {
                 request = request.clone({
