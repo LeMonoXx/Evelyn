@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { filter, map, merge, mergeMap, Observable, tap } from 'rxjs';
 import { MarketEntry } from 'src/app/models';
+import { MarketOrder } from 'src/app/models/market/market-order';
 import { EsiDataRepositoryService } from 'src/app/repositories/esi-data-repository.service';
 import { environment } from 'src/environments/environment';
 
@@ -21,7 +22,6 @@ export class MarketService {
   public getStructureMarketForItem(structureId: number, itemId: number, isBuyOrder: boolean): Observable<MarketEntry[]> {
       return this.getStructureMarketEntries(structureId).pipe(
         map(entries => {
-          console.log("entries length: " + entries.length);
           return entries.filter(e => e.type_id == itemId && e.is_buy_order == isBuyOrder)
                         .sort((a, b) => a.price - b.price)
         })
@@ -36,5 +36,14 @@ export class MarketService {
       map(entries => {
         return entries.sort((a, b) => a.price - b.price)
       }));
+  }
+
+  public getMarketOrders(structureId: number, characterId: number): Observable<MarketOrder[]> {
+    const url = environment.esiBaseUrl + `/characters/${characterId}/orders/`;
+
+    return this.esiDataService.getRequest<MarketOrder[]>(url).pipe(
+      filter(orders => orders != null && orders.length > 0),
+      map(orders => orders.filter(order => order.location_id === structureId)
+      ));
   }
 }

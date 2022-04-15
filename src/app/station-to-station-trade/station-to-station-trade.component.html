@@ -15,6 +15,12 @@
       
       </ng-container>  
    </div>
+
+   <div class="stationOrderStatus" *ngIf="authStatus | async; else NotAuthenticated">
+      <app-station-order-status
+         [structure$]="currentSellStationObs">
+      </app-station-order-status>
+   </div>
 </div>
 
 

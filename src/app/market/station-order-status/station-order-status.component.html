@@ -1,0 +1,17 @@
+<p>station-order-status works!</p>
+
+<div *ngIf="characterOrdersObs | async as charOrders">
+
+</div>
+<table>
+    <thead>
+        <th>TypeId</th>
+        <th>Price</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let order of characterOrdersObs | async as charOrders">
+            <td>{{ order.type_id }}</td>
+            <td>{{ order.price | currency }}</td>
+        </tr>
+    </tbody>
+</table>

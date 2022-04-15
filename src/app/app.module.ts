@@ -32,6 +32,7 @@ import { SharedModule } from './shared/shared.module';
 import { ProductionModule } from './production/production.module';
 import { StationToStationTradeComponent } from './station-to-station-trade/station-to-station-trade.component';
 import { AuthModule } from './auth/auth.module';
+import { StationOrderStatusComponent } from './market/station-order-status/station-order-status.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { AuthModule } from './auth/auth.module';
     StationToStationTradeComponent,
     EveSearchComponent,
     ItemStationPriceComponent,
-    EveLoginComponent
+    EveLoginComponent,
+    StationOrderStatusComponent
   ],
   imports: [
     HttpClientModule,
