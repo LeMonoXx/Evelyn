@@ -38,7 +38,7 @@ export class MarketService {
       }));
   }
 
-  public getMarketOrders(structureId: number, characterId: number): Observable<MarketOrder[]> {
+  public getMarketOrders(structureId: number, characterId: number, isBuyOrder: boolean): Observable<MarketOrder[]> {
     const url = environment.esiBaseUrl + `/characters/${characterId}/orders/`;
 
     return this.esiDataService.getRequest<MarketOrder[]>(url).pipe(

@@ -1,17 +1,22 @@
 <p>station-order-status works!</p>
 
-<div *ngIf="characterOrdersObs | async as charOrders">
-
+<div *ngIf="charMarketOrdersObs | async as charOrders">
+    <table>
+        <thead>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Volume</th>
+            <th>Price</th>
+            <td>Is Lowest</td>
+        </thead>
+        <tbody>
+            <tr *ngFor="let order of charOrders" [ngClass]="order.marketEntry?.order_id === order.marketOrder?.order_id ? 'lowestSeller' : 'notLowestSeller'">
+                <td><img class="foundItemImage" [src]="getImageForItem(order.marketOrder.type_id)"></td>
+                <td>{{ order.itemDetails.name }}</td>
+                <td>{{ order.marketOrder.volume_remain }} / {{ order.marketOrder.volume_total }}</td>
+                <td>{{ order.marketOrder.price | currency }}</td>
+                <td>{{ order.marketEntry?.order_id === order.marketOrder?.order_id  }}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
-<table>
-    <thead>
-        <th>TypeId</th>
-        <th>Price</th>
-    </thead>
-    <tbody>
-        <tr *ngFor="let order of characterOrdersObs | async as charOrders">
-            <td>{{ order.type_id }}</td>
-            <td>{{ order.price | currency }}</td>
-        </tr>
-    </tbody>
-</table>

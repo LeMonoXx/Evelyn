@@ -1,0 +1,10 @@
+@import 'src/styles/variables';
+@import 'src/styles/functions';
+
+.lowestSeller {
+    @include background-opacity($accent3-strong3, 0.5);
+}
+
+.notLowestSeller {
+    @include background-opacity($accent2-strong3, 0.5);
+}

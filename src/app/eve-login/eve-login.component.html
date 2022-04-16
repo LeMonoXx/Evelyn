@@ -1,6 +1,6 @@
 <div class="loginComponent">
     <div *ngIf="statusObs | async as serverStatus" class="serverStatus">
-        Players: {{ serverStatus?.players }} | Uptime: {{serverStatus?.start_time}}
+        Players: {{ serverStatus?.players }} | Uptime: {{serverStatus?.start_time | date : 'medium'}}
     </div>
 
     <a routerLink="/StationToStationTrade" routerLinkActive="active">Trade</a>
