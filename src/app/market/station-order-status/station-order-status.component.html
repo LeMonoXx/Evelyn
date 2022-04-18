@@ -1,22 +1,38 @@
-<p>station-order-status works!</p>
-
 <div *ngIf="charMarketOrdersObs | async as charOrders">
-    <table>
-        <thead>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Volume</th>
-            <th>Price</th>
-            <td>Is Lowest</td>
-        </thead>
-        <tbody>
-            <tr *ngFor="let order of charOrders" [ngClass]="order.marketEntry?.order_id === order.marketOrder?.order_id ? 'lowestSeller' : 'notLowestSeller'">
-                <td><img class="foundItemImage" [src]="getImageForItem(order.marketOrder.type_id)"></td>
-                <td>{{ order.itemDetails.name }}</td>
-                <td>{{ order.marketOrder.volume_remain }} / {{ order.marketOrder.volume_total }}</td>
-                <td>{{ order.marketOrder.price | currency }}</td>
-                <td>{{ order.marketEntry?.order_id === order.marketOrder?.order_id  }}</td>
-            </tr>
-        </tbody>
+    <table mat-table [dataSource]="charOrders">
+        <!-- Image Column -->
+        <ng-container matColumnDef="image">
+            <th mat-header-cell *matHeaderCellDef> Image </th>
+            <td mat-cell *matCellDef="let element"><img class="foundItemImage" [src]="getImageForItem(element.marketOrder.type_id)"></td>
+        </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.itemDetails.name}} </td>
+        </ng-container>
+
+        <!-- Remain Column -->
+        <ng-container matColumnDef="remain">
+            <th mat-header-cell *matHeaderCellDef> Remaining </th>
+            <td mat-cell *matCellDef="let element"> {{ element.marketOrder.volume_remain }} / {{ element.marketOrder.volume_total }} </td>
+        </ng-container>
+
+        <!-- Price Column -->
+        <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef> Own Price </th>
+            <td mat-cell *matCellDef="let element"> {{element.marketOrder.price | currency}} </td>
+        </ng-container>
+
+        <!-- Lowest Column -->
+        <ng-container matColumnDef="lowestfoundprice" >
+            <th mat-header-cell *matHeaderCellDef> Lowest Price </th>
+            <td mat-cell *matCellDef="let element"> {{element.marketEntry?.price | currency }} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['image', 'name', 'remain', 'price', 'lowestfoundprice']"></tr>
+        <tr mat-row
+        *matRowDef="let row; columns: ['image', 'name', 'remain', 'price', 'lowestfoundprice']"
+        [class.notLowestSeller]="row.marketEntry?.order_id !== row.marketOrder?.order_id"
+        [class.lowestSeller]="row.marketEntry?.order_id === row.marketOrder?.order_id"></tr>
     </table>
 </div>

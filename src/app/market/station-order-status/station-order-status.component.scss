@@ -2,9 +2,9 @@
 @import 'src/styles/functions';
 
 .lowestSeller {
-    @include background-opacity($accent3-strong3, 0.5);
+    background-color: transparentize(#1E782C, .8);
 }
 
 .notLowestSeller {
-    @include background-opacity($accent2-strong3, 0.5);
+    background-color: transparentize(#A02021, .8);
 }

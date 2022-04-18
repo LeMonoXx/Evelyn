@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { combineLatest, filter, forkJoin, map, mergeMap, Observable, of, switchMap } from 'rxjs';
+import { combineLatest, forkJoin, map, mergeMap, Observable, switchMap } from 'rxjs';
 import { ItemDetails, MarketEntry, MarketOrder, StructureDetails } from 'src/app/models';
 import { EsiDataRepositoryService } from 'src/app/repositories';
 import { CharacterService, MarketService, UniverseService } from 'src/app/shared';
@@ -51,14 +51,13 @@ export class StationOrderStatusComponent implements OnInit {
           }),
           mergeMap(array => forkJoin(array)),
           map(entries => entries.sort((a, b) => 
-          a.marketOrder.price - b.marketOrder.price ||
-          a.itemDetails.type_id - b.itemDetails.type_id))
-        )
-      ));
+            a.marketOrder.price - b.marketOrder.price ||
+            a.itemDetails.type_id - b.itemDetails.type_id))
+          ))
+      );
   }
 
   public getImageForItem(typeId: number): string {
     return this.esiDataService.getImageUrlForType(typeId, 32);
   }
-
 }
