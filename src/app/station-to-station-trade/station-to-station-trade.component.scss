@@ -1,31 +1,45 @@
 @import 'src/styles/variables';
 @import 'src/styles/functions';
 
-.mainContent {
+.stationToStationTradeMainDiv {
   display: flex;
   flex-direction: row;
-  column-gap: 20px;
+  column-gap: 10px;
+  row-gap: 10px;
   padding: 10px;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
 
-  @include breakpoint(770px) {
+  @include breakpoint(888px) {
     flex-direction: column;
   }
 
   .searchContent {
     flex: 0 0 200px;
 
-    @include breakpoint(770px) {
+    @include breakpoint(888px) {
       flex: auto;
     }
   }
 
-  .stationPriceContent {
-    flex: 0 0 auto;
+  .sellDetailsAndOrders {
     display: flex;
     flex-direction: row;
+    column-gap: 10px;
+    row-gap: 10px;
+    justify-content: space-between;
 
-    @include breakpoint(770px) {
-      justify-content: center;
+    @include breakpoint(1330px) {
+      flex-direction: column;
+    }
+  
+    .stationPriceMatCard {
+
+      .stationPriceContent {
+        flex: 0 0 auto;
+        display: flex;
+        flex-direction: row;
+      }
     }
   }
 }

@@ -1,19 +1,35 @@
-<div class="mainContent">
-   <div class="searchContent">
-      <app-eve-search></app-eve-search>
-   </div>
+<div class="stationToStationTradeMainDiv" *ngIf="authStatus | async; else NotAuthenticated">
+   <mat-card>
+      <mat-card-title>Item search</mat-card-title>
+      <div class="searchContent">
+         <app-eve-search></app-eve-search>
+      </div>
+   </mat-card>
 
-   <div class="stationPriceContent">   
-      <ng-container *ngIf="authStatus | async; else NotAuthenticated">
-            <eve-item-station-price
-               [numberCount$]="numberCountObs"
-               [buyStation$]="currentBuyStationObs"
-               [sellStation$]="currentSellStationObs"
-               [itemIdentifier$]="currentItemObs"
-               [itemDetails$]="itemDetailsObs">
-            </eve-item-station-price>
+   <div class="sellDetailsAndOrders">
+      <div class="stationPriceMatCard">   
+         <mat-card>
+            <ng-container *ngIf="currentItemObs | async; else NoItemSpecified"
+            class="stationPriceContent">
+                  <eve-item-station-price
+                     [numberCount$]="numberCountObs"
+                     [buyStation$]="currentBuyStationObs"
+                     [sellStation$]="currentSellStationObs"
+                     [itemIdentifier$]="currentItemObs"
+                     [itemDetails$]="itemDetailsObs">
+                  </eve-item-station-price>       
+            </ng-container>  
+         </mat-card>
+      </div>
       
-      </ng-container>  
+      <div class="stationOrderStatus">
+         <mat-card>
+            <mat-card-title>Active Orders</mat-card-title>
+            <app-station-order-status
+               [structure$]="currentSellStationObs">
+            </app-station-order-status>
+         </mat-card>
+      </div>
    </div>
 </div>
 
@@ -21,5 +37,11 @@
 <ng-template #NotAuthenticated>
    <div class="notAuthenticated">
       You need to login, to see the station market.
+   </div>
+</ng-template>
+
+<ng-template #NoItemSpecified>
+   <div class="noItemSpecified">
+      Search for a Item to see profit calculation.
    </div>
 </ng-template>

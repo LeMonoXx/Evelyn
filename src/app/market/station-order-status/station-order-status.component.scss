@@ -1,0 +1,55 @@
+@import 'src/styles/variables';
+@import 'src/styles/functions';
+
+.OrdersLoading {
+    display: flex;
+    justify-content: center;
+    justify-self: center;
+}
+
+.stationOrderStatusDiv {
+    display: flex;
+    justify-content: center;
+
+    .lowestSeller {
+        background-color: transparentize(#1E782C, .8);
+    }
+    
+    .notLowestSeller {
+        background-color: transparentize(#A02021, .8);
+    }
+    
+    .nameColumn {
+        width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 90%;
+
+        @include breakpoint(625px) {
+            width: 130px;
+        }
+    }
+    
+    .tableRowCenter {
+        padding-right: 10px;
+        text-align: center;
+    }
+    
+    .tableRowLeft {
+        padding-right: 10px;
+        text-align: left;
+    }
+    
+    .tableRowRight {
+        padding-right: 10px;
+        text-align: end;
+        font-size: 90%;
+    }
+
+    .hideOnPhone {
+        @include breakpoint(625px) {
+            display: none;
+          }
+    }
+}

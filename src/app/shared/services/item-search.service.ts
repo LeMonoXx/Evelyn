@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map, Observable, ReplaySubject, shareReplay, startWith, Subject, switchMap } from 'rxjs';
 import { ItemDetails } from 'src/app/models';
-import { EsiDataRepositoryService } from 'src/app/repositories/esi-data-repository.service';
 import { ItemIdentifier } from '../models/item-identifier';
 import { UniverseService } from './universe.service';
 
