@@ -1,9 +1,10 @@
 @import 'src/styles/variables';
 @import 'src/styles/functions';
 
-.noOrdersFound {
-    font-style: italic;
-    text-align: center;
+.OrdersLoading {
+    display: flex;
+    justify-content: center;
+    justify-self: center;
 }
 
 .stationOrderStatusDiv {
@@ -24,6 +25,10 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         font-size: 90%;
+
+        @include breakpoint(625px) {
+            width: 130px;
+        }
     }
     
     .tableRowCenter {
@@ -39,5 +44,12 @@
     .tableRowRight {
         padding-right: 10px;
         text-align: end;
+        font-size: 90%;
+    }
+
+    .hideOnPhone {
+        @include breakpoint(625px) {
+            display: none;
+          }
     }
 }

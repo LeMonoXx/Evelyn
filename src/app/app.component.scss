@@ -5,7 +5,7 @@
   background-color: $background;
   color: $foreground;
   font: $text-font-family;
-  height: 100%;
+  min-height: 100%;
 
   .appevelogin {
       z-index: 998;

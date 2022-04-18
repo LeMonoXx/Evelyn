@@ -1,47 +1,40 @@
-<div *ngIf="charMarketOrdersObs | async as charOrders; else NoOrdersFound" class="stationOrderStatusDiv">
-        <table mat-table [dataSource]="charOrders">
-            <!-- Image Column -->
-            <ng-container matColumnDef="image">
-                <th mat-header-cell *matHeaderCellDef class="tableRowCenter"> Image </th>
-                <td mat-cell *matCellDef="let element" class="tableRowCenter"><img class="foundItemImage" [src]="getImageForItem(element.marketOrder.type_id)"></td>
-            </ng-container>
+<div class="stationOrderStatusDiv">
+    <table mat-table [dataSource]="charOrders" *ngIf="charMarketOrdersObs | async as charOrders; else OrdersLoading">
+        <ng-container matColumnDef="image">
+            <th mat-header-cell *matHeaderCellDef class="tableRowCenter"> Image </th>
+            <td mat-cell *matCellDef="let element" class="tableRowCenter"><img class="foundItemImage" [src]="getImageForItem(element.marketOrder.type_id)"></td>
+        </ng-container>
 
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef class="tableRowLeft"> Name </th>
-                <td mat-cell *matCellDef="let element" class="tableRowLeft">
-                    <div class="nameColumn" [title]="element.itemDetails.name">{{element.itemDetails.name}}</div> 
-                </td>
-            </ng-container>
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef class="tableRowLeft"> Name </th>
+            <td mat-cell *matCellDef="let element" class="tableRowLeft">
+                <div class="nameColumn" [title]="element.itemDetails.name">{{element.itemDetails.name}}</div> 
+            </td>
+        </ng-container>
 
-            <!-- Remain Column -->
-            <ng-container matColumnDef="remain">
-                <th mat-header-cell *matHeaderCellDef class="tableRowCenter"> Remaining </th>
-                <td mat-cell *matCellDef="let element" class="tableRowCenter"> {{ element.marketOrder.volume_remain }} / {{ element.marketOrder.volume_total }} </td>
-            </ng-container>
+        <ng-container matColumnDef="remain">
+            <th mat-header-cell *matHeaderCellDef class="tableRowCenter hideOnPhone"> Remaining </th>
+            <td mat-cell *matCellDef="let element" class="tableRowCenter hideOnPhone"> {{ element.marketOrder.volume_remain }} / {{ element.marketOrder.volume_total }} </td>
+        </ng-container>
 
-            <!-- Price Column -->
-            <ng-container matColumnDef="price">
-                <th mat-header-cell *matHeaderCellDef class="tableRowRight"> Own Price </th>
-                <td mat-cell *matCellDef="let element" class="tableRowRight"> {{element.marketOrder.price | currency}} </td>
-            </ng-container>
+        <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef class="tableRowRight"> Own Price </th>
+            <td mat-cell *matCellDef="let element" class="tableRowRight"> {{element.marketOrder.price | currency}} </td>
+        </ng-container>
 
-            <!-- Lowest Column -->
-            <ng-container matColumnDef="lowestfoundprice" >
-                <th mat-header-cell *matHeaderCellDef class="tableRowRight"> Lowest Price </th>
-                <td mat-cell *matCellDef="let element" class="tableRowRight"> {{element.marketEntry?.price | currency }} </td>
-            </ng-container>
+        <ng-container matColumnDef="lowestfoundprice">
+            <th mat-header-cell *matHeaderCellDef class="tableRowRight hideOnPhone"> Lowest Price </th>
+            <td mat-cell *matCellDef="let element" class="tableRowRight hideOnPhone"> {{element.marketEntry?.price | currency }} </td>
+        </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="['image', 'name', 'remain', 'price', 'lowestfoundprice']"></tr>
-            <tr mat-row
-            *matRowDef="let row; columns: ['image', 'name', 'remain', 'price', 'lowestfoundprice']"
-            [class.notLowestSeller]="row.marketEntry?.order_id !== row.marketOrder?.order_id"
-            [class.lowestSeller]="row.marketEntry?.order_id === row.marketOrder?.order_id"></tr>
-        </table>
+        <tr mat-header-row *matHeaderRowDef="['image', 'name', 'remain', 'price', 'lowestfoundprice']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['image', 'name', 'remain', 'price', 'lowestfoundprice']"
+        [class.notLowestSeller]="row.marketEntry?.order_id !== row.marketOrder?.order_id"
+        [class.lowestSeller]="row.marketEntry?.order_id === row.marketOrder?.order_id"></tr>
+    </table>
 </div>
-
-<ng-template #NoOrdersFound>
-    <div class="noOrdersFound">
-       No active orders found!
+<ng-template #OrdersLoading>
+    <div class="ordersLoading">
+        <mat-spinner></mat-spinner>
     </div>
  </ng-template>

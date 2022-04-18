@@ -3,6 +3,12 @@
    
 .stationPriceContainer {
 
+    .CalcIsLoading {
+        display: flex;
+        justify-content: center;
+        justify-self: center;
+    }
+
     .itemInfoContainer {
         color: var(--foreground-soft1, #d5d5d5);
         display: flex;

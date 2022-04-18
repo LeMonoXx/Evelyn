@@ -33,7 +33,7 @@
 
     </div>
     
-    <div *ngIf="calculatedSellData$ | async as calculatedSellData" class="sellCostsContainer">
+    <div *ngIf="calculatedSellData$ | async as calculatedSellData; else CalcIsLoading" class="sellCostsContainer">
 
         <mat-divider></mat-divider>
 
@@ -72,3 +72,9 @@
         </div>
     </div>
 </div>
+
+<ng-template #CalcIsLoading>
+    <div class="calcIsLoading">
+        <mat-spinner></mat-spinner>
+    </div>
+ </ng-template>
