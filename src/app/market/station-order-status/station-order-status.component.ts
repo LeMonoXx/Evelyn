@@ -31,7 +31,6 @@ export class StationOrderStatusComponent implements OnInit {
           map(orders => {
             const requests: Observable<{ marketOrder: MarketOrder, itemDetails: ItemDetails, marketEntry: MarketEntry }>[] = [];
             orders.forEach(order => {
-
               const itemDetailsObs = this.universeService.getItemDetails(order.type_id).pipe(
                               map(details => ({ marketOrder: order, itemDetails: details, marketEntry: null })));
 
