@@ -2,11 +2,11 @@
     <mat-form-field>
       <mat-label>Item</mat-label>
       <input matInput type="text"
-             class="itemSearchInput"
-             placeholder="Item name"
-             [formControl]="itemNameControl"
-             [matAutocomplete]="auto"
-             [errorStateMatcher]="matcher">
+            class="itemSearchInput"
+            placeholder="Item name"
+            [formControl]="itemNameControl"
+            [matAutocomplete]="auto"
+            [errorStateMatcher]="matcher">
           <mat-error *ngIf="itemNameControl.hasError('required')">
             Item name is required
           </mat-error>
@@ -15,7 +15,7 @@
           </mat-error>
       <mat-autocomplete #auto="matAutocomplete">
         <mat-option *ngFor="let option of (autoCompleteObs | async)" [value]="option.name">
-         <span>{{option.name}}</span> 
+        <span>{{option.name}}</span> 
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
@@ -32,9 +32,3 @@
           </mat-error>
     </mat-form-field>
 </form>
-<!-- 
-<div *ngIf="(mySearchObs | async) as foundItem">
-  <img class="foundItemImage" [src]="currentItemImageSourceObs | async">
-  {{ foundItem.name }}
-  {{ foundItem.id }}
-</div> -->

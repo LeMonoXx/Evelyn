@@ -1,10 +1,43 @@
 @import 'src/styles/variables';
 @import 'src/styles/functions';
 
-.lowestSeller {
-    background-color: transparentize(#1E782C, .8);
+.noOrdersFound {
+    font-style: italic;
+    text-align: center;
 }
 
-.notLowestSeller {
-    background-color: transparentize(#A02021, .8);
+.stationOrderStatusDiv {
+    display: flex;
+    justify-content: center;
+
+    .lowestSeller {
+        background-color: transparentize(#1E782C, .8);
+    }
+    
+    .notLowestSeller {
+        background-color: transparentize(#A02021, .8);
+    }
+    
+    .nameColumn {
+        width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 90%;
+    }
+    
+    .tableRowCenter {
+        padding-right: 10px;
+        text-align: center;
+    }
+    
+    .tableRowLeft {
+        padding-right: 10px;
+        text-align: left;
+    }
+    
+    .tableRowRight {
+        padding-right: 10px;
+        text-align: end;
+    }
 }

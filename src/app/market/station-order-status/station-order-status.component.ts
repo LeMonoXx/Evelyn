@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { combineLatest, forkJoin, map, mergeMap, Observable, switchMap } from 'rxjs';
 import { ItemDetails, MarketEntry, MarketOrder, StructureDetails } from 'src/app/models';
 import { EsiDataRepositoryService } from 'src/app/repositories';
@@ -7,7 +7,8 @@ import { CharacterService, MarketService, UniverseService } from 'src/app/shared
 @Component({
   selector: 'app-station-order-status',
   templateUrl: './station-order-status.component.html',
-  styleUrls: ['./station-order-status.component.scss']
+  styleUrls: ['./station-order-status.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class StationOrderStatusComponent implements OnInit {
 
@@ -51,7 +52,7 @@ export class StationOrderStatusComponent implements OnInit {
           }),
           mergeMap(array => forkJoin(array)),
           map(entries => entries.sort((a, b) => 
-            a.marketOrder.price - b.marketOrder.price ||
+            a.marketOrder.price > b.marketOrder.price ? -1 : 1 ||
             a.itemDetails.type_id - b.itemDetails.type_id))
           ))
       );
