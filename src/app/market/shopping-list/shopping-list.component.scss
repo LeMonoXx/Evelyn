@@ -1,24 +1,16 @@
 @import 'src/styles/variables';
 @import 'src/styles/functions';
 
-.ordersLoading {
+.listLoading {
     display: flex;
     justify-content: center;
     justify-self: center;
 }
 
-.stationOrderStatusDiv {
+.shoppingListDiv {
     display: flex;
     justify-content: center;
 
-    .lowestSeller {
-        background-color: transparentize(#1E782C, .8);
-    }
-    
-    .notLowestSeller {
-        background-color: transparentize(#A02021, .8);
-    }
-    
     .nameColumn {
         width: 200px;
         overflow: hidden;
@@ -39,12 +31,13 @@
     .tableRowLeft {
         padding-right: 10px;
         text-align: left;
+        font-size: 90%;
     }
     
     .tableRowRight {
         padding-right: 10px;
         text-align: end;
-        font-size: 90%;
+        font-size: 85%;
     }
 
     .hideOnPhone {

@@ -7,8 +7,15 @@ import { ShoppingEntry } from '..';
 })
 export class ShoppingListService {
 
-  private shoppingList$ : BehaviorSubject<ShoppingEntry[] | null> = new BehaviorSubject<ShoppingEntry[] | null>(null);
-  public ShoppingListObs: Observable<ShoppingEntry[] | null>;
+  private shoppingList$ : BehaviorSubject<ShoppingEntry[]> = new BehaviorSubject<ShoppingEntry[]>([{
+    quantity: 0,
+    type_id: 0,
+    item_name: "",
+    buy_price: 0,
+    sell_price: 0,
+    profit: 0
+  }]);
+  public ShoppingListObs: Observable<ShoppingEntry[]>;
 
   constructor() { 
     this.ShoppingListObs = this.shoppingList$

@@ -1,0 +1,39 @@
+<div class="shoppingListDiv" *ngIf="shoppingListObs | async as entries">
+    <table mat-table *ngIf="entries && entries.length > 0" [dataSource]="shoppingListObs">
+        <ng-container matColumnDef="image">
+            <th mat-header-cell *matHeaderCellDef class="tableRowCenter hideOnPhone"> Image </th>
+            <td mat-cell *matCellDef="let element" class="tableRowCenter hideOnPhone"><img class="foundItemImage" [src]="getImageForItem(element.type_id)"></td>
+            <td mat-footer-cell *matFooterCellDef class="tableRowCenter hideOnPhone"></td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef class="tableRowLeft"> Name </th>
+            <td mat-cell *matCellDef="let element" class="tableRowLeft">
+                <div class="nameColumn" [title]="element.type_name">{{element.item_name}}</div> 
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="tableRowLeft"></td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef class="tableRowCenter"> Quantity </th>
+            <td mat-cell *matCellDef="let element" class="tableRowCenter"> {{ element.quantity }} </td>
+            <td mat-footer-cell *matFooterCellDef class="tableRowCenter"></td>
+        </ng-container>
+
+        <ng-container matColumnDef="buy_price">
+            <th mat-header-cell *matHeaderCellDef class="tableRowRight"> Buy price </th>
+            <td mat-cell *matCellDef="let element" class="tableRowRight"> {{element.buy_price | currency}} </td>
+            <td mat-footer-cell *matFooterCellDef class="tableRowRight"> {{ calcBuySum(entries) | currency }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="profit">
+            <th mat-header-cell *matHeaderCellDef class="tableRowRight"> Profit </th>
+            <td mat-cell *matCellDef="let element" class="tableRowRight"> {{element.profit | currency }} </td>
+            <td mat-footer-cell *matFooterCellDef class="tableRowRight"> {{ calcProfitSum(entries) | currency }} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['image', 'name', 'quantity', 'buy_price', 'profit']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['image', 'name', 'quantity', 'buy_price', 'profit']"></tr>
+        <tr mat-footer-row *matFooterRowDef="['image', 'name', 'quantity', 'buy_price', 'profit']"></tr>
+    </table>
+</div>

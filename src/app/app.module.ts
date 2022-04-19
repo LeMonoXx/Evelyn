@@ -33,6 +33,7 @@ import { ProductionModule } from './production/production.module';
 import { StationToStationTradeComponent } from './station-to-station-trade/station-to-station-trade.component';
 import { AuthModule } from './auth/auth.module';
 import { StationOrderStatusComponent } from './market/station-order-status/station-order-status.component';
+import { ShoppingListComponent } from './market/shopping-list/shopping-list.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { StationOrderStatusComponent } from './market/station-order-status/stati
     EveSearchComponent,
     ItemStationPriceComponent,
     EveLoginComponent,
-    StationOrderStatusComponent
+    StationOrderStatusComponent,
+    ShoppingListComponent
   ],
   imports: [
     HttpClientModule,
