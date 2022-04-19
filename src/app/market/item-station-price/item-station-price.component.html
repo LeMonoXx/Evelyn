@@ -1,13 +1,25 @@
 <div class="stationPriceContainer">
     <div *ngIf="(itemIdentifier$ | async) as item" class="itemInfoContainer">
-        <div class="itemInfo">
-            <div *ngIf="(currentItemImageSourceObs | async) as imageSource">
-                <img class="foundItemImage" [src]="imageSource">
+        <div class="splitLeftRight">
+            <div class="itemInfo">
+                <div *ngIf="(currentItemImageSourceObs | async) as imageSource">
+                    <img class="foundItemImage" [src]="imageSource">
+                </div>
+                <div class="itemDetails">
+                    <div class="itemInfoName" [title]="item.name">{{ item.name }}</div>
+                    <div class="itemInfoId">{{ item.id }}</div>
+                    <div *ngIf="itemDetails$ | async as itemDetails" class="itemInfoId"> {{ itemDetails.packaged_volume }} m³ </div>
+                </div>
             </div>
-            <div class="itemDetails">
-                <div class="itemInfoName" [title]="item.name">{{ item.name }}</div>
-                <div class="itemInfoId">{{ item.id }}</div>
-                <div *ngIf="itemDetails$ | async as itemDetails" class="itemInfoId"> {{ itemDetails.packaged_volume }} m³ </div>
+
+            <div class="interactionButtons" *ngIf="calculatedSellData$ | async as calculatedSellData">
+                <button class="mat-button" mat-button title="Add to shopping list"
+                    (click)="addOrRemoveShoppingList(calculatedSellData)">
+                    <mat-icon [class.fillIcon]="IsOnShoppingList(item.id)">add_shopping_cart</mat-icon>
+                </button>
+                <button class="mat-button" mat-button title="Add to favorites">
+                    <mat-icon [class.fillIcon]="IsFavorite">star</mat-icon>
+                </button>
             </div>
         </div>
         <div class="stationRoute" >
@@ -16,7 +28,7 @@
                 
             </div>
             <div class="fromToStationIcon">
-                <mat-icon [inline]="true">arrow_right</mat-icon>
+                <mat-icon [inline]="true">arrow_forward</mat-icon>
             </div>
             <div *ngIf="sellStation$ | async as sellStation" class="stationName textRight">
                 {{ sellStation.name }}

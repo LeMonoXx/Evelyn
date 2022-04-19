@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { forkJoin, map, Observable, of, shareReplay, switchMap } from 'rxjs';
 import { EsiHeaders } from './esi-headers';
@@ -7,6 +7,10 @@ import { EsiHeaders } from './esi-headers';
   providedIn: 'root'
 })
 export class EsiDataRepositoryService {
+
+  private options = { 
+    headers: {'Accept-Language': 'en-US'}
+  };
 
   constructor(
     private httpClient: HttpClient
@@ -17,19 +21,12 @@ export class EsiDataRepositoryService {
     return url;
   }
 
-  public getRequest<T>(url: string, headers? : HttpHeaders): Observable<T> {
-    const options = { 
-      headers: headers, 
-    };
+  public getRequest<T>(url: string): Observable<T> {
 
-    return this.httpClient.get<T>(url, options).pipe(shareReplay(1));
+    return this.httpClient.get<T>(url, this.options).pipe(shareReplay(1));
   }
 
-  public getPagingRequest<T>(url: string, headers? : HttpHeaders): Observable<Array<T>> {
-    const options = { 
-      headers: headers
-    };
-
+  public getPagingRequest<T>(url: string): Observable<Array<T>> {
     const result = this.httpClient.get<Array<T>>(url, {observe: 'response'}).pipe(
       map(response => {
         let totalPages = 1;
@@ -50,7 +47,7 @@ export class EsiDataRepositoryService {
         while(curPage < result.totalPages) {
               // we start with page=1. so we count up directly
               curPage++;
-              const newRequest = this.httpClient.get<Array<T>>( url + `?page=${curPage}`, options);
+              const newRequest = this.httpClient.get<Array<T>>( url + `?page=${curPage}`, this.options);
               result.resultSet.push(newRequest);
             }
         return result.resultSet;

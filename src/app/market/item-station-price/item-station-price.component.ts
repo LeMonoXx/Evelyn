@@ -1,8 +1,9 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { combineLatest, map, mergeMap, Observable, switchMap } from 'rxjs';
+import { combineLatest, map, mergeMap, Observable, switchMap, tap } from 'rxjs';
 import { ItemDetails, MarketEntry, StationDetails, StructureDetails } from 'src/app/models';
 import { EsiDataRepositoryService } from 'src/app/repositories/esi-data-repository.service';
-import { CalculateShippingCost, ItemIdentifier, MarketService, SellPrice } from 'src/app/shared';
+import { CalculateShippingCost, ItemIdentifier, MarketService, SellPrice, ShoppingEntry } from 'src/app/shared';
+import { ShoppingListService } from 'src/app/shared/services/shopping-list.service';
 
 @Component({
   selector: 'eve-item-station-price',
@@ -31,7 +32,8 @@ export class ItemStationPriceComponent implements OnInit {
 
   constructor(
     private marketService: MarketService, 
-    private esiDataService: EsiDataRepositoryService) {
+    private esiDataService: EsiDataRepositoryService,
+    private shopphingListService: ShoppingListService) {
 
    }
 
@@ -54,6 +56,9 @@ export class ItemStationPriceComponent implements OnInit {
         this.calculatedSellData$ = combineLatest([this.numberCount$, this.itemBuyCostObs, this.itemDetails$, this.itemSellCostObs$]).pipe(
           map(([count, buyEntries, itemDetails, sellEntries]) => {
           const prices: SellPrice = {
+            quantity: count,
+            type_id: itemDetails.type_id,
+            type_name: itemDetails.name,
             singleBuyPrice: 0,
             buyPriceX: 0,
             singleSellPrice: 0,
@@ -92,5 +97,33 @@ export class ItemStationPriceComponent implements OnInit {
           }
             return prices;
         }));
+  }
+
+  public IsOnShoppingList(type_id: number): boolean {
+    return this.shopphingListService.ContainsItem(type_id);
+  }
+
+  public addOrRemoveShoppingList(sell: SellPrice) {
+    const existingEntry = this.shopphingListService.GetEntryById(sell.type_id);
+
+    if(!existingEntry) {
+      const shoppingEntry: ShoppingEntry = {
+        quantity: sell.quantity,
+        type_id: sell.type_id,
+        item_name: sell.type_name,
+        buy_price: sell.singleBuyPrice,
+        sell_price: sell.singleSellPrice,
+        profit: sell.profit
+      }
+
+      this.shopphingListService.AddShoppingEntry(shoppingEntry);
+      
+    } else {
+      this.shopphingListService.RemoveShoppingEntry(existingEntry);
+    }
+  }
+
+  public get IsFavorite(): boolean {
+    return true;
   }
 }
