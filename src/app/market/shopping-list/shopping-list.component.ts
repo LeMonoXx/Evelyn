@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
-import { EsiDataRepositoryService } from 'src/app/repositories';
-import { ShoppingEntry } from 'src/app/shared';
-import { ShoppingListService } from 'src/app/shared/services/shopping-list.service';
+import { ShoppingEntry, ShoppingListService, UniverseService } from 'src/app/shared';
 
 @Component({
   selector: 'app-shopping-list',
@@ -13,7 +11,7 @@ export class ShoppingListComponent implements OnInit {
   public shoppingListObs: Observable<ShoppingEntry[]>;
 
   constructor(private shoppingListService: ShoppingListService,
-    private esiDataService: EsiDataRepositoryService) { }
+    private universeService: UniverseService) { }
 
   ngOnInit(): void {
 
@@ -25,7 +23,7 @@ export class ShoppingListComponent implements OnInit {
   }
 
   public getImageForItem(typeId: number): string {
-    return this.esiDataService.getImageUrlForType(typeId, 32);
+    return this.universeService.getImageUrlForType(typeId, 32);
   }
 
   public calcProfitSum(entries: ShoppingEntry[]) {

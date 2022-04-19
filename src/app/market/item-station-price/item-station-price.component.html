@@ -17,8 +17,9 @@
                     (click)="addOrRemoveShoppingList(calculatedSellData)">
                     <mat-icon [class.fillIcon]="IsOnShoppingList(item.id)">add_shopping_cart</mat-icon>
                 </button>
-                <button class="mat-button" mat-button title="Add to favorites">
-                    <mat-icon [class.fillIcon]="IsFavorite">star</mat-icon>
+                <button class="mat-button" mat-button title="Add to favorites"
+                (click)="addOrRemoveFavorite(item)">
+                    <mat-icon [class.fillIcon]="IsFavorite(item.id)">star</mat-icon>
                 </button>
             </div>
         </div>

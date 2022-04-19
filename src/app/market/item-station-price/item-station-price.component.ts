@@ -1,9 +1,7 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { combineLatest, map, mergeMap, Observable, switchMap, tap } from 'rxjs';
+import { combineLatest, map, mergeMap, Observable, switchMap } from 'rxjs';
 import { ItemDetails, MarketEntry, StationDetails, StructureDetails } from 'src/app/models';
-import { EsiDataRepositoryService } from 'src/app/repositories/esi-data-repository.service';
-import { CalculateShippingCost, ItemIdentifier, MarketService, SellPrice, ShoppingEntry } from 'src/app/shared';
-import { ShoppingListService } from 'src/app/shared/services/shopping-list.service';
+import { CalculateShippingCost, FavoritesService, ItemIdentifier, MarketService, SellPrice, ShoppingEntry, ShoppingListService, UniverseService } from 'src/app/shared';
 
 @Component({
   selector: 'eve-item-station-price',
@@ -32,15 +30,16 @@ export class ItemStationPriceComponent implements OnInit {
 
   constructor(
     private marketService: MarketService, 
-    private esiDataService: EsiDataRepositoryService,
-    private shopphingListService: ShoppingListService) {
+    private universeService: UniverseService,
+    private shopphingListService: ShoppingListService,
+    private favoriteService: FavoritesService) {
 
    }
 
   ngOnInit(): void {
     this.currentItemImageSourceObs = this.itemIdentifier$.pipe(
       map(item => {
-        return this.esiDataService.getImageUrlForType(item.id, 64);
+        return this.universeService.getImageUrlForType(item.id, 64);
       }));
 
       this.itemBuyCostObs = this.itemIdentifier$.pipe(
@@ -123,7 +122,17 @@ export class ItemStationPriceComponent implements OnInit {
     }
   }
 
-  public get IsFavorite(): boolean {
-    return true;
+  public addOrRemoveFavorite(item: ItemIdentifier) {
+    const existingEntry = this.favoriteService.GetEntryById(item.id);
+
+    if(!existingEntry) {
+      this.favoriteService.AddFavoriteItem(item);  
+    } else {
+      this.favoriteService.RemoveFavoriteItem(existingEntry);
+    }
+  }
+
+  public IsFavorite(type_id: number): boolean {
+    return this.favoriteService.ContainsItem(type_id);
   }
 }

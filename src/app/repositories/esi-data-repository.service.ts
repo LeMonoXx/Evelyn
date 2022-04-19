@@ -16,11 +16,6 @@ export class EsiDataRepositoryService {
     private httpClient: HttpClient
   ) { }
 
-  public getImageUrlForType(typeId: number, size: number = 64) : string {
-    const url = `https://imageserver.eveonline.com/Type/${typeId}_${size}.png`
-    return url;
-  }
-
   public getRequest<T>(url: string): Observable<T> {
 
     return this.httpClient.get<T>(url, this.options).pipe(shareReplay(1));

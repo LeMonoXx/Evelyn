@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, shareReplay, Subject } from 'rxjs';
+import { BehaviorSubject, map, Observable, shareReplay, tap } from 'rxjs';
 import { ShoppingEntry } from '..';
+import { getStoredShoppingList, storeShoppingList } from '../functions/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +19,19 @@ export class ShoppingListService {
   public ShoppingListObs: Observable<ShoppingEntry[]>;
 
   constructor() { 
+
+    const storedList = getStoredShoppingList();
+    if(storedList) {
+      this.shoppingList$ = new BehaviorSubject(storedList);
+    }
+
+    // we do not subscribe. This means when no one else 
+    // subscribes, the entries will not be stored.
     this.ShoppingListObs = this.shoppingList$
       .asObservable()
-      .pipe(shareReplay(1));
+      .pipe(
+        tap(entries => storeShoppingList(entries)),
+        shareReplay(1));
   }
 
   public AddShoppingEntry(item : ShoppingEntry) {

@@ -25,6 +25,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDividerModule} from '@angular/material/divider';
+
 import { httpInterceptorProviders } from './http-interceptors';
 import { EveSearchComponent } from './eve-search/eve-search.component';
 import { ItemStationPriceComponent } from './market/item-station-price/item-station-price.component';
