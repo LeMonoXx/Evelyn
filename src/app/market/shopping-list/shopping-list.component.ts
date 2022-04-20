@@ -16,10 +16,8 @@ export class ShoppingListComponent implements OnInit {
   ngOnInit(): void {
 
     this.shoppingListObs = this.shoppingListService.ShoppingListObs
-      .pipe(
-        map(entries => entries.filter(entry => entry.type_id > 0)),
-        tap(entries => console.log("shoppingEntries ", entries),
-        ));
+      .pipe(map(entries => entries.filter(entry => entry.type_id > 0))
+        );
   }
 
   public getImageForItem(typeId: number): string {
@@ -38,6 +36,10 @@ export class ShoppingListComponent implements OnInit {
       return accumulator + current.buy_price;
     }, 0);
     return result;
+  }
+
+  public clearShoppingList(): void {
+    this.shoppingListService.ClearShoppingList();
   }
   
   public copy(text: string) {

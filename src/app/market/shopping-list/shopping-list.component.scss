@@ -7,6 +7,26 @@
     justify-self: center;
 }
 
+.cardHeaderArea{
+    display: flex;
+    justify-content: space-between;
+
+    mat-card-actions {
+        margin: 0px;
+        padding-top: 4px;
+
+        .mat-button {
+            line-height: 15px;
+            min-width: 15px;
+            padding: 2px;
+
+            mat-icon {
+                transform: scale(0.7);
+            }
+        }
+    }
+}
+
 .shoppingListDiv {
     display: flex;
     justify-content: center;

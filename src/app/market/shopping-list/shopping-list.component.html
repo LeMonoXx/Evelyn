@@ -1,3 +1,13 @@
+<div class="cardHeaderArea">
+    <mat-card-title>Shopping list</mat-card-title>
+    <mat-card-actions>
+        <button class="mat-button" mat-button title="Clear shopping list"
+        (click)="clearShoppingList()">
+        <mat-icon>remove_shopping_cart</mat-icon>
+    </button>
+    </mat-card-actions>
+ </div>
+
 <div class="shoppingListDiv" *ngIf="shoppingListObs | async as entries">
     <table mat-table *ngIf="entries && entries.length > 0" [dataSource]="shoppingListObs">
         <ng-container matColumnDef="image">
