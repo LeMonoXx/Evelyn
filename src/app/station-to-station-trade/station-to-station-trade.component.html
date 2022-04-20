@@ -1,4 +1,4 @@
-<div class="stationToStationTradeMainDiv" *ngIf="authStatus | async; else NotAuthenticated">
+<div class="stationToStationTradeMainDiv" *ngIf="authStatusObs | async; else NotAuthenticated">
    <mat-card>
       <mat-card-title>Item search</mat-card-title>
       <div class="searchContent">
@@ -12,6 +12,7 @@
             <ng-container *ngIf="currentItemObs | async; else NoItemSpecified"
             class="stationPriceContent">
                   <eve-item-station-price
+                     [saleTaxPercent$]="characterSaleTaxPercentObs"
                      [numberCount$]="numberCountObs"
                      [buyStation$]="currentBuyStationObs"
                      [sellStation$]="currentSellStationObs"

@@ -11,5 +11,6 @@ export * from './services/shopping-list.service'
 export * from './services/universe.service'
 
 export * from './functions/shipping-costs'
+export * from './functions/tax'
 export * from './functions/storage'
 export * from './functions/clipboard'

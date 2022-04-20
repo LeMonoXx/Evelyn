@@ -12,6 +12,8 @@ import { CalculateShippingCost, copyToClipboard, FavoritesService, ItemIdentifie
 export class ItemStationPriceComponent implements OnInit {
 
   @Input()
+  public saleTaxPercent$: Observable<number>;
+  @Input()
   public numberCount$ : Observable<number>;
   @Input()
   public buyStation$: Observable<StationDetails>;
@@ -52,22 +54,37 @@ export class ItemStationPriceComponent implements OnInit {
           this.marketService.getStructureMarketForItem(sellStation.evelyn_structureId, itemIdentifier.id, false)
         ));
 
-        this.calculatedSellData$ = combineLatest([this.numberCount$, this.itemBuyCostObs, this.itemDetails$, this.itemSellCostObs$]).pipe(
-          map(([count, buyEntries, itemDetails, sellEntries]) => {
-          const prices: SellPrice = {
-            quantity: count,
-            type_id: itemDetails.type_id,
-            type_name: itemDetails.name,
-            singleBuyPrice: 0,
-            buyPriceX: 0,
-            singleSellPrice: 0,
-            sellPriceX: 0,
-            brokerFee: 0,
-            saleTax: 0,
-            nettoSalePrice: 0,
-            profit: 0,
-            shippingCost: 0
-          };
+        this.calculatedSellData$ = 
+        combineLatest(
+          [
+            this.numberCount$, 
+            this.itemBuyCostObs, 
+            this.itemDetails$, 
+            this.itemSellCostObs$,
+            this.saleTaxPercent$
+          ]).pipe(
+            map((
+              [
+                count, 
+                buyEntries, 
+                itemDetails, 
+                sellEntries,
+                saleTaxPercent
+              ]) => {
+            const prices: SellPrice = {
+              quantity: count,
+              type_id: itemDetails.type_id,
+              type_name: itemDetails.name,
+              singleBuyPrice: 0,
+              buyPriceX: 0,
+              singleSellPrice: 0,
+              sellPriceX: 0,
+              brokerFee: 0,
+              saleTax: 0,
+              nettoSalePrice: 0,
+              profit: 0,
+              shippingCost: 0
+            };
 
           // the buyEntries are not actual "Buy-Orders".
           // those are the sell-orders we ar buying from.
@@ -85,7 +102,7 @@ export class ItemStationPriceComponent implements OnInit {
             const brokerFee =  sellPriceForX / 100 * 2.5;
             prices.brokerFee = brokerFee;
 
-            const saleTax = sellPriceForX / 100 * 3.6;
+            const saleTax = sellPriceForX / 100 * saleTaxPercent;
             prices.saleTax = saleTax;
 
             prices.nettoSalePrice = (sellPriceForX - brokerFee) - saleTax;

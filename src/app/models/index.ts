@@ -5,6 +5,8 @@ export * from './search-result'
 
 export * from './character/character'
 export * from './character/portrait'
+export * from './character/skill'
+export * from './character/character-skills'
 
 export * from './eve-maketer/marketer-search-result'
 

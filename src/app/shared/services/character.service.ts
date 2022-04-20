@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ServerStatus, Character, AuthenticatedCharacter, Portrait } from 'src/app/models';
+import { ServerStatus, Character, AuthenticatedCharacter, Portrait, CharacterSkills } from 'src/app/models';
 import { EsiDataRepositoryService } from 'src/app/repositories';
 import { environment } from 'src/environments/environment';
 
@@ -29,5 +29,10 @@ export class CharacterService {
   public getCharacterImage(characterId: number): Observable<Portrait> {
     const url = environment.esiBaseUrl + `/characters/${characterId}/portrait/`;
     return this.esiDataService.getRequest<Portrait>(url)
+  }
+
+  public getCharacterSkills(characterId: number): Observable<CharacterSkills> {
+      const url = environment.esiBaseUrl + `/characters/${characterId}/skills/`;
+    return this.esiDataService.getRequest<CharacterSkills>(url)
   }
 }
