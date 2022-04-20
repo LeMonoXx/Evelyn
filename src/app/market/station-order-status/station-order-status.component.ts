@@ -1,8 +1,7 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { combineLatest, forkJoin, map, mergeMap, Observable, switchMap } from 'rxjs';
 import { ItemDetails, MarketEntry, MarketOrder, StructureDetails } from 'src/app/models';
-import { EsiDataRepositoryService } from 'src/app/repositories';
-import { CharacterService, MarketService, UniverseService } from 'src/app/shared';
+import { CharacterService, copyToClipboard, MarketService, UniverseService } from 'src/app/shared';
 
 @Component({
   selector: 'app-station-order-status',
@@ -19,7 +18,6 @@ export class StationOrderStatusComponent implements OnInit {
 
   constructor(private marketService: MarketService,
     private characterService: CharacterService,
-    private esiDataService: EsiDataRepositoryService,
     private universeService: UniverseService) { }
 
   ngOnInit(): void {
@@ -59,6 +57,10 @@ export class StationOrderStatusComponent implements OnInit {
   }
 
   public getImageForItem(typeId: number): string {
-    return this.esiDataService.getImageUrlForType(typeId, 32);
+    return this.universeService.getImageUrlForType(typeId, 32);
+  }
+
+  public copy(text: string) {
+    copyToClipboard(text);
   }
 }

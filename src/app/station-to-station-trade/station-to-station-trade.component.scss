@@ -10,6 +10,20 @@
   flex-wrap: nowrap;
   justify-content: flex-start;
 
+  .default-mat-card {
+    width: 565px;
+    min-height: 400px;
+    overflow-x: hidden;
+
+    @include breakpoint(1540px) {
+      width: 565px;
+    }
+
+    @include breakpoint(888px) {
+      width: auto;
+    }
+  }
+
   @include breakpoint(888px) {
     flex-direction: column;
   }
@@ -27,9 +41,11 @@
     flex-direction: row;
     column-gap: 10px;
     row-gap: 10px;
-    justify-content: space-between;
+    overflow-x: hidden;
+    justify-content: center;
+    flex-wrap: wrap;
 
-    @include breakpoint(1330px) {
+    @include breakpoint(888px) {
       flex-direction: column;
     }
   
@@ -47,4 +63,9 @@
 .notAuthenticated {
     font-style: italic;
     text-align: center;
+}
+
+.noItemSpecified {
+  font-style: italic;
+  text-align: center;
 }

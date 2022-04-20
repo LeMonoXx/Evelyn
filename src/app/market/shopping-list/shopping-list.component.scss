@@ -1,13 +1,33 @@
 @import 'src/styles/variables';
 @import 'src/styles/functions';
 
-.ordersLoading {
+.listLoading {
     display: flex;
     justify-content: center;
     justify-self: center;
 }
 
-.stationOrderStatusDiv {
+.cardHeaderArea{
+    display: flex;
+    justify-content: space-between;
+
+    mat-card-actions {
+        margin: 0px;
+        padding-top: 4px;
+
+        .mat-button {
+            line-height: 15px;
+            min-width: 15px;
+            padding: 2px;
+
+            mat-icon {
+                transform: scale(0.7);
+            }
+        }
+    }
+}
+
+.shoppingListDiv {
     display: flex;
     justify-content: center;
 
@@ -25,18 +45,10 @@
         @include breakpoint(625px) {
             padding-right: 5px;
         }
-    }
+    }  
 
-    .lowestSeller {
-        background-color: transparentize(#1E782C, .8);
-    }
-    
-    .notLowestSeller {
-        background-color: transparentize(#A02021, .8);
-    }
-    
     .nameColumn {
-        width: 180px;
+        max-width: 230px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -56,17 +68,24 @@
     .tableRowLeft {
         padding-right: 10px;
         text-align: left;
+        font-size: 90%;
     }
     
     .tableRowRight {
         padding-right: 10px;
         text-align: end;
-        font-size: 90%;
+        font-size: 85%;
     }
 
     .hideOnPhone {
         @include breakpoint(625px) {
             display: none;
+          }
+    }
+
+    .shortOnPhone {
+        @include breakpoint(625px) {
+            max-width: 120px;
           }
     }
 }

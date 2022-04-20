@@ -11,6 +11,11 @@ export class UniverseService {
 
   constructor(private esiDataService: EsiDataRepositoryService) { }
 
+  public getImageUrlForType(typeId: number, size: number = 64) : string {
+    const url = `https://imageserver.eveonline.com/Type/${typeId}_${size}.png`
+    return url;
+  }
+
   public getItemDetails(typeId: number) : Observable<ItemDetails> {
     const url = environment.esiBaseUrl + `/universe/types/${typeId}/`
     return this.esiDataService.getRequest<ItemDetails>(url)
