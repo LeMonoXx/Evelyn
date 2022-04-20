@@ -22,8 +22,10 @@
             flex-wrap: nowrap;
 
             .itemInfo {
-                display: inline-flex;
-                width: 400px;
+                display: flex;
+                width: 85%;
+                flex-wrap: nowrap;
+                overflow: hidden;
 
                 .itemDetails {
                     margin: 5px;
@@ -33,10 +35,10 @@
                     text-align: left;
                     
                     .itemInfoName{
-                        font-style: italic;
                         white-space: nowrap;
                         overflow: hidden;
                         text-overflow: ellipsis;
+                        cursor: copy;
                     }
                 
                     .itemInfoId {
@@ -48,6 +50,9 @@
             } 
 
             .interactionButtons {
+                display: flex;
+                align-items: flex-start;
+                flex-direction: row;
 
                 .mat-button {
                     line-height: 15px;

@@ -8,7 +8,7 @@
 
    <div class="sellDetailsAndOrders">
       <div class="stationPriceMatCard">   
-         <mat-card>
+         <mat-card class="default-mat-card">
             <ng-container *ngIf="currentItemObs | async; else NoItemSpecified"
             class="stationPriceContent">
                   <eve-item-station-price
@@ -23,14 +23,14 @@
       </div>
 
       <div class="stationOrderStatus">   
-         <mat-card>
+         <mat-card class="default-mat-card">
             <mat-card-title>Shopping list</mat-card-title>
                <app-shopping-list></app-shopping-list>  
          </mat-card>
       </div>
       
       <div class="stationOrderStatus">
-         <mat-card>
+         <mat-card class="default-mat-card">
             <mat-card-title>Active Orders</mat-card-title>
             <app-station-order-status
                [structure$]="currentSellStationObs">

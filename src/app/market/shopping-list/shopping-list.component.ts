@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
-import { ShoppingEntry, ShoppingListService, UniverseService } from 'src/app/shared';
+import { copyToClipboard, ShoppingEntry, ShoppingListService, UniverseService } from 'src/app/shared';
 
 @Component({
   selector: 'app-shopping-list',
@@ -38,5 +38,9 @@ export class ShoppingListComponent implements OnInit {
       return accumulator + current.buy_price;
     }, 0);
     return result;
+  }
+  
+  public copy(text: string) {
+    copyToClipboard(text);
   }
 }

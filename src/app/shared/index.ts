@@ -12,4 +12,4 @@ export * from './services/universe.service'
 
 export * from './functions/shipping-costs'
 export * from './functions/storage'
-
+export * from './functions/clipboard'

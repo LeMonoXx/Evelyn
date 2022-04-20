@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { combineLatest, map, mergeMap, Observable, switchMap } from 'rxjs';
 import { ItemDetails, MarketEntry, StationDetails, StructureDetails } from 'src/app/models';
-import { CalculateShippingCost, FavoritesService, ItemIdentifier, MarketService, SellPrice, ShoppingEntry, ShoppingListService, UniverseService } from 'src/app/shared';
+import { CalculateShippingCost, copyToClipboard, FavoritesService, ItemIdentifier, MarketService, SellPrice, ShoppingEntry, ShoppingListService, UniverseService } from 'src/app/shared';
 
 @Component({
   selector: 'eve-item-station-price',
@@ -134,5 +134,9 @@ export class ItemStationPriceComponent implements OnInit {
 
   public IsFavorite(type_id: number): boolean {
     return this.favoriteService.ContainsItem(type_id);
+  }
+ 
+  public copy(text: string) {
+    copyToClipboard(text);
   }
 }

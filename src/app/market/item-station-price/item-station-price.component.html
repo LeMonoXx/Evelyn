@@ -6,7 +6,8 @@
                     <img class="foundItemImage" [src]="imageSource">
                 </div>
                 <div class="itemDetails">
-                    <div class="itemInfoName" [title]="item.name">{{ item.name }}</div>
+                    <div class="itemInfoName" [title]="item.name"
+                        (click)="copy(item.name)">{{ item.name }}</div>
                     <div class="itemInfoId">{{ item.id }}</div>
                     <div *ngIf="itemDetails$ | async as itemDetails" class="itemInfoId"> {{ itemDetails.packaged_volume }} m³ </div>
                 </div>
