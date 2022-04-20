@@ -1,9 +1,12 @@
-.loginComponent {
+@import '../../styles/variables';
+@import '../../styles/functions';
+
+.headerComponent {
     overflow: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
+
     .serverStatus {
         text-align: center;
         font-size: 75%;

@@ -2,12 +2,23 @@
    General styles:
    ========================================================================== */
 
+
+  @font-face {
+    font-family: eve-font;
+    src: url('./assets/fonts/evesansneue-regular.otf');
+  } 
+
+  @font-face {
+      font-family: eve-font-bold;
+      src: url('./assets/fonts/evesansneue-bold.otf');
+  }
+
    body {
     color: var(--foreground);
     background-color: var(--background);
     font-size: 1em;
     line-height: 1.4;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans', sans-serif, 'eve-font', ;
     margin: 0px;
     overflow-x: hidden;
   }

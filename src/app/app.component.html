@@ -1,6 +1,26 @@
-<div class="container">
-    <div class="appevelogin">
-        <app-eve-login class="loginWidth"></app-eve-login> 
+<div class="AppContainer">
+    <div class="appheader">
+        <app-header [matSideNav]="sidenav" class="headerWidth"></app-header>
     </div>
-    <router-outlet></router-outlet>
+
+    <mat-sidenav-container class="app-mat-sidenav-content">
+        <mat-sidenav #sidenav mode="side">
+            <mat-nav-list class="appNavigationList">
+                <a mat-list-item routerLink="/trade"
+                title="Trading" routerLinkActive="active">
+                    <img class="mat-list-item-image" src="../assets/icons/eve-icons/market.svg">
+                </a>
+                <a mat-list-item routerLink="/production" 
+                title="Production" routerLinkActive="active">
+                    <img class="mat-list-item-image" src="../assets/icons/eve-icons/industry.svg">
+                </a>      
+             </mat-nav-list>  
+        </mat-sidenav>
+      
+        <mat-sidenav-content>
+            <!-- <div> -->
+                <router-outlet></router-outlet>
+            <!-- </div> -->
+        </mat-sidenav-content>
+    </mat-sidenav-container>
 </div>

@@ -1,11 +1,10 @@
-<div class="loginComponent">
-    <a routerLink="/StationToStationTrade" routerLinkActive="active">Trade</a>
-
-    <a routerLink="/production" routerLinkActive="active">Production</a>
+<div class="headerComponent">
+    <button mat-button (click)="matSideNav.toggle()">
+        <mat-icon>menu</mat-icon>
+    </button>
 
     <div *ngIf="!(authStatus | async)" class="loginButtonContainer">
         <input type="image" src="../../assets/icons/eve-sso-login-black-small.png" (click)="startLogin()"/> 
-        <!-- <button *ngIf="!authValid" class="loginButton" type="button" (click)="startLogin()"></button> -->
     </div>
 
     <div *ngIf="authStatus | async">

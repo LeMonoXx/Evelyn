@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 import { Observable, switchMap, tap } from 'rxjs';
 import { IAuthResponseData, AuthService } from '../auth';
 import { AuthenticatedCharacter, Portrait, ServerStatus } from '../models';
@@ -7,12 +8,15 @@ import { EsiDataRepositoryService } from '../repositories/esi-data-repository.se
 import { CharacterService } from '../shared';
 
 @Component({
-  selector: 'app-eve-login',
-  templateUrl: './eve-login.component.html',
-  styleUrls: ['./eve-login.component.scss'],
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class EveLoginComponent implements OnInit{
+export class HeaderComponent implements OnInit{
+
+  @Input()
+  public matSideNav: MatSidenav;
 
   public statusObs : Observable<ServerStatus> | undefined;
   public characterObs : Observable<AuthenticatedCharacter> | undefined;

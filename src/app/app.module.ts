@@ -10,7 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { HttpClientModule } from '@angular/common/http';
-import { EveLoginComponent } from './eve-login/eve-login.component';
+import { HeaderComponent } from './header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -25,6 +25,8 @@ import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDividerModule} from '@angular/material/divider';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
 
 import { httpInterceptorProviders } from './http-interceptors';
 import { EveSearchComponent } from './eve-search/eve-search.component';
@@ -42,7 +44,7 @@ import { ShoppingListComponent } from './market/shopping-list/shopping-list.comp
     StationToStationTradeComponent,
     EveSearchComponent,
     ItemStationPriceComponent,
-    EveLoginComponent,
+    HeaderComponent,
     StationOrderStatusComponent,
     ShoppingListComponent
   ],
@@ -68,7 +70,9 @@ import { ShoppingListComponent } from './market/shopping-list/shopping-list.comp
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatSidenavModule,
+    MatListModule
   ],
   providers: [
     httpInterceptorProviders,

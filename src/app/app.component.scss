@@ -1,21 +1,37 @@
 @import '../styles/variables';
 @import '../styles/functions';
 
-.container {
+.AppContainer {
   background-color: $background;
   color: $foreground;
-  font: $text-font-family;
-  min-height: 100%;
+  font-family: $text-font-family;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
 
-  .appevelogin {
+  .appheader {
       z-index: 998;
       position: sticky;
       top: 0px;
       padding: 10px;
       background: $accent1;
 
-      .loginWidth {
+      .headerWidth {
           width: 100%;
       }
+  }
+
+  .appNavigationList {
+
+    .mat-list-item-image {
+      padding: 10px;
+      width: 50px;
+      filter: brightness(0) invert(100%);
+    }
+  }
+
+  .app-mat-sidenav-content {
+    height:100%;
+    overflow-y: auto;
   }
 }
