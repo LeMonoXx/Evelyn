@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map, Observable, ReplaySubject, shareReplay, startWith, Subject, switchMap } from 'rxjs';
-import { ItemDetails } from 'src/app/models';
+import { ItemDetails, StationDetails, StructureDetails } from 'src/app/models';
+import { storeSelectedStation, storeSelectedStructure } from '../functions/storage';
 import { ItemIdentifier } from '../models/item-identifier';
 import { UniverseService } from './universe.service';
 
@@ -8,6 +9,16 @@ import { UniverseService } from './universe.service';
   providedIn: 'root'
 })
 export class ItemSearchService {
+
+  private buyStation$ : Subject<StationDetails> = new ReplaySubject(1);
+  public BuyStationObs: Observable<StationDetails>;
+
+  private sellStructure$ : Subject<StructureDetails> = new ReplaySubject(1);
+  public SellStructureObs: Observable<StructureDetails>;
+
+
+  private accoutingSkillLevel$ : Subject<number> = new ReplaySubject(1);
+  public AccoutingSkillLevelObs: Observable<number>;
 
   private itemCount$ : Subject<number> = new ReplaySubject(1);
   public ItemCountObs: Observable<number>;
@@ -27,9 +38,21 @@ export class ItemSearchService {
       );
 
     this.ItemCountObs = this.itemCount$.asObservable()
-                                      .pipe(
-                                        startWith(1), 
-                                        shareReplay(1));
+      .pipe(
+        startWith(1), 
+        shareReplay(1));
+
+    this.AccoutingSkillLevelObs = this.accoutingSkillLevel$.asObservable()
+      .pipe(
+        startWith(1), 
+        shareReplay(1));
+    
+
+    this.BuyStationObs = this.buyStation$.asObservable()
+    .pipe(shareReplay(1));
+
+    this.SellStructureObs = this.sellStructure$.asObservable()
+    .pipe(shareReplay(1));
    }
 
   public setCurrentItem(item : ItemIdentifier) {
@@ -38,5 +61,19 @@ export class ItemSearchService {
 
   public setItemCount(count : number) {
     this.itemCount$.next(count);
+  }
+
+  public setAccountingSkillLevel(level: number) {
+    this.accoutingSkillLevel$.next(level);
+  }
+
+  public setBuyStation(station: StationDetails) {
+    storeSelectedStation(station);
+    this.buyStation$.next(station);
+  }
+
+  public setSellStructure(structure: StructureDetails) {
+    storeSelectedStructure(structure);
+    this.sellStructure$.next(structure);
   }
 }

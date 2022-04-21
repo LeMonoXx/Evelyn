@@ -42,13 +42,15 @@ export class EsiDataRepositoryService {
         while(curPage < result.totalPages) {
               // we start with page=1. so we count up directly
               curPage++;
-              const newRequest = this.httpClient.get<Array<T>>( url + `?page=${curPage}`, this.options);
+              const newRequest = this.httpClient.get<Array<T>>( url + `?page=${curPage}`, this.options)
+                                  .pipe(shareReplay(1));
               result.resultSet.push(newRequest);
             }
         return result.resultSet;
       }),
       switchMap(a => forkJoin(a)),
-      map(fork => fork.reduce((result, arr) => [...result, ...arr], []))
+      map(fork => fork.reduce((result, arr) => [...result, ...arr], [])),
+      shareReplay(1)
     );
 
     return result;

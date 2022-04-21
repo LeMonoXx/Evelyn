@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { combineLatest, forkJoin, map, mergeMap, Observable, switchMap } from 'rxjs';
+import { combineLatest, debounceTime, defaultIfEmpty, forkJoin, map, mergeMap, Observable, switchMap, tap } from 'rxjs';
 import { ItemDetails, MarketEntry, MarketOrder, StructureDetails } from 'src/app/models';
 import { CharacterService, copyToClipboard, MarketService, UniverseService } from 'src/app/shared';
 
@@ -15,7 +15,7 @@ export class StationOrderStatusComponent implements OnInit {
   @Input()
   public structure$ : Observable<StructureDetails>;
   
-  public charMarketOrdersObs: Observable<{ marketOrder: MarketOrder, itemDetails: ItemDetails, marketEntry: MarketEntry }[]>;
+  public charMarketOrdersObs: Observable<{ marketOrder?: MarketOrder, itemDetails?: ItemDetails, marketEntry?: MarketEntry }[] | null>;
 
   constructor(private marketService: MarketService,
     private characterService: CharacterService,
@@ -26,7 +26,8 @@ export class StationOrderStatusComponent implements OnInit {
 
     const characterObs = this.characterService.getAuthenticatedCharacterInfo();
 
-    this.charMarketOrdersObs = combineLatest([characterObs, this.structure$]).pipe(
+    this.charMarketOrdersObs = combineLatest([characterObs, this.structure$]).pipe(   
+      debounceTime(500),
       mergeMap(([character, structure]) => 
         this.marketService.getMarketOrders(structure.evelyn_structureId, character.CharacterID, false).pipe(
           map(orders => {
@@ -50,11 +51,18 @@ export class StationOrderStatusComponent implements OnInit {
             } )
             return requests;
           }),
-          mergeMap(array => forkJoin(array)),
-          map(entries => entries.sort((a, b) => 
-            a.marketOrder.price > b.marketOrder.price ? -1 : 1 ||
-            a.itemDetails.type_id - b.itemDetails.type_id))
-          ))
+          mergeMap(array => forkJoin(array).pipe(
+            defaultIfEmpty(null))
+            ),
+          map(entries => {
+            if(entries) {
+              entries.sort((a, b) => 
+              a.marketOrder.price > b.marketOrder.price ? -1 : 1 ||
+              a.itemDetails.type_id - b.itemDetails.type_id)
+              return entries;
+            }
+            return null;
+          })))
       );
   }
 

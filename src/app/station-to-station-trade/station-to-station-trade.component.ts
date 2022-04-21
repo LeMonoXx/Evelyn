@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { map, Observable, switchMap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { AuthService, IAuthResponseData } from '../auth';
 import { ItemDetails, StationDetails, StructureDetails } from '../models';
-import { EsiDataRepositoryService } from '../repositories/esi-data-repository.service';
-import { EveMarketerDataRepositoryService } from '../repositories/evemarketer-data-repository.service';
-import { calculateTaxPercentBySkillLevel, CharacterService, ItemIdentifier, ItemSearchService, MarketService, ShoppingEntry, ShoppingListService, UniverseService } from '../shared';
+import { calculateTaxPercentBySkillLevel, ItemIdentifier, 
+  ItemSearchService, JitaIVMoon4CaldariNavyAssemblyPlant_STATION_ID, MJ5F9BEANSTAR_STRUCTURE_ID, 
+  ShoppingEntry, ShoppingListService, UniverseService } from '../shared';
 
 @Component({
   selector: 'app-station-to-station-trade',
@@ -15,7 +15,7 @@ import { calculateTaxPercentBySkillLevel, CharacterService, ItemIdentifier, Item
 export class StationToStationTradeComponent implements OnInit {
 
   public currentItemObs: Observable<ItemIdentifier>;
-  public currentSellStationObs: Observable<StructureDetails>;
+  public currentSellStructureObs: Observable<StructureDetails>;
   public numberCountObs: Observable<number>;
   public itemDetailsObs: Observable<ItemDetails>;
   public currentBuyStationObs: Observable<StationDetails>;
@@ -27,32 +27,20 @@ export class StationToStationTradeComponent implements OnInit {
     private itemSearchService: ItemSearchService,
     private universeService: UniverseService,
     private authService: AuthService,
-    private characterService: CharacterService,
     private shoppingListService: ShoppingListService) {
 
       this.currentItemObs = this.itemSearchService.CurrentItemObs;
       this.numberCountObs = this.itemSearchService.ItemCountObs;
       this.itemDetailsObs = this.itemSearchService.CurrentItemDetailsObs;
-      this.authStatusObs = this.authService.authObs;
-     }
+      this.authStatusObs = this.authService.authObs;    
+      this.currentBuyStationObs = this.itemSearchService.BuyStationObs;
+      this.currentSellStructureObs = this.itemSearchService.SellStructureObs;
+    }
 
   ngOnInit(): void {
-    
-    this.currentSellStationObs = this.universeService.getStructureDetails(1038457641673);
-    this.currentBuyStationObs = this.universeService.getStationDetails(60003760);
-    this.characterSaleTaxPercentObs = this.characterService.getAuthenticatedCharacterInfo().pipe(
-      switchMap(character => this.characterService.getCharacterSkills(character.CharacterID)),
-      map(characterSkill => {
-        const salesSkill = characterSkill.skills.find(skill => skill.skill_id === 16622);
-        
-        // default is 8% tax;
-        let result = 8;
-        if(salesSkill) {
-          result = calculateTaxPercentBySkillLevel(salesSkill.active_skill_level);
-        }
 
-        return result;
-      }));
+    this.characterSaleTaxPercentObs = this.itemSearchService.AccoutingSkillLevelObs.pipe(
+      map(level => calculateTaxPercentBySkillLevel(level)));
 
       this.shoppingListObs = this.shoppingListService.ShoppingListObs
       .pipe(map(entries => entries.filter(entry => entry.type_id > 0)));

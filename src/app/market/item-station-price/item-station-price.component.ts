@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { combineLatest, map, mergeMap, Observable, switchMap } from 'rxjs';
+import { combineLatest, debounceTime, map, merge, mergeMap, Observable, switchMap } from 'rxjs';
 import { ItemDetails, MarketEntry, StationDetails, StructureDetails } from 'src/app/models';
 import { CalculateShippingCost, copyToClipboard, FavoritesService, ItemIdentifier, MarketService, SellPrice, ShoppingEntry, ShoppingListService, UniverseService } from 'src/app/shared';
 
@@ -19,7 +19,7 @@ export class ItemStationPriceComponent implements OnInit {
   @Input()
   public buyStation$: Observable<StationDetails>;
   @Input()
-  public sellStation$ : Observable<StructureDetails>; //1038457641673
+  public sellStation$ : Observable<StructureDetails>;
   @Input()
   public itemIdentifier$: Observable<ItemIdentifier>;
   @Input()
@@ -52,6 +52,7 @@ export class ItemStationPriceComponent implements OnInit {
         
 
       this.itemSellCostObs$ = combineLatest([this.sellStation$, this.itemIdentifier$]).pipe(
+        debounceTime(250),
         mergeMap(([sellStation, itemIdentifier]) =>  
           this.marketService.getStructureMarketForItem(sellStation.evelyn_structureId, itemIdentifier.id, false)
         ));
@@ -65,6 +66,7 @@ export class ItemStationPriceComponent implements OnInit {
             this.itemSellCostObs$,
             this.saleTaxPercent$
           ]).pipe(
+            debounceTime(250),
             map((
               [
                 count, 
