@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { combineLatest, forkJoin, map, mergeMap, Observable, switchMap } from 'rxjs';
 import { ItemDetails, MarketEntry, MarketOrder, StructureDetails } from 'src/app/models';
 import { CharacterService, copyToClipboard, MarketService, UniverseService } from 'src/app/shared';
@@ -18,7 +19,8 @@ export class StationOrderStatusComponent implements OnInit {
 
   constructor(private marketService: MarketService,
     private characterService: CharacterService,
-    private universeService: UniverseService) { }
+    private universeService: UniverseService,
+    private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
 
@@ -62,5 +64,7 @@ export class StationOrderStatusComponent implements OnInit {
 
   public copy(text: string) {
     copyToClipboard(text);
+    
+    this.snackBar.open("Copied!", undefined, { duration: 2000 });
   }
 }

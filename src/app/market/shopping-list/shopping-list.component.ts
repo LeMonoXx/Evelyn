@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { map, Observable, tap } from 'rxjs';
 import { copyToClipboard, ShoppingEntry, ShoppingListService, UniverseService } from 'src/app/shared';
 
@@ -8,17 +9,15 @@ import { copyToClipboard, ShoppingEntry, ShoppingListService, UniverseService } 
   styleUrls: ['./shopping-list.component.scss']
 })
 export class ShoppingListComponent implements OnInit {
-  public shoppingListObs: Observable<ShoppingEntry[]>;
+
+  @Input()
+  public shoppingList$: Observable<ShoppingEntry[]>;
 
   constructor(private shoppingListService: ShoppingListService,
-    private universeService: UniverseService) { }
+    private universeService: UniverseService,
+    private snackBar: MatSnackBar) { }
 
-  ngOnInit(): void {
-
-    this.shoppingListObs = this.shoppingListService.ShoppingListObs
-      .pipe(map(entries => entries.filter(entry => entry.type_id > 0))
-        );
-  }
+  ngOnInit(): void { }
 
   public getImageForItem(typeId: number): string {
     return this.universeService.getImageUrlForType(typeId, 32);
@@ -44,5 +43,7 @@ export class ShoppingListComponent implements OnInit {
   
   public copy(text: string) {
     copyToClipboard(text);
+    
+    this.snackBar.open("Copied!", undefined, { duration: 2000 });
   }
 }

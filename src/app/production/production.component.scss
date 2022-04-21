@@ -3,4 +3,6 @@
 
 .divProductionComponent {
     width: 100%;
+      // we need this, because we have a sticky header with over 56px.
+    padding-bottom: 70px;
 }

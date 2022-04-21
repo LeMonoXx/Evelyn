@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { combineLatest, map, mergeMap, Observable, switchMap } from 'rxjs';
 import { ItemDetails, MarketEntry, StationDetails, StructureDetails } from 'src/app/models';
 import { CalculateShippingCost, copyToClipboard, FavoritesService, ItemIdentifier, MarketService, SellPrice, ShoppingEntry, ShoppingListService, UniverseService } from 'src/app/shared';
@@ -34,7 +35,8 @@ export class ItemStationPriceComponent implements OnInit {
     private marketService: MarketService, 
     private universeService: UniverseService,
     private shopphingListService: ShoppingListService,
-    private favoriteService: FavoritesService) {
+    private favoriteService: FavoritesService,
+    private snackBar: MatSnackBar) {
 
    }
 
@@ -155,5 +157,7 @@ export class ItemStationPriceComponent implements OnInit {
  
   public copy(text: string) {
     copyToClipboard(text);
+
+    this.snackBar.open("Copied!", undefined, { duration: 2000 });
   }
 }

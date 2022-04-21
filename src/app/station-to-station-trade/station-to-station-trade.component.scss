@@ -9,6 +9,8 @@
   padding: 10px;
   flex-wrap: nowrap;
   justify-content: flex-start;
+  // we need this, because we have a sticky header with over 56px.
+  padding-bottom: 70px;
 
   .default-mat-card {
     width: 565px;

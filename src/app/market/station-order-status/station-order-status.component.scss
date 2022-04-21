@@ -41,7 +41,7 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         font-size: 90%;
-        cursor: copy;
+        cursor: pointer;
 
         @include breakpoint(625px) {
             width: 130px;

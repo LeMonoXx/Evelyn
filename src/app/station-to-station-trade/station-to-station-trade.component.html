@@ -23,9 +23,11 @@
          </mat-card>
       </div>
 
-      <div class="stationOrderStatus">   
-         <mat-card class="default-mat-card">
-               <app-shopping-list></app-shopping-list>  
+      <div class="stationOrderStatus" *ngIf="shoppingListObs | async as list">   
+         <mat-card class="default-mat-card" *ngIf="list.length > 0">
+            <app-shopping-list
+               [shoppingList$]="shoppingListObs">
+            </app-shopping-list>  
          </mat-card>
       </div>
       

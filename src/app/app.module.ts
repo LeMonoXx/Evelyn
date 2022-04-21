@@ -27,6 +27,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDividerModule} from '@angular/material/divider';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 import { httpInterceptorProviders } from './http-interceptors';
 import { EveSearchComponent } from './eve-search/eve-search.component';
@@ -72,7 +73,8 @@ import { ShoppingListComponent } from './market/shopping-list/shopping-list.comp
     MatFormFieldModule,
     MatAutocompleteModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatSnackBarModule
   ],
   providers: [
     httpInterceptorProviders,

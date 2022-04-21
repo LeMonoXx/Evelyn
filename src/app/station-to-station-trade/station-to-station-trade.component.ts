@@ -4,7 +4,7 @@ import { AuthService, IAuthResponseData } from '../auth';
 import { ItemDetails, StationDetails, StructureDetails } from '../models';
 import { EsiDataRepositoryService } from '../repositories/esi-data-repository.service';
 import { EveMarketerDataRepositoryService } from '../repositories/evemarketer-data-repository.service';
-import { calculateTaxPercentBySkillLevel, CharacterService, ItemIdentifier, ItemSearchService, MarketService, UniverseService } from '../shared';
+import { calculateTaxPercentBySkillLevel, CharacterService, ItemIdentifier, ItemSearchService, MarketService, ShoppingEntry, ShoppingListService, UniverseService } from '../shared';
 
 @Component({
   selector: 'app-station-to-station-trade',
@@ -21,14 +21,14 @@ export class StationToStationTradeComponent implements OnInit {
   public currentBuyStationObs: Observable<StationDetails>;
   public authStatusObs: Observable<IAuthResponseData | null>;
   public characterSaleTaxPercentObs: Observable<number>;
+  public shoppingListObs: Observable<ShoppingEntry[]>;
 
-  constructor(public esiDataService: EsiDataRepositoryService,
-    public eveMarketerDataService: EveMarketerDataRepositoryService,
-    public itemSearchService: ItemSearchService,
-    public universeService: UniverseService,
-    public marketService: MarketService,
+  constructor(
+    private itemSearchService: ItemSearchService,
+    private universeService: UniverseService,
     private authService: AuthService,
-    private characterService: CharacterService ) {
+    private characterService: CharacterService,
+    private shoppingListService: ShoppingListService) {
 
       this.currentItemObs = this.itemSearchService.CurrentItemObs;
       this.numberCountObs = this.itemSearchService.ItemCountObs;
@@ -41,19 +41,21 @@ export class StationToStationTradeComponent implements OnInit {
     this.currentSellStationObs = this.universeService.getStructureDetails(1038457641673);
     this.currentBuyStationObs = this.universeService.getStationDetails(60003760);
     this.characterSaleTaxPercentObs = this.characterService.getAuthenticatedCharacterInfo().pipe(
-                                    switchMap(character => this.characterService.getCharacterSkills(character.CharacterID)),
-                                    map(characterSkill => {
-                                      const salesSkill = characterSkill.skills.find(skill => skill.skill_id === 16622);
-                                      
-                                      // default is 8% tax;
-                                      let result = 8;
-                                      if(salesSkill) {
-                                        result = calculateTaxPercentBySkillLevel(salesSkill.active_skill_level);
-                                      }
+      switchMap(character => this.characterService.getCharacterSkills(character.CharacterID)),
+      map(characterSkill => {
+        const salesSkill = characterSkill.skills.find(skill => skill.skill_id === 16622);
+        
+        // default is 8% tax;
+        let result = 8;
+        if(salesSkill) {
+          result = calculateTaxPercentBySkillLevel(salesSkill.active_skill_level);
+        }
 
-                                      return result;
-                                    })
-    )
+        return result;
+      }));
+
+      this.shoppingListObs = this.shoppingListService.ShoppingListObs
+      .pipe(map(entries => entries.filter(entry => entry.type_id > 0)));
 
   }
 }

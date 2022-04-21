@@ -38,7 +38,7 @@
                         white-space: nowrap;
                         overflow: hidden;
                         text-overflow: ellipsis;
-                        cursor: copy;
+                        cursor: pointer;
                     }
                 
                     .itemInfoId {
@@ -64,7 +64,7 @@
                     }
                     
                     .fillIcon {
-                        color: $accent1-soft1;
+                        color: $accent2-soft2;
                     }
                 }
             }

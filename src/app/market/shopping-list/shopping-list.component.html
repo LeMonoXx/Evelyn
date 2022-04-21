@@ -8,8 +8,8 @@
     </mat-card-actions>
  </div>
 
-<div class="shoppingListDiv" *ngIf="shoppingListObs | async as entries">
-    <table mat-table *ngIf="entries && entries.length > 0" [dataSource]="shoppingListObs">
+<div class="shoppingListDiv" *ngIf="shoppingList$ | async as entries">
+    <table mat-table *ngIf="entries && entries.length > 0" [dataSource]="shoppingList$">
         <ng-container matColumnDef="image">
             <th mat-header-cell *matHeaderCellDef class="tableRowCenter"> Image </th>
             <td mat-cell *matCellDef="let element" class="tableRowCenter"><img class="foundItemImage" [src]="getImageForItem(element.type_id)"></td>

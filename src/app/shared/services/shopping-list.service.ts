@@ -66,7 +66,7 @@ export class ShoppingListService {
       const indexOfEntry = entries.findIndex(entry => entry.type_id === item.type_id);
 
       if(indexOfEntry >= 0) {
-        entries.splice(indexOfEntry);
+        entries.splice(indexOfEntry, 1);
         this.shoppingList$.next(entries);
       }
     }
