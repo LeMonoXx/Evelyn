@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { filter, map, Observable } from 'rxjs';
-import { MarketEntry } from 'src/app/models';
+import { MarketEntry, MarketHistory } from 'src/app/models';
 import { MarketOrder } from 'src/app/models/market/market-order';
 import { EsiDataRepositoryService } from 'src/app/repositories/esi-data-repository.service';
 import { environment } from 'src/environments/environment';
@@ -35,6 +35,12 @@ export class MarketService {
       map(entries => {
         return entries.sort((a, b) => a.price - b.price)
       }));
+  }
+
+  public getHistoricalDataForItem(itemId: number, regionId: number): Observable<MarketHistory[]> {
+    const url = environment.esiBaseUrl + `/markets/${regionId}/history/?type_id=${itemId}`
+
+    return this.esiDataService.getRequest<MarketHistory[]>(url);
   }
 
   public getMarketOrders(structureId: number, characterId: number, isBuyOrder: boolean): Observable<MarketOrder[]> {

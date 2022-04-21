@@ -22,8 +22,14 @@
             </ng-container>  
          </mat-card>
       </div>
+      <mat-card class="default-mat-card">
+         <app-item-history
+            [itemIdentifier$]="currentItemObs"
+            [region$]="currentRegionObs">
+         </app-item-history>
+      </mat-card>
 
-      <div class="stationOrderStatus" *ngIf="shoppingListObs | async as list">   
+      <div *ngIf="shoppingListObs | async as list">   
          <mat-card class="default-mat-card" *ngIf="list.length > 0">
             <app-shopping-list
                [shoppingList$]="shoppingListObs">
@@ -31,14 +37,12 @@
          </mat-card>
       </div>
       
-      <div class="stationOrderStatus">
-         <mat-card class="default-mat-card">
-            <mat-card-title>Active Orders</mat-card-title>
-            <app-station-order-status
-               [structure$]="currentSellStructureObs">
-            </app-station-order-status>
-         </mat-card>
-      </div>
+      <!-- <mat-card class="default-mat-card">
+         <mat-card-title>Active Orders</mat-card-title>
+         <app-station-order-status
+            [structure$]="currentSellStructureObs">
+         </app-station-order-status>
+      </mat-card> -->
    </div>
 </div>
 

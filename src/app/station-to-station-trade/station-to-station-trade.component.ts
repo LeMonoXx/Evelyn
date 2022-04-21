@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, ReplaySubject } from 'rxjs';
 import { AuthService, IAuthResponseData } from '../auth';
 import { ItemDetails, StationDetails, StructureDetails } from '../models';
 import { calculateTaxPercentBySkillLevel, ItemIdentifier, 
   ItemSearchService, JitaIVMoon4CaldariNavyAssemblyPlant_STATION_ID, MJ5F9BEANSTAR_STRUCTURE_ID, 
+  MJ5F9_REGION_ID, 
   ShoppingEntry, ShoppingListService, UniverseService } from '../shared';
 
 @Component({
@@ -22,10 +23,10 @@ export class StationToStationTradeComponent implements OnInit {
   public authStatusObs: Observable<IAuthResponseData | null>;
   public characterSaleTaxPercentObs: Observable<number>;
   public shoppingListObs: Observable<ShoppingEntry[]>;
+  public currentRegionObs: Observable<number> = new BehaviorSubject<number>(MJ5F9_REGION_ID);
 
   constructor(
     private itemSearchService: ItemSearchService,
-    private universeService: UniverseService,
     private authService: AuthService,
     private shoppingListService: ShoppingListService) {
 

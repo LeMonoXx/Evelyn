@@ -40,6 +40,7 @@ import { StationToStationTradeComponent } from './station-to-station-trade/stati
 import { AuthModule } from './auth/auth.module';
 import { StationOrderStatusComponent } from './market/station-order-status/station-order-status.component';
 import { ShoppingListComponent } from './market/shopping-list/shopping-list.component';
+import { ItemHistoryComponent } from './market/item-history/item-history.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { ShoppingListComponent } from './market/shopping-list/shopping-list.comp
     ItemStationPriceComponent,
     HeaderComponent,
     StationOrderStatusComponent,
-    ShoppingListComponent
+    ShoppingListComponent,
+    ItemHistoryComponent
   ],
   imports: [
     HttpClientModule,

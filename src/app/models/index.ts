@@ -12,6 +12,7 @@ export * from './eve-maketer/marketer-search-result'
 
 export * from './market/market-entry'
 export * from './market/market-order'
+export * from './market/market-history'
 
 export * from './types/dogma-attribute'
 export * from './types/dogma-effect'
