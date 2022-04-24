@@ -22,12 +22,12 @@
             </ng-container>  
          </mat-card>
       </div>
-      <!-- <mat-card class="default-mat-card">
+      <mat-card class="default-mat-card">
          <app-item-history
             [itemIdentifier$]="currentItemObs"
             [region$]="currentRegionObs">
          </app-item-history>
-      </mat-card> -->
+      </mat-card>
 
       <div *ngIf="shoppingListObs | async as list">   
          <mat-card class="default-mat-card" *ngIf="list.length > 0">
