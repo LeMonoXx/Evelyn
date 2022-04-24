@@ -23,9 +23,15 @@
 
             .itemInfo {
                 display: flex;
-                width: 85%;
                 flex-wrap: nowrap;
                 overflow: hidden;
+
+                @include breakpoint(490px) {
+                    max-width: 250px;
+                  }
+                @include breakpoint(410px) {
+                    max-width: 250px;
+                  }
 
                 .itemDetails {
                     margin: 5px;
