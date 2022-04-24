@@ -21,20 +21,24 @@
       width: 565px;
     }
 
-    @include breakpoint(888px) {
+    @include breakpoint(991px) {
       width: auto;
     }
   }
 
-  @include breakpoint(888px) {
+  @include breakpoint(991px) {
     flex-direction: column;
   }
 
   .searchContent {
-    flex: 0 0 200px;
-
-    @include breakpoint(888px) {
-      flex: auto;
+  //  flex: 0 0 250px;
+    width: 260px;
+    @include breakpoint(1052px) {
+      width: 200px;
+    }
+    @include breakpoint(991px) {
+  //    flex: auto;
+      width: auto;
     }
   }
 
@@ -47,7 +51,11 @@
     justify-content: center;
     flex-wrap: wrap;
 
-    @include breakpoint(888px) {
+    @include breakpoint(1546px) {
+      column-gap: 0px;
+    }
+
+    @include breakpoint(991px) {
       flex-direction: column;
     }
   
