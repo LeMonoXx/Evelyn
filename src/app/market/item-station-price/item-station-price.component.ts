@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { combineLatest, debounceTime, map, merge, mergeMap, Observable, switchMap } from 'rxjs';
+import { combineLatest, debounceTime, filter, map, merge, mergeMap, Observable, switchMap } from 'rxjs';
 import { ItemDetails, MarketEntry, StationDetails, StructureDetails } from 'src/app/models';
-import { CalculateShippingCost, copyToClipboard, FavoritesService, ItemIdentifier, MarketService, SellPrice, ShoppingEntry, ShoppingListService, UniverseService } from 'src/app/shared';
+import { CalculateShippingCost, copyToClipboard, FavoritesService, ItemIdentifier, JITA_REGION_ID, MarketService, SellPrice, ShoppingEntry, ShoppingListService, UniverseService } from 'src/app/shared';
 
 @Component({
   selector: 'eve-item-station-price',
@@ -46,13 +46,17 @@ export class ItemStationPriceComponent implements OnInit {
         return this.universeService.getImageUrlForType(item.id, 64);
       }));
 
-      this.itemBuyCostObs = this.itemIdentifier$.pipe(
-        switchMap(item => this.marketService.getRegionMarketForItem(item.id))
-        );
+      this.itemBuyCostObs = this.buyStation$.pipe(
+        switchMap(station => this.itemIdentifier$.pipe(
+          switchMap(item => this.marketService.getRegionMarketForItem(item.id, JITA_REGION_ID).pipe(
+            // we get the market for the whole region. But we only want Jita.
+            map(entries => entries.filter(entry => entry.location_id === station.station_id))
+          ))
+        )));
         
 
       this.itemSellCostObs$ = combineLatest([this.sellStation$, this.itemIdentifier$]).pipe(
-        debounceTime(250),
+        debounceTime(100),
         mergeMap(([sellStation, itemIdentifier]) =>  
           this.marketService.getStructureMarketForItem(sellStation.evelyn_structureId, itemIdentifier.id, false)
         ));
@@ -66,7 +70,6 @@ export class ItemStationPriceComponent implements OnInit {
             this.itemSellCostObs$,
             this.saleTaxPercent$
           ]).pipe(
-            debounceTime(250),
             map((
               [
                 count, 
