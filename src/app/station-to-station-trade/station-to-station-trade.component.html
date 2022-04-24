@@ -28,6 +28,10 @@
             [region$]="currentRegionObs">
          </app-item-history>
       </mat-card> -->
+      <mat-card class="default-mat-card">
+         <mat-card-title>Trade-Widget</mat-card-title>
+         <app-trade-price-widget></app-trade-price-widget>
+      </mat-card>
 
       <div *ngIf="shoppingListObs | async as list">   
          <mat-card class="default-mat-card" *ngIf="list.length > 0">

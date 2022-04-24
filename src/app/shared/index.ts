@@ -4,6 +4,8 @@ export * from './models/trade-calculation'
 export * from './models/Ids'
 export * from './models/shopping-list/shopping-entry'
 
+export * from './models/favorites/item-trade-favorite'
+
 export * from './services/character.service'
 export * from './services/favorites.service'
 export * from './services/item-search.service'
