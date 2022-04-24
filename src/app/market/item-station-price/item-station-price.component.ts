@@ -1,8 +1,10 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { combineLatest, debounceTime, filter, map, merge, mergeMap, Observable, switchMap } from 'rxjs';
+import { combineLatest, debounceTime, map, mergeMap, Observable, switchMap } from 'rxjs';
 import { ItemDetails, MarketEntry, StationDetails, StructureDetails } from 'src/app/models';
-import { CalculateShippingCost, copyToClipboard, FavoritesService, ItemIdentifier, JITA_REGION_ID, MarketService, SellPrice, ShoppingEntry, ShoppingListService, UniverseService } from 'src/app/shared';
+import { CalculateShippingCost, copyToClipboard, FavoritesService, ItemIdentifier, 
+  JITA_REGION_ID, MarketService, TradeCalculation, 
+  ShoppingEntry, ShoppingListService, UniverseService } from 'src/app/shared';
 
 @Component({
   selector: 'eve-item-station-price',
@@ -27,7 +29,7 @@ export class ItemStationPriceComponent implements OnInit {
   
   public itemBuyCostObs: Observable<MarketEntry[]>;
   public itemSellCostObs$: Observable<MarketEntry[]>;
-  public calculatedSellData$: Observable<SellPrice>;
+  public tradeData$: Observable<TradeCalculation>;
   public currentItemImageSourceObs: Observable<string>;
 
 
@@ -61,7 +63,7 @@ export class ItemStationPriceComponent implements OnInit {
           this.marketService.getStructureMarketForItem(sellStation.evelyn_structureId, itemIdentifier.id, false)
         ));
 
-        this.calculatedSellData$ = 
+        this.tradeData$ = 
         combineLatest(
           [
             this.numberCount$, 
@@ -78,7 +80,7 @@ export class ItemStationPriceComponent implements OnInit {
                 sellEntries,
                 saleTaxPercent
               ]) => {
-            const prices: SellPrice = {
+            const prices: TradeCalculation = {
               quantity: count,
               type_id: itemDetails.type_id,
               type_name: itemDetails.name,
@@ -90,15 +92,46 @@ export class ItemStationPriceComponent implements OnInit {
               saleTax: 0,
               nettoSalePrice: 0,
               profit: 0,
-              shippingCost: 0
+              shippingCost: 0,
+              usedMarketEntries: []
             };
 
+            let totalBuyCost = 0;
+            let countLeft = count;
+
           // the buyEntries are not actual "Buy-Orders".
-          // those are the sell-orders we ar buying from.
+          // those are the sell-orders we are buying from.
           if(buyEntries && buyEntries.length > 0){
-            prices.singleBuyPrice = buyEntries[0].price;
-            prices.buyPriceX = prices.singleBuyPrice * count;
+
+            // we check our buy-amount against the sell-orders volume_remain and the assigned price.
+            for(let i = 0; i < buyEntries.length - 1; i++) {
+              const entry = buyEntries[i];
+
+                const buyAllFromEntry = (entry.volume_remain - countLeft) <= 0;
+                if(buyAllFromEntry){
+                  const costToAdd = (entry.price * entry.volume_remain);
+                  
+                  totalBuyCost += costToAdd; 
+                  countLeft -= entry.volume_remain;
+                  prices.usedMarketEntries.push(entry);
+                } else {
+                  const costToAdd = (entry.price * countLeft);
+                  totalBuyCost += costToAdd;
+                  // we used only a portion of this market entry.
+                  // so we change the volume_remain with the amount we need to use.
+                  entry.volume_remain = countLeft;
+                  prices.usedMarketEntries.push(entry);
+                  countLeft = 0;
+                }
+                  
+                if(countLeft <= 0)
+                break;
+            }
           }
+
+          prices.singleBuyPrice = totalBuyCost / count;
+          prices.buyPriceX = totalBuyCost;
+        
 
           if(sellEntries && sellEntries.length > 0) {
 
@@ -126,7 +159,7 @@ export class ItemStationPriceComponent implements OnInit {
     return this.shopphingListService.ContainsItem(type_id);
   }
 
-  public addOrRemoveShoppingList(sell: SellPrice) {
+  public addOrRemoveShoppingList(sell: TradeCalculation) {
     const existingEntry = this.shopphingListService.GetEntryById(sell.type_id);
 
     if(!existingEntry) {

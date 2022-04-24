@@ -1,6 +1,6 @@
 export * from './input-error-state-matcher'
 export * from './models/item-identifier'
-export * from './models/sell-price'
+export * from './models/trade-calculation'
 export * from './models/Ids'
 export * from './models/shopping-list/shopping-entry'
 

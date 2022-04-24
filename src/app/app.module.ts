@@ -15,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
+import {MatBadgeModule} from '@angular/material/badge'
 import {MatInputModule} from '@angular/material/input';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
@@ -86,6 +87,7 @@ import { ChartModule, DataLabelService, LineSeriesService, CategoryService, Zoom
     MatListModule,
     MatSnackBarModule,
     MatSelectModule,
+    MatBadgeModule,
 
     ChartModule
   ],
