@@ -22,11 +22,15 @@
             </ng-container>  
          </mat-card>
       </div>
-      <mat-card class="default-mat-card">
+      <!-- <mat-card class="default-mat-card">
          <app-item-history
             [itemIdentifier$]="currentItemObs"
             [region$]="currentRegionObs">
          </app-item-history>
+      </mat-card> -->
+      <mat-card class="default-mat-card">
+         <mat-card-title>Trade-Widget</mat-card-title>
+         <app-trade-price-widget></app-trade-price-widget>
       </mat-card>
 
       <div *ngIf="shoppingListObs | async as list">   
@@ -37,12 +41,12 @@
          </mat-card>
       </div>
       
-      <!-- <mat-card class="default-mat-card">
+      <mat-card class="default-mat-card">
          <mat-card-title>Active Orders</mat-card-title>
          <app-station-order-status
             [structure$]="currentSellStructureObs">
          </app-station-order-status>
-      </mat-card> -->
+      </mat-card>
    </div>
 </div>
 

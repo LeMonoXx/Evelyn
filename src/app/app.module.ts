@@ -15,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
+import {MatBadgeModule} from '@angular/material/badge'
 import {MatInputModule} from '@angular/material/input';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
@@ -47,6 +48,7 @@ import { LegendService, TooltipService, AreaSeriesService, ScatterSeriesService,
 import { ChartModule, DataLabelService, LineSeriesService, CategoryService, ZoomService,
  DateTimeService, DateTimeCategoryService, StripLineService, SplineSeriesService,
  TrendlinesService } from '@syncfusion/ej2-angular-charts';
+import { TradePriceWidgetComponent } from './widgets/trade-price-widget/trade-price-widget.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +59,8 @@ import { ChartModule, DataLabelService, LineSeriesService, CategoryService, Zoom
     HeaderComponent,
     StationOrderStatusComponent,
     ShoppingListComponent,
-    ItemHistoryComponent
+    ItemHistoryComponent,
+    TradePriceWidgetComponent
   ],
   imports: [
     HttpClientModule,
@@ -86,6 +89,7 @@ import { ChartModule, DataLabelService, LineSeriesService, CategoryService, Zoom
     MatListModule,
     MatSnackBarModule,
     MatSelectModule,
+    MatBadgeModule,
 
     ChartModule
   ],
