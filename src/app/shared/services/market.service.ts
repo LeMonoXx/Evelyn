@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as moment from 'moment';
 import { filter, map, Observable } from 'rxjs';
 import { MarketEntry, MarketHistory } from 'src/app/models';
 import { MarketOrder } from 'src/app/models/market/market-order';
@@ -40,7 +41,15 @@ export class MarketService {
   public getHistoricalDataForItem(itemId: number, regionId: number): Observable<MarketHistory[]> {
     const url = environment.esiBaseUrl + `/markets/${regionId}/history/?type_id=${itemId}`
 
-    return this.esiDataService.getRequest<MarketHistory[]>(url);
+    return this.esiDataService.getRequest<MarketHistory[]>(url).pipe(
+      map(entries => {
+        entries.forEach(entry => {
+          entry.evelyn_date = moment(entry.date).toDate();
+        })
+
+        return entries;
+      })
+    );
   }
 
   public getMarketOrders(structureId: number, characterId: number, isBuyOrder: boolean): Observable<MarketOrder[]> {
