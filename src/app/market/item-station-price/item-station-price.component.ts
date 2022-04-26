@@ -43,6 +43,7 @@ export class ItemStationPriceComponent implements OnInit {
    }
 
   ngOnInit(): void {
+
     this.currentItemImageSourceObs = this.itemIdentifier$.pipe(
       map(item => {
         return this.universeService.getImageUrlForType(item.id, 64);

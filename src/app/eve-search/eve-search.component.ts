@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, debounceTime, filter, forkJoin, map, mergeMap, Observable, ReplaySubject, Subscription, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, catchError, debounceTime, filter, forkJoin, map, mergeMap, Observable, of, ReplaySubject, Subscription, switchMap, tap } from 'rxjs';
 import { MarketerSearchResult, StationDetails, StructureDetails } from '../models';
 import { EveMarketerDataRepositoryService } from '../repositories/evemarketer-data-repository.service';
 import { ACCOUNTING_SKILL_ID, CharacterService, getAllowedStationIds, getAllowedStructureIds, getStoredSelectedStation, getStoredSelectedStructure, InputErrorStateMatcher, ItemSearchService, UniverseService } from '../shared';
@@ -24,7 +24,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   private allowedStationIds: number[] = getAllowedStationIds();
   private allowedStructureIds: number[] = getAllowedStructureIds();
 
-  autoCompleteObs: Observable<MarketerSearchResult[]> | undefined;
+  autoCompleteObs: Observable<MarketerSearchResult[] | undefined> | undefined;
   currentItemImageSourceObs: Observable<string> | undefined;
   initAccountingSkillLevelObs: Observable<number>;
   allowedStructuresObs: Observable<StructureDetails[]>;
@@ -38,8 +38,8 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   private accountingSkillLevelSubscription: Subscription;
   private buyStationSubscription: Subscription;
   private sellStructureSubscription: Subscription;
-  allowedStationsSubscription: Subscription;
-  allowedStructuresSubscription: Subscription;
+  private stationsSubscription: Subscription;
+  private structuresSubscription: Subscription;
 
   constructor(
     fb: FormBuilder,
@@ -59,23 +59,42 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.autoCompleteObs = this.itemNameControl.valueChanges.pipe(
       filter((value: string) => value?.trim().length > 2),
-      debounceTime(150),
+      debounceTime(350),
       switchMap((value: string) => {
-        return this.eveMarketerDataService.getAutoCompleteSuggestions(value?.trim());
+        return this.eveMarketerDataService.getAutoCompleteSuggestions(value?.trim())
+          .pipe(
+            catchError(err => {
+              console.log("A error occoured while requesting auto complete. Fallback to ESI...")
+              var esiSearch = this.universeService.findItemByName(this.itemNameControl.value.toString().trim().toLowerCase())
+              .pipe(
+                map(esiSearch => {
+                  if(esiSearch.inventory_type) {
+                    const fallback: MarketerSearchResult = {
+                      id: esiSearch.inventory_type[0]
+                    };
+      
+                    return [fallback];
+                  }
+                  return undefined;
+                }
+              ));
+              return esiSearch;
+            })
+          );
       })
-    )
+    );
 
     const structuresObsArray: Observable<StructureDetails>[] = [];
     this.allowedStructureIds.forEach(structureId => {
       structuresObsArray.push(this.universeService.getStructureDetails(structureId))
-    })
+    });
 
     this.allowedStructuresObs = forkJoin(structuresObsArray);
 
     const stationsObsArray: Observable<StationDetails>[] = [];
     this.allowedStationIds.forEach(stationId => {
       stationsObsArray.push(this.universeService.getStationDetails(stationId))
-    })
+    });
 
     this.allowedStationsObs = forkJoin(stationsObsArray);
 
@@ -90,12 +109,14 @@ export class EveSearchComponent implements OnInit, OnDestroy {
       }));
     
       this.searchSubscription = this.autoCompleteObs.pipe(
-        filter(proposals => this.itemNameControl.value.toString().trim().toLowerCase() === proposals[0]?.name.toLowerCase()),
-        map(result => {
-          var first = result[0];
-  
-          this.itemSearchService.setCurrentItem({ id: first.id, name: first.name });
-          return first;
+        map(proposals => proposals ? proposals[0] : undefined),
+        //filter(foundItem => this.itemNameControl.value.toString().trim().toLowerCase() === foundItem?.name?.toLowerCase()),
+        map(item => {
+          if(item) {
+            console.log("Set currenItem to:", item.id);
+            this.itemSearchService.setCurrentItem({ id: item.id, name: item.name });
+          }
+          return item;
       })).subscribe();
   
       this.itemCountSubscription = this.itemCountControl.valueChanges.pipe(
@@ -119,7 +140,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
         map((structure: StructureDetails) => this.itemSearchService.setSellStructure(structure))
       ).subscribe();    
 
-      this.allowedStationsSubscription = this.allowedStationsObs.pipe(
+      this.stationsSubscription = this.allowedStationsObs.pipe(
         map(stations => {
           
           const station = stations.find(station => station.station_id === getStoredSelectedStation()) ?? stations[0];
@@ -127,7 +148,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
         })
       ).subscribe();
 
-      this.allowedStructuresSubscription = this.allowedStructuresObs.pipe(
+      this.structuresSubscription = this.allowedStructuresObs.pipe(
         map(structures => {        
           const structure = structures.find(station => station.evelyn_structureId === getStoredSelectedStructure()) ?? structures[0];
           this.sellStructureControl.patchValue(structure)
@@ -142,7 +163,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
     this.accountingSkillLevelSubscription.unsubscribe();
     this.buyStationSubscription.unsubscribe();
     this.sellStructureSubscription.unsubscribe();
-    this.allowedStationsSubscription.unsubscribe();
-    this.allowedStructuresSubscription.unsubscribe();
+    this.stationsSubscription.unsubscribe();
+    this.structuresSubscription.unsubscribe();
 }
 }
