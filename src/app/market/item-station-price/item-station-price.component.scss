@@ -27,7 +27,7 @@
                 overflow: hidden;
 
                 @include breakpoint(490px) {
-                    max-width: 250px;
+                    max-width: 300px;
                   }
                 @include breakpoint(410px) {
                     max-width: 250px;
@@ -127,6 +127,10 @@
             
             .textRight {
                 text-align: right;
+            }
+
+            .multibleSellOrdersUsed {
+                color: $warning_foreground;
             }
         
         }

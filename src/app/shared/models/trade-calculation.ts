@@ -1,4 +1,6 @@
-export interface SellPrice {
+import { MarketEntry } from "src/app/models";
+
+export interface TradeCalculation {
     type_id: number,
     type_name: string,
     quantity: number,
@@ -13,4 +15,5 @@ export interface SellPrice {
     nettoSalePrice: number,
     shippingCost: number,
     profit: number
+    usedMarketEntries: MarketEntry[]
 }

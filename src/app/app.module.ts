@@ -15,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
+import {MatBadgeModule} from '@angular/material/badge'
 import {MatInputModule} from '@angular/material/input';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
@@ -40,6 +41,14 @@ import { StationToStationTradeComponent } from './station-to-station-trade/stati
 import { AuthModule } from './auth/auth.module';
 import { StationOrderStatusComponent } from './market/station-order-status/station-order-status.component';
 import { ShoppingListComponent } from './market/shopping-list/shopping-list.component';
+import { ItemHistoryComponent } from './market/item-history/item-history.component';
+
+import { LegendService, TooltipService, AreaSeriesService, ScatterSeriesService, BarSeriesService,
+  ColumnSeriesService, MultiLevelLabelService, SelectionService  } from '@syncfusion/ej2-angular-charts';
+import { ChartModule, DataLabelService, LineSeriesService, CategoryService, ZoomService,
+ DateTimeService, DateTimeCategoryService, StripLineService, SplineSeriesService,
+ TrendlinesService } from '@syncfusion/ej2-angular-charts';
+import { TradePriceWidgetComponent } from './widgets/trade-price-widget/trade-price-widget.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +58,9 @@ import { ShoppingListComponent } from './market/shopping-list/shopping-list.comp
     ItemStationPriceComponent,
     HeaderComponent,
     StationOrderStatusComponent,
-    ShoppingListComponent
+    ShoppingListComponent,
+    ItemHistoryComponent,
+    TradePriceWidgetComponent
   ],
   imports: [
     HttpClientModule,
@@ -77,12 +88,19 @@ import { ShoppingListComponent } from './market/shopping-list/shopping-list.comp
     MatSidenavModule,
     MatListModule,
     MatSnackBarModule,
-    MatSelectModule
+    MatSelectModule,
+    MatBadgeModule,
+
+    ChartModule
   ],
   providers: [
     httpInterceptorProviders,
     { provide: LOCALE_ID, useValue: 'de-DE' }, // this is needed to have the currency symbol on the right side
-    { provide: DEFAULT_CURRENCY_CODE, useValue: 'ISK' }
+    { provide: DEFAULT_CURRENCY_CODE, useValue: 'ISK' },
+    CategoryService, LegendService, TooltipService, DataLabelService, LineSeriesService,
+    DateTimeService, DateTimeCategoryService , StripLineService, SplineSeriesService, ZoomService,
+    TrendlinesService, AreaSeriesService, ScatterSeriesService,
+    BarSeriesService, ColumnSeriesService, MultiLevelLabelService, SelectionService
   ],
   bootstrap: [AppComponent]
 })

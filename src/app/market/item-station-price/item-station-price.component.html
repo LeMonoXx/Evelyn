@@ -1,21 +1,21 @@
-<div class="stationPriceContainer">
+<div class="stationPriceContainer" *ngIf="tradeData$ | async as tradeData; else CalcIsLoading">
     <div *ngIf="(itemIdentifier$ | async) as item" class="itemInfoContainer">
         <div class="splitLeftRight">
             <div class="itemInfo">
                 <div *ngIf="(currentItemImageSourceObs | async) as imageSource">
                     <img class="foundItemImage" [src]="imageSource">
                 </div>
-                <div class="itemDetails">
-                    <div class="itemInfoName" [title]="item.name"
-                        (click)="copy(item.name)">{{ item.name }}</div>
-                    <div class="itemInfoId">{{ item.id }}</div>
-                    <div *ngIf="itemDetails$ | async as itemDetails" class="itemInfoId"> {{ itemDetails.packaged_volume }} m³ </div>
+                <div class="itemDetails" *ngIf="itemDetails$ | async as itemDetails">
+                    <div class="itemInfoName" [title]="itemDetails.name"
+                        (click)="copy(itemDetails.name)">{{ itemDetails.name }}</div>
+                    <div class="itemInfoId">{{ itemDetails.type_id }}</div>
+                    <div  class="itemInfoId"> {{ itemDetails.packaged_volume }} m³ </div>
                 </div>
             </div>
 
-            <div class="interactionButtons" *ngIf="calculatedSellData$ | async as calculatedSellData">
+            <div class="interactionButtons">
                 <button class="mat-button" mat-button title="Add to shopping list"
-                    (click)="addOrRemoveShoppingList(calculatedSellData)">
+                    (click)="addOrRemoveShoppingList(tradeData)">
                     <mat-icon [class.fillIcon]="IsOnShoppingList(item.id)">add_shopping_cart</mat-icon>
                 </button>
                 <button class="mat-button" mat-button title="Add to favorites"
@@ -38,50 +38,57 @@
             </div>
         </div>
 
-        <div *ngIf="calculatedSellData$ | async as calculatedSellData"
-        class="quickInfoBuySellContainerDiv">
-            <label class="quickInfoBuySell textLeft">{{ calculatedSellData.singleBuyPrice * -1 | currency }}</label>
+        <div class="quickInfoBuySellContainerDiv">
+            <div class="quickInfoBuySell textLeft">
+                <label [class.multibleSellOrdersUsed]="tradeData.usedMarketEntries.length > 1"
+                [title]="tradeData.usedMarketEntries.length > 1 ? 'Average price for multible orders': ''">
+                    {{ tradeData.singleBuyPrice * -1 | currency }}
+                </label>
+                <span [matBadge]="tradeData.usedMarketEntries.length" 
+                    [matBadgeHidden]="tradeData.usedMarketEntries.length <= 1" 
+                    matBadgeOverlap="false"
+                    matBadgePosition="after"></span>       
+            </div>
 
-            <label class="quickInfoBuySell textRight">{{ calculatedSellData.singleSellPrice | currency }}</label>
+            <label class="quickInfoBuySell textRight">{{ tradeData.singleSellPrice | currency }}</label>
         </div>
 
     </div>
     
-    <div *ngIf="calculatedSellData$ | async as calculatedSellData; else CalcIsLoading" class="sellCostsContainer">
-
+    <div class="sellCostsContainer">
         <mat-divider></mat-divider>
 
         <div class="priceEntryDiv">
             <label class="titleLabel">Total Buy Cost</label>
-            <label class="negativeNumber valueLabel">{{ calculatedSellData.buyPriceX * -1 | currency }}</label>
+            <label class="negativeNumber valueLabel">{{ tradeData.buyPriceX * -1 | currency }}</label>
         </div>
 
         <div class="priceEntryDiv">
             <label class="titleLabel">Brutto Sell Price</label>
-            <label class="positivNumber valueLabel">{{ calculatedSellData.sellPriceX | currency }}</label>
+            <label class="positivNumber valueLabel">{{ tradeData.sellPriceX | currency }}</label>
         </div>
         <div class="priceEntryDiv">
             <label class="titleLabel">Broker Fee</label>
-            <label class="negativeNumber valueLabel">{{ calculatedSellData.brokerFee * -1 | currency }}</label>
+            <label class="negativeNumber valueLabel">{{ tradeData.brokerFee * -1 | currency }}</label>
         </div>
         <div class="priceEntryDiv">
             <label class="titleLabel">Tax</label>
-            <label class="negativeNumber valueLabel">{{ calculatedSellData.saleTax * -1 | currency }}</label>
+            <label class="negativeNumber valueLabel">{{ tradeData.saleTax * -1 | currency }}</label>
         </div>
         <div class="priceEntryDiv">
             <label class="titleLabel">Netto Sell Price</label>
-            <label class="positivNumber valueLabel">{{ calculatedSellData.nettoSalePrice | currency }}</label>
+            <label class="positivNumber valueLabel">{{ tradeData.nettoSalePrice | currency }}</label>
         </div>
         <mat-divider></mat-divider>
         <div class="priceEntryDiv">
             <label class="titleLabel">Shipping Cost</label>
-            <label class="negativeNumber valueLabel">{{ calculatedSellData.shippingCost * -1 | currency }}</label>
+            <label class="negativeNumber valueLabel">{{ tradeData.shippingCost * -1 | currency }}</label>
         </div>
         <div class="priceEntryDiv">
             <label class="titleLabel">Profit</label>
             <label class="valueLabel"
-                [ngClass]="calculatedSellData.profit <= 0 ? 'negativeProfit' : 'positivProfit'">
-                {{ calculatedSellData.profit | currency }}
+                [ngClass]="tradeData.profit <= 0 ? 'negativeProfit' : 'positivProfit'">
+                {{ tradeData.profit | currency }}
             </label>       
         </div>
     </div>

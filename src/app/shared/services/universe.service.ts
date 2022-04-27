@@ -39,8 +39,7 @@ export class UniverseService {
   } 
 
   public findItemByName(searchName: string) : Observable<SearchResult> {
-    const url = environment.esiBaseUrl + '/universe/ids/';
-
-    return this.esiDataService.postRequest(url, `["${searchName}"]`);
+    const url = environment.esiBaseUrl + `/search/?categories=inventory_type&language=en&search=${searchName}&strict=true`;
+    return this.esiDataService.getRequest<SearchResult>(url);
   }
 }
