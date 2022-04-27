@@ -1,10 +1,13 @@
-import { StationDetails, StructureDetails } from "src/app/models";
+import { BlueprintDetails, StationDetails, StructureDetails } from "src/app/models";
 import { ItemIdentifier, ShoppingEntry } from "..";
 
 export const SHOPPINGENTRIES_KEY: string = "shopping-list";
 export const FAVORITEITEMS_KEY: string = "favorite-items";
-export const SELECTEDSTATION_KEY: string = "selected-station"
-export const SELECTEDSTRUCTURE_KEY: string = "selected-structure"
+export const BLUEPRINT_DETAILS_KEY: string = "blueprint-details";
+export const SELECTEDSTATION_KEY: string = "selected-station";
+export const SELECTEDSTRUCTURE_KEY: string = "selected-structure";
+
+
 
 export function getStoredShoppingList(): ShoppingEntry[] | null {
       return getData<ShoppingEntry[]>(SHOPPINGENTRIES_KEY);
@@ -20,6 +23,14 @@ export function getStoredFavoriteItems(): ItemIdentifier[] | null {
 
 export function storeFavoriteItems(entries: ItemIdentifier[]) {
       storeData<ItemIdentifier[]>(entries, FAVORITEITEMS_KEY);
+}
+
+export function getStoredBlueprintDetails(): { [typeId: number]: BlueprintDetails } | null {
+      return getData<{ [typeId: number]: BlueprintDetails }>(BLUEPRINT_DETAILS_KEY);
+}
+
+export function storeBlueprintDetails(entries: { [typeId: number]: BlueprintDetails }) {
+      storeData<{ [typeId: number]: BlueprintDetails }>(entries, BLUEPRINT_DETAILS_KEY);
 }
 
 export function getStoredSelectedStation(): number | null {

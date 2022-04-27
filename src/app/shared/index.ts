@@ -12,6 +12,7 @@ export * from './services/item-search.service'
 export * from './services/market.service'
 export * from './services/shopping-list.service'
 export * from './services/universe.service'
+export * from './services/industry.service'
 
 export * from './functions/shipping-costs'
 export * from './functions/tax'

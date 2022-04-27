@@ -5,8 +5,8 @@ export * from './search-result'
 
 export * from './character/character'
 export * from './character/portrait'
-export * from './character/skill'
-export * from './character/character-skills'
+export * from './character/character-skill'
+export * from './character/character-skill-book'
 
 export * from './eve-maketer/marketer-search-result'
 
@@ -21,3 +21,11 @@ export * from './types/item-details'
 export * from './universe/position'
 export * from './universe/structure-details'
 export * from './universe/station-details'
+
+export * from './sde/blueprint/blueprint-details'
+export * from './sde/blueprint/activities'
+export * from './sde/blueprint/material'
+export * from './sde/blueprint/skill'
+export * from './sde/blueprint/product'
+export * from './sde/blueprint/research-time'
+export * from './sde/blueprint/research-material'

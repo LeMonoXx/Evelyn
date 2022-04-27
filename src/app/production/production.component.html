@@ -1,3 +1,14 @@
 <div class="divProductionComponent"> 
     <img src="../../assets/icons/obi-meme.jpg">
 </div>
+
+<div *ngIf="BpoDetailsObs | async as bpoDetails">
+    blueprintTypeID: {{ bpoDetails.blueprintTypeID}}
+    <br>
+    maxProductionLimit: {{ bpoDetails.maxProductionLimit}}
+
+    manufacturing: 
+    <div *ngFor="let material of bpoDetails.activities?.manufacturing.materials">
+        <span>material: {{ material.typeID }} x{{ material.quantity}}</span>
+    </div>
+</div>

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EsiDataRepositoryService, EveMarketerDataRepositoryService } from '../repositories';
-import { CharacterService, FavoritesService, ItemSearchService, MarketService, ShoppingListService, UniverseService } from './index';
+import { CharacterService, FavoritesService, IndustryService, ItemSearchService, MarketService, ShoppingListService, UniverseService } from './index';
 import { AppCookieService } from '../auth';
 
 @NgModule({
@@ -18,7 +18,8 @@ import { AppCookieService } from '../auth';
     MarketService,
     UniverseService,
     FavoritesService,
-    ShoppingListService
+    ShoppingListService,
+    IndustryService
   ]
 })
 export class SharedModule { }

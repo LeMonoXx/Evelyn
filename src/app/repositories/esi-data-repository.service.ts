@@ -21,6 +21,10 @@ export class EsiDataRepositoryService {
     return this.httpClient.get<T>(url, this.options).pipe(shareReplay(1));
   }
 
+  public getText(url: string): Observable<string> {
+    return this.httpClient.get(url, {responseType: 'text'})
+  }
+
   public getPagingRequest<T>(url: string): Observable<Array<T>> {
     const result = this.httpClient.get<Array<T>>(url, {observe: 'response'}).pipe(
       map(response => {
