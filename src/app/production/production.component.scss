@@ -1,8 +1,81 @@
 @import '../../styles/variables';
 @import '../../styles/functions';
 
-.divProductionComponent {
-    width: 100%;
-      // we need this, because we have a sticky header with over 56px.
-    padding-bottom: 70px;
+.productionMainDiv {
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+  row-gap: 10px;
+  padding: 10px;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  // we need this, because we have a sticky header with over 56px.
+  padding-bottom: 70px;
+
+  .default-mat-card {
+    width: 565px;
+    min-height: 400px;
+    overflow-x: hidden;
+
+    @include breakpoint(1540px) {
+      width: 565px;
+    }
+
+    @include breakpoint(991px) {
+      width: auto;
+    }
+  }
+
+  @include breakpoint(991px) {
+    flex-direction: column;
+  }
+
+  .searchContent {
+  //  flex: 0 0 250px;
+    width: 260px;
+    @include breakpoint(1052px) {
+      width: 200px;
+    }
+    @include breakpoint(991px) {
+  //    flex: auto;
+      width: auto;
+    }
+  }
+
+  .productionContentDiv {
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+    row-gap: 10px;
+    overflow-x: hidden;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    @include breakpoint(1546px) {
+      column-gap: 0px;
+    }
+
+    @include breakpoint(991px) {
+      flex-direction: column;
+    }
+  
+    .manufacturingMatCard {
+
+      .manufacturingContent {
+        flex: 0 0 auto;
+        display: flex;
+        flex-direction: row;
+      }
+    }
+  }
+}
+
+.notAuthenticated {
+    font-style: italic;
+    text-align: center;
+}
+
+.noItemSpecified {
+  font-style: italic;
+  text-align: center;
 }

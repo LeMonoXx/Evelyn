@@ -12,7 +12,6 @@ import { calculateTaxPercentBySkillLevel, IndustryService, ItemIdentifier,
   styleUrls: ['./production.component.scss']
 })
 export class ProductionComponent implements OnInit {
-  public BpoDetailsObs: Observable<any>;
   public currentItemObs: Observable<ItemIdentifier>;
   public currentSellStructureObs: Observable<StructureDetails>;
   public numberCountObs: Observable<number>;
@@ -25,7 +24,6 @@ export class ProductionComponent implements OnInit {
   public routerItemNameSubject: Subject<string> = new BehaviorSubject("");
   
   constructor(
-    private industryService: IndustryService,
     private itemSearchService: ItemSearchService,
     private authService: AuthService,
     private shoppingListService: ShoppingListService,
@@ -51,7 +49,5 @@ export class ProductionComponent implements OnInit {
       if(inputItemName) {
         this.routerItemNameSubject.next(inputItemName);
       }
-
-      this.BpoDetailsObs = this.industryService.getBlueprintDetails(22545);
   }
 }

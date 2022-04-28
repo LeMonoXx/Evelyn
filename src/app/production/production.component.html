@@ -1,4 +1,4 @@
-<div class="stationToStationTradeMainDiv" *ngIf="authStatusObs | async; else NotAuthenticated">
+<div class="productionMainDiv" *ngIf="authStatusObs | async; else NotAuthenticated">
     <mat-card>
         <mat-card-title>Item search</mat-card-title>
         <div class="searchContent">
@@ -6,16 +6,19 @@
         </div>
      </mat-card>
 
-    <div *ngIf="BpoDetailsObs | async as bpoDetails">
-        blueprintTypeID: {{ bpoDetails.blueprintTypeID}}
-        <br>
-        maxProductionLimit: {{ bpoDetails.maxProductionLimit}}
-
-        manufacturing: 
-        <div *ngFor="let material of bpoDetails.activities?.manufacturing.materials">
-            <span>material: {{ material.typeID }} x{{ material.quantity}}</span>
+     <div class="productionContentDiv">
+        <div class="manufacturingMatCard">   
+           <mat-card class="default-mat-card">
+              <ng-container *ngIf="currentItemObs | async"
+              class="manufacturingContent">
+                    <app-blueprint-manufacturing
+                        [item$]="currentItemObs"
+                        [buyStation$]="currentBuyStationObs">
+                    </app-blueprint-manufacturing>      
+              </ng-container>  
+           </mat-card>
         </div>
-    </div>
+     </div>
 </div>  
 
 <ng-template #NotAuthenticated>
