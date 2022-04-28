@@ -1,5 +1,7 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, catchError, debounceTime, filter, forkJoin, map, mergeMap, Observable, of, ReplaySubject, Subscription, switchMap, tap } from 'rxjs';
 import { MarketerSearchResult, StationDetails, StructureDetails } from '../models';
 import { EveMarketerDataRepositoryService } from '../repositories/evemarketer-data-repository.service';
@@ -12,6 +14,9 @@ import { ACCOUNTING_SKILL_ID, CharacterService, getAllowedStationIds, getAllowed
   encapsulation: ViewEncapsulation.None
 })
 export class EveSearchComponent implements OnInit, OnDestroy {
+
+  @Input()
+  public inputItemName$: Observable<string>;
 
   public options: FormGroup;
   public itemNameControl = new FormControl(null, [Validators.minLength(3), Validators.required]);
@@ -40,13 +45,17 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   private sellStructureSubscription: Subscription;
   private stationsSubscription: Subscription;
   private structuresSubscription: Subscription;
+  private inputItemNameSubscription: Subscription;
 
   constructor(
     fb: FormBuilder,
     private eveMarketerDataService : EveMarketerDataRepositoryService,
     private itemSearchService: ItemSearchService,
     private characterService: CharacterService,
-    private universeService: UniverseService) { 
+    private universeService: UniverseService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private titleService: Title) { 
       this.options = fb.group({
         itemName: this.itemNameControl,
         itemCount: this.itemCountControl,
@@ -64,14 +73,18 @@ export class EveSearchComponent implements OnInit, OnDestroy {
         return this.eveMarketerDataService.getAutoCompleteSuggestions(value?.trim())
           .pipe(
             catchError(err => {
+              const searchStr = this.itemNameControl.value.toString().trim();
               console.log("A error occoured while requesting auto complete. Fallback to ESI...")
-              var esiSearch = this.universeService.findItemByName(this.itemNameControl.value.toString().trim().toLowerCase())
+              const esiSearch = this.universeService.findItemByName(searchStr)
               .pipe(
                 map(esiSearch => {
                   if(esiSearch.inventory_type) {
                     const fallback: MarketerSearchResult = {
                       id: esiSearch.inventory_type[0]
                     };
+
+                    this.titleService.setTitle(`Trade - ${searchStr}`)
+                    this.router.navigate([], { queryParams: { item: searchStr } });
       
                     return [fallback];
                   }
@@ -112,8 +125,9 @@ export class EveSearchComponent implements OnInit, OnDestroy {
         map(proposals => proposals ? proposals[0] : undefined),
         //filter(foundItem => this.itemNameControl.value.toString().trim().toLowerCase() === foundItem?.name?.toLowerCase()),
         map(item => {
-          if(item) {
-            console.log("Set currenItem to:", item.id);
+          if(item && item) {
+
+            console.log("Set currenItem to:", item.id, item.name);
             this.itemSearchService.setCurrentItem({ id: item.id, name: item.name });
           }
           return item;
@@ -154,6 +168,11 @@ export class EveSearchComponent implements OnInit, OnDestroy {
           this.sellStructureControl.patchValue(structure)
         })
       ).subscribe();
+      
+    this.inputItemNameSubscription = this.inputItemName$.pipe(
+      map(inputValue => this.itemNameControl.setValue(inputValue))
+    ).subscribe();
+
   }
 
   ngOnDestroy() {
@@ -165,5 +184,6 @@ export class EveSearchComponent implements OnInit, OnDestroy {
     this.sellStructureSubscription.unsubscribe();
     this.stationsSubscription.unsubscribe();
     this.structuresSubscription.unsubscribe();
+    this.inputItemNameSubscription.unsubscribe();
 }
 }

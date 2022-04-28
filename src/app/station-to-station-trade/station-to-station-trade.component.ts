@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { BehaviorSubject, map, Observable, ReplaySubject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, map, Observable, ReplaySubject, Subject } from 'rxjs';
 import { AuthService, IAuthResponseData } from '../auth';
 import { ItemDetails, StationDetails, StructureDetails } from '../models';
 import { calculateTaxPercentBySkillLevel, ItemIdentifier, 
@@ -25,11 +26,12 @@ export class StationToStationTradeComponent implements OnInit {
   public shoppingListObs: Observable<ShoppingEntry[]>;
   public currentRegionObs: Observable<number> = new BehaviorSubject<number>(MJ5F9_REGION_ID);
 
+  public routerItemNameSubject: Subject<string> = new BehaviorSubject("");
   constructor(
     private itemSearchService: ItemSearchService,
     private authService: AuthService,
-    private shoppingListService: ShoppingListService) {
-
+    private shoppingListService: ShoppingListService,
+    private readonly route: ActivatedRoute) {
       this.currentItemObs = this.itemSearchService.CurrentItemObs;
       this.numberCountObs = this.itemSearchService.ItemCountObs;
       this.itemDetailsObs = this.itemSearchService.CurrentItemDetailsObs;
@@ -46,5 +48,10 @@ export class StationToStationTradeComponent implements OnInit {
       this.shoppingListObs = this.shoppingListService.ShoppingListObs
       .pipe(map(entries => entries.filter(entry => entry.type_id > 0)));
 
+      const inputItemName = this.route.snapshot.queryParamMap.get('item');
+      
+      if(inputItemName) {
+        this.routerItemNameSubject.next(inputItemName);
+      }
   }
 }
