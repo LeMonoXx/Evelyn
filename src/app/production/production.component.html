@@ -1,14 +1,25 @@
-<div class="divProductionComponent"> 
-    <img src="../../assets/icons/obi-meme.jpg">
-</div>
+<div class="stationToStationTradeMainDiv" *ngIf="authStatusObs | async; else NotAuthenticated">
+    <mat-card>
+        <mat-card-title>Item search</mat-card-title>
+        <div class="searchContent">
+           <app-eve-search [inputItemName$]="routerItemNameSubject"></app-eve-search>
+        </div>
+     </mat-card>
 
-<div *ngIf="BpoDetailsObs | async as bpoDetails">
-    blueprintTypeID: {{ bpoDetails.blueprintTypeID}}
-    <br>
-    maxProductionLimit: {{ bpoDetails.maxProductionLimit}}
+    <div *ngIf="BpoDetailsObs | async as bpoDetails">
+        blueprintTypeID: {{ bpoDetails.blueprintTypeID}}
+        <br>
+        maxProductionLimit: {{ bpoDetails.maxProductionLimit}}
 
-    manufacturing: 
-    <div *ngFor="let material of bpoDetails.activities?.manufacturing.materials">
-        <span>material: {{ material.typeID }} x{{ material.quantity}}</span>
+        manufacturing: 
+        <div *ngFor="let material of bpoDetails.activities?.manufacturing.materials">
+            <span>material: {{ material.typeID }} x{{ material.quantity}}</span>
+        </div>
     </div>
-</div>
+</div>  
+
+<ng-template #NotAuthenticated>
+    <div class="notAuthenticated">
+       You need to login, to see the station market.
+    </div>
+ </ng-template>

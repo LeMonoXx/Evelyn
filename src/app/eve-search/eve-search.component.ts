@@ -74,7 +74,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
           .pipe(
             catchError(err => {
               const searchStr = this.itemNameControl.value.toString().trim();
-              console.log("A error occoured while requesting auto complete. Fallback to ESI...")
+              console.log("A error occoured while requesting auto complete => Fallback to ESI...")
               const esiSearch = this.universeService.findItemByName(searchStr)
               .pipe(
                 map(esiSearch => {
@@ -83,7 +83,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
                       id: esiSearch.inventory_type[0]
                     };
 
-                    this.titleService.setTitle(`Trade - ${searchStr}`)
+                    this.titleService.setTitle(`${searchStr}`)
                     this.router.navigate([], { queryParams: { item: searchStr } });
       
                     return [fallback];

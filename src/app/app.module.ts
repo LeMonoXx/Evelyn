@@ -54,7 +54,6 @@ import { TradePriceWidgetComponent } from './widgets/trade-price-widget/trade-pr
   declarations: [
     AppComponent,
     StationToStationTradeComponent,
-    EveSearchComponent,
     ItemStationPriceComponent,
     HeaderComponent,
     StationOrderStatusComponent,
@@ -69,28 +68,7 @@ import { TradePriceWidgetComponent } from './widgets/trade-price-widget/trade-pr
     BrowserAnimationsModule,
     
     SharedModule,
-    ProductionModule,
     AuthModule,
-    
-    FormsModule,
-    ReactiveFormsModule,
-    MatDividerModule,
-    MatInputModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    MatSortModule,
-    MatTableModule,
-    MatIconModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatAutocompleteModule,
-    MatSidenavModule,
-    MatListModule,
-    MatSnackBarModule,
-    MatSelectModule,
-    MatBadgeModule,
-
     ChartModule
   ],
   providers: [
@@ -101,6 +79,9 @@ import { TradePriceWidgetComponent } from './widgets/trade-price-widget/trade-pr
     DateTimeService, DateTimeCategoryService , StripLineService, SplineSeriesService, ZoomService,
     TrendlinesService, AreaSeriesService, ScatterSeriesService,
     BarSeriesService, ColumnSeriesService, MultiLevelLabelService, SelectionService
+  ],
+  exports: [
+    SharedModule
   ],
   bootstrap: [AppComponent]
 })
