@@ -13,6 +13,9 @@
               class="manufacturingContent">
                     <app-blueprint-manufacturing
                         [item$]="currentItemObs"
+                        [runs$]="runsObs"
+                        [meLevel$]="meLevelObs"
+                        [teLevel$]="teLevelObs"
                         [buyStation$]="currentBuyStationObs">
                     </app-blueprint-manufacturing>      
               </ng-container>  

@@ -7,6 +7,14 @@
   display: inline-grid;
   overflow: hidden;
 
+  mat-form-field {
+    margin-bottom: 10px;
+    width: 100%;
+    display: block;
+    position: relative;
+    text-align: left;
+  }
+
   .itemSearchInput {
     white-space: nowrap;
     overflow: hidden;
@@ -18,11 +26,4 @@
   height: 30px;
   line-height: 30px;
   font-size: 85%;
-}
-
-.mat-form-field {
-  margin-bottom: 10px;
-  display: block;
-  position: relative;
-  text-align: left;
 }

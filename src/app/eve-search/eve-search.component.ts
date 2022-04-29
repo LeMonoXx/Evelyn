@@ -1,9 +1,10 @@
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, catchError, debounceTime, filter, forkJoin, map, mergeMap, Observable, of, ReplaySubject, Subscription, switchMap, tap } from 'rxjs';
+import { Router } from '@angular/router';
+import { catchError, debounceTime, filter, forkJoin, map, mergeMap, Observable, of, ReplaySubject, Subscription, switchMap, tap } from 'rxjs';
 import { MarketerSearchResult, StationDetails, StructureDetails } from '../models';
+import { ProductionSettingsService } from '../production/services/production-settings.service';
 import { EveMarketerDataRepositoryService } from '../repositories/evemarketer-data-repository.service';
 import { ACCOUNTING_SKILL_ID, CharacterService, getAllowedStationIds, getAllowedStructureIds, getStoredSelectedStation, getStoredSelectedStructure, InputErrorStateMatcher, ItemSearchService, UniverseService } from '../shared';
 
@@ -18,14 +19,19 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   @Input()
   public inputItemName$: Observable<string>;
 
-  public options: FormGroup;
+  public defaultFormGroup: FormGroup;
   public itemNameControl = new FormControl(null, [Validators.minLength(3), Validators.required]);
   public itemCountControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.max(25000), Validators.min(1)]);
   public accountingLevelControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.max(5), Validators.min(1)]);
   public buyStationControl = new FormControl(null, [Validators.required]);
   public sellStructureControl = new FormControl(null, [Validators.required]);
 
-  public allowedSkillLevels = [1, 2, 3, 4, 5];
+  public productionFormGroup: FormGroup;
+  public runsControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.min(1)]);
+  public meLevelControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.max(5), Validators.min(1)]);
+  public teLevelControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.max(5), Validators.min(1)]);
+
+  public oneToFive = [1, 2, 3, 4, 5];
   private allowedStationIds: number[] = getAllowedStationIds();
   private allowedStructureIds: number[] = getAllowedStructureIds();
 
@@ -46,6 +52,9 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   private stationsSubscription: Subscription;
   private structuresSubscription: Subscription;
   private inputItemNameSubscription: Subscription;
+  private runsSubscription: Subscription;
+  private teLevelSubscription: Subscription;
+  private meLevelSubscription: Subscription;
 
   constructor(
     fb: FormBuilder,
@@ -53,16 +62,26 @@ export class EveSearchComponent implements OnInit, OnDestroy {
     private itemSearchService: ItemSearchService,
     private characterService: CharacterService,
     private universeService: UniverseService,
-    private activatedRoute: ActivatedRoute,
+    private productionSettingsService: ProductionSettingsService,
     private router: Router,
     private titleService: Title) { 
-      this.options = fb.group({
+      this.defaultFormGroup = fb.group({
         itemName: this.itemNameControl,
         itemCount: this.itemCountControl,
-        accountingLevel: this.accountingLevelControl
+        accountingLevel: this.accountingLevelControl,
+        buyStation: this.buyStationControl,
+        sellStructure: this.sellStructureControl
       });
 
+      this.productionFormGroup = fb.group({
+        runs: this.runsControl,
+        meLevel: this.meLevelControl,
+        teLevel: this.teLevelControl
+      })
+
       this.matcher = new InputErrorStateMatcher();
+
+      this.initProductionFormGroup();
     }
  
   ngOnInit(): void {
@@ -175,6 +194,20 @@ export class EveSearchComponent implements OnInit, OnDestroy {
 
   }
 
+  private initProductionFormGroup(): void {
+    this.runsSubscription = this.runsControl.valueChanges.pipe(
+      map((runs: number) => this.productionSettingsService.setRuns(runs))
+    ).subscribe(); 
+
+    this.teLevelSubscription = this.teLevelControl.valueChanges.pipe(
+      map((te: number) => this.productionSettingsService.setTE(te))
+    ).subscribe(); 
+
+    this.meLevelSubscription = this.runsControl.valueChanges.pipe(
+      map((me: number) => this.productionSettingsService.setME(me))
+    ).subscribe(); 
+  }
+
   ngOnDestroy() {
     this.itemCountSubscription.unsubscribe();
     this.searchSubscription.unsubscribe();
@@ -185,5 +218,9 @@ export class EveSearchComponent implements OnInit, OnDestroy {
     this.stationsSubscription.unsubscribe();
     this.structuresSubscription.unsubscribe();
     this.inputItemNameSubscription.unsubscribe();
+
+    this.runsSubscription?.unsubscribe();
+    this.meLevelSubscription?.unsubscribe();
+    this.teLevelSubscription?.unsubscribe();
 }
 }

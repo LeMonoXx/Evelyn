@@ -1,64 +1,96 @@
-<form class="searchComponent" [formGroup]="options">
-    <mat-form-field>
-      <mat-label>Item</mat-label>
-      <input matInput type="text"
-            class="itemSearchInput"
-            placeholder="Item name"
-            [formControl]="itemNameControl"
-            [matAutocomplete]="auto"
-            [errorStateMatcher]="matcher">
-          <mat-error *ngIf="itemNameControl.hasError('required')">
-            Item name is required
-          </mat-error>
-          <mat-error *ngIf="itemNameControl.hasError('minLength')">
-            Item name must be at least 4 characters
-          </mat-error>
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let option of (autoCompleteObs | async)" [value]="option.name">
-        <span>{{option.name}}</span> 
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+<div class="searchComponent" >
+  <form [formGroup]="defaultFormGroup">
+      <mat-form-field>
+        <mat-label>Item</mat-label>
+        <input matInput type="text"
+              class="itemSearchInput"
+              placeholder="Item name"
+              [formControl]="itemNameControl"
+              [matAutocomplete]="auto"
+              [errorStateMatcher]="matcher">
+            <mat-error *ngIf="itemNameControl.hasError('required')">
+              Item name is required
+            </mat-error>
+            <mat-error *ngIf="itemNameControl.hasError('minLength')">
+              Item name must be at least 4 characters
+            </mat-error>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of (autoCompleteObs | async)" [value]="option.name">
+          <span>{{option.name}}</span> 
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
 
+      <mat-form-field>
+        <mat-label>Count</mat-label>
+        <input matInput type="number"
+            placeholder="Item count"
+            [formControl]="itemCountControl" 
+            [errorStateMatcher]="matcher"
+            min="1">
+            <mat-error *ngIf="itemNameControl.hasError('max')">
+              Item count may only be 25000
+            </mat-error>
+      </mat-form-field>
+      
+      <mat-form-field *ngIf="initAccountingSkillLevelObs | async as initSkillLevel">
+        <mat-label>Accounting</mat-label>
+        <mat-select [formControl]="accountingLevelControl">
+          <mat-option *ngFor="let level of oneToFive" [value]="level">
+            {{level}}
+          </mat-option>
+        </mat-select>
+        <mat-hint>
+          Character skill level is {{ initSkillLevel }}
+        </mat-hint>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="allowedStationsObs | async as buyStations">
+        <mat-label>Buy station</mat-label>
+        <mat-select [formControl]="buyStationControl">
+          <mat-option *ngFor="let station of buyStations" [value]="station">
+            {{station.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="allowedStructuresObs | async as sellStructures">
+        <mat-label>Sell structure</mat-label>
+        <mat-select [formControl]="sellStructureControl">
+          <mat-option *ngFor="let structure of sellStructures" [value]="structure">
+            {{structure.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  </form>
+
+  <form [formGroup]="productionFormGroup">
     <mat-form-field>
-      <mat-label>Count</mat-label>
+      <mat-label>Runs</mat-label>
       <input matInput type="number"
-          placeholder="Item count"
-          [formControl]="itemCountControl" 
+          placeholder="runs"
+          [formControl]="runsControl" 
           [errorStateMatcher]="matcher"
           min="1">
-          <mat-error *ngIf="itemNameControl.hasError('max')">
-            Item count may only be 25000
-          </mat-error>
     </mat-form-field>
-    
-    <mat-form-field *ngIf="initAccountingSkillLevelObs | async as initSkillLevel">
-      <mat-label>Accounting</mat-label>
-      <mat-select [formControl]="accountingLevelControl">
-        <mat-option *ngFor="let level of allowedSkillLevels" [value]="level">
-          {{level}}
-        </mat-option>
-      </mat-select>
-      <mat-hint>
-        Character skill level is {{ initSkillLevel }}
-      </mat-hint>
-    </mat-form-field>
-
-    <mat-form-field *ngIf="allowedStationsObs | async as buyStations">
-      <mat-label>Buy station</mat-label>
-      <mat-select [formControl]="buyStationControl">
-        <mat-option *ngFor="let station of buyStations" [value]="station">
-          {{station.name}}
+     
+    <mat-form-field>
+      <mat-label>Material Efficiency</mat-label>
+      <mat-select [formControl]="meLevelControl">
+        <mat-option *ngFor="let me of oneToFive" [value]="me">
+          {{me}}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field *ngIf="allowedStructuresObs | async as sellStructures">
-      <mat-label>Sell structure</mat-label>
-      <mat-select [formControl]="sellStructureControl">
-        <mat-option *ngFor="let structure of sellStructures" [value]="structure">
-          {{structure.name}}
+    <mat-form-field>
+      <mat-label>Time Efficiency</mat-label>
+      <mat-select [formControl]="teLevelControl">
+        <mat-option *ngFor="let te of oneToFive" [value]="te">
+          {{te}}
         </mat-option>
       </mat-select>
     </mat-form-field>
-</form>
+
+  </form>
+</div>

@@ -4,6 +4,7 @@ import { BehaviorSubject, combineLatest, forkJoin, map, Observable, switchMap } 
 import { BlueprintDetails, ItemDetails, MarketEntry, Material, StationDetails } from 'src/app/models';
 import { copyToClipboard, IndustryService, ItemIdentifier, JITA_REGION_ID, MarketService, UniverseService } from 'src/app/shared';
 import { ManufacturingCostEntry } from '..';
+import { ProductionSettingsService } from '../services/production-settings.service';
 
 @Component({
   selector: 'app-blueprint-manufacturing',
@@ -17,7 +18,11 @@ export class BlueprintManufacturingComponent implements OnInit {
   @Input()
   public buyStation$: Observable<StationDetails>;
   @Input()
-  public runs$:Observable<number> = new BehaviorSubject(5);
+  public runs$: Observable<number> = new BehaviorSubject(1);
+  @Input()
+  public meLevel$: Observable<number>;
+  @Input()
+  public teLevel$: Observable<number>;
 
 
   public BpoDetailsObs: Observable<BlueprintDetails>;
@@ -26,6 +31,7 @@ export class BlueprintManufacturingComponent implements OnInit {
     private industryService: IndustryService,
     private universeService: UniverseService,
     private marketService: MarketService,
+    private productionSettingsService: ProductionSettingsService,
     private snackBar: MatSnackBar) { }
 
   public ngOnInit(): void { 

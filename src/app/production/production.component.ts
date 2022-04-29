@@ -5,6 +5,7 @@ import { IAuthResponseData, AuthService } from '../auth';
 import { StructureDetails, ItemDetails, StationDetails } from '../models';
 import { calculateTaxPercentBySkillLevel, IndustryService, ItemIdentifier, 
   ItemSearchService, MJ5F9_REGION_ID, ShoppingEntry, ShoppingListService } from '../shared';
+import { ProductionSettingsService } from './services/production-settings.service';
 
 @Component({
   selector: 'app-production',
@@ -22,11 +23,15 @@ export class ProductionComponent implements OnInit {
   public shoppingListObs: Observable<ShoppingEntry[]>;
   public currentRegionObs: Observable<number> = new BehaviorSubject<number>(MJ5F9_REGION_ID);
   public routerItemNameSubject: Subject<string> = new BehaviorSubject("");
+  public runsObs: Observable<number>;
+  public meLevelObs: Observable<number>;
+  public teLevelObs: Observable<number>;
   
   constructor(
     private itemSearchService: ItemSearchService,
     private authService: AuthService,
     private shoppingListService: ShoppingListService,
+    private productionSettingsService: ProductionSettingsService,
     private readonly route: ActivatedRoute) {
       this.currentItemObs = this.itemSearchService.CurrentItemObs;
       this.numberCountObs = this.itemSearchService.ItemCountObs;
@@ -34,6 +39,9 @@ export class ProductionComponent implements OnInit {
       this.authStatusObs = this.authService.authObs;    
       this.currentBuyStationObs = this.itemSearchService.BuyStationObs;
       this.currentSellStructureObs = this.itemSearchService.SellStructureObs;
+      this.runsObs = this.productionSettingsService.RunsObs;
+      this.meLevelObs = this.productionSettingsService.MeLevelObs;
+      this.teLevelObs = this.productionSettingsService.TeLevelObs;
     }
 
   ngOnInit(): void {
