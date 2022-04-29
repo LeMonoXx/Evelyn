@@ -4,7 +4,7 @@ import { combineLatest, debounceTime, map, mergeMap, Observable, switchMap } fro
 import { ItemDetails, MarketEntry, StationDetails, StructureDetails } from 'src/app/models';
 import { CalculateShippingCost, copyToClipboard, FavoritesService, ItemIdentifier, 
   JITA_REGION_ID, MarketService, TradeCalculation, 
-  ShoppingEntry, ShoppingListService, UniverseService } from 'src/app/shared';
+  ShoppingEntry, ShoppingListService, UniverseService, getPriceForN } from 'src/app/shared';
 
 @Component({
   selector: 'eve-item-station-price',
@@ -96,42 +96,10 @@ export class ItemStationPriceComponent implements OnInit {
               shippingCost: 0,
               usedMarketEntries: []
             };
-
-            let totalBuyCost = 0;
-            let countLeft = count;
-
-          // the buyEntries are not actual "Buy-Orders".
-          // those are the sell-orders we are buying from.
-          if(buyEntries && buyEntries.length > 0){
-
-            // we check our buy-amount against the sell-orders volume_remain and the assigned price.
-            for(let i = 0; i < buyEntries.length - 1; i++) {
-              const entry = buyEntries[i];
-
-                const buyAllFromEntry = (entry.volume_remain - countLeft) <= 0;
-                if(buyAllFromEntry){
-                  const costToAdd = (entry.price * entry.volume_remain);
-                  
-                  totalBuyCost += costToAdd; 
-                  countLeft -= entry.volume_remain;
-                  prices.usedMarketEntries.push(entry);
-                } else {
-                  const costToAdd = (entry.price * countLeft);
-                  totalBuyCost += costToAdd;
-                  // we used only a portion of this market entry.
-                  // so we change the volume_remain with the amount we need to use.
-                  entry.volume_remain = countLeft;
-                  prices.usedMarketEntries.push(entry);
-                  countLeft = 0;
-                }
-                  
-                if(countLeft <= 0)
-                break;
-            }
-          }
-
-          prices.singleBuyPrice = totalBuyCost / count;
-          prices.buyPriceX = totalBuyCost;
+          const usedOrders = getPriceForN(buyEntries, count);
+          
+          prices.singleBuyPrice = usedOrders.averagePrice;
+          prices.buyPriceX = usedOrders.totalPrice;
         
 
           if(sellEntries && sellEntries.length > 0) {

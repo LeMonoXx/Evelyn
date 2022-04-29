@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, combineLatest, forkJoin, map, Observable, switchMap } from 'rxjs';
 import { BlueprintDetails, ItemDetails, MarketEntry, Material, StationDetails } from 'src/app/models';
-import { copyToClipboard, IndustryService, ItemIdentifier, JITA_REGION_ID, MarketService, UniverseService } from 'src/app/shared';
+import { copyToClipboard, getPriceForN, IndustryService, ItemIdentifier, JITA_REGION_ID, MarketService, UniverseService } from 'src/app/shared';
 import { ManufacturingCostEntry } from '..';
 import { ProductionSettingsService } from '../services/production-settings.service';
 
@@ -31,7 +31,6 @@ export class BlueprintManufacturingComponent implements OnInit {
     private industryService: IndustryService,
     private universeService: UniverseService,
     private marketService: MarketService,
-    private productionSettingsService: ProductionSettingsService,
     private snackBar: MatSnackBar) { }
 
   public ngOnInit(): void { 
@@ -61,13 +60,16 @@ export class BlueprintManufacturingComponent implements OnInit {
       map(entries => {
         const result: ManufacturingCostEntry[] = [];
         entries.forEach(entry =>  {
+
+          const nPrice = getPriceForN(entry.marketEntries, entry.material.quantity);
+          
           result.push({
             quantity: entry.material.quantity,
             quantity_total: entry.material.quantity * entry.runs,
             typeID: entry.itemDetails.type_id,
             itemName: entry.itemDetails.name,
-            single_buyPrice: entry.marketEntries[0].price,
-            total_buyPrice: (entry.marketEntries[0].price * entry.material.quantity) * entry.runs
+            single_buyPrice: nPrice.averagePrice,
+            total_buyPrice: nPrice.totalPrice
           })
         });
 
