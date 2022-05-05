@@ -145,6 +145,8 @@ export class EveSearchComponent implements OnInit, OnDestroy {
         //filter(foundItem => this.itemNameControl.value.toString().trim().toLowerCase() === foundItem?.name?.toLowerCase()),
         map(item => {
           if(item && item) {
+            this.titleService.setTitle(`${item.name}`)
+            this.router.navigate([], { queryParams: { item: item.name } });
 
             console.log("Set currenItem to:", item.id, item.name);
             this.itemSearchService.setCurrentItem({ id: item.id, name: item.name });
