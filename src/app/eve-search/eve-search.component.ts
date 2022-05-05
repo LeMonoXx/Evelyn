@@ -28,10 +28,12 @@ export class EveSearchComponent implements OnInit, OnDestroy {
 
   public productionFormGroup: FormGroup;
   public runsControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.min(1)]);
-  public meLevelControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.max(5), Validators.min(1)]);
-  public teLevelControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.max(5), Validators.min(1)]);
+  public meLevelControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.max(10), Validators.min(1)]);
+  public teLevelControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.max(20), Validators.min(1)]);
 
   public oneToFive = [1, 2, 3, 4, 5];
+  public oneToTen = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  public oneToTwenty = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
   private allowedStationIds: number[] = getAllowedStationIds();
   private allowedStructureIds: number[] = getAllowedStructureIds();
 
@@ -205,7 +207,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
       map((te: number) => this.productionSettingsService.setTE(te))
     ).subscribe(); 
 
-    this.meLevelSubscription = this.runsControl.valueChanges.pipe(
+    this.meLevelSubscription = this.meLevelControl.valueChanges.pipe(
       map((me: number) => this.productionSettingsService.setME(me))
     ).subscribe(); 
   }

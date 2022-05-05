@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject, shareReplay, Subject } from 'rxjs';
+import { Observable, ReplaySubject, shareReplay, startWith, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,19 @@ export class ProductionSettingsService {
   
   constructor() { 
     this.RunsObs = this.runs$.asObservable()
-    .pipe(shareReplay(1));
+    .pipe( 
+      startWith(1), 
+      shareReplay(1));
+
+    this.MeLevelObs = this.meLevel$.asObservable()
+    .pipe(
+      startWith(1), 
+      shareReplay(1));
+
+    this.TeLevelObs = this.teLevel$.asObservable()
+    .pipe(
+      startWith(1), 
+      shareReplay(1));
   }
   
   public setRuns(runs : number) {

@@ -2,9 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, combineLatest, forkJoin, map, Observable, switchMap } from 'rxjs';
 import { BlueprintDetails, ItemDetails, MarketEntry, Material, StationDetails } from 'src/app/models';
-import { copyToClipboard, getPriceForN, IndustryService, ItemIdentifier, JITA_REGION_ID, MarketService, UniverseService } from 'src/app/shared';
+import { calculateMaterialQuantity, copyToClipboard, getPriceForN, IndustryService, ItemIdentifier, JITA_REGION_ID, MarketService, UniverseService } from 'src/app/shared';
 import { ManufacturingCostEntry } from '..';
-import { ProductionSettingsService } from '../services/production-settings.service';
 
 @Component({
   selector: 'app-blueprint-manufacturing',
@@ -38,17 +37,23 @@ export class BlueprintManufacturingComponent implements OnInit {
       switchMap(item => this.industryService.getBlueprintDetails(item.id))
     );
 
-    this.manufacturingCostsObs = combineLatest([this.runs$, this.BpoDetailsObs, this.buyStation$]).pipe(
-      map(([runs, bpo, buyStation]) => ({runs: runs, materials: bpo.activities.manufacturing.materials, buyStation: buyStation })),
+    this.manufacturingCostsObs = combineLatest([this.runs$, this.BpoDetailsObs, this.buyStation$, this.meLevel$, this.teLevel$]).pipe(
+      map(([runs, bpo, buyStation, meLevel, teLevel]) => 
+        ({runs: runs, materials: bpo.activities.manufacturing.materials, buyStation: buyStation, meLevel: meLevel, teLevel: teLevel })),
       map(entry => {
         const itemDetails: Observable<{runs: number, itemDetails: ItemDetails, material: Material, marketEntries: MarketEntry[] }>[] = [];
         entry.materials.forEach(material => {
 
+          var materialCopy: Material = { typeID: material.typeID, quantity: material.quantity }
+          // only materials with a quantity above 1 will be affected by material-efficiency
+          if (material.quantity > 1) {
+            materialCopy.quantity = calculateMaterialQuantity(materialCopy.quantity, entry.meLevel);
+          }
           const itemData = this.universeService.getItemDetails(material.typeID).pipe(
             switchMap(itemDetails => {
               return this.marketService.getRegionMarketForItem(itemDetails.type_id, JITA_REGION_ID).pipe(
                map(entries => entries.filter(marketEntry => marketEntry.location_id === entry.buyStation.station_id)),
-               map(marketEntries => ({ runs: entry.runs, itemDetails: itemDetails, material: material, marketEntries: marketEntries }))); 
+               map(marketEntries => ({ runs: entry.runs, itemDetails: itemDetails, material: materialCopy, marketEntries: marketEntries, meLevel: entry.meLevel, }))); 
             }
             ));
 
