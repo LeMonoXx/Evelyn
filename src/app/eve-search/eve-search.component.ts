@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { catchError, debounceTime, filter, forkJoin, map, mergeMap, Observable, of, ReplaySubject, Subscription, switchMap, tap } from 'rxjs';
 import { MarketerSearchResult, StationDetails, StructureDetails } from '../models';
 import { ProductionSettingsService } from '../production/services/production-settings.service';
-import { EveMarketerDataRepositoryService } from '../repositories/evemarketer-data-repository.service';
+import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
 import { ACCOUNTING_SKILL_ID, CharacterService, getAllowedStationIds, getAllowedStructureIds, getStoredSelectedStation, getStoredSelectedStructure, InputErrorStateMatcher, ItemSearchService, UniverseService } from '../shared';
 
 @Component({
@@ -58,7 +58,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
 
   constructor(
     fb: FormBuilder,
-    private eveMarketerDataService : EveMarketerDataRepositoryService,
+    private autoCompleteService : EvepraisalDataRepositoryService,
     private itemSearchService: ItemSearchService,
     private characterService: CharacterService,
     private universeService: UniverseService,
@@ -89,7 +89,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
       filter((value: string) => value?.trim().length > 2),
       debounceTime(350),
       switchMap((value: string) => {
-        return this.eveMarketerDataService.getAutoCompleteSuggestions(value?.trim())
+        return this.autoCompleteService.getAutoCompleteSuggestions(value?.trim())
           .pipe(
             catchError(err => {
               const searchStr = this.itemNameControl.value.toString().trim();

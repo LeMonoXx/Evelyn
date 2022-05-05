@@ -10,6 +10,9 @@ export * from './character/character-skill-book'
 
 export * from './eve-maketer/marketer-search-result'
 
+export * from './eve-praisal/eve-praisal-search-result'
+export * from './eve-praisal/component'
+
 export * from './market/market-entry'
 export * from './market/market-order'
 export * from './market/market-history'

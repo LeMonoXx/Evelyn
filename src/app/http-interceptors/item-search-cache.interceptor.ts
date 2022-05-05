@@ -14,9 +14,12 @@ export class ItemSearchCacheInterceptor implements HttpInterceptor {
             return next.handle(request)
         }
 
-        if(!request.url.includes(environment.eveMarketerBaseUrl + '/types/autocomplete?q=')) {
+        if(!(request.url.includes(environment.eveMarketerBaseUrl + '/types/autocomplete?q=')
+        || request.url.includes(environment.evepraisalBaseUrl + 'search.json?q='))) {
             return next.handle(request)
         }
+
+        console.log(request.url + "went throue");
 
         if(request.headers.get("reset")) {
             this.cache.delete(request.url)
