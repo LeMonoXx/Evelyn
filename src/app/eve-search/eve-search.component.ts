@@ -142,7 +142,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
     
       this.searchSubscription = this.autoCompleteObs.pipe(
         map(proposals => proposals ? proposals[0] : undefined),
-        //filter(foundItem => this.itemNameControl.value.toString().trim().toLowerCase() === foundItem?.name?.toLowerCase()),
+        filter(foundItem => this.itemNameControl.value.toString().trim().toLowerCase() === foundItem?.name?.toLowerCase()),
         map(item => {
           if(item && item) {
             this.titleService.setTitle(`${item.name}`)
