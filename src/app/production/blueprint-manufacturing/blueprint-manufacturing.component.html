@@ -1,7 +1,7 @@
 <!-- blueprintTypeID: {{ bpoDetails.blueprintTypeID}}
 <br>
 maxProductionLimit: {{ bpoDetails.maxProductionLimit}} -->
-<div class="materialsDiv" *ngIf="BpoDetailsObs | async as bpoDetails">
+<div class="materialsDiv" *ngIf="mainBPODetailsObs | async as mainBPODetails">
     <div *ngIf="manufacturingCostsObs | async as manufacturingCosts">
         <table mat-table *ngIf="manufacturingCosts && manufacturingCosts.length > 0" [dataSource]="manufacturingCostsObs">
             <ng-container matColumnDef="image">
