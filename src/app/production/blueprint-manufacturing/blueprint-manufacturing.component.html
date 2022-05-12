@@ -1,6 +1,13 @@
 <!-- blueprintTypeID: {{ bpoDetails.blueprintTypeID}}
 <br>
 maxProductionLimit: {{ bpoDetails.maxProductionLimit}} -->
+
+<div *ngIf="subBPOsObs | async as subBpos">
+    <div *ngFor="let bpo of subBpos">
+        {{ bpo.blueprintTypeID }}
+    </div>
+</div>
+
 <div class="materialsDiv" *ngIf="mainBPODetailsObs | async as mainBPODetails">
     <div *ngIf="manufacturingCostsObs | async as manufacturingCosts">
         <table mat-table *ngIf="manufacturingCosts && manufacturingCosts.length > 0" [dataSource]="manufacturingCostsObs">

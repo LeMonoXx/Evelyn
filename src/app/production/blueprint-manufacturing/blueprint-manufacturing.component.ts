@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, combineLatest, forkJoin, map, mergeMap, Observable, ObservableNotification, switchMap, zip } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, first, forkJoin, from, map, mergeMap, Observable, ObservableNotification, shareReplay, startWith, switchMap, take, tap, toArray, zip } from 'rxjs';
 import { BlueprintDetails, ItemDetails, MarketEntry, Material, StationDetails } from 'src/app/models';
+import { EvepraisalDataRepositoryService } from 'src/app/repositories/evepraisal-data-repository.service';
 import { calculateMaterialQuantity, copyToClipboard, getPriceForN, IndustryService, ItemIdentifier, JITA_REGION_ID, MarketService, UniverseService } from 'src/app/shared';
 import { ManufacturingCostEntry } from '..';
 
@@ -26,18 +27,23 @@ export class BlueprintManufacturingComponent implements OnInit {
 
   public mainBPODetailsObs: Observable<BlueprintDetails>;
   public manufacturingCostsObs: Observable<ManufacturingCostEntry[]>;
+  public subComponentsObs: Observable<ItemDetails[]>;
+  public subBPOsObs: Observable<BlueprintDetails[]>;
+
   constructor(
     private industryService: IndustryService,
     private universeService: UniverseService,
     private marketService: MarketService,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar,
+    private autoCompleteService : EvepraisalDataRepositoryService) { }
 
   public ngOnInit(): void { 
     this.mainBPODetailsObs = this.item$.pipe(
-      switchMap(item => this.industryService.getBlueprintDetails(item.id))
+      switchMap(item => this.industryService.getBlueprintDetails(item.id)),
+      shareReplay(1)
     );
 
-    this.mainBPODetailsObs.pipe(
+    this.subComponentsObs = this.mainBPODetailsObs.pipe(
       map(details => details.activities.manufacturing.materials),
       map(materials => {
         const items: Observable<ItemDetails>[] = [];
@@ -47,8 +53,23 @@ export class BlueprintManufacturingComponent implements OnInit {
         return items;
       }),
         mergeMap(items => forkJoin(items)),
-        map(itemDetails => )
+        map(itemDetails => itemDetails),
+        shareReplay(1)
         );
+
+    this.subBPOsObs = this.subComponentsObs.pipe(
+      mergeMap(components => 
+        from(components).pipe(
+          mergeMap(component => this.autoCompleteService.getAutoCompleteSuggestions(component.name + " Blueprint").pipe(
+            filter(x => !!x && x.length > 0),
+            map(items => items[0]),
+            tap(item => console.log(item.name)),
+            mergeMap(item => this.industryService.getBlueprintDetails(item.id))
+          )),
+          toArray()
+        )
+      )
+    );
 
     this.manufacturingCostsObs = this.getBPOCalculation(this.runs$, this.mainBPODetailsObs, this.buyStation$, this.meLevel$);
   }
