@@ -28,8 +28,8 @@ export class BlueprintManufacturingComponent implements OnInit {
   public mainBPODetailsObs: Observable<BlueprintDetails>;
   public manufacturingCostsObs: Observable<ManufacturingCostEntry[]>;
   public subComponentsObs: Observable<ItemDetails[]>;
-  public subBPOsObs: Observable<BlueprintDetails[]>;
-  public subBPOsManufacturingCostsObs: Observable<ManufacturingCostEntry[][]>;
+  public subBPOsObs: Observable<{ item: ItemDetails; bpo: BlueprintDetails; }[]>;
+  public subBPOsManufacturingCostsObs: Observable<{ item: ItemDetails; bpoCost: ManufacturingCostEntry[]; }[]>;
 
   constructor(
     private industryService: IndustryService,
@@ -64,8 +64,9 @@ export class BlueprintManufacturingComponent implements OnInit {
           mergeMap(component => this.autoCompleteService.getAutoCompleteSuggestions(component.name + " Blueprint").pipe(
             filter(x => !!x && x.length > 0),
             map(items => items[0]),
-            tap(item => console.log(item.name)),
-            mergeMap(item => this.industryService.getBlueprintDetails(item.id))
+            mergeMap(item => this.industryService.getBlueprintDetails(item.id).pipe(
+              map(bpo => ({ item: component, bpo: bpo }))
+            ))
           )),
           toArray()
         )
@@ -75,10 +76,14 @@ export class BlueprintManufacturingComponent implements OnInit {
    this.subBPOsManufacturingCostsObs = this.subBPOsObs.pipe(
       mergeMap(bpos =>
         from(bpos).pipe(
-          mergeMap(bpo => this.getBPOCalculation(this.runs$, of(bpo), this.buyStation$, this.meLevel$)),
+          mergeMap(bpo => this.getBPOCalculation(this.runs$, of(bpo.bpo), this.buyStation$, this.meLevel$).pipe(
+            take(1),
+            map(calc => ({ item: bpo.item, bpoCost: calc }))
+          )),
+          filter(x => !!x && x.bpoCost && x.bpoCost.length > 0),
           toArray()
         ))
-    )
+    );
 
     this.manufacturingCostsObs = this.getBPOCalculation(this.runs$, this.mainBPODetailsObs, this.buyStation$, this.meLevel$);
   }
@@ -93,6 +98,7 @@ export class BlueprintManufacturingComponent implements OnInit {
         map(([runs, bpo, buyStation, meLevel]) => 
           ({runs: runs, materials: bpo.activities.manufacturing.materials, buyStation: buyStation, meLevel: meLevel })),
         map(entry => {
+          console.log("getBPOCalculation runs: " + entry.runs);
           const itemDetails: Observable<{runs: number, itemDetails: ItemDetails, material: Material, marketEntries: MarketEntry[] }>[] = [];
           entry.materials.forEach(material => {
   
@@ -117,7 +123,6 @@ export class BlueprintManufacturingComponent implements OnInit {
         map(entries => {
           const result: ManufacturingCostEntry[] = [];
           entries.forEach(entry =>  {
-  
             const nPrice = getPriceForN(entry.marketEntries, entry.material.quantity);
             
             result.push({
@@ -129,7 +134,7 @@ export class BlueprintManufacturingComponent implements OnInit {
               total_buyPrice: nPrice.totalPrice
             })
           });
-  
+          console.log(result.length);
           return result;
         }))
     }

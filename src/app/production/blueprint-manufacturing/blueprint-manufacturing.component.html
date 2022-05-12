@@ -1,14 +1,12 @@
 <!-- blueprintTypeID: {{ bpoDetails.blueprintTypeID}}
 <br>
 maxProductionLimit: {{ bpoDetails.maxProductionLimit}} -->
-
-{{ subComponentsObs | async }}
-
-<div *ngIf="subBPOsManufacturingCostsObs | async as subCosts">
-    <div *ngFor="let entry of subCosts">
-        {{ entry.length }}
-        <div *ngFor="let components of entry">
-            {{ "    " + components.itemName }}
+<!-- {{ subBPOsObs | async }} -->
+<div *ngIf="subBPOsManufacturingCostsObs | async as subBpos">
+    <div *ngFor="let entry of subBpos">
+        {{ entry.item.name }}
+        <div *ngFor="let component of entry.bpoCost">
+           --- {{ component.itemName}} x{{ component.quantity}}
         </div>
     </div>
 </div>
