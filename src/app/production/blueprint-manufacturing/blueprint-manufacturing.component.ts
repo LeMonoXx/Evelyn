@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, combineLatest, filter, first, forkJoin, from, map, mergeMap, Observable, ObservableNotification, shareReplay, startWith, switchMap, take, tap, toArray, zip } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, first, forkJoin, from, map, mergeMap, Observable, ObservableNotification, of, shareReplay, startWith, switchMap, take, tap, toArray, zip } from 'rxjs';
 import { BlueprintDetails, ItemDetails, MarketEntry, Material, StationDetails } from 'src/app/models';
 import { EvepraisalDataRepositoryService } from 'src/app/repositories/evepraisal-data-repository.service';
 import { calculateMaterialQuantity, copyToClipboard, getPriceForN, IndustryService, ItemIdentifier, JITA_REGION_ID, MarketService, UniverseService } from 'src/app/shared';
@@ -29,6 +29,7 @@ export class BlueprintManufacturingComponent implements OnInit {
   public manufacturingCostsObs: Observable<ManufacturingCostEntry[]>;
   public subComponentsObs: Observable<ItemDetails[]>;
   public subBPOsObs: Observable<BlueprintDetails[]>;
+  public subBPOsManufacturingCostsObs: Observable<ManufacturingCostEntry[][]>;
 
   constructor(
     private industryService: IndustryService,
@@ -70,6 +71,14 @@ export class BlueprintManufacturingComponent implements OnInit {
         )
       )
     );
+
+   this.subBPOsManufacturingCostsObs = this.subBPOsObs.pipe(
+      mergeMap(bpos =>
+        from(bpos).pipe(
+          mergeMap(bpo => this.getBPOCalculation(this.runs$, of(bpo), this.buyStation$, this.meLevel$)),
+          toArray()
+        ))
+    )
 
     this.manufacturingCostsObs = this.getBPOCalculation(this.runs$, this.mainBPODetailsObs, this.buyStation$, this.meLevel$);
   }
