@@ -23,12 +23,12 @@ export class ProductionSettingsService {
 
     this.MeLevelObs = this.meLevel$.asObservable()
     .pipe(
-      startWith(1), 
+      startWith(0), 
       shareReplay(1));
 
     this.TeLevelObs = this.teLevel$.asObservable()
     .pipe(
-      startWith(1), 
+      startWith(0), 
       shareReplay(1));
   }
   

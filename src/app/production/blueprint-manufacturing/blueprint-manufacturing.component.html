@@ -6,7 +6,7 @@ maxProductionLimit: {{ bpoDetails.maxProductionLimit}} -->
     <div *ngFor="let entry of subBpos">
         {{ entry.item.name }}
         <div *ngFor="let component of entry.bpoCost">
-           --- {{ component.itemName}} x{{ component.quantity}}
+           --- {{ component.itemName}} x{{ component.quantity_total | number}}
         </div>
     </div>
 </div>
