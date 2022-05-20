@@ -60,6 +60,7 @@ export class BlueprintManufacturingComponent implements OnInit {
     this.subBPOsObs = this.subComponentsObs.pipe(
       mergeMap(components => 
         from(components).pipe(
+         // filter(c => c.item.type_id !== 17478),
           mergeMap(component => this.autoCompleteService.getAutoCompleteSuggestions(component.item.name + " Blueprint").pipe(
             filter(x => !!x && x.length > 0),
             map(items => items[0]),
