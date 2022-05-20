@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, combineLatest, filter, forkJoin, from, map, mergeMap, Observable, of, shareReplay, switchMap, take, tap, toArray } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, forkJoin, from, map, mergeMap, Observable, of, shareReplay, startWith, switchMap, take, tap, toArray } from 'rxjs';
 import { BlueprintDetails, ItemDetails, MarketEntry, Material, StationDetails } from 'src/app/models';
 import { EvepraisalDataRepositoryService } from 'src/app/repositories/evepraisal-data-repository.service';
 import { calculateMaterialQuantity, calculateRequiredRuns, copyToClipboard, getPriceForN, IndustryService, ItemIdentifier, JITA_REGION_ID, MarketService, UniverseService } from 'src/app/shared';
@@ -28,7 +28,7 @@ export class BlueprintManufacturingComponent implements OnInit {
   public mainBPODetailsObs: Observable<BlueprintDetails>;
   public manufacturingCostsObs: Observable<ManufacturingCostEntry[]>;
   public subComponentsObs: Observable<{ material: Material, item: ItemDetails }[]>;
-  public subBPOsObs: Observable<{ component: { material: Material, item: ItemDetails }, bpo: BlueprintDetails; }[]>;
+  public subBPOsObs: Observable<{ component: { material: Material, item: ItemDetails }, bpo?: BlueprintDetails; }[]>;
   public subBPOsManufacturingCostsObs: Observable<{ item: ItemDetails, bpoCost: ManufacturingCostEntry[]; }[]>;
 
   constructor(
@@ -67,27 +67,52 @@ export class BlueprintManufacturingComponent implements OnInit {
               map(bpo => ({ component: component, bpo: bpo }))
             ))
           )),
-          toArray()
-        )
+          toArray(),
+        ),
       ),
     );
 
+    const allRequiredComponents = combineLatest([this.runs$, this.subComponentsObs, this.subBPOsObs, this.buyStation$, this.meLevel$]).pipe(
+      map(([runs, subComponents, subBPOs, buyStation, meLevel]) => {
+        subComponents.forEach(component => {
+          const exists = subBPOs.some(entry => entry.component.item.type_id === component.material.typeID);
+          if(!exists) {
+            subBPOs.push(({ component: component, bpo: undefined }))
+          }
+        })
 
-    this.subBPOsManufacturingCostsObs = combineLatest([this.runs$, this.subBPOsObs, this.buyStation$, this.meLevel$]).pipe(
-      mergeMap(([runs, subBPOs, buyStation, meLevel]) =>
-        from(subBPOs).pipe(
+        return ({ runs, subComponents, subBPOs, buyStation, meLevel });
+      }
+    ));
+
+
+    this.subBPOsManufacturingCostsObs = allRequiredComponents.pipe(
+        mergeMap(allReqComp =>
+        from(allReqComp.subBPOs).pipe(
           mergeMap(input => {
-              const reqSingleRunAmount = calculateMaterialQuantity(input.component.material.quantity, meLevel);
-              const reqAllRunsAmount = reqSingleRunAmount * runs;
+            if(input.bpo) {
+              const reqSingleRunAmount = calculateMaterialQuantity(input.component.material.quantity, allReqComp.meLevel);
+              const reqAllRunsAmount = reqSingleRunAmount * allReqComp.runs;
               const subComponentRuns = calculateRequiredRuns(input.component.material.typeID, reqAllRunsAmount, input.bpo);
 
-              const result = this.getBPOCalculation(of(subComponentRuns.reqRuns), of(input.bpo), of(buyStation), of(meLevel)).pipe(
+              return this.getBPOCalculation(
+                                of(subComponentRuns.reqRuns), 
+                                of(input.bpo.activities.manufacturing.materials), 
+                                of(allReqComp.buyStation), 
+                                of(allReqComp.meLevel)).pipe(
               take(1),
               map(calc => ({ item: input.component.item, bpoCost: calc, overflow: subComponentRuns.overflow })));
-              return result;
+            } else {
+              var materialCopy: Material = { typeID: input.component.material.typeID, quantity: input.component.material.quantity };
+              materialCopy.quantity = calculateMaterialQuantity(materialCopy.quantity, allReqComp.meLevel);
+              return this.getManufacturingCost(allReqComp.runs, materialCopy, allReqComp.buyStation).pipe(
+                map(c => [c]),
+                map(calc => ({ item: input.component.item, bpoCost: calc, overflow: 0 }))
+              );
+            }
           }),
           filter(x => !!x && x.bpoCost && x.bpoCost.length > 0),
-          toArray(),  
+          toArray(),
           map(entries => entries.sort((a, b) => 
           a.item.type_id - b.item.type_id))
         )));
@@ -97,37 +122,20 @@ export class BlueprintManufacturingComponent implements OnInit {
 
   private getBPOCalculation(
     runs$: Observable<number>, 
-    bpo$: Observable<BlueprintDetails>,
+    materials$: Observable<Material[]>,
     buyStation$: Observable<StationDetails>,
     meLevel$: Observable<number>)
     : Observable<ManufacturingCostEntry[]> {
-      return combineLatest([runs$, bpo$, buyStation$, meLevel$]).pipe(
-        map(([runs, bpo, buyStation, meLevel]) => 
-          ({runs: runs, materials: bpo.activities.manufacturing.materials, buyStation: buyStation, meLevel: meLevel })),
+      return combineLatest([runs$, materials$, buyStation$, meLevel$]).pipe(
+        map(([runs, materials, buyStation, meLevel]) => 
+          ({runs: runs, materials: materials, buyStation: buyStation, meLevel: meLevel })),
           mergeMap(input =>
             from(input.materials).pipe(
               mergeMap(material => {
                 var materialCopy: Material = { typeID: material.typeID, quantity: material.quantity };
                 materialCopy.quantity = calculateMaterialQuantity(materialCopy.quantity, input.meLevel);
 
-                return this.universeService.getItemDetails(material.typeID).pipe(
-                  switchMap(itemDetails => this.marketService.getRegionMarketForItem(itemDetails.type_id, JITA_REGION_ID).pipe(
-                    map(entries => entries.filter(marketEntry => marketEntry.location_id === input.buyStation.station_id)),
-                    map(marketEntries => ({ runs: input.runs, itemDetails: itemDetails, material: materialCopy, marketEntries: marketEntries })),
-                    map(entry => {
-                      const nPrice = getPriceForN(entry.marketEntries, entry.material.quantity);
-                      return {
-                        quantity: entry.material.quantity,
-                        quantity_total: entry.material.quantity * entry.runs,
-                        typeID: entry.itemDetails.type_id,
-                        itemName: entry.itemDetails.name,
-                        single_buyPrice: nPrice.averagePrice,
-                        total_buyPrice: nPrice.totalPrice
-                      };
-                    })
-                    )
-                  )
-                );
+                return this.getManufacturingCost(input.runs, materialCopy, input.buyStation);
               }),
               toArray(), 
               map(entries => entries.sort((a, b) => 
@@ -135,6 +143,27 @@ export class BlueprintManufacturingComponent implements OnInit {
             )
           ));
     }
+
+  public getManufacturingCost(runs: number, material: Material, buyStation: StationDetails): Observable<ManufacturingCostEntry> {
+    return this.universeService.getItemDetails(material.typeID).pipe(
+      switchMap(itemDetails => this.marketService.getRegionMarketForItem(itemDetails.type_id, JITA_REGION_ID).pipe(
+        map(entries => entries.filter(marketEntry => marketEntry.location_id ===buyStation.station_id)),
+        map(marketEntries => ({ runs: runs, itemDetails: itemDetails, material: material, marketEntries: marketEntries })),
+        map(entry => {
+          const nPrice = getPriceForN(entry.marketEntries, entry.material.quantity);
+          return {
+            quantity: entry.material.quantity,
+            quantity_total: entry.material.quantity * entry.runs,
+            typeID: entry.itemDetails.type_id,
+            itemName: entry.itemDetails.name,
+            single_buyPrice: nPrice.averagePrice,
+            total_buyPrice: nPrice.totalPrice
+          };
+        })
+        )
+      )
+    );
+  }
 
   public calcCostSum(entries: ManufacturingCostEntry[]) {
     const result = entries.reduce((accumulator, current) => {
