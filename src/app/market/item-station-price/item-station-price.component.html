@@ -91,6 +91,11 @@
                 {{ tradeData.profit | currency }}
             </label>       
         </div>
+
+        <div *ngIf="!tradeData.hasEnoughMarketVolumen" class="notEnoughVolumen">
+            The market had not enough remaining volumen to fullfill the required amount.
+            The prices for remaining volumen is calculated with the highest price and may differ. 
+        </div>
     </div>
 </div>
 

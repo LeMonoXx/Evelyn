@@ -94,12 +94,14 @@ export class ItemStationPriceComponent implements OnInit {
               nettoSalePrice: 0,
               profit: 0,
               shippingCost: 0,
-              usedMarketEntries: []
+              usedMarketEntries: [],
+              hasEnoughMarketVolumen: false
             };
           const usedOrders = getPriceForN(buyEntries, count);
           
           prices.singleBuyPrice = usedOrders.averagePrice;
           prices.buyPriceX = usedOrders.totalPrice;
+          prices.hasEnoughMarketVolumen = usedOrders.enough;
         
 
           if(sellEntries && sellEntries.length > 0) {

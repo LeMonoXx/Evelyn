@@ -37,6 +37,16 @@ export function getPriceForN(marketEntries: MarketEntry[], amount: number) : Pri
       }
     }
 
+    // if there are not enough market entries for our required amount
+    // we just use the price of the latest to estimate the total costs.
+    if(!result.enough) {
+      const entry = marketEntries[marketEntries.length -1];
+      const costToAdd = (entry.price * amountLeft);
+      totalPrice += costToAdd;
+      result.usedMarketEntries.push(entry);
+      amountLeft = 0;
+    }
+
     result.totalPrice = totalPrice;
     result.averagePrice = (totalPrice / amount);
   }
