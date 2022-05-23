@@ -13,27 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-
-import {MatBadgeModule} from '@angular/material/badge'
-import {MatInputModule} from '@angular/material/input';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatSortModule} from '@angular/material/sort';
-import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatTableModule} from '@angular/material/table';
-import {MatIconModule} from '@angular/material/icon';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatDividerModule} from '@angular/material/divider';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import {MatListModule} from '@angular/material/list';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatSelectModule} from '@angular/material/select';
-
 import { httpInterceptorProviders } from './http-interceptors';
-import { EveSearchComponent } from './eve-search/eve-search.component';
 import { ItemStationPriceComponent } from './market/item-station-price/item-station-price.component';
 import { SharedModule } from './shared/shared.module';
 import { ProductionModule } from './production/production.module';
@@ -49,7 +29,7 @@ import { ChartModule, DataLabelService, LineSeriesService, CategoryService, Zoom
  DateTimeService, DateTimeCategoryService, StripLineService, SplineSeriesService,
  TrendlinesService } from '@syncfusion/ej2-angular-charts';
 import { TradePriceWidgetComponent } from './widgets/trade-price-widget/trade-price-widget.component';
-import { BlueprintManufacturingComponent, ProductionComponent } from './production';
+import { BlueprintDetailsComponent, BlueprintManufacturingComponent, ProductionComponent } from './production';
 
 @NgModule({
   declarations: [
@@ -62,7 +42,8 @@ import { BlueprintManufacturingComponent, ProductionComponent } from './producti
     ItemHistoryComponent,
     TradePriceWidgetComponent, 
     ProductionComponent,
-    BlueprintManufacturingComponent
+    BlueprintManufacturingComponent,
+    BlueprintDetailsComponent
   ],
   imports: [
     HttpClientModule,

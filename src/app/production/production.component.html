@@ -6,20 +6,26 @@
         </div>
      </mat-card>
 
-     <div class="productionContentDiv">
-        <div class="manufacturingMatCard">   
-           <mat-card class="default-mat-card">
-              <ng-container *ngIf="currentItemObs | async"
-              class="manufacturingContent">
-                    <app-blueprint-manufacturing
+     <div class="productionContentDiv" *ngIf="currentItemObs | async">
+        <div class="manufacturingMatCard">            
+         <mat-card>
+               <ng-container class="manufacturingContent">
+                     <app-blueprint-details>
+                     </app-blueprint-details>      
+               </ng-container>  
+            </mat-card>
+
+            <mat-card>
+               <ng-container class="manufacturingContent">
+                     <app-blueprint-manufacturing
                         [item$]="currentItemObs"
                         [runs$]="runsObs"
                         [meLevel$]="meLevelObs"
                         [teLevel$]="teLevelObs"
                         [buyStation$]="currentBuyStationObs">
-                    </app-blueprint-manufacturing>      
-              </ng-container>  
-           </mat-card>
+                     </app-blueprint-manufacturing>      
+               </ng-container>  
+            </mat-card>
         </div>
      </div>
 </div>  
