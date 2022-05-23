@@ -1,61 +1,59 @@
-<!-- blueprintTypeID: {{ bpoDetails.blueprintTypeID}}
-<br>
-maxProductionLimit: {{ bpoDetails.maxProductionLimit}} -->
-<!-- {{ subBPOsObs | async }} -->
 <div *ngIf="subBPOsManufacturingCostsObs | async as subBpos">
     <div *ngFor="let entry of subBpos">
-        {{ entry.item.name }}
-        <div *ngFor="let component of entry.bpoCost">
-           --- {{ component.itemName}} x{{ component.quantity_total | number}}
+        <div class="mainBPOComponent">
+            <img class="foundItemImage" [src]="getImageForItem(entry.item.type_id)">
+            <div class="mainComponentName">{{ entry.item.name }}</div>
+            <div style="padding-left: 15px;" class="tableRowRight" *ngIf="entry.bpoCost.length <= 1">
+                {{ entry.bpoCost[0].quantity_total }} 
+           </div>
+        </div>
+
+        <div *ngIf="entry.bpoCost.length > 1">
+            <table mat-table [dataSource]="entry.bpoCost" class="subComponent" >
+                <ng-container matColumnDef="image">
+                    <!-- <th mat-header-cell *matHeaderCellDef class="tableRowCenter"> Image </th> -->
+                    <td mat-cell *matCellDef="let element" class="tableRowCenter"><img class="foundItemImage" [src]="getImageForItem(element.typeID)"></td>
+                    <!-- <td mat-footer-cell *matFooterCellDef class="tableRowCenter"></td> -->
+                </ng-container>
+        
+                <ng-container matColumnDef="name">
+                    <!-- <th mat-header-cell *matHeaderCellDef class="tableRowLeft"> Name </th> -->
+                    <td mat-cell *matCellDef="let element" class="tableRowLeft"
+                    (click)="copy(element.itemName)">
+                        <div class="nameColumn shortOnPhone" [title]="element.itemName">{{element.itemName}}</div> 
+                    </td>
+                    <!-- <td mat-footer-cell *matFooterCellDef class="tableRowLeft"></td> -->
+                </ng-container>
+        
+                <ng-container matColumnDef="quantity">
+                    <!-- <th mat-header-cell *matHeaderCellDef class="tableRowRight hideOnPhone"> Quantity </th> -->
+                    <td mat-cell *matCellDef="let element" class="tableRowRight hideOnPhone"> {{ element.quantity }} </td>
+                    <!-- <td mat-footer-cell *matFooterCellDef class="tableRowRight hideOnPhone"></td> -->
+                </ng-container>
+        
+                <ng-container matColumnDef="single_buyPrice">
+                    <!-- <th mat-header-cell *matHeaderCellDef class="tableRowRight hideOnPhone"> Buy price </th> -->
+                    <td mat-cell *matCellDef="let element" class="tableRowRight hideOnPhone"> {{element.single_buyPrice | currency }} </td>
+                    <!-- <td mat-footer-cell *matFooterCellDef class="tableRowRight hideOnPhone"> {{ 0 | currency }} </td> -->
+                </ng-container>
+        
+                <ng-container matColumnDef="quantity_total">
+                    <!-- <th mat-header-cell *matHeaderCellDef class="tableRowRight"> Quantity total</th> -->
+                    <td mat-cell *matCellDef="let element" class="tableRowRight"> {{element.quantity_total}} </td>
+                    <!-- <td mat-footer-cell *matFooterCellDef class="tableRowRight"></td> -->
+                </ng-container>
+        
+                <ng-container matColumnDef="total_buyPrice">
+                    <!-- <th mat-header-cell *matHeaderCellDef class="tableRowRight"> Buy price total </th> -->
+                    <td mat-cell *matCellDef="let element" class="tableRowRight"> {{element.total_buyPrice | currency }} </td>
+                    <!-- <td mat-footer-cell *matFooterCellDef class="tableRowRight"> {{ calcCostSum(entry.bpoCost) | currency }} </td> -->
+                </ng-container>
+                <!-- <tr mat-header-row *matHeaderRowDef="['image', 'name', 'quantity', 'single_buyPrice', 'quantity_total', 'total_buyPrice']"></tr> -->
+                <tr mat-row *matRowDef="let row; columns: ['image', 'name', 'quantity_total']"></tr>
+                <!-- <tr mat-footer-row *matFooterRowDef="['image', 'name']"></tr> -->
+            </table>
         </div>
     </div>
 </div>
 
-<div class="materialsDiv" *ngIf="mainBPODetailsObs | async as mainBPODetails">
-    <div *ngIf="manufacturingCostsObs | async as manufacturingCosts">
-        <table mat-table *ngIf="manufacturingCosts && manufacturingCosts.length > 0" [dataSource]="manufacturingCostsObs">
-            <ng-container matColumnDef="image">
-                <th mat-header-cell *matHeaderCellDef class="tableRowCenter"> Image </th>
-                <td mat-cell *matCellDef="let element" class="tableRowCenter"><img class="foundItemImage" [src]="getImageForItem(element.typeID)"></td>
-                <td mat-footer-cell *matFooterCellDef class="tableRowCenter"></td>
-            </ng-container>
 
-            <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef class="tableRowLeft"> Name </th>
-                <td mat-cell *matCellDef="let element" class="tableRowLeft"
-                (click)="copy(element.itemName)">
-                    <div class="nameColumn shortOnPhone" [title]="element.itemName">{{element.itemName}}</div> 
-                </td>
-                <td mat-footer-cell *matFooterCellDef class="tableRowLeft"></td>
-            </ng-container>
-
-            <ng-container matColumnDef="quantity">
-                <th mat-header-cell *matHeaderCellDef class="tableRowRight hideOnPhone"> Quantity </th>
-                <td mat-cell *matCellDef="let element" class="tableRowRight hideOnPhone"> {{ element.quantity }} </td>
-                <td mat-footer-cell *matFooterCellDef class="tableRowRight hideOnPhone"></td>
-            </ng-container>
-
-            <ng-container matColumnDef="single_buyPrice">
-                <th mat-header-cell *matHeaderCellDef class="tableRowRight hideOnPhone"> Buy price </th>
-                <td mat-cell *matCellDef="let element" class="tableRowRight hideOnPhone"> {{element.single_buyPrice | currency }} </td>
-                <td mat-footer-cell *matFooterCellDef class="tableRowRight hideOnPhone"> {{ 0 | currency }} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="quantity_total">
-                <th mat-header-cell *matHeaderCellDef class="tableRowRight"> Quantity total</th>
-                <td mat-cell *matCellDef="let element" class="tableRowRight"> {{element.quantity_total}} </td>
-                <td mat-footer-cell *matFooterCellDef class="tableRowRight"></td>
-            </ng-container>
-
-            <ng-container matColumnDef="total_buyPrice">
-                <th mat-header-cell *matHeaderCellDef class="tableRowRight"> Buy price total </th>
-                <td mat-cell *matCellDef="let element" class="tableRowRight"> {{element.total_buyPrice | currency }} </td>
-                <td mat-footer-cell *matFooterCellDef class="tableRowRight"> {{ calcCostSum(manufacturingCosts) | currency }} </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="['image', 'name', 'quantity', 'single_buyPrice', 'quantity_total', 'total_buyPrice']"></tr>
-            <tr mat-row *matRowDef="let row; columns: ['image', 'name', 'quantity', 'single_buyPrice', 'quantity_total', 'total_buyPrice']"></tr>
-            <tr mat-footer-row *matFooterRowDef="['image', 'name', 'quantity', 'single_buyPrice', 'quantity_total', 'total_buyPrice']"></tr>
-        </table>
-    </div>
-</div>
