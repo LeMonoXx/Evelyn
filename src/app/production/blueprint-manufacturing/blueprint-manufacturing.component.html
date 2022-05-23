@@ -1,15 +1,20 @@
-<div *ngIf="subBPOsManufacturingCostsObs | async as subBpos">
+<div *ngIf="subBPOsManufacturingCosts$ | async as subBpos">
     <div *ngFor="let entry of subBpos">
         <div class="mainBPOComponent">
             <img class="foundItemImage" [src]="getImageForItem(entry.item.type_id)">
-            <div class="mainComponentName" [title]="entry.item.name" (click)="copy(entry.item.name)">{{ entry.item.name }}</div>
-            <div style="padding-left: 13px;" class="tableRowRight" *ngIf="entry.bpoCost.length <= 1">
-                {{ entry.bpoCost[0].quantity_total }} 
+            <!-- <div class="mainComponentName" [title]="entry.subComponent?.bpoItem?.name">
+                test {{ entry.subComponent?.bpoItem?.name }}
+            </div> -->
+            <div class="mainComponentName" [title]="entry.item.name" (click)="copy(entry.item.name)">
+                {{ entry.item.name }}
+            </div>
+            <div style="padding-left: 13px;" class="tableRowRight">
+                {{ entry.reqAmount | number }} 
            </div>
         </div>
 
         <div *ngIf="entry.bpoCost.length > 1">
-            <table mat-table [dataSource]="entry.bpoCost" class="subComponent" >
+            <table mat-table [dataSource]="entry.bpoCost" class="subComponent">
                 <ng-container matColumnDef="image">
                     <td mat-cell *matCellDef="let element" class="tableRowCenter"><img class="foundItemImage" [src]="getImageForItem(element.typeID)"></td>
                 </ng-container>
@@ -20,22 +25,22 @@
                         <div class="nameColumn shortOnPhone" [title]="element.itemName">{{element.itemName}}</div> 
                     </td>
                 </ng-container>
-        
+                <!--         
                 <ng-container matColumnDef="quantity">
                     <td mat-cell *matCellDef="let element" class="tableRowRight hideOnPhone"> {{ element.quantity }} </td>
                 </ng-container>
         
                 <ng-container matColumnDef="single_buyPrice">
                     <td mat-cell *matCellDef="let element" class="tableRowRight hideOnPhone"> {{element.single_buyPrice | currency }} </td>
-                </ng-container>
+                </ng-container> -->
         
                 <ng-container matColumnDef="quantity_total">
-                    <td mat-cell *matCellDef="let element" class="tableRowRight"> {{element.quantity_total}} </td>
+                    <td mat-cell *matCellDef="let element" class="tableRowRight"> {{element.quantity_total | number}} </td>
                 </ng-container>
         
-                <ng-container matColumnDef="total_buyPrice">
+                <!-- <ng-container matColumnDef="total_buyPrice">
                     <td mat-cell *matCellDef="let element" class="tableRowRight"> {{element.total_buyPrice | currency }} </td>
-                </ng-container>
+                </ng-container> -->
                 <tr mat-row *matRowDef="let row; columns: ['image', 'name', 'quantity_total']"></tr>
             </table>
         </div>

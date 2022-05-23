@@ -10,7 +10,9 @@
         <div class="manufacturingMatCard">            
          <mat-card>
                <ng-container class="manufacturingContent">
-                     <app-blueprint-details>
+                     <app-blueprint-details
+                     [BPOItem$]="itemDetailsObs"
+                     [BPODetails$]="mainBPODetailsObs">
                      </app-blueprint-details>      
                </ng-container>  
             </mat-card>
@@ -18,11 +20,7 @@
             <mat-card>
                <ng-container class="manufacturingContent">
                      <app-blueprint-manufacturing
-                        [item$]="currentItemObs"
-                        [runs$]="runsObs"
-                        [meLevel$]="meLevelObs"
-                        [teLevel$]="teLevelObs"
-                        [buyStation$]="currentBuyStationObs">
+                        [subBPOsManufacturingCosts$]="subBPOsManufacturingCostsObs">
                      </app-blueprint-manufacturing>      
                </ng-container>  
             </mat-card>

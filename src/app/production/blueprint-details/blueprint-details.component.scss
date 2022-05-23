@@ -1,0 +1,49 @@
+@import 'src/styles/variables';
+@import 'src/styles/functions';
+
+.bpoDetailsContainer {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+
+    .arrow {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .itemInfo {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow: hidden;
+
+        @include breakpoint(490px) {
+            max-width: 300px;
+            }
+        @include breakpoint(410px) {
+            max-width: 250px;
+            }
+
+        .itemDetails {
+            margin: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: left;
+            
+            .itemInfoName{
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                cursor: pointer;
+            }
+        
+            .itemInfoId {
+                font-size: 70%;
+                font-style: italic;
+                color: $foreground-soft2;
+            }
+        }
+    } 
+}
+    

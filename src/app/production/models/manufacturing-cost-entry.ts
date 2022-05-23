@@ -1,3 +1,5 @@
+import { BlueprintDetails } from "src/app/models";
+
 export interface ManufacturingCostEntry {
     typeID: number;
     itemName: string;
