@@ -4,7 +4,7 @@ import { BehaviorSubject, combineLatest, filter, forkJoin, from, map, mergeMap, 
 import { BlueprintDetails, ItemDetails, MarketEntry, Material, StationDetails } from 'src/app/models';
 import { EvepraisalDataRepositoryService } from 'src/app/repositories/evepraisal-data-repository.service';
 import { calculateMaterialQuantity, calculateRequiredRuns, copyToClipboard, getPriceForN, IndustryService, ItemIdentifier, JITA_REGION_ID, MarketService, UniverseService } from 'src/app/shared';
-import { ManufacturingCostEntry } from '..';
+import { ManufacturingCostEntry, SubComponent } from '..';
 
 @Component({
   selector: 'app-blueprint-manufacturing',
@@ -26,9 +26,8 @@ export class BlueprintManufacturingComponent implements OnInit {
 
 
   public mainBPODetailsObs: Observable<BlueprintDetails>;
-  public manufacturingCostsObs: Observable<ManufacturingCostEntry[]>;
-  public subComponentsObs: Observable<{ material: Material, item: ItemDetails }[]>;
-  public subBPOsObs: Observable<{ component: { material: Material, item: ItemDetails }, bpo?: BlueprintDetails; }[]>;
+  public subComponentsObs: Observable<SubComponent[]>;
+  public subBPOsObs: Observable<{ component: SubComponent, bpo?: BlueprintDetails; }[]>;
   public subBPOsManufacturingCostsObs: Observable<{ item: ItemDetails, bpoCost: ManufacturingCostEntry[]; }[]>;
 
   constructor(
@@ -117,8 +116,6 @@ export class BlueprintManufacturingComponent implements OnInit {
           map(entries => entries.sort((a, b) => 
           a.item.type_id - b.item.type_id))
         )));
-
-   // this.manufacturingCostsObs = this.getBPOCalculation(this.runs$, this.mainBPODetailsObs, this.buyStation$, this.meLevel$);
   }
 
   private getBPOCalculation(
