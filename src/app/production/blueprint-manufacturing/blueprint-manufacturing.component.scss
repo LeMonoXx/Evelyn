@@ -13,7 +13,7 @@
     column-gap: 10px;
     
     .mainComponentName {
-        width: 230px;
+        width: 200px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -24,11 +24,18 @@
             width: 130px;
         }
     }
+
+    .mainComponentQuantity {
+        padding-left: 20px;
+        width: 120px;
+        text-align: end;
+        font-size: 90%;
+    }
 }
 
 
 .nameColumn {
-    width: 230px;
+    width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -42,21 +49,20 @@
 }
 
 .tableRowCenter {
-    // padding-right: 10px;
     text-align: center;
 }
 
 .tableRowLeft {
-    // padding-right: 10px;
+    width: 200px;
     text-align: left;
     font-size: 90%;
 }
 
 .tableRowRight {
-    width: 50px;
-    // padding-right: 10px;
+    width: 120px;
     text-align: end;
-    font-size: 85%;
+    font-size: 80%;
+    color: $foreground-soft1;
 }
 
 .hideOnPhone {
