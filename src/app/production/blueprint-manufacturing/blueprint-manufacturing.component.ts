@@ -1,9 +1,8 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
-import { ItemDetails } from 'src/app/models';
-import { copyToClipboard, UniverseService } from 'src/app/shared';
-import { ManufacturingCostEntry, SubComponent } from '..';
+import { calculateComponentCosts, calculateTotalCosts, copyToClipboard, UniverseService } from 'src/app/shared';
+import { ManufacturingCalculation, ManufacturingCostEntry, SubComponent } from '..';
 
 @Component({
   selector: 'app-blueprint-manufacturing',
@@ -14,12 +13,7 @@ import { ManufacturingCostEntry, SubComponent } from '..';
 export class BlueprintManufacturingComponent implements OnInit {
 
   @Input()
-  public subBPOsManufacturingCosts$: Observable<{ 
-    item: ItemDetails, 
-    reqAmount?: number, 
-    subComponent?: SubComponent,
-    bpoCost: ManufacturingCostEntry[]; 
-  }[]>;
+  public subBPOsManufacturingCosts$: Observable<ManufacturingCalculation[]>;
   
   constructor(
     private universeService: UniverseService,
@@ -45,8 +39,12 @@ export class BlueprintManufacturingComponent implements OnInit {
   public getImageForItem(typeId: number | undefined): string {
     if(!typeId)
     return "";
-    
+
     return this.universeService.getImageUrlForType(typeId, 32);
+  }
+
+  public getComponentCosts(component: ManufacturingCostEntry[]): number {
+    return calculateComponentCosts(component);
   }
 
 }

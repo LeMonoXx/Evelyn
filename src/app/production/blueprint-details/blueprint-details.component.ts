@@ -1,8 +1,9 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { map, Observable, switchMap } from 'rxjs';
+import { map, Observable, switchMap, tap } from 'rxjs';
 import { BlueprintDetails, ItemDetails } from 'src/app/models';
-import { copyToClipboard, UniverseService } from 'src/app/shared';
+import { calculateTotalCosts, copyToClipboard, UniverseService } from 'src/app/shared';
+import { ManufacturingCalculation } from '..';
 
 @Component({
   selector: 'app-blueprint-details',
@@ -18,8 +19,12 @@ export class BlueprintDetailsComponent implements OnInit {
   @Input()
   public BPODetails$: Observable<BlueprintDetails>;
 
+  @Input()
+  public subBPOsManufacturingCosts$: Observable<ManufacturingCalculation[]>;
+  
   public currentItemImageSourceObs: Observable<string>;
   public productObs: Observable<{ product: ItemDetails, imageSource: string }>;
+  public totalMaterialCostsObs: Observable<number>;
   
   constructor(
     private universeService: UniverseService,
@@ -36,6 +41,9 @@ export class BlueprintDetailsComponent implements OnInit {
         switchMap(bpo => this.universeService.getItemDetails(bpo.activities.manufacturing.products[0].typeID)),
         map(item => ({ product: item, imageSource: this.universeService.getImageUrlForType(item.type_id, 64) }))
       )
+
+      this.totalMaterialCostsObs = this.subBPOsManufacturingCosts$.pipe(
+        map(entries => calculateTotalCosts(entries))); 
   }
   
   public copy(text: string) {

@@ -6,3 +6,4 @@ export * from  './blueprint-summary/blueprint-summary.component'
 
 export * from './models/manufacturing-cost-entry'
 export * from './models/sub-component'
+export * from './models/manufacturing-calculation'

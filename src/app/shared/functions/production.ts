@@ -1,4 +1,5 @@
 import { BlueprintDetails } from "src/app/models";
+import { ManufacturingCalculation, ManufacturingCostEntry } from "src/app/production";
 
 export function calculateMaterialQuantity(baseAmount: number, runs: number, materialEfficiency: number) {
     // only materials with a quantity above 1 will be affected by material-efficiency
@@ -33,4 +34,19 @@ export function calculateRequiredRuns(requiredProductTypeId: number, requiredPro
         }
 
         return { reqRuns, overflow }
+}
+
+export function calculateTotalCosts(manufacturing : ManufacturingCalculation[]) {
+
+  let price = 0;
+
+  manufacturing.forEach(entry => price += calculateComponentCosts(entry.bpoCost));
+
+  return price;
+}
+
+export function calculateComponentCosts(costEntries : ManufacturingCostEntry[]) {
+  let price = 0;
+  costEntries.forEach(cost => price += cost.total_buyPrice);
+  return price;
 }

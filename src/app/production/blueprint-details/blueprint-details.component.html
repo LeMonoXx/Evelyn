@@ -31,4 +31,8 @@
         <span>Max Runs: {{ bpoDetails.maxProductionLimit }}</span>
         <span>Product (per run):{{ bpoDetails.activities.manufacturing.products[0].quantity }}</span>      
     </div>
+
+    <div *ngIf="totalMaterialCostsObs | async as totalCost">
+        Total Material Costs: {{ totalCost | currency }}
+    </div>
 </div>

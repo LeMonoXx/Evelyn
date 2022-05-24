@@ -9,6 +9,10 @@
             <div class="mainComponentQuantity">
                 {{ entry.reqAmount | number }}
            </div>
+
+           <div class="mainComponentQuantity">
+            {{ getComponentCosts(entry.bpoCost) | currency }}
+       </div>
         </div>
         
         <!-- I case we want to directly show the blueprints in the list -->
@@ -31,14 +35,23 @@
                 <ng-container matColumnDef="name">
                     <td mat-cell *matCellDef="let element" class="tableRowLeft"
                     (click)="copy(element.itemName)">
-                        <div class="nameColumn shortOnPhone" [title]="element.itemName">{{element.itemName}}</div> 
+                        <div class="nameColumn shortOnPhone" [title]="element.itemName">{{ element.itemName }}</div> 
                     </td>
                 </ng-container>
+
                 <ng-container matColumnDef="quantity_total">
-                    <td mat-cell *matCellDef="let element" class="tableRowRight"> {{element.quantity_total | number}} </td>
+                    <td mat-cell *matCellDef="let element" class="tableRowRight"> {{ element.quantity_total | number }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="single_buyPrice">
+                    <td mat-cell *matCellDef="let element" class="tableRowRight"> {{ element.single_buyPrice | currency }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="total_buyPrice">
+                    <td mat-cell *matCellDef="let element" class="tableRowRight"> {{ element.total_buyPrice | currency }} </td>
                 </ng-container>
                 
-                <tr mat-row *matRowDef="let row; columns: ['image', 'name', 'quantity_total']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['image', 'name', 'quantity_total', 'single_buyPrice' ,'total_buyPrice']"></tr>
             </table>
         </div>
     </div>

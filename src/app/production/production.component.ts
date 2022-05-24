@@ -1,14 +1,13 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, buffer, bufferTime, combineLatest, debounceTime, filter, from, map, mergeMap, Observable, of, shareReplay, Subject, switchMap, take, tap, toArray } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, filter, from, map, mergeMap, Observable, of, shareReplay, Subject, switchMap, take, tap, toArray } from 'rxjs';
 import { IAuthResponseData, AuthService } from '../auth';
 import { StructureDetails, ItemDetails, StationDetails, BlueprintDetails, Material } from '../models';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
 import { calculateMaterialQuantity, calculateRequiredRuns, calculateTaxPercentBySkillLevel, getPriceForN, IndustryService, ItemIdentifier, 
   ItemSearchService, JITA_REGION_ID, MarketService, MJ5F9_REGION_ID, ShoppingEntry, ShoppingListService, UniverseService } from '../shared';
 import { ManufacturingCostEntry } from './models/manufacturing-cost-entry';
-import { SubComponent } from './models/sub-component';
+import { SubComponent, ManufacturingCalculation } from '.';
 import { ProductionSettingsService } from './services/production-settings.service';
 
 @Component({
@@ -35,13 +34,7 @@ export class ProductionComponent implements OnInit {
   public mainBPOItemObs: Observable<ItemDetails>
   public mainBPODetailsObs: Observable<BlueprintDetails>;
   public subComponentsObs: Observable<SubComponent[]>;
-  public subBPOsManufacturingCostsObs: Observable<{ 
-    item: ItemDetails, 
-    reqAmount?: number, 
-    subComponent?: SubComponent,
-    bpoCost: ManufacturingCostEntry[],
-    overflow: number
-  }[]>;
+  public subBPOsManufacturingCostsObs: Observable<ManufacturingCalculation[]>;
 
   constructor(
     private industryService: IndustryService,
@@ -142,14 +135,16 @@ export class ProductionComponent implements OnInit {
         mergeMap(allReqComp =>
         from(allReqComp.subBPOs).pipe(
           mergeMap(component => {
+
             const reqAllRunsAmount = calculateMaterialQuantity(component.material.quantity, allReqComp.runs, allReqComp.meLevel);
             component.requiredAmount = reqAllRunsAmount;
-
+            if(component.material.typeID == 57478) {
+              console.log(component.requiredAmount + " vs " + component.material.quantity);
+            }
             if(component.bpo) {
-
               const subComponentRuns = calculateRequiredRuns(component.material.typeID, component.requiredAmount, component.bpo);
               component.requiredRuns = subComponentRuns.reqRuns;
-              
+
               return this.getBPOCalculation(
                                 subComponentRuns.reqRuns, 
                                 component.bpo, 
@@ -165,9 +160,8 @@ export class ProductionComponent implements OnInit {
                 })));
 
             } else {
-              var materialCopy: Material = { typeID: component.material.typeID, quantity: component.material.quantity };
-              materialCopy.quantity = calculateMaterialQuantity(materialCopy.quantity, allReqComp.runs, allReqComp.meLevel);
-              return this.getManufacturingCost(allReqComp.runs, materialCopy, allReqComp.buyStation).pipe(
+              const reqQuantity = calculateMaterialQuantity(component.material.quantity, allReqComp.runs, allReqComp.meLevel);
+              return this.getManufacturingCost(component.material.typeID, reqQuantity, allReqComp.buyStation).pipe(
                 map(c => [c]),
                 map(calc => (
                   { item: component.item, 
@@ -195,11 +189,11 @@ export class ProductionComponent implements OnInit {
       const materials = bpo.activities.manufacturing.materials;
       return from(materials).pipe(
         mergeMap(material => {
-        //  console.log(`material: ${material.typeID} before: ${material.quantity}`);
-          var materialCopy: Material = { typeID: material.typeID, quantity: material.quantity };
-          materialCopy.quantity = calculateMaterialQuantity(materialCopy.quantity, runs, meLevel);
-       //  console.log(`material: ${material.typeID} after: ${materialCopy.quantity}`);
-          return this.getManufacturingCost(runs, materialCopy, buyStation);
+          if(material.typeID == 57478) {
+            console.log(material);
+          }
+          const reqQuantity = calculateMaterialQuantity(material.quantity, runs, meLevel);
+          return this.getManufacturingCost(material.typeID, reqQuantity, buyStation);
         }),
         toArray(), 
         map(entries => entries.sort((a, b) => 
@@ -207,16 +201,15 @@ export class ProductionComponent implements OnInit {
       );
     }
 
-  public getManufacturingCost(runs: number, material: Material, buyStation: StationDetails): Observable<ManufacturingCostEntry> {
-    return this.universeService.getItemDetails(material.typeID).pipe(
+  public getManufacturingCost(typeId: number, quantity: number, buyStation: StationDetails): Observable<ManufacturingCostEntry> {
+    return this.universeService.getItemDetails(typeId).pipe(
       switchMap(itemDetails => this.marketService.getRegionMarketForItem(itemDetails.type_id, JITA_REGION_ID).pipe(
         map(entries => entries.filter(marketEntry => marketEntry.location_id ===buyStation.station_id)),
-        map(marketEntries => ({ runs: runs, itemDetails: itemDetails, material: material, marketEntries: marketEntries })),
+        map(marketEntries => ({ itemDetails: itemDetails, marketEntries: marketEntries })),
         map(entry => {
-          const nPrice = getPriceForN(entry.marketEntries, entry.material.quantity);
+          const nPrice = getPriceForN(entry.marketEntries, quantity);
           return {
-            quantity: entry.material.quantity,
-            quantity_total: entry.material.quantity * entry.runs,
+            quantity_total: quantity,
             typeID: entry.itemDetails.type_id,
             itemName: entry.itemDetails.name,
             single_buyPrice: nPrice.averagePrice,
