@@ -139,8 +139,7 @@ export class ProductionComponent implements OnInit {
         mergeMap(allReqComp =>
         from(allReqComp.subBPOs).pipe(
           mergeMap(component => {
-            const reqSingleRunAmount = calculateMaterialQuantity(component.material.quantity, allReqComp.meLevel);
-            const reqAllRunsAmount = reqSingleRunAmount * allReqComp.runs;
+            const reqAllRunsAmount = calculateMaterialQuantity(component.material.quantity, allReqComp.runs, allReqComp.meLevel);
             component.requiredAmount = reqAllRunsAmount;
 
             if(component.bpo) {
@@ -163,7 +162,7 @@ export class ProductionComponent implements OnInit {
 
             } else {
               var materialCopy: Material = { typeID: component.material.typeID, quantity: component.material.quantity };
-              materialCopy.quantity = calculateMaterialQuantity(materialCopy.quantity, allReqComp.meLevel);
+              materialCopy.quantity = calculateMaterialQuantity(materialCopy.quantity, allReqComp.runs, allReqComp.meLevel);
               return this.getManufacturingCost(allReqComp.runs, materialCopy, allReqComp.buyStation).pipe(
                 map(c => [c]),
                 map(calc => (
@@ -194,7 +193,7 @@ export class ProductionComponent implements OnInit {
         mergeMap(material => {
         //  console.log(`material: ${material.typeID} before: ${material.quantity}`);
           var materialCopy: Material = { typeID: material.typeID, quantity: material.quantity };
-          materialCopy.quantity = calculateMaterialQuantity(materialCopy.quantity, meLevel);
+          materialCopy.quantity = calculateMaterialQuantity(materialCopy.quantity, runs, meLevel);
        //  console.log(`material: ${material.typeID} after: ${materialCopy.quantity}`);
           return this.getManufacturingCost(runs, materialCopy, buyStation);
         }),

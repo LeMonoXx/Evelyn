@@ -1,13 +1,15 @@
 import { BlueprintDetails } from "src/app/models";
 
-export function calculateMaterialQuantity(baseAmount: number, materialEfficiency: number) {
+export function calculateMaterialQuantity(baseAmount: number, runs: number, materialEfficiency: number) {
     // only materials with a quantity above 1 will be affected by material-efficiency
+    let runsbaseAmount = baseAmount * runs;
     if(baseAmount <= 1)
-        return baseAmount;
+        return runsbaseAmount;
 
-    const minus = ((baseAmount / 100) * materialEfficiency);
-    baseAmount = Math.ceil(baseAmount - minus);
-    return baseAmount;
+    const minus = ((runsbaseAmount / 100) * materialEfficiency);
+
+    runsbaseAmount = Math.ceil(runsbaseAmount - minus);
+    return runsbaseAmount;
 }
 
 export function calculateRequiredRuns(requiredProductTypeId: number, requiredProductAmount: number, bpo: BlueprintDetails) 

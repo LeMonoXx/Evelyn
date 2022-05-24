@@ -1,33 +1,34 @@
-<div *ngIf="BPOItem$ | async as bpoItem" class="bpoDetailsContainer">
-    <div class="itemInfo">
-        <div *ngIf="(currentItemImageSourceObs | async) as imageSource">
-            <img class="foundItemImage" [src]="imageSource">
+<div *ngIf="BPOItem$ | async as bpoItem">
+    <div class="bpoItemContainer">
+        <div class="itemInfo">
+            <div *ngIf="(currentItemImageSourceObs | async) as imageSource">
+                <img class="foundItemImage" [src]="imageSource">
+            </div>
+            <div class="itemDetails">
+                <div class="itemInfoName" [title]="bpoItem.name"
+                    (click)="copy(bpoItem.name)">{{ bpoItem.name }}</div>
+                <div class="itemInfoId">{{ bpoItem.type_id }}</div>
+                <div class="itemInfoId"> {{ bpoItem.packaged_volume }} m³ </div>
+            </div>
         </div>
-        <div class="itemDetails">
-            <div class="itemInfoName" [title]="bpoItem.name"
-                (click)="copy(bpoItem.name)">{{ bpoItem.name }}</div>
-            <div class="itemInfoId">{{ bpoItem.type_id }}</div>
-            <div class="itemInfoId"> {{ bpoItem.packaged_volume }} m³ </div>
+
+        <div class="arrow">
+            <mat-icon>arrow_forward</mat-icon>
         </div>
-    </div>
 
-    <div class="arrow">
-        <mat-icon>arrow_forward</mat-icon>
-    </div>
-
-    <div class="itemInfo" *ngIf="productObs | async as productObj">
-            <img class="foundItemImage" [src]="productObj.imageSource">
-        <div class="itemDetails">
-            <div class="itemInfoName" [title]="productObj.product.name"
-                (click)="copy(productObj.product.name)">{{ productObj.product.name }}</div>
-            <div class="itemInfoId">{{ productObj.product.type_id }}</div>
-            <div class="itemInfoId"> {{ productObj.product.packaged_volume }} m³ </div>
+        <div class="itemInfo" *ngIf="productObs | async as productObj">
+                <img class="foundItemImage" [src]="productObj.imageSource">
+            <div class="itemDetails">
+                <div class="itemInfoName" [title]="productObj.product.name"
+                    (click)="copy(productObj.product.name)">{{ productObj.product.name }}</div>
+                <div class="itemInfoId">{{ productObj.product.type_id }}</div>
+                <div class="itemInfoId"> {{ productObj.product.packaged_volume }} m³ </div>
+            </div>
         </div>
-    </div>
+    </div>    
 
-    <!-- 
-    <div *ngIf="BPODetails$ | async as bpoDetails">
-        Max Runs: {{ bpoDetails.maxProductionLimit }}
-        Product (per run):{{ bpoDetails.activities.manufacturing.products[0].quantity }}
-    </div> -->
+    <div *ngIf="BPODetails$ | async as bpoDetails" class="bpoDetailsContainer">
+        <span>Max Runs: {{ bpoDetails.maxProductionLimit }}</span>
+        <span>Product (per run):{{ bpoDetails.activities.manufacturing.products[0].quantity }}</span>      
+    </div>
 </div>

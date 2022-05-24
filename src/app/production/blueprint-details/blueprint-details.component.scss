@@ -1,7 +1,7 @@
 @import 'src/styles/variables';
 @import 'src/styles/functions';
 
-.bpoDetailsContainer {
+.bpoItemContainer {
     display: flex;
     align-content: center;
     justify-content: space-between;
@@ -45,5 +45,16 @@
             }
         }
     } 
+}
+
+.bpoDetailsContainer {
+    display: flex;
+    flex-direction: column;
+    align-content: space-around;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 80%;
 }
     
