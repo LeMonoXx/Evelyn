@@ -42,7 +42,10 @@ export class BlueprintManufacturingComponent implements OnInit {
     this.snackBar.open("Copied!", undefined, { duration: 2000 });
   }
   
-  public getImageForItem(typeId: number): string {
+  public getImageForItem(typeId: number | undefined): string {
+    if(!typeId)
+    return "";
+    
     return this.universeService.getImageUrlForType(typeId, 32);
   }
 

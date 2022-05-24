@@ -2,16 +2,25 @@
     <div *ngFor="let entry of subBpos">
         <div class="mainBPOComponent">
             <img class="foundItemImage" [src]="getImageForItem(entry.item.type_id)">
-            <!-- <div class="mainComponentName" [title]="entry.subComponent?.bpoItem?.name">
-                test {{ entry.subComponent?.bpoItem?.name }}
-            </div> -->
+
             <div class="mainComponentName" [title]="entry.item.name" (click)="copy(entry.item.name)">
                 {{ entry.item.name }}
             </div>
             <div class="mainComponentQuantity">
-                {{ entry.reqAmount | number }} 
+                {{ entry.reqAmount | number }}
            </div>
         </div>
+        
+        <!-- I case we want to directly show the blueprints in the list -->
+        <!-- <div class="mainBPOComponent" *ngIf="entry.subComponent?.bpoItem">
+            <img class="foundItemImage" [src]="getImageForItem(entry.subComponent?.bpoItem?.type_id)">
+            <div class="mainComponentName" [title]="entry.item.name" (click)="copy(entry.item.name)">
+                {{ entry.subComponent?.bpoItem?.name }}
+            </div>
+            <div class="mainComponentQuantity">
+                runs: {{ entry.subComponent?.requiredRuns }} -> {{ entry.reqAmount | number }} 
+           </div>
+        </div> -->
 
         <div *ngIf="entry.bpoCost.length > 1">
             <table mat-table [dataSource]="entry.bpoCost" class="subComponent">

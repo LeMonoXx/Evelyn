@@ -145,7 +145,8 @@ export class ProductionComponent implements OnInit {
             if(component.bpo) {
 
               const subComponentRuns = calculateRequiredRuns(component.material.typeID, component.requiredAmount, component.bpo);
-
+              component.requiredRuns = subComponentRuns.reqRuns;
+              
               return this.getBPOCalculation(
                                 subComponentRuns.reqRuns, 
                                 component.bpo, 
