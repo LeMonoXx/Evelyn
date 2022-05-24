@@ -4,7 +4,7 @@ import { ItemDetails, SearchResult, StationDetails, StructureDetails as Structur
 import { EsiDataRepositoryService } from 'src/app/repositories/esi-data-repository.service';
 import { environment } from 'src/environments/environment';
 import { parse } from 'yaml';
-import { getStoredBlueprintDetails, getStoredEveTypes, storeEveTypes } from '../functions/storage';
+import { getStoredEveTypes, storeEveTypes } from '../functions/storage';
 
 @Injectable({
   providedIn: 'root'

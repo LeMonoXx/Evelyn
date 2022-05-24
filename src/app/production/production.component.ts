@@ -99,13 +99,13 @@ export class ProductionComponent implements OnInit {
             map(items => items[0]),
             mergeMap(item => this.industryService.getBlueprintDetails(item.id).pipe(
               mergeMap(bpo => this.universeService.getItemDetails(bpo.blueprintTypeID).pipe(
-                map(bpoItem => ({bpo, bpoItem})
+                map(bpoItem => ({bpo: bpo, bpoItem: bpoItem})
               ),
               map(result => {
                  component.bpo = result.bpo;
-                 component.bpoItem = result.bpoItem;
+                 component.bpoItem = result.bpoItem;                 
                  return component;
-                }),
+                })
             ))
           )),
           toArray(),
@@ -114,33 +114,30 @@ export class ProductionComponent implements OnInit {
     )));
 
     const allRequiredComponents = combineLatest([this.runsObs, materialItemObs, bpoComponentsObs, this.currentBuyStationObs, this.meLevelObs]).pipe(
-      debounceTime(100),
-      map(([runs, subComponents, subBPOs, buyStation, meLevel]) => {
-        subComponents.forEach(component => {
+      debounceTime(150),
+      map(([runs, subMaterials, bpoComponents, buyStation, meLevel]) => {
+        subMaterials.forEach(component => {
 
-          const exists = subBPOs.some(c => c.item.type_id === component.material.typeID);
+          const exists = bpoComponents.some(c => c.item.type_id === component.material.typeID);
           if(!exists) {
-            subBPOs.push(component);
+            bpoComponents.push(component);
           }
         })
-        return ({ runs, subComponents, subBPOs, buyStation, meLevel });
+        return ({ runs, bpoComponents, buyStation, meLevel });
       }
     ));
 
     this.subComponentsObs = allRequiredComponents.pipe(
-      map(c => c.subComponents)
+      map(c => c.bpoComponents)
     );
 
     this.subBPOsManufacturingCostsObs = allRequiredComponents.pipe(
         mergeMap(allReqComp =>
-        from(allReqComp.subBPOs).pipe(
+        from(allReqComp.bpoComponents).pipe(
           mergeMap(component => {
 
             const reqAllRunsAmount = calculateMaterialQuantity(component.material.quantity, allReqComp.runs, allReqComp.meLevel);
             component.requiredAmount = reqAllRunsAmount;
-            if(component.material.typeID == 57478) {
-              console.log(component.requiredAmount + " vs " + component.material.quantity);
-            }
             if(component.bpo) {
               const subComponentRuns = calculateRequiredRuns(component.material.typeID, component.requiredAmount, component.bpo);
               component.requiredRuns = subComponentRuns.reqRuns;
