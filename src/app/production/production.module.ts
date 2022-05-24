@@ -9,10 +9,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from '../app-routing.module';
 import { BlueprintDetailsComponent } from './blueprint-details/blueprint-details.component';
+import { BlueprintSummaryComponent } from './blueprint-summary/blueprint-summary.component';
 
 @NgModule({
   declarations: [
-  
   ],
   imports: [
     SharedModule,

@@ -34,22 +34,10 @@
                         <div class="nameColumn shortOnPhone" [title]="element.itemName">{{element.itemName}}</div> 
                     </td>
                 </ng-container>
-                <!--         
-                <ng-container matColumnDef="quantity">
-                    <td mat-cell *matCellDef="let element" class="tableRowRight hideOnPhone"> {{ element.quantity }} </td>
-                </ng-container>
-        
-                <ng-container matColumnDef="single_buyPrice">
-                    <td mat-cell *matCellDef="let element" class="tableRowRight hideOnPhone"> {{element.single_buyPrice | currency }} </td>
-                </ng-container> -->
-        
                 <ng-container matColumnDef="quantity_total">
                     <td mat-cell *matCellDef="let element" class="tableRowRight"> {{element.quantity_total | number}} </td>
                 </ng-container>
-        
-                <!-- <ng-container matColumnDef="total_buyPrice">
-                    <td mat-cell *matCellDef="let element" class="tableRowRight"> {{element.total_buyPrice | currency }} </td>
-                </ng-container> -->
+                
                 <tr mat-row *matRowDef="let row; columns: ['image', 'name', 'quantity_total']"></tr>
             </table>
         </div>

@@ -7,7 +7,6 @@
      </mat-card>
 
      <div class="productionContentDiv" *ngIf="currentItemObs | async">
-        <div class="manufacturingMatCard">            
          <mat-card>
                <ng-container class="manufacturingContent">
                      <app-blueprint-details
@@ -15,16 +14,23 @@
                      [BPODetails$]="mainBPODetailsObs">
                      </app-blueprint-details>      
                </ng-container>  
-            </mat-card>
+         </mat-card>
+         
+         <mat-card>
+            <ng-container class="manufacturingContent">
+                  <app-blueprint-summary
+                  [subBPOs$]="subComponentsObs">  
+                  </app-blueprint-summary>      
+            </ng-container>  
+         </mat-card>
 
-            <mat-card>
-               <ng-container class="manufacturingContent">
-                     <app-blueprint-manufacturing
-                        [subBPOsManufacturingCosts$]="subBPOsManufacturingCostsObs">
-                     </app-blueprint-manufacturing>      
-               </ng-container>  
-            </mat-card>
-        </div>
+         <mat-card>
+            <ng-container class="manufacturingContent">
+                  <app-blueprint-manufacturing
+                     [subBPOsManufacturingCosts$]="subBPOsManufacturingCostsObs">
+                  </app-blueprint-manufacturing>      
+            </ng-container>  
+         </mat-card>
      </div>
 </div>  
 

@@ -29,7 +29,12 @@ import { ChartModule, DataLabelService, LineSeriesService, CategoryService, Zoom
  DateTimeService, DateTimeCategoryService, StripLineService, SplineSeriesService,
  TrendlinesService } from '@syncfusion/ej2-angular-charts';
 import { TradePriceWidgetComponent } from './widgets/trade-price-widget/trade-price-widget.component';
-import { BlueprintDetailsComponent, BlueprintManufacturingComponent, ProductionComponent } from './production';
+import { 
+  BlueprintDetailsComponent, 
+  BlueprintManufacturingComponent, 
+  BlueprintSummaryComponent, 
+  ProductionComponent 
+} from './production';
 
 @NgModule({
   declarations: [
@@ -43,7 +48,8 @@ import { BlueprintDetailsComponent, BlueprintManufacturingComponent, ProductionC
     TradePriceWidgetComponent, 
     ProductionComponent,
     BlueprintManufacturingComponent,
-    BlueprintDetailsComponent
+    BlueprintDetailsComponent,
+    BlueprintSummaryComponent
   ],
   imports: [
     HttpClientModule,

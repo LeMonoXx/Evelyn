@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, combineLatest, filter, from, map, mergeMap, Observable, of, shareReplay, Subject, switchMap, take, tap, toArray } from 'rxjs';
+import { BehaviorSubject, buffer, bufferTime, combineLatest, debounceTime, filter, from, map, mergeMap, Observable, of, shareReplay, Subject, switchMap, take, tap, toArray } from 'rxjs';
 import { IAuthResponseData, AuthService } from '../auth';
 import { StructureDetails, ItemDetails, StationDetails, BlueprintDetails, Material } from '../models';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
@@ -35,7 +35,6 @@ export class ProductionComponent implements OnInit {
   public mainBPOItemObs: Observable<ItemDetails>
   public mainBPODetailsObs: Observable<BlueprintDetails>;
   public subComponentsObs: Observable<SubComponent[]>;
-  public subBPOsObs: Observable<SubComponent[]>;
   public subBPOsManufacturingCostsObs: Observable<{ 
     item: ItemDetails, 
     reqAmount?: number, 
@@ -83,12 +82,12 @@ export class ProductionComponent implements OnInit {
       shareReplay(1)
     );
 
-    this.subComponentsObs = this.mainBPODetailsObs.pipe(
+    const materialItemObs = this.mainBPODetailsObs.pipe(
       map(details => details.activities.manufacturing.materials),
       mergeMap(materials =>
         from(materials).pipe(
           mergeMap(material => this.universeService.getItemDetails(material.typeID).pipe(
-            map(item => ({material, item }))
+            map(item => ({material, item } as SubComponent ))
             )
           ),
           toArray()
@@ -96,7 +95,7 @@ export class ProductionComponent implements OnInit {
       shareReplay(1)
       );
 
-    this.subBPOsObs = this.subComponentsObs.pipe(
+    const bpoComponentsObs = materialItemObs.pipe(
       mergeMap(components => 
         from(components).pipe(
           // we could filter here for components that should not be build by a BPO.
@@ -121,7 +120,8 @@ export class ProductionComponent implements OnInit {
       ),
     )));
 
-    const allRequiredComponents = combineLatest([this.runsObs, this.subComponentsObs, this.subBPOsObs, this.currentBuyStationObs, this.meLevelObs]).pipe(
+    const allRequiredComponents = combineLatest([this.runsObs, materialItemObs, bpoComponentsObs, this.currentBuyStationObs, this.meLevelObs]).pipe(
+      debounceTime(100),
       map(([runs, subComponents, subBPOs, buyStation, meLevel]) => {
         subComponents.forEach(component => {
 
@@ -134,6 +134,9 @@ export class ProductionComponent implements OnInit {
       }
     ));
 
+    this.subComponentsObs = allRequiredComponents.pipe(
+      map(c => c.subComponents)
+    );
 
     this.subBPOsManufacturingCostsObs = allRequiredComponents.pipe(
         mergeMap(allReqComp =>

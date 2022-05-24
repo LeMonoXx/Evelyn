@@ -1,0 +1,65 @@
+@import 'src/styles/variables';
+@import 'src/styles/functions';
+
+.blueprintSummaryContainer {
+
+    .blueprintSummaryTable {
+        th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+            padding-left: 5px;
+        }
+    
+        th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+            padding-right: 5px;
+        }
+
+        tr.mat-row {
+            height: 35px;
+        }
+
+        .requiredBpcAmountColumn {
+            width: 20px;
+            padding-right: 10px;
+            text-align: left;
+            font-size: 90%;
+        }
+
+        .imageColumn {
+            padding-left: 10px;
+            padding-right: 10px;
+            text-align: left;
+        }
+        
+        .nameColumn {
+            max-width: 200px;
+            padding-right: 10px;
+
+            div {
+                text-align: left;
+                font-size: 90%;
+                overflow: hidden;
+                text-overflow: ellipsis; 
+            }
+        }
+        
+        .blueprintSummaryRightColumn {
+            padding-right: 10px;
+            text-align: end;
+            
+            div {
+                font-size: 85%;
+            }
+        }
+    
+        .hideOnPhone {
+            @include breakpoint(625px) {
+                display: none;
+                }
+        }
+    
+        .shortOnPhone {
+            @include breakpoint(625px) {
+                max-width: 120px;
+                }
+        }
+    }
+}
