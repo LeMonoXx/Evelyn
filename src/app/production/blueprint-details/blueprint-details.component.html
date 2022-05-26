@@ -40,11 +40,11 @@
 
         <mat-divider></mat-divider>
 
-        <div class="calcSummaryEntry" style="padding-top: 10px;" (click)="copy(sellData.materialCost)">
+        <div class="calcSummaryEntry" style="padding-top: 10px;">
             <span>Material</span> <span class="negativeNumber valueLabel">{{ sellData.materialCost *-1 | currency }}</span>
         </div>
 
-        <div class="calcSummaryEntry" style="padding-bottom: 10px;" (click)="copy(sellData.volume)">
+        <div class="calcSummaryEntry" style="padding-bottom: 10px;">
             <span class="minorInfo">Volume</span> <span class="minorInfo">{{ sellData.volume | number }} m³</span>
         </div>
 
@@ -66,8 +66,12 @@
             <span>Tax</span> <span class="negativeNumber valueLabel">{{ sellData.saleTax *-1 | currency }}</span>
         </div>
 
-        <div class="calcSummaryEntry">
-            <span>Profit</span> <span class="valueLabel">{{ sellData.profit | currency }}</span>
+        <div class="calcSummaryEntry" style="padding-top: 5px;">
+            <span>Profit</span> 
+            <span class="valueLabel"
+             [ngClass]="sellData.profit <= 0 ? 'negativeProfit' : 'positivProfit'">
+                {{ sellData.profit | currency }}
+            </span>
         </div>
     </div>
 </div>

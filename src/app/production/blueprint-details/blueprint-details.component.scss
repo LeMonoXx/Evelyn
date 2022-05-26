@@ -92,6 +92,16 @@
     .positivNumber {
         color: $accent3;
     }
+    
+    .negativeProfit {
+        color: $accent2-strong3;
+        font-weight: bold;
+    }
+
+    .positivProfit {
+        color: $accent3-strong3;
+        font-weight: bold;
+    }
 
     .minorInfo {
         font-size: 80%;

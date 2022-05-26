@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, combineLatest, debounceTime, filter, from, map, mergeMap, Observable, of, shareReplay, Subject, switchMap, take, tap, toArray } from 'rxjs';
+import { BehaviorSubject, bufferTime, combineLatest, debounceTime, filter, from, map, mergeMap, Observable, of, shareReplay, Subject, switchMap, take, tap, toArray } from 'rxjs';
 import { IAuthResponseData, AuthService } from '../auth';
 import { StructureDetails, ItemDetails, StationDetails, BlueprintDetails, Material } from '../models';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
@@ -109,12 +109,13 @@ export class ProductionComponent implements OnInit {
             ))
           )),
           toArray(),
+          debounceTime(40),
         ),
       ),
     )));
 
     const allRequiredComponents = combineLatest([this.runsObs, materialItemObs, bpoComponentsObs, this.currentBuyStationObs, this.meLevelObs]).pipe(
-      debounceTime(150),
+      debounceTime(120),
       map(([runs, subMaterials, bpoComponents, buyStation, meLevel]) => {
         subMaterials.forEach(component => {
 
@@ -125,10 +126,12 @@ export class ProductionComponent implements OnInit {
         })
         return ({ runs, bpoComponents, buyStation, meLevel });
       }
-    ));
+    ), shareReplay(1));
 
-    this.subComponentsObs = allRequiredComponents.pipe(
-      map(c => c.bpoComponents)
+    this.subComponentsObs = allRequiredComponents.pipe(     
+      debounceTime(100),
+      map(c => c.bpoComponents), 
+      shareReplay(1)
     );
 
     this.subBPOsManufacturingCostsObs = allRequiredComponents.pipe(
@@ -147,7 +150,6 @@ export class ProductionComponent implements OnInit {
                                 component.bpo, 
                                 allReqComp.buyStation, 
                                 allReqComp.meLevel).pipe(
-              take(1),
               map(calc => (
                 { item: component.item, 
                   bpoCost: calc, 
@@ -171,9 +173,10 @@ export class ProductionComponent implements OnInit {
           }),
           filter(x => !!x && x.bpoCost && x.bpoCost.length > 0),
           toArray(),
+          debounceTime(40),
           map(entries => entries.sort((a, b) => 
           a.item.type_id - b.item.type_id))
-        )));
+        )), shareReplay(1));
   }
 
   
@@ -193,8 +196,10 @@ export class ProductionComponent implements OnInit {
           return this.getManufacturingCost(material.typeID, reqQuantity, buyStation);
         }),
         toArray(), 
+        debounceTime(40),
         map(entries => entries.sort((a, b) => 
-        a.typeID - b.typeID))
+        a.typeID - b.typeID)),
+        shareReplay(1)
       );
     }
 
