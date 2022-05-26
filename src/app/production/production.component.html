@@ -11,6 +11,9 @@
             <mat-card-title>Manufacturing summary</mat-card-title>
                <ng-container class="manufacturingContent">
                      <app-blueprint-details
+                     [runs$]="runsObs"
+                     [sellStructure$]="currentSellStructureObs"
+                     [saleTaxPercent$]="characterSaleTaxPercentObs"
                      [subBPOsManufacturingCosts$]="subBPOsManufacturingCostsObs"
                      [BPOItem$]="itemDetailsObs"
                      [BPODetails$]="mainBPODetailsObs">

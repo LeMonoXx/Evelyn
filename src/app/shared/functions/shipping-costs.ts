@@ -3,3 +3,9 @@
 
     return costs;
   }
+
+  export function CalculateShippingCostForBundle(totalBundleCost: number, totalCubicMeters: number, cubicMeterPrice: number = 550) : number {
+    var costs = (totalBundleCost / 100 ) * 1.5 + (totalCubicMeters * cubicMeterPrice)
+
+    return costs;
+  }

@@ -25,20 +25,39 @@
                 <div class="itemInfoId"> {{ productObj.product.packaged_volume }} m³ </div>
             </div>
         </div>
-    </div>    
+    </div>
 
     <div *ngIf="BPODetails$ | async as bpoDetails" class="bpoDetailsContainer">
         <span>Max Runs: {{ bpoDetails.maxProductionLimit }}</span>
         <span>Product (per run):{{ bpoDetails.activities.manufacturing.products[0].quantity }}</span>      
     </div>
+    
+    <div *ngIf="sellDataObs | async as sellData">
+        <div class="calcSummaryEntry" style="padding-bottom: 15px;" *ngIf="totalVolumeObs | async as totalVolume" (click)="copy(totalVolume)">
+            Volume: <span>{{ totalVolume | number }} m³</span>
+        </div>
+    
+        <div class="calcSummaryEntry">
+            Sell price <span class="positivNumber valueLabel">{{ sellData.total_sellPrice | currency }}</span>
+        </div>
+        <div class="calcSummaryEntry" *ngIf="totalMaterialCostsObs | async as totalCost" (click)="copy(totalCost)">
+            Material <span class="negativeNumber valueLabel">{{ totalCost *-1 | currency }}</span>
+        </div>
+    
+        <div class="calcSummaryEntry" *ngIf="shippingCostsObs | async as shipping" (click)="copy(shipping)">
+            Shipping <span class="negativeNumber valueLabel">{{ shipping *-1 | currency }}</span>
+        </div>
 
-     
-    <div class="calcSummaryEntry" *ngIf="totalVolumeObs | async as totalVolume" (click)="copy(totalVolume)">
-        Volume: <span>{{ totalVolume | number }} m³</span>
+        <div class="calcSummaryEntry">
+            Broker Fee <span class="negativeNumber valueLabel">{{ sellData.brokerFee *-1 | currency }}</span>
+        </div>
+
+        <div class="calcSummaryEntry">
+            Tax <span class="negativeNumber valueLabel">{{ sellData.saleTax *-1 | currency }}</span>
+        </div>
+
+        <div class="calcSummaryEntry">
+            Profit <span class="valueLabel">{{ sellData.profit | currency }}</span>
+        </div>
     </div>
-
-    <div class="calcSummaryEntry" *ngIf="totalMaterialCostsObs | async as totalCost" (click)="copy(totalCost)">
-        Material costs: <span>{{ totalCost | currency }}</span>
-    </div>
-
 </div>

@@ -61,6 +61,35 @@
 .calcSummaryEntry {
     display: flex;
     justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
     flex-wrap: nowrap;
+    align-content: center;
+
+    .titleLabel{
+        width: 120px;
+        padding-right: 10px;
+        overflow: hidden;
+        text-align: left;
+        display: inline-block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .valueLabel{
+        overflow: hidden;
+        text-align: right;
+        display: inline-block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .negativeNumber {
+        color: $accent2;
+    }
+
+    .positivNumber {
+        color: $accent3;
+    }
 }
     
