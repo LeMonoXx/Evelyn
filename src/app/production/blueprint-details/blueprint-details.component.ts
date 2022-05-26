@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { map, Observable, switchMap, tap } from 'rxjs';
 import { BlueprintDetails, ItemDetails } from 'src/app/models';
-import { calculateTotalCosts, copyToClipboard, UniverseService } from 'src/app/shared';
+import { calculateTotalCosts, calculateTotalVolume, copyToClipboard, UniverseService } from 'src/app/shared';
 import { ManufacturingCalculation } from '..';
 
 @Component({
@@ -25,6 +25,7 @@ export class BlueprintDetailsComponent implements OnInit {
   public currentItemImageSourceObs: Observable<string>;
   public productObs: Observable<{ product: ItemDetails, imageSource: string }>;
   public totalMaterialCostsObs: Observable<number>;
+  public totalVolumeObs: Observable<number>;
   
   constructor(
     private universeService: UniverseService,
@@ -44,10 +45,14 @@ export class BlueprintDetailsComponent implements OnInit {
 
       this.totalMaterialCostsObs = this.subBPOsManufacturingCosts$.pipe(
         map(entries => calculateTotalCosts(entries))); 
+
+      this.totalVolumeObs = this.subBPOsManufacturingCosts$.pipe(
+        map(entries => calculateTotalVolume(entries))
+      )
   }
   
-  public copy(text: string) {
-    copyToClipboard(text);
+  public copy(text: string | number) {
+    copyToClipboard(text as string);
 
     this.snackBar.open("Copied!", undefined, { duration: 2000 });
   }

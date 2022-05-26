@@ -36,6 +36,21 @@ export function calculateRequiredRuns(requiredProductTypeId: number, requiredPro
         return { reqRuns, overflow }
 }
 
+export function calculateTotalVolume(manufacturing : ManufacturingCalculation[]) {
+
+  let volume = 0;
+
+  manufacturing.forEach(entry => volume += calculateComponentVolume(entry.bpoCost));
+
+  return volume;
+}
+
+export function calculateComponentVolume(costEntries : ManufacturingCostEntry[]) {
+  let volume = 0;
+  costEntries.forEach(cost => volume += cost.total_volume);
+  return volume;
+}
+
 export function calculateTotalCosts(manufacturing : ManufacturingCalculation[]) {
 
   let price = 0;

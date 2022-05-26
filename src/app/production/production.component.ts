@@ -210,7 +210,8 @@ export class ProductionComponent implements OnInit {
             typeID: entry.itemDetails.type_id,
             itemName: entry.itemDetails.name,
             single_buyPrice: nPrice.averagePrice,
-            total_buyPrice: nPrice.totalPrice
+            total_buyPrice: nPrice.totalPrice,
+            total_volume: entry.itemDetails.packaged_volume * quantity
           };
         })
         )

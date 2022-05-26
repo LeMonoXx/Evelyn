@@ -4,4 +4,5 @@ export interface ManufacturingCostEntry {
     quantity_total: number;
     single_buyPrice: number;
     total_buyPrice: number;
+    total_volume: number;
 }

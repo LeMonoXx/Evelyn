@@ -32,7 +32,13 @@
         <span>Product (per run):{{ bpoDetails.activities.manufacturing.products[0].quantity }}</span>      
     </div>
 
-    <div *ngIf="totalMaterialCostsObs | async as totalCost">
-        Total Material Costs: {{ totalCost | currency }}
+     
+    <div class="calcSummaryEntry" *ngIf="totalVolumeObs | async as totalVolume" (click)="copy(totalVolume)">
+        Volume: <span>{{ totalVolume | number }} m³</span>
     </div>
+
+    <div class="calcSummaryEntry" *ngIf="totalMaterialCostsObs | async as totalCost" (click)="copy(totalCost)">
+        Material costs: <span>{{ totalCost | currency }}</span>
+    </div>
+
 </div>
