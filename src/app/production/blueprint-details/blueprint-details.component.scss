@@ -6,6 +6,7 @@
     align-content: center;
     justify-content: space-between;
     align-items: center;
+    padding-bottom: 10px;
 
     .arrow {
         padding-left: 20px;
@@ -90,6 +91,11 @@
 
     .positivNumber {
         color: $accent3;
+    }
+
+    .minorInfo {
+        font-size: 80%;
+        color: $foreground-soft1;
     }
 }
     

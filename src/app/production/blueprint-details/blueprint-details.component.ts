@@ -35,14 +35,18 @@ export class BlueprintDetailsComponent implements OnInit {
   public productObs: Observable<{ product: ItemDetails, amount: number, imageSource: string }>;
   public totalMaterialCostsObs: Observable<number>;
   public totalVolumeObs: Observable<number>;
-  public shippingCostsObs: Observable<number>;
+  public shippingCostObs: Observable<number>;
   public lowestSellEntryObs: Observable<MarketEntry>;
   public sellDataObs: Observable<{ 
-    single_sellPrice: number; 
-    total_sellPrice: number; 
-    brokerFee: number; 
-    saleTax: number; 
-    profit: number; 
+    bpo: BlueprintDetails,
+    volume: number,
+    shippingCost: number,
+    materialCost: number,
+    single_sellPrice: number, 
+    total_sellPrice: number,
+    brokerFee: number,
+    saleTax: number,
+    profit: number
   }>;
   
   constructor(
@@ -74,7 +78,7 @@ export class BlueprintDetailsComponent implements OnInit {
         map(entries => calculateTotalVolume(entries))
       )
 
-      this.shippingCostsObs = combineLatest([this.totalMaterialCostsObs, this.totalVolumeObs]).pipe(
+      this.shippingCostObs = combineLatest([this.totalMaterialCostsObs, this.totalVolumeObs]).pipe(
         map(([price, volume]) => CalculateShippingCostForBundle(price, volume))
       )
 
@@ -90,6 +94,9 @@ export class BlueprintDetailsComponent implements OnInit {
       this.sellDataObs = 
       combineLatest(
         [
+          this.BPODetails$,
+          this.totalVolumeObs,
+          this.shippingCostObs,
           this.productObs, 
           this.runs$,
           this.totalMaterialCostsObs, 
@@ -98,6 +105,9 @@ export class BlueprintDetailsComponent implements OnInit {
         ]).pipe(
           map((
             [
+              bpo,
+              totalVolume,
+              shippingCost,
               productObs,
               runs,
               totalMaterialCosts, 
@@ -112,8 +122,21 @@ export class BlueprintDetailsComponent implements OnInit {
               const saleTax = sellPriceForX / 100 * saleTaxPercent;
               const profit = ((sellPriceForX - totalMaterialCosts) - brokerFee);
 
-              const sellCalculation: { single_sellPrice: number, total_sellPrice: number, brokerFee: number, saleTax: number, profit: number } = 
+              const sellCalculation: { 
+                bpo: BlueprintDetails,
+                volume: number,
+                shippingCost: number,
+                materialCost: number,
+                single_sellPrice: number, 
+                total_sellPrice: number,
+                brokerFee: number,
+                saleTax: number,
+                profit: number } = 
               { 
+                bpo: bpo,
+                volume: totalVolume,
+                shippingCost: shippingCost,
+                materialCost: totalMaterialCosts,
                 single_sellPrice: lowestSellEntry.price,
                 total_sellPrice: sellPriceForX,
                 brokerFee: brokerFee,

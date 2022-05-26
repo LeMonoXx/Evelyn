@@ -27,37 +27,47 @@
         </div>
     </div>
 
-    <div *ngIf="BPODetails$ | async as bpoDetails" class="bpoDetailsContainer">
-        <span>Max Runs: {{ bpoDetails.maxProductionLimit }}</span>
-        <span>Product (per run):{{ bpoDetails.activities.manufacturing.products[0].quantity }}</span>      
-    </div>
-    
+    <mat-divider></mat-divider>
+
     <div *ngIf="sellDataObs | async as sellData">
-        <div class="calcSummaryEntry" style="padding-bottom: 15px;" *ngIf="totalVolumeObs | async as totalVolume" (click)="copy(totalVolume)">
-            Volume: <span>{{ totalVolume | number }} m³</span>
+        <div class="calcSummaryEntry" style="padding-top: 10px;">
+            <span class="minorInfo">Max Runs</span> <span class="minorInfo">{{ sellData.bpo.maxProductionLimit }}</span> 
         </div>
-    
-        <div class="calcSummaryEntry">
-            Sell price <span class="positivNumber valueLabel">{{ sellData.total_sellPrice | currency }}</span>
+
+        <div class="calcSummaryEntry" style="padding-bottom: 10px;">
+            <span class="minorInfo">Product (per run)</span> <span class="minorInfo">{{ sellData.bpo.activities.manufacturing.products[0].quantity }} </span>
+        </div> 
+
+        <mat-divider></mat-divider>
+
+        <div class="calcSummaryEntry" style="padding-top: 10px;" (click)="copy(sellData.materialCost)">
+            <span>Material</span> <span class="negativeNumber valueLabel">{{ sellData.materialCost *-1 | currency }}</span>
         </div>
-        <div class="calcSummaryEntry" *ngIf="totalMaterialCostsObs | async as totalCost" (click)="copy(totalCost)">
-            Material <span class="negativeNumber valueLabel">{{ totalCost *-1 | currency }}</span>
+
+        <div class="calcSummaryEntry" style="padding-bottom: 10px;" (click)="copy(sellData.volume)">
+            <span class="minorInfo">Volume</span> <span class="minorInfo">{{ sellData.volume | number }} m³</span>
         </div>
-    
-        <div class="calcSummaryEntry" *ngIf="shippingCostsObs | async as shipping" (click)="copy(shipping)">
-            Shipping <span class="negativeNumber valueLabel">{{ shipping *-1 | currency }}</span>
+
+        <mat-divider></mat-divider>
+
+        <div class="calcSummaryEntry" style="padding-top: 10px;">
+            <span>Sell price</span> <span class="positivNumber valueLabel">{{ sellData.total_sellPrice | currency }}</span>
+        </div>
+
+        <div class="calcSummaryEntry" (click)="copy(sellData.shippingCost)">
+            <span>Shipping</span> <span class="negativeNumber valueLabel">{{ sellData.shippingCost *-1 | currency }}</span>
         </div>
 
         <div class="calcSummaryEntry">
-            Broker Fee <span class="negativeNumber valueLabel">{{ sellData.brokerFee *-1 | currency }}</span>
+            <span>Broker Fee</span> <span class="negativeNumber valueLabel">{{ sellData.brokerFee *-1 | currency }}</span>
         </div>
 
         <div class="calcSummaryEntry">
-            Tax <span class="negativeNumber valueLabel">{{ sellData.saleTax *-1 | currency }}</span>
+            <span>Tax</span> <span class="negativeNumber valueLabel">{{ sellData.saleTax *-1 | currency }}</span>
         </div>
 
         <div class="calcSummaryEntry">
-            Profit <span class="valueLabel">{{ sellData.profit | currency }}</span>
+            <span>Profit</span> <span class="valueLabel">{{ sellData.profit | currency }}</span>
         </div>
     </div>
 </div>
