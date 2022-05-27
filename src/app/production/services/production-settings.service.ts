@@ -11,6 +11,9 @@ export class ProductionSettingsService {
 
   private meLevel$ : Subject<number> = new ReplaySubject(1);
   public MeLevelObs: Observable<number>;
+  
+  private subMeLevel$ : Subject<number> = new ReplaySubject(1);
+  public SubMeLevelObs: Observable<number>;
 
   private teLevel$ : Subject<number> = new ReplaySubject(1);
   public TeLevelObs: Observable<number>;
@@ -22,6 +25,11 @@ export class ProductionSettingsService {
       shareReplay(1));
 
     this.MeLevelObs = this.meLevel$.asObservable()
+    .pipe(
+      startWith(0), 
+      shareReplay(1));
+
+    this.SubMeLevelObs = this.subMeLevel$.asObservable()
     .pipe(
       startWith(0), 
       shareReplay(1));
@@ -38,6 +46,10 @@ export class ProductionSettingsService {
 
   public setME(me : number) {
     this.meLevel$.next(me);
+  }
+  
+  public setSubME(me : number) {
+    this.subMeLevel$.next(me);
   }
 
   public setTE(te : number) {

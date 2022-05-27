@@ -2,11 +2,12 @@ import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { catchError, debounceTime, filter, forkJoin, map, mergeMap, Observable, of, ReplaySubject, Subscription, switchMap, tap } from 'rxjs';
+import { catchError, debounceTime, filter, forkJoin, map, Observable, Subscription, switchMap } from 'rxjs';
 import { MarketerSearchResult, StationDetails, StructureDetails } from '../models';
 import { ProductionSettingsService } from '../production/services/production-settings.service';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
-import { ACCOUNTING_SKILL_ID, CharacterService, getAllowedStationIds, getAllowedStructureIds, getStoredSelectedStation, getStoredSelectedStructure, InputErrorStateMatcher, ItemSearchService, UniverseService } from '../shared';
+import { ACCOUNTING_SKILL_ID, CharacterService, getAllowedStationIds, getAllowedStructureIds, getStoredSelectedStation, 
+  getStoredSelectedStructure, InputErrorStateMatcher, ItemSearchService, UniverseService } from '../shared';
 
 @Component({
   selector: 'app-eve-search',
@@ -19,6 +20,9 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   @Input()
   public inputItemName$: Observable<string>;
 
+  @Input()
+  public mode: string;
+
   public defaultFormGroup: FormGroup;
   public itemNameControl = new FormControl(null, [Validators.minLength(3), Validators.required]);
   public itemCountControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.max(25000), Validators.min(1)]);
@@ -29,6 +33,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   public productionFormGroup: FormGroup;
   public runsControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.min(1)]);
   public meLevelControl = new FormControl(0, [Validators.pattern("[0-9]*"), Validators.max(10), Validators.min(0)]);
+  public subMeLevelControl = new FormControl(0, [Validators.pattern("[0-9]*"), Validators.max(10), Validators.min(0)]);
   public teLevelControl = new FormControl(0, [Validators.pattern("[0-9]*"), Validators.max(20), Validators.min(0)]);
 
   public oneToFive = [1, 2, 3, 4, 5];
@@ -57,6 +62,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   private runsSubscription: Subscription;
   private teLevelSubscription: Subscription;
   private meLevelSubscription: Subscription;
+  private subMeLevelSubscription: Subscription;
 
   constructor(
     fb: FormBuilder,
@@ -78,8 +84,9 @@ export class EveSearchComponent implements OnInit, OnDestroy {
       this.productionFormGroup = fb.group({
         runs: this.runsControl,
         meLevel: this.meLevelControl,
+        subMeLevel: this.subMeLevelControl,
         teLevel: this.teLevelControl
-      })
+      });
 
       this.matcher = new InputErrorStateMatcher();
 
@@ -209,6 +216,10 @@ export class EveSearchComponent implements OnInit, OnDestroy {
 
     this.meLevelSubscription = this.meLevelControl.valueChanges.pipe(
       map((me: number) => this.productionSettingsService.setME(me))
+    ).subscribe();   
+    
+    this.subMeLevelSubscription = this.subMeLevelControl.valueChanges.pipe(
+      map((me: number) => this.productionSettingsService.setSubME(me))
     ).subscribe(); 
   }
 
@@ -225,6 +236,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
 
     this.runsSubscription?.unsubscribe();
     this.meLevelSubscription?.unsubscribe();
+    this.subMeLevelSubscription?.unsubscribe();
     this.teLevelSubscription?.unsubscribe();
 }
 }

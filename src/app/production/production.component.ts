@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, bufferTime, combineLatest, debounceTime, filter, from, map, mergeMap, Observable, of, shareReplay, Subject, switchMap, take, tap, toArray } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, filter, from, map, mergeMap, Observable, shareReplay, Subject, switchMap, toArray } from 'rxjs';
 import { IAuthResponseData, AuthService } from '../auth';
-import { StructureDetails, ItemDetails, StationDetails, BlueprintDetails, Material } from '../models';
+import { StructureDetails, ItemDetails, StationDetails, BlueprintDetails } from '../models';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
 import { calculateMaterialQuantity, calculateRequiredRuns, calculateTaxPercentBySkillLevel, getPriceForN, IndustryService, ItemIdentifier, 
   ItemSearchService, JITA_REGION_ID, MarketService, MJ5F9_REGION_ID, ShoppingEntry, ShoppingListService, UniverseService } from '../shared';
@@ -27,14 +27,19 @@ export class ProductionComponent implements OnInit {
   public shoppingListObs: Observable<ShoppingEntry[]>;
   public currentRegionObs: Observable<number> = new BehaviorSubject<number>(MJ5F9_REGION_ID);
   public routerItemNameSubject: Subject<string> = new BehaviorSubject("");
-  public runsObs: Observable<number>;
-  public meLevelObs: Observable<number>;
-  public teLevelObs: Observable<number>;
 
   public mainBPOItemObs: Observable<ItemDetails>
   public mainBPODetailsObs: Observable<BlueprintDetails>;
   public subComponentsObs: Observable<SubComponent[]>;
   public subBPOsManufacturingCostsObs: Observable<ManufacturingCalculation[]>;
+
+  public runsObs: Observable<number>;
+  // me level for the main bpo
+  public meLevelObs: Observable<number>;
+  // me level for the sub component-bpos
+  public subMeLevelObs: Observable<number>;
+  public teLevelObs: Observable<number>;
+
 
   constructor(
     private industryService: IndustryService,
@@ -54,6 +59,7 @@ export class ProductionComponent implements OnInit {
       this.currentSellStructureObs = this.itemSearchService.SellStructureObs;
       this.runsObs = this.productionSettingsService.RunsObs;
       this.meLevelObs = this.productionSettingsService.MeLevelObs;
+      this.subMeLevelObs = this.productionSettingsService.SubMeLevelObs;
       this.teLevelObs = this.productionSettingsService.TeLevelObs;
     }
 
@@ -114,7 +120,7 @@ export class ProductionComponent implements OnInit {
       ),
     )));
 
-    const allRequiredComponents = combineLatest([this.runsObs, materialItemObs, bpoComponentsObs, this.currentBuyStationObs, this.meLevelObs]).pipe(
+    const allRequiredComponents = combineLatest([this.runsObs, materialItemObs, bpoComponentsObs, this.currentBuyStationObs, this.subMeLevelObs]).pipe(
       debounceTime(120),
       map(([runs, subMaterials, bpoComponents, buyStation, meLevel]) => {
         subMaterials.forEach(component => {
@@ -134,14 +140,13 @@ export class ProductionComponent implements OnInit {
       shareReplay(1)
     );
 
-    this.subBPOsManufacturingCostsObs = allRequiredComponents.pipe(
-        mergeMap(allReqComp =>
+    this.subBPOsManufacturingCostsObs = combineLatest([allRequiredComponents, this.meLevelObs]).pipe(
+        mergeMap(([allReqComp, mainBpoMe]) =>
         from(allReqComp.bpoComponents).pipe(
           mergeMap(component => {
-
-            const reqAllRunsAmount = calculateMaterialQuantity(component.material.quantity, allReqComp.runs, allReqComp.meLevel);
-            component.requiredAmount = reqAllRunsAmount;
             if(component.bpo) {
+              const reqAllRunsAmount = calculateMaterialQuantity(component.material.quantity, allReqComp.runs, allReqComp.meLevel);
+              component.requiredAmount = reqAllRunsAmount;
               const subComponentRuns = calculateRequiredRuns(component.material.typeID, component.requiredAmount, component.bpo);
               component.requiredRuns = subComponentRuns.reqRuns;
 
@@ -159,7 +164,8 @@ export class ProductionComponent implements OnInit {
                 })));
 
             } else {
-              const reqQuantity = calculateMaterialQuantity(component.material.quantity, allReqComp.runs, allReqComp.meLevel);
+              const reqQuantity = calculateMaterialQuantity(component.material.quantity, allReqComp.runs, mainBpoMe);
+              component.requiredAmount = reqQuantity;
               return this.getManufacturingCost(component.material.typeID, reqQuantity, allReqComp.buyStation).pipe(
                 map(c => [c]),
                 map(calc => (

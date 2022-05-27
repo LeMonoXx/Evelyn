@@ -21,7 +21,7 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field *ngIf="mode !== 'production'">
         <mat-label>Count</mat-label>
         <input matInput type="number"
             placeholder="Item count"
@@ -64,7 +64,8 @@
       </mat-form-field>
   </form>
 
-  <form [formGroup]="productionFormGroup">
+  <form *ngIf="mode === 'production'"
+    [formGroup]="productionFormGroup" >
     <mat-form-field>
       <mat-label>Runs</mat-label>
       <input matInput type="number"
@@ -77,6 +78,15 @@
     <mat-form-field>
       <mat-label>Material Efficiency</mat-label>
       <mat-select [formControl]="meLevelControl">
+        <mat-option *ngFor="let me of zeroToTen" [value]="me">
+          {{me}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Sub-Material Efficiency</mat-label>
+      <mat-select [formControl]="subMeLevelControl">
         <mat-option *ngFor="let me of zeroToTen" [value]="me">
           {{me}}
         </mat-option>
