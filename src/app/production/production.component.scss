@@ -12,20 +12,6 @@
   // we need this, because we have a sticky header with over 56px.
   padding-bottom: 70px;
 
-  .default-mat-card {
-    width: 565px;
-    min-height: 400px;
-    overflow-x: hidden;
-
-    @include breakpoint(1540px) {
-      width: 565px;
-    }
-
-    @include breakpoint(991px) {
-      width: auto;
-    }
-  }
-
   @include breakpoint(991px) {
     flex-direction: column;
   }
@@ -48,14 +34,18 @@
     column-gap: 10px;
     row-gap: 10px;
     overflow-x: hidden;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    justify-content: flex-start;
     align-content: flex-start;
-    align-items: flex-start;
+    align-items: stretch;
+    flex-wrap: wrap;
 
-    // @include breakpoint(1546px) {
-    //   column-gap: 0px;
-    // }
+    @include breakpoint(1546px) {
+      column-gap: 0px;
+    }
+
+    .manufacturingContent {
+      width: 580px;
+    }
 
     @include breakpoint(991px) {
       flex-direction: column;

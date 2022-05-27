@@ -8,36 +8,30 @@
      </mat-card>
 
      <div class="productionContentDiv" *ngIf="currentItemObs | async">
-         <mat-card>
+         <mat-card class="manufacturingContent fixedSize">
             <mat-card-title>Manufacturing summary</mat-card-title>
-               <ng-container class="manufacturingContent">
-                     <app-blueprint-details
-                     [runs$]="runsObs"
-                     [sellStructure$]="currentSellStructureObs"
-                     [saleTaxPercent$]="characterSaleTaxPercentObs"
-                     [subBPOsManufacturingCosts$]="subBPOsManufacturingCostsObs"
-                     [BPOItem$]="itemDetailsObs"
-                     [BPODetails$]="mainBPODetailsObs">
-                     </app-blueprint-details>      
-               </ng-container>  
+               <app-blueprint-details
+                  [runs$]="runsObs"
+                  [sellStructure$]="currentSellStructureObs"
+                  [saleTaxPercent$]="characterSaleTaxPercentObs"
+                  [subBPOsManufacturingCosts$]="subBPOsManufacturingCostsObs"
+                  [BPOItem$]="itemDetailsObs"
+                  [BPODetails$]="mainBPODetailsObs">
+               </app-blueprint-details>        
          </mat-card>
-         
-         <mat-card>
+  
+         <mat-card class="manufacturingContent fixedSize">
             <mat-card-title>Required BPCs</mat-card-title>
-            <ng-container class="manufacturingContent">
-                  <app-blueprint-summary
-                  [subBPOs$]="subComponentsObs">  
-                  </app-blueprint-summary>      
-            </ng-container>  
+            <app-blueprint-summary
+               [subBPOs$]="subComponentsObs">  
+            </app-blueprint-summary>      
          </mat-card>
 
-         <mat-card>
-            <ng-container class="manufacturingContent">
-               <mat-card-title>Required materials</mat-card-title>
-                  <app-blueprint-manufacturing
-                     [subBPOsManufacturingCosts$]="subBPOsManufacturingCostsObs">
-                  </app-blueprint-manufacturing>      
-            </ng-container>  
+         <mat-card class="manufacturingContent">
+            <mat-card-title>Required materials</mat-card-title>
+            <app-blueprint-manufacturing
+               [subBPOsManufacturingCosts$]="subBPOsManufacturingCostsObs">
+            </app-blueprint-manufacturing>        
          </mat-card>
      </div>
 </div>  
