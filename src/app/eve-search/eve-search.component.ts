@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { catchError, debounceTime, filter, forkJoin, map, Observable, Subscription, switchMap } from 'rxjs';
 import { MarketerSearchResult, StationDetails, StructureDetails } from '../models';
 import { ProductionSettingsService } from '../production/services/production-settings.service';
+import { EveMarketerDataRepositoryService } from '../repositories';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
 import { ACCOUNTING_SKILL_ID, CharacterService, getAllowedStationIds, getAllowedStructureIds, getStoredSelectedStation, 
   getStoredSelectedStructure, InputErrorStateMatcher, ItemSearchService, UniverseService } from '../shared';
@@ -66,7 +67,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
 
   constructor(
     fb: FormBuilder,
-    private autoCompleteService : EvepraisalDataRepositoryService,
+    private autoCompleteService : EveMarketerDataRepositoryService,
     private itemSearchService: ItemSearchService,
     private characterService: CharacterService,
     private universeService: UniverseService,
@@ -157,7 +158,6 @@ export class EveSearchComponent implements OnInit, OnDestroy {
             this.titleService.setTitle(`${item.name}`)
             this.router.navigate([], { queryParams: { item: item.name } });
 
-            console.log("Set currenItem to:", item.id, item.name);
             this.itemSearchService.setCurrentItem({ id: item.id, name: item.name });
           }
           return item;

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, combineLatest, debounceTime, filter, from, map, mergeMap, Observable, shareReplay, startWith, Subject, switchMap, toArray } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, filter, from, map, mergeMap, Observable, of, shareReplay, startWith, Subject, switchMap, toArray } from 'rxjs';
 import { IAuthResponseData, AuthService } from '../auth';
 import { StructureDetails, ItemDetails, StationDetails, BlueprintDetails } from '../models';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
@@ -53,7 +53,6 @@ export class ProductionComponent implements OnInit {
     private readonly route: ActivatedRoute) {
       this.currentItemObs = this.itemSearchService.CurrentItemObs;
       this.numberCountObs = this.itemSearchService.ItemCountObs;
-      this.itemDetailsObs = this.itemSearchService.CurrentItemDetailsObs;
       this.authStatusObs = this.authService.authObs;    
       this.currentBuyStationObs = this.itemSearchService.BuyStationObs;
       this.currentSellStructureObs = this.itemSearchService.SellStructureObs;
@@ -76,9 +75,25 @@ export class ProductionComponent implements OnInit {
         this.routerItemNameSubject.next(inputItemName);
       }
 
-    this.mainBPODetailsObs = this.currentItemObs.pipe(
+    this.itemDetailsObs = this.itemSearchService.CurrentItemDetailsObs.pipe(
+      switchMap(itemIdentifier => {
+        if(itemIdentifier.name?.toLowerCase().endsWith("blueprint")) {
+          return of(itemIdentifier);
+        }
+        var bpoItem = itemIdentifier.name + " Blueprint";
+        var switchResult = this.autoCompleteService.getAutoCompleteSuggestions(bpoItem).pipe(
+         // map(result => result.find(r => r.name === bpoItem)),
+         map(result => result[0]),
+          filter(x => !!x && !!x.id),
+          switchMap(bpoItem => this.universeService.getItemDetails(bpoItem?.id))
+        );
+        return switchResult;
+      }),
+    );
+
+    this.mainBPODetailsObs = this.itemDetailsObs.pipe(
       filter(i => !!i),
-      switchMap(item => this.industryService.getBlueprintDetails(item.id)),
+      switchMap(item => this.industryService.getBlueprintDetails(item.type_id)),
       shareReplay(1)
     );
 
@@ -197,9 +212,6 @@ export class ProductionComponent implements OnInit {
       const materials = bpo.activities.manufacturing.materials;
       return from(materials).pipe(
         mergeMap(material => {
-          if(material.typeID == 57478) {
-            console.log(material);
-          }
           const reqQuantity = calculateMaterialQuantity(material.quantity, runs, meLevel);
           return this.getManufacturingCost(material.typeID, reqQuantity, buyStation);
         }),
