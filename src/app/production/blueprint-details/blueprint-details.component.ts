@@ -62,6 +62,7 @@ export class BlueprintDetailsComponent implements OnInit {
       }));
 
       this.productObs = this.BPODetails$.pipe(
+        filter(x => !!x),
         switchMap(bpo => this.universeService.getItemDetails(bpo.activities.manufacturing.products[0].typeID).pipe(
           map(item => ({ 
             product: item,

@@ -13,24 +13,35 @@
     column-gap: 10px;
     
     .mainComponentName {
-        width: 200px;
+        width: 240px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         font-size: 90%;
         cursor: pointer;
+        padding-right: 10px;
 
-        @include breakpoint(625px) {
-            width: 130px;
-        }
+        // @include breakpoint(625px) {
+        //     width: 130px;
+        // }
     }
 
     .mainComponentQuantity {
-        padding-left: 20px;
+        width: 80px;
+        text-align: end;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 90%;
+        padding-right: 85px;
+    }
+    
+    .mainComponentCost {
         width: 120px;
         text-align: end;
+        overflow: hidden;
+        text-overflow: ellipsis;
         font-size: 90%;
-    }
+    }   
 }
 
 

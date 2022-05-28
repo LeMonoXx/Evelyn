@@ -6,13 +6,14 @@
             <div class="mainComponentName" [title]="entry.item.name" (click)="copy(entry.item.name)">
                 {{ entry.item.name }}
             </div>
+
             <div class="mainComponentQuantity">
                 {{ entry.reqAmount | number }}
-           </div>
+            </div>
 
-           <div class="mainComponentQuantity">
-            {{ getComponentCosts(entry.bpoCost) | currency }}
-       </div>
+            <div class="mainComponentCost">
+                {{ getComponentCosts(entry.bpoCost) | currency }}
+            </div>
         </div>
         
         <!-- I case we want to directly show the blueprints in the list -->

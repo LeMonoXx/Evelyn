@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, combineLatest, debounceTime, filter, from, map, mergeMap, Observable, shareReplay, Subject, switchMap, toArray } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, filter, from, map, mergeMap, Observable, shareReplay, startWith, Subject, switchMap, toArray } from 'rxjs';
 import { IAuthResponseData, AuthService } from '../auth';
 import { StructureDetails, ItemDetails, StationDetails, BlueprintDetails } from '../models';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
@@ -77,11 +77,13 @@ export class ProductionComponent implements OnInit {
       }
 
     this.mainBPODetailsObs = this.currentItemObs.pipe(
+      filter(i => !!i),
       switchMap(item => this.industryService.getBlueprintDetails(item.id)),
       shareReplay(1)
     );
 
     const materialItemObs = this.mainBPODetailsObs.pipe(
+      filter(x => !!x),
       map(details => details.activities.manufacturing.materials),
       mergeMap(materials =>
         from(materials).pipe(
