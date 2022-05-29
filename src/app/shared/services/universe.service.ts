@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map, Observable, of, tap } from 'rxjs';
-import { ItemDetails, SearchResult, StationDetails, StructureDetails as StructureDetails, EveItem } from 'src/app/models';
+import { ItemDetails, SearchResult, StationDetails, StructureDetails as StructureDetails, EveItem, ItemGroup } from 'src/app/models';
+import { ItemCategory } from 'src/app/models/universe/categories/item-category';
 import { EsiDataRepositoryService } from 'src/app/repositories/esi-data-repository.service';
 import { environment } from 'src/environments/environment';
 import { parse } from 'yaml';
@@ -43,6 +44,26 @@ export class UniverseService {
   public findItemByName(searchName: string) : Observable<SearchResult> {
     const url = environment.esiBaseUrl + `/search/?categories=inventory_type&language=en&search=${searchName}&strict=true`;
     return this.esiDataService.getRequest<SearchResult>(url);
+  }
+
+  public getAllGroups(): Observable<number[]> {
+    const url = environment.esiBaseUrl + `/universe/groups/`;
+    return this.esiDataService.getPagingRequest<number>(url);
+  }
+
+  public getItemGroup(groupId: number): Observable<ItemGroup> {
+    const url = environment.esiBaseUrl + `/universe/groups/${groupId}`;
+    return this.esiDataService.getRequest<ItemGroup>(url);
+  }
+
+  public getAllCategories(): Observable<number[]> {
+    const url = environment.esiBaseUrl + `/universe/categories/`;
+    return this.esiDataService.getRequest<number[]>(url);
+  }
+
+  public getItemCategory(categoryId: number): Observable<ItemCategory> {
+    const url = environment.esiBaseUrl + `/universe/categories/${categoryId}`;
+    return this.esiDataService.getRequest<ItemCategory>(url);
   }
 
   public getGetAllItems() : Observable<EveItem[]> {

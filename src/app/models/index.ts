@@ -25,6 +25,8 @@ export * from './universe/position'
 export * from './universe/structure-details'
 export * from './universe/station-details'
 
+export * from './universe/groups/item-group'
+
 export * from './sde/fsd/blueprint/blueprint-details'
 export * from './sde/fsd/blueprint/activities'
 export * from './sde/fsd/blueprint/material'

@@ -1,4 +1,4 @@
-import { BlueprintDetails } from "src/app/models";
+import { BlueprintDetails, ItemDetails } from "src/app/models";
 import { ManufacturingCalculation, ManufacturingCostEntry } from "src/app/production";
 
 export function calculateMaterialQuantity(baseAmount: number, runs: number, materialEfficiency: number, structureRigBonus: number = 5.04, structureRoleBonus: number = 1) : number {
@@ -7,16 +7,12 @@ export function calculateMaterialQuantity(baseAmount: number, runs: number, mate
     if(baseAmount <= 1)
         return runsbaseAmount;
 
-    console.log("baseAmount ", baseAmount);
-
     const meMinus = (runsbaseAmount / 100) * materialEfficiency;
     runsbaseAmount = runsbaseAmount - meMinus;
-    console.log("afterMeAmount ", runsbaseAmount);
 
     let structureRoleMinus = 0;
     if(structureRoleBonus > 0) {
       structureRoleMinus =  (runsbaseAmount / 100) * structureRoleBonus;
-      console.log("structureRoleMinus ", structureRoleMinus);
     }
 
     runsbaseAmount = runsbaseAmount - structureRoleMinus;
@@ -24,13 +20,9 @@ export function calculateMaterialQuantity(baseAmount: number, runs: number, mate
     let structureRigMinus = 0;
     if(structureRigBonus > 0) {
       structureRigMinus = (runsbaseAmount / 100) * structureRigBonus;
-      console.log("structureRigMinus ", structureRigMinus);
     }
   
     runsbaseAmount = Math.ceil(runsbaseAmount - structureRigMinus);
-
-    console.log("runsbaseAmount ", runsbaseAmount);
-    console.log("---------");
 
     return runsbaseAmount;
 }
@@ -56,6 +48,52 @@ export function calculateRequiredRuns(requiredProductTypeId: number, requiredPro
         }
 
         return { reqRuns, overflow }
+}
+
+export function getRigMaterialEfficiencyModifier(itemDetails: ItemDetails): number { 
+  // const def = this.universeService.getAllGroups().pipe(
+  //   tap(ids => console.log(ids)),
+  //   mergeMap(ids =>
+  //     from(ids).pipe(
+  //       mergeMap(id => this.universeService.getItemGroup(id).pipe(
+  //         mergeMap(group => this.universeService.getItemCategory(group.category_id).pipe(
+  //           tap(category => console.log(`${group.group_id}: ${group.name} (${group.category_id} - ${category.name})`)))
+  //         )
+  //       )),
+  //       toArray()
+  //     )
+  //   ));
+  //   def.subscribe();
+
+  const MJ5F9ECSmallMedLargeShips: { [groupId: number]: number; } = {
+    1201: 5.04, // Attack Battlecruiser 
+    27:   5.04, // Battleship
+    419:  5.04, // Combat Battlecruiser
+    26:		5.04, // Cruiser
+    420:  4.20, // Destroyer
+    513:  5.04, // Freighter
+    25:   4.20, // Frigate
+    28:   5.04, // Hauler
+    941:  5.04, // Industrial Command Ship
+    463:  5.04, // Mining Barge
+    31:   4.20 // Shuttle
+  }
+
+  const MJ5F9ECStructuresFuelComponents: { [categoryId: number]: number; } = {
+    39:   5.04, // Infrastructure Upgrades
+    40:   5.04, // Sovereignty Structures:
+    23: 	5.04, // Starbase:     			
+    65:   5.04, // Structure: 
+    66:   5.04 //	Structure Module: 
+  }
+
+  const groupValue = MJ5F9ECSmallMedLargeShips[itemDetails.group_id];
+
+  if(groupValue != undefined) {
+    return groupValue;
+  }
+
+  return 0;
 }
 
 export function calculateTotalVolume(manufacturing : ManufacturingCalculation[]) {
