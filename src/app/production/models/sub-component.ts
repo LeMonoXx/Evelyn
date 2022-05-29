@@ -7,5 +7,5 @@ export interface SubComponent {
     requiredAmount?: number,
     bpo?: BlueprintDetails,
     bpoItem?: ItemDetails,
-    prodFacility?: number
+    prodFacilityName?: string
 }

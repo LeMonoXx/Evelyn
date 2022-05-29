@@ -177,8 +177,8 @@ export class ProductionComponent implements OnInit {
 
               const subRigME = getRigMEforItem(component.item);
               console.log(component.item.name, subRigME);
-              
-              component.prodFacility = subRigME.facility;
+
+              component.prodFacilityName = subRigME.facilityName;
               return this.getBpoMaterialBuyCost(
                                 subComponentRuns.reqRuns, 
                                 component.bpo, 

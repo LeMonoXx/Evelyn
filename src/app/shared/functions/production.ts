@@ -1,4 +1,4 @@
-import { BlueprintDetails, ItemDetails } from "src/app/models";
+import { BlueprintDetails, ItemDetails, StructureDetails } from "src/app/models";
 import { ManufacturingCalculation, ManufacturingCostEntry } from "src/app/production";
 
 const MJ5F9ECSmallMedLargeShips: { [groupId: number]: number; } = {
@@ -15,13 +15,18 @@ const MJ5F9ECSmallMedLargeShips: { [groupId: number]: number; } = {
   31:   4.20 // Shuttle
 }
 
-const MJ5F9ECStructuresFuelComponents: { [categoryId: number]: number; } = {
+const MJ5F9ECStructuresFuelComponents: { [categoryId: number]: number } = {
   39:   5.04, // Infrastructure Upgrades
   40:   5.04, // Sovereignty Structures:
   23: 	5.04, // Starbase:     			
   65:   5.04, // Structure: 
   66:   5.04 //	Structure Module: 
 }
+
+const facilities: { name: string, entries: { [categoryId: number]: number } }[] = [
+  { name: "MJ-5F9 - EC Small Med Large Ships", entries: MJ5F9ECSmallMedLargeShips },
+  { name: "MJ-5F9 - EC Structures, Fuel, Components", entries: MJ5F9ECStructuresFuelComponents }
+]
 
 export function calculateMaterialQuantity(
   baseAmount: number, 
@@ -77,7 +82,7 @@ export function calculateRequiredRuns(requiredProductTypeId: number, requiredPro
         return { reqRuns, overflow }
 }
 
-export function getRigMEforItem(itemDetails: ItemDetails): { modifier: number, facility: number } { 
+export function getRigMEforItem(itemDetails: ItemDetails): { modifier: number, facilityName: string } { 
   // const def = this.universeService.getAllGroups().pipe(
   //   tap(ids => console.log(ids)),
   //   mergeMap(ids =>
@@ -91,13 +96,17 @@ export function getRigMEforItem(itemDetails: ItemDetails): { modifier: number, f
   //     )
   //   ));
   //   def.subscribe();
-  const groupValue = MJ5F9ECSmallMedLargeShips[itemDetails.group_id];
 
-  if(groupValue != undefined) {
-    return { modifier: groupValue, facility: 1 };
-  }
+    for(let i=0; i < facilities.length; i++) {
+      const facility = facilities[i];
+      const groupValue = facility.entries[itemDetails.group_id];
 
-  return  { modifier: 0, facility: 0 };
+      if(groupValue != undefined) {
+        return { modifier: groupValue, facilityName: facility.name };
+      }
+    }
+
+    return  { modifier: 0, facilityName: "*" };
 }
 
 export function calculateTotalVolume(manufacturing : ManufacturingCalculation[]) {
