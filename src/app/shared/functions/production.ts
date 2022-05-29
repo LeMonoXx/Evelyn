@@ -10,24 +10,20 @@ export function calculateMaterialQuantity(baseAmount: number, runs: number, mate
     console.log("baseAmount ", baseAmount);
 
     const meMinus = (runsbaseAmount / 100) * materialEfficiency;
-    const afterMeAmount = Math.ceil(runsbaseAmount - meMinus);
-    console.log("afterMeAmount ", afterMeAmount);
-
-    const baseOnePercent = (afterMeAmount / 100);
-
-    console.log("baseOnePercent ", baseOnePercent);
+    runsbaseAmount = runsbaseAmount - meMinus;
+    console.log("afterMeAmount ", runsbaseAmount);
 
     let structureRoleMinus = 0;
     if(structureRoleBonus > 0) {
-      structureRoleMinus = baseOnePercent * structureRoleBonus;
+      structureRoleMinus =  (runsbaseAmount / 100) * structureRoleBonus;
       console.log("structureRoleMinus ", structureRoleMinus);
     }
 
-    runsbaseAmount = Math.ceil(afterMeAmount - structureRoleMinus);
+    runsbaseAmount = runsbaseAmount - structureRoleMinus;
 
     let structureRigMinus = 0;
     if(structureRigBonus > 0) {
-      structureRigMinus = baseOnePercent * structureRigBonus;
+      structureRigMinus = (runsbaseAmount / 100) * structureRigBonus;
       console.log("structureRigMinus ", structureRigMinus);
     }
   
