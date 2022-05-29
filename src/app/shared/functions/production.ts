@@ -1,7 +1,34 @@
 import { BlueprintDetails, ItemDetails } from "src/app/models";
 import { ManufacturingCalculation, ManufacturingCostEntry } from "src/app/production";
 
-export function calculateMaterialQuantity(baseAmount: number, runs: number, materialEfficiency: number, structureRigBonus: number = 5.04, structureRoleBonus: number = 1) : number {
+const MJ5F9ECSmallMedLargeShips: { [groupId: number]: number; } = {
+  1201: 5.04, // Attack Battlecruiser 
+  27:   5.04, // Battleship
+  419:  5.04, // Combat Battlecruiser
+  26:		5.04, // Cruiser
+  420:  4.20, // Destroyer
+  513:  5.04, // Freighter
+  25:   4.20, // Frigate
+  28:   5.04, // Hauler
+  941:  5.04, // Industrial Command Ship
+  463:  5.04, // Mining Barge
+  31:   4.20 // Shuttle
+}
+
+const MJ5F9ECStructuresFuelComponents: { [categoryId: number]: number; } = {
+  39:   5.04, // Infrastructure Upgrades
+  40:   5.04, // Sovereignty Structures:
+  23: 	5.04, // Starbase:     			
+  65:   5.04, // Structure: 
+  66:   5.04 //	Structure Module: 
+}
+
+export function calculateMaterialQuantity(
+  baseAmount: number, 
+  runs: number, 
+  materialEfficiency: number, 
+  structureRigBonus: number, 
+  structureRoleBonus: number = 1) : number {
     // only materials with a quantity above 1 will be affected by material-efficiency
     let runsbaseAmount = baseAmount * runs;
     if(baseAmount <= 1)
@@ -50,7 +77,7 @@ export function calculateRequiredRuns(requiredProductTypeId: number, requiredPro
         return { reqRuns, overflow }
 }
 
-export function getRigMaterialEfficiencyModifier(itemDetails: ItemDetails): number { 
+export function getRigMEforItem(itemDetails: ItemDetails): { modifier: number, facility: number } { 
   // const def = this.universeService.getAllGroups().pipe(
   //   tap(ids => console.log(ids)),
   //   mergeMap(ids =>
@@ -64,36 +91,13 @@ export function getRigMaterialEfficiencyModifier(itemDetails: ItemDetails): numb
   //     )
   //   ));
   //   def.subscribe();
-
-  const MJ5F9ECSmallMedLargeShips: { [groupId: number]: number; } = {
-    1201: 5.04, // Attack Battlecruiser 
-    27:   5.04, // Battleship
-    419:  5.04, // Combat Battlecruiser
-    26:		5.04, // Cruiser
-    420:  4.20, // Destroyer
-    513:  5.04, // Freighter
-    25:   4.20, // Frigate
-    28:   5.04, // Hauler
-    941:  5.04, // Industrial Command Ship
-    463:  5.04, // Mining Barge
-    31:   4.20 // Shuttle
-  }
-
-  const MJ5F9ECStructuresFuelComponents: { [categoryId: number]: number; } = {
-    39:   5.04, // Infrastructure Upgrades
-    40:   5.04, // Sovereignty Structures:
-    23: 	5.04, // Starbase:     			
-    65:   5.04, // Structure: 
-    66:   5.04 //	Structure Module: 
-  }
-
   const groupValue = MJ5F9ECSmallMedLargeShips[itemDetails.group_id];
 
   if(groupValue != undefined) {
-    return groupValue;
+    return { modifier: groupValue, facility: 1 };
   }
 
-  return 0;
+  return  { modifier: 0, facility: 0 };
 }
 
 export function calculateTotalVolume(manufacturing : ManufacturingCalculation[]) {

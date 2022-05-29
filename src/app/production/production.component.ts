@@ -4,7 +4,7 @@ import { BehaviorSubject, combineLatest, debounceTime, filter, from, map, mergeM
 import { IAuthResponseData, AuthService } from '../auth';
 import { StructureDetails, ItemDetails, StationDetails, BlueprintDetails } from '../models';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
-import { calculateMaterialQuantity, calculateRequiredRuns, calculateTaxPercentBySkillLevel, getPriceForN, IndustryService, ItemIdentifier, 
+import { calculateMaterialQuantity, calculateRequiredRuns, calculateTaxPercentBySkillLevel, getPriceForN, getRigMEforItem, IndustryService, ItemIdentifier, 
   ItemSearchService, JITA_REGION_ID, MarketService, MJ5F9_REGION_ID, ShoppingEntry, ShoppingListService, UniverseService } from '../shared';
 import { ManufacturingCostEntry } from './models/manufacturing-cost-entry';
 import { SubComponent, ManufacturingCalculation } from '.';
@@ -89,12 +89,19 @@ export class ProductionComponent implements OnInit {
         );
         return switchResult;
       }),
+      tap(t => getRigMEforItem(t))
     );
 
     this.mainBPODetailsObs = this.itemDetailsObs.pipe(
       filter(i => !!i),
       switchMap(item => this.industryService.getBlueprintDetails(item.type_id)),
       shareReplay(1)
+    );
+
+    const mainBPOProductRigMe = this.mainBPODetailsObs.pipe(
+      map(bpo => bpo.activities.manufacturing.products[0].typeID),
+      switchMap(typeId => this.universeService.getItemDetails(typeId)),
+      map(item => getRigMEforItem(item))
     );
 
     const materialItemObs = this.mainBPODetailsObs.pipe(
@@ -157,21 +164,27 @@ export class ProductionComponent implements OnInit {
       shareReplay(1)
     );
 
-    this.subBPOsManufacturingCostsObs = combineLatest([allRequiredComponents, this.meLevelObs]).pipe(
-        mergeMap(([allReqComp, mainBpoMe]) =>
+    this.subBPOsManufacturingCostsObs = combineLatest([allRequiredComponents, this.meLevelObs, mainBPOProductRigMe]).pipe(
+        mergeMap(([allReqComp, mainBpoMe, mainBPOProductRigMe]) =>
         from(allReqComp.bpoComponents).pipe(
           mergeMap(component => {
-            if(component.bpo) {
-              const reqAllRunsAmount = calculateMaterialQuantity(component.material.quantity, allReqComp.runs, allReqComp.meLevel);
-              component.requiredAmount = reqAllRunsAmount;
+            const reqAllRunsAmount = calculateMaterialQuantity(component.material.quantity, allReqComp.runs, mainBpoMe, mainBPOProductRigMe.modifier);
+            component.requiredAmount = reqAllRunsAmount;
+
+            if(component.bpo) {           
               const subComponentRuns = calculateRequiredRuns(component.material.typeID, component.requiredAmount, component.bpo);
               component.requiredRuns = subComponentRuns.reqRuns;
 
-              return this.getBPOCalculation(
+              const subRigME = getRigMEforItem(component.item);
+              console.log(component.item.name, subRigME);
+              
+              component.prodFacility = subRigME.facility;
+              return this.getBpoMaterialBuyCost(
                                 subComponentRuns.reqRuns, 
                                 component.bpo, 
                                 allReqComp.buyStation, 
-                                allReqComp.meLevel).pipe(
+                                allReqComp.meLevel,
+                                subRigME.modifier).pipe(
               map(calc => (
                 { item: component.item, 
                   bpoCost: calc, 
@@ -181,9 +194,7 @@ export class ProductionComponent implements OnInit {
                 })));
 
             } else {
-              const reqQuantity = calculateMaterialQuantity(component.material.quantity, allReqComp.runs, mainBpoMe);
-              component.requiredAmount = reqQuantity;
-              return this.getManufacturingCost(component.material.typeID, reqQuantity, allReqComp.buyStation).pipe(
+              return this.getManufacturingCost(component.material.typeID, component.requiredAmount, allReqComp.buyStation).pipe(
                 map(c => [c]),
                 map(calc => (
                   { item: component.item, 
@@ -203,16 +214,17 @@ export class ProductionComponent implements OnInit {
   }
 
   
-  private getBPOCalculation(
+  private getBpoMaterialBuyCost(
     runs: number, 
     bpo: BlueprintDetails,
     buyStation: StationDetails,
-    meLevel: number)
+    meLevel: number,
+    rigMELevel: number)
     : Observable<ManufacturingCostEntry[]> {
       const materials = bpo.activities.manufacturing.materials;
       return from(materials).pipe(
         mergeMap(material => {
-          const reqQuantity = calculateMaterialQuantity(material.quantity, runs, meLevel);
+          const reqQuantity = calculateMaterialQuantity(material.quantity, runs, meLevel, rigMELevel);
           return this.getManufacturingCost(material.typeID, reqQuantity, buyStation);
         }),
         toArray(), 

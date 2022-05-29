@@ -16,7 +16,6 @@ export class ItemSearchService {
   private sellStructure$ : Subject<StructureDetails> = new ReplaySubject(1);
   public SellStructureObs: Observable<StructureDetails>;
 
-
   private accoutingSkillLevel$ : Subject<number> = new ReplaySubject(1);
   public AccoutingSkillLevelObs: Observable<number>;
 
@@ -29,30 +28,27 @@ export class ItemSearchService {
   public CurrentItemDetailsObs: Observable<ItemDetails>;
 
   constructor(universeService: UniverseService) {
-    this.CurrentItemObs = this.currentItem$.asObservable()
-                                      .pipe(
-                                        shareReplay(1));
+    this.CurrentItemObs = this.currentItem$.asObservable().pipe(
+      shareReplay(1));
 
     this.CurrentItemDetailsObs = this.CurrentItemObs.pipe(
       switchMap(item => universeService.getItemDetails(item.id))
       );
 
-    this.ItemCountObs = this.itemCount$.asObservable()
-      .pipe(
+    this.ItemCountObs = this.itemCount$.asObservable().pipe(
         startWith(1), 
         shareReplay(1));
 
-    this.AccoutingSkillLevelObs = this.accoutingSkillLevel$.asObservable()
-      .pipe(
+    this.AccoutingSkillLevelObs = this.accoutingSkillLevel$.asObservable().pipe(
         startWith(1), 
         shareReplay(1));
     
 
-    this.BuyStationObs = this.buyStation$.asObservable()
-    .pipe(shareReplay(1));
+    this.BuyStationObs = this.buyStation$.asObservable().pipe(
+      shareReplay(1));
 
-    this.SellStructureObs = this.sellStructure$.asObservable()
-    .pipe(shareReplay(1));
+    this.SellStructureObs = this.sellStructure$.asObservable().pipe(
+      shareReplay(1));
    }
 
   public setCurrentItem(item : ItemIdentifier) {
