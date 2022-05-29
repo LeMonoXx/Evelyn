@@ -121,7 +121,7 @@ export class BlueprintDetailsComponent implements OnInit {
               const brokerFee =  sellPriceForX / 100 * 2.5;
   
               const saleTax = sellPriceForX / 100 * saleTaxPercent;
-              const profit = ((sellPriceForX - totalMaterialCosts) - brokerFee);
+              const profit = (((sellPriceForX - totalMaterialCosts) - brokerFee) - saleTax) - shippingCost;
 
               const sellCalculation: { 
                 bpo: BlueprintDetails,

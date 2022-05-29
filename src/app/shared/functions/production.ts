@@ -1,7 +1,7 @@
 import { BlueprintDetails } from "src/app/models";
 import { ManufacturingCalculation, ManufacturingCostEntry } from "src/app/production";
 
-export function calculateMaterialQuantity(baseAmount: number, runs: number, materialEfficiency: number, structureRigBonus: number = 5, structureRoleBonus: number = 1) : number {
+export function calculateMaterialQuantity(baseAmount: number, runs: number, materialEfficiency: number, structureRigBonus: number = 5.04, structureRoleBonus: number = 1) : number {
     // only materials with a quantity above 1 will be affected by material-efficiency
     let runsbaseAmount = baseAmount * runs;
     if(baseAmount <= 1)
@@ -26,10 +26,10 @@ export function calculateMaterialQuantity(baseAmount: number, runs: number, mate
     runsbaseAmount = Math.ceil(afterMeAmount - structureRoleMinus);
 
     let structureRigMinus = 0;
-    // if(structureRigBonus > 0) {
-    //   structureRigMinus = baseOnePercent * structureRigBonus;
-    //   console.log("structureRigMinus ", structureRigMinus);
-    // }
+    if(structureRigBonus > 0) {
+      structureRigMinus = baseOnePercent * structureRigBonus;
+      console.log("structureRigMinus ", structureRigMinus);
+    }
   
     runsbaseAmount = Math.ceil(runsbaseAmount - structureRigMinus);
 
