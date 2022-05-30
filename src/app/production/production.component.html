@@ -7,10 +7,10 @@
         </div>
      </mat-card>
 
-     <div class="productionContentDiv" *ngIf="currentItemObs | async">
-         <mat-card class="manufacturingContent fixedSize">
+     <div class="productionContentDiv">
+         <mat-card class="manufacturingContent">
             <mat-card-title>Manufacturing summary</mat-card-title>
-               <app-blueprint-details
+               <app-blueprint-details *ngIf="!(isLoadingObs | async); else ProdLoadingIndicator"
                   [runs$]="runsObs"
                   [sellStructure$]="currentSellStructureObs"
                   [saleTaxPercent$]="characterSaleTaxPercentObs"
@@ -20,16 +20,16 @@
                </app-blueprint-details>        
          </mat-card>
   
-         <mat-card class="manufacturingContent fixedSize">
+         <mat-card class="manufacturingContent">
             <mat-card-title>Required BPCs</mat-card-title>
-            <app-blueprint-summary
+            <app-blueprint-summary *ngIf="!(isLoadingObs | async); else ProdLoadingIndicator"
                [subBPOs$]="subComponentsObs">  
             </app-blueprint-summary>      
          </mat-card>
 
          <mat-card class="manufacturingContent">
             <mat-card-title>Required materials</mat-card-title>
-            <app-blueprint-manufacturing
+            <app-blueprint-manufacturing *ngIf="!(isLoadingObs | async); else ProdLoadingIndicator"
                [subBPOsManufacturingCosts$]="subBPOsManufacturingCostsObs">
             </app-blueprint-manufacturing>        
          </mat-card>
@@ -41,3 +41,9 @@
        You need to login, to see the station market.
     </div>
  </ng-template>
+
+ <ng-template #ProdLoadingIndicator>
+   <div *ngIf="isLoadingObs | async" class="prodLoadingIndicator">
+      <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

@@ -45,6 +45,7 @@
 
     .manufacturingContent {
       width: 580px;
+      min-height: 600px;
     }
 
     @include breakpoint(991px) {
@@ -61,4 +62,11 @@
 .noItemSpecified {
   font-style: italic;
   text-align: center;
+}
+
+.prodLoadingIndicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -50px 0 0 -50px;
 }

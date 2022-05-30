@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { catchError, debounceTime, filter, forkJoin, map, Observable, Subscription, switchMap } from 'rxjs';
+import { catchError, debounceTime, filter, forkJoin, map, Observable, Subscription, switchMap, tap } from 'rxjs';
 import { MarketerSearchResult, StationDetails, StructureDetails } from '../models';
 import { ProductionSettingsService } from '../production/services/production-settings.service';
 import { EveMarketerDataRepositoryService } from '../repositories';

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, combineLatest, debounceTime, filter, from, map, mergeMap, Observable, of, shareReplay, startWith, Subject, switchMap, take, tap, toArray } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, filter, from, map, mergeMap, Observable, of, share, shareReplay, startWith, Subject, switchMap, take, tap, toArray } from 'rxjs';
 import { IAuthResponseData, AuthService } from '../auth';
 import { StructureDetails, ItemDetails, StationDetails, BlueprintDetails } from '../models';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
@@ -38,8 +38,9 @@ export class ProductionComponent implements OnInit {
   public meLevelObs: Observable<number>;
   // me level for the sub component-bpos
   public subMeLevelObs: Observable<number>;
-  public teLevelObs: Observable<number>;
 
+  public indicatorSubject = new BehaviorSubject<boolean>(false);
+  public isLoadingObs = this.indicatorSubject.asObservable().pipe(distinctUntilChanged());
 
   constructor(
     private industryService: IndustryService,
@@ -59,7 +60,6 @@ export class ProductionComponent implements OnInit {
       this.runsObs = this.productionSettingsService.RunsObs;
       this.meLevelObs = this.productionSettingsService.MeLevelObs;
       this.subMeLevelObs = this.productionSettingsService.SubMeLevelObs;
-      this.teLevelObs = this.productionSettingsService.TeLevelObs;
     }
 
   public ngOnInit(): void { 
@@ -88,7 +88,9 @@ export class ProductionComponent implements OnInit {
           switchMap(bpoItem => this.universeService.getItemDetails(bpoItem?.id))
         );
         return switchResult;
-      })
+      }),
+      distinctUntilChanged(),
+      shareReplay(1)
     );
 
     this.mainBPODetailsObs = this.itemDetailsObs.pipe(
@@ -129,8 +131,8 @@ export class ProductionComponent implements OnInit {
           ),
           toArray()
         )),
-      shareReplay(1)
-      );
+      shareReplay(1),
+      distinctUntilChanged());
 
     const bpoComponentsObs = materialItemObs.pipe(
       mergeMap(components => 
@@ -162,32 +164,36 @@ export class ProductionComponent implements OnInit {
             ))
           )),
           toArray(),
-          debounceTime(40),
         ),
       ),
+      shareReplay(1),
+      distinctUntilChanged(),
+      debounceTime(250)
     )));
 
     const allRequiredComponents = combineLatest([this.runsObs, materialItemObs, bpoComponentsObs, this.currentBuyStationObs, this.subMeLevelObs]).pipe(
-      debounceTime(120),
+      debounceTime(250),
       map(([runs, subMaterials, bpoComponents, buyStation, meLevel]) => {
         subMaterials.forEach(component => {
-
           const exists = bpoComponents.some(c => c.item.type_id === component.material.typeID);
           if(!exists) {
             bpoComponents.push(component);
           }
         })
         return ({ runs, bpoComponents, buyStation, meLevel });
-      }
-    ), shareReplay(1));
+        }
+      ), 
+      shareReplay(1)
+    );
 
     this.subComponentsObs = allRequiredComponents.pipe(     
-      debounceTime(100),
       map(c => c.bpoComponents), 
       shareReplay(1)
     );
 
     this.subBPOsManufacturingCostsObs = combineLatest([allRequiredComponents, this.meLevelObs, mainBPOProductRigMe]).pipe(
+      debounceTime(50),
+      tap(_ => this.indicatorSubject.next(true)),
         mergeMap(([allReqComp, mainBpoMe, mainBPOProductRigMe]) =>
         from(allReqComp.bpoComponents).pipe(
           mergeMap(component => {
@@ -231,8 +237,11 @@ export class ProductionComponent implements OnInit {
           toArray(),
           debounceTime(40),
           map(entries => entries.sort((a, b) => 
-          a.item.type_id - b.item.type_id))
-        )), shareReplay(1));
+          a.item.type_id - b.item.type_id)),
+        )),  
+        debounceTime(100),    
+        tap(_ => this.indicatorSubject.next(false)),
+        shareReplay(1));
   }
 
   
@@ -274,7 +283,8 @@ export class ProductionComponent implements OnInit {
           };
         })
         )
-      )
+      ),
+      shareReplay(1)
     );
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject, shareReplay, startWith, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Observable, ReplaySubject, shareReplay, startWith, Subject, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,22 +22,26 @@ export class ProductionSettingsService {
     this.RunsObs = this.runs$.asObservable()
     .pipe( 
       startWith(1), 
-      shareReplay(1));
+      shareReplay(1),
+      debounceTime(50));
 
     this.MeLevelObs = this.meLevel$.asObservable()
     .pipe(
       startWith(0), 
-      shareReplay(1));
+      shareReplay(1),
+      debounceTime(50));
 
     this.SubMeLevelObs = this.subMeLevel$.asObservable()
     .pipe(
       startWith(0), 
-      shareReplay(1));
+      shareReplay(1),
+      debounceTime(50));
 
     this.TeLevelObs = this.teLevel$.asObservable()
     .pipe(
       startWith(0), 
-      shareReplay(1));
+      shareReplay(1),
+      debounceTime(50));
   }
   
   public setRuns(runs : number) {
