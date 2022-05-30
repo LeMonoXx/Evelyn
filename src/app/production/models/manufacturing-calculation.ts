@@ -6,6 +6,5 @@ export interface ManufacturingCalculation {
     item: ItemDetails, 
     reqAmount?: number, 
     subComponent?: SubComponent,
-    bpoCost: ManufacturingCostEntry[],
-    overflow: number
+    bpoCost: ManufacturingCostEntry[]
 }

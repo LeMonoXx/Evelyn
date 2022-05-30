@@ -88,8 +88,7 @@ export class ProductionComponent implements OnInit {
           switchMap(bpoItem => this.universeService.getItemDetails(bpoItem?.id))
         );
         return switchResult;
-      }),
-      tap(t => getRigMEforItem(t))
+      })
     );
 
     this.mainBPODetailsObs = this.itemDetailsObs.pipe(
@@ -101,7 +100,13 @@ export class ProductionComponent implements OnInit {
     const mainBPOProductRigMe = this.mainBPODetailsObs.pipe(
       map(bpo => bpo.activities.manufacturing.products[0].typeID),
       switchMap(typeId => this.universeService.getItemDetails(typeId)),
-      map(item => getRigMEforItem(item))
+      switchMap(item => this.universeService.getItemGroup(item.group_id).pipe(
+        map(group => ({ item: item, group: group })),
+        switchMap(value => this.universeService.getItemCategory(value.group.category_id).pipe(
+          map(category => ({ item: item, category: category }))
+        ))
+      )),
+      map(value => getRigMEforItem(value.item, value.category))
     );
 
     const materialItemObs = this.mainBPODetailsObs.pipe(
@@ -110,7 +115,16 @@ export class ProductionComponent implements OnInit {
       mergeMap(materials =>
         from(materials).pipe(
           mergeMap(material => this.universeService.getItemDetails(material.typeID).pipe(
-            map(item => ({material, item } as SubComponent ))
+            map(item => ({material, item } as SubComponent )),
+            switchMap(subC => this.universeService.getItemGroup(subC.item.group_id).pipe(
+              map(group => ({ subC: subC, group: group })),
+              switchMap(value => this.universeService.getItemCategory(value.group.category_id).pipe(
+                map(category => {
+                  subC.itemCategory = category;
+                  return subC;
+                })
+              ))
+            ))
             )
           ),
           toArray()
@@ -135,7 +149,16 @@ export class ProductionComponent implements OnInit {
                  component.bpo = result.bpo;
                  component.bpoItem = result.bpoItem;                 
                  return component;
-                })
+                }),
+                switchMap(subC => this.universeService.getItemGroup(subC.item.group_id).pipe(
+                  map(group => ({ subC: subC, group: group })),
+                  switchMap(value => this.universeService.getItemCategory(value.group.category_id).pipe(
+                    map(category => {
+                      subC.itemCategory = category;
+                      return subC;
+                    })
+                  ))
+                ))
             ))
           )),
           toArray(),
@@ -174,9 +197,10 @@ export class ProductionComponent implements OnInit {
             if(component.bpo) {           
               const subComponentRuns = calculateRequiredRuns(component.material.typeID, component.requiredAmount, component.bpo);
               component.requiredRuns = subComponentRuns.reqRuns;
+              component.overflow = subComponentRuns.overflow;
 
-              const subRigME = getRigMEforItem(component.item);
-              console.log(component.item.name, subRigME);
+              const subRigME = getRigMEforItem(component.item, component.itemCategory);
+              console.log(component.item.name, component.itemCategory);
 
               component.prodFacilityName = subRigME.facilityName;
               return this.getBpoMaterialBuyCost(
@@ -190,7 +214,6 @@ export class ProductionComponent implements OnInit {
                   bpoCost: calc, 
                   subComponent: component,
                   reqAmount: component.requiredAmount, 
-                  overflow: subComponentRuns.overflow 
                 })));
 
             } else {
@@ -200,8 +223,8 @@ export class ProductionComponent implements OnInit {
                   { item: component.item, 
                     bpoCost: calc, 
                     subComponent: component,
-                    reqAmount: component.requiredAmount, 
-                    overflow: 0 }))
+                    reqAmount: component.requiredAmount 
+                  }))
               );
             }
           }),

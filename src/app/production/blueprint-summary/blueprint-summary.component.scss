@@ -42,6 +42,18 @@
                 text-overflow: ellipsis; 
             }
         }
+
+        .facilityColumn {
+            max-width: 150px;
+            padding-right: 10px;
+
+            div {
+                text-align: left;
+                font-size: 70%;
+                overflow: hidden;
+                text-overflow: ellipsis; 
+            }
+        }
         
         .blueprintSummaryRightColumn {
             padding-right: 10px;
