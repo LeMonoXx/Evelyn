@@ -200,8 +200,7 @@ export class ProductionComponent implements OnInit {
               component.overflow = subComponentRuns.overflow;
 
               const subRigME = getRigMEforItem(component.item, component.itemCategory);
-              console.log(component.item.name, component.itemCategory);
-
+ 
               component.prodFacilityName = subRigME.facilityName;
               return this.getBpoMaterialBuyCost(
                                 subComponentRuns.reqRuns, 

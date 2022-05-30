@@ -19,6 +19,7 @@ const MJ5F9ECSmallMedLargeShips_byGroup: { [groupId: number]: number; } = {
 const MJ5F9ECStructuresFuelComponents_byGroup: { [categoryId: number]: number } = {
   332:  4.20, // Tool
   334:  4.20, // Construction Components
+  913:  4.20, // Advanced Capital Construction Components
 }
 const MJ5F9ECStructuresFuelComponents_byCategory: { [categoryId: number]: number } = {
   39:   5.04, // Infrastructure Upgrades
@@ -119,12 +120,11 @@ export function getRigMEforItem(itemDetails: ItemDetails, itemCategory: ItemCate
       const categoryValue = facility.entries[itemCategory.category_id];
 
       if(categoryValue != undefined) {
-        console.log(itemDetails.name + " by CATEGORY ", categoryValue)
         return { modifier: categoryValue, facilityName: facility.name };
       }
     }
 
-    return  { modifier: 0, facilityName: "*" };
+    return  { modifier: 0, facilityName: "-" };
 }
 
 export function calculateTotalVolume(manufacturing : ManufacturingCalculation[]) {
