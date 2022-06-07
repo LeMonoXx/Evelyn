@@ -141,6 +141,7 @@ export class ProductionComponent implements OnInit {
           // if its filtered out, the component is calculated as bought form market.
          // filter(c => c.item.type_id !== 17478),
           mergeMap(component => this.autoCompleteService.getAutoCompleteSuggestions(component.item.name + " Blueprint").pipe(
+            map(x => x?.filter(e => e.name.startsWith(component.item.name))),
             filter(x => !!x && x.length > 0),
             map(items => items[0]),
             mergeMap(item => this.industryService.getBlueprintDetails(item.id).pipe(
