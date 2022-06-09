@@ -59,6 +59,16 @@
     }
 }
 
+.buyLocationColumn {
+    width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 90%;
+    cursor: pointer;
+    color: $foreground-soft1; 
+}
+
 .tableRowCenter {
     text-align: center;
 }

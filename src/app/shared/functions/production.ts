@@ -127,6 +127,21 @@ export function getRigMEforItem(itemDetails: ItemDetails, itemCategory: ItemCate
     return  { modifier: 0, facilityName: "-" };
 }
 
+export function calculateTotalShippingVolume(manufacturing : ManufacturingCalculation[]) {
+
+  let volume = 0;
+
+  manufacturing.forEach(entry => volume += calculateShippingComponentVolume(entry.bpoCost));
+
+  return volume;
+}
+
+export function calculateShippingComponentVolume(costEntries : ManufacturingCostEntry[]) {
+  let volume = 0;
+  costEntries.filter(e => e.requireShipping).forEach(cost => volume += cost.total_volume);
+  return volume;
+}
+
 export function calculateTotalVolume(manufacturing : ManufacturingCalculation[]) {
 
   let volume = 0;
@@ -154,5 +169,20 @@ export function calculateTotalCosts(manufacturing : ManufacturingCalculation[]) 
 export function calculateComponentCosts(costEntries : ManufacturingCostEntry[]) {
   let price = 0;
   costEntries.forEach(cost => price += cost.total_buyPrice);
+  return price;
+}
+
+export function calculateShippingColaterial(manufacturing : ManufacturingCalculation[]) {
+
+  let price = 0;
+
+  manufacturing.forEach(entry => price += calculateComponentShippingColaterial(entry.bpoCost));
+
+  return price;
+}
+
+export function calculateComponentShippingColaterial(costEntries : ManufacturingCostEntry[]) {
+  let price = 0;
+  costEntries.filter(e => e.requireShipping).forEach(cost => price += cost.total_buyPrice);
   return price;
 }

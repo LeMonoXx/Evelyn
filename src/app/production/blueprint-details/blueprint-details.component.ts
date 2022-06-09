@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { combineLatest, debounceTime, filter, map, mergeMap, Observable, switchMap, tap } from 'rxjs';
 import { BlueprintDetails, ItemDetails, MarketEntry, StructureDetails } from 'src/app/models';
-import { CalculateShippingCostForBundle, calculateTotalCosts, calculateTotalVolume, copyToClipboard, MarketService, UniverseService } from 'src/app/shared';
+import { calculateShippingColaterial, CalculateShippingCostForBundle, calculateTotalCosts, calculateTotalShippingVolume, calculateTotalVolume, copyToClipboard, MarketService, UniverseService } from 'src/app/shared';
 import { ManufacturingCalculation } from '..';
 
 @Component({
@@ -35,19 +35,22 @@ export class BlueprintDetailsComponent implements OnInit {
   public productObs: Observable<{ product: ItemDetails, amount: number, imageSource: string }>;
   public totalMaterialCostsObs: Observable<number>;
   public totalVolumeObs: Observable<number>;
+  public ShippingColateralObs: Observable<number>;
+  public ShippingVolumeObs: Observable<number>;
   public shippingCostObs: Observable<number>;
   public lowestSellEntryObs: Observable<MarketEntry>;
   public sellDataObs: Observable<{ 
     bpo: BlueprintDetails,
     volume: number,
+    shippingVolume: number
+    shippingColateral: number
     shippingCost: number,
     materialCost: number,
     single_sellPrice: number, 
     total_sellPrice: number,
     brokerFee: number,
     saleTax: number,
-    profit: number
-  }>;
+    profit: number }>;
   
   constructor(
     private universeService: UniverseService,
@@ -79,7 +82,14 @@ export class BlueprintDetailsComponent implements OnInit {
         map(entries => calculateTotalVolume(entries))
       )
 
-      this.shippingCostObs = combineLatest([this.totalMaterialCostsObs, this.totalVolumeObs]).pipe(
+      this.ShippingColateralObs = this.subBPOsManufacturingCosts$.pipe(
+        map(entries => calculateShippingColaterial(entries))); 
+
+      this.ShippingVolumeObs = this.subBPOsManufacturingCosts$.pipe(
+        map(entries => calculateTotalShippingVolume(entries))
+      )
+
+      this.shippingCostObs = combineLatest([this.ShippingColateralObs, this.ShippingVolumeObs]).pipe(
         map(([price, volume]) => CalculateShippingCostForBundle(price, volume))
       )
 
@@ -97,6 +107,8 @@ export class BlueprintDetailsComponent implements OnInit {
         [
           this.BPODetails$,
           this.totalVolumeObs,
+          this.ShippingVolumeObs,
+          this.ShippingColateralObs,
           this.shippingCostObs,
           this.productObs, 
           this.runs$,
@@ -108,6 +120,8 @@ export class BlueprintDetailsComponent implements OnInit {
             [
               bpo,
               totalVolume,
+              shippingVolume,
+              shippingColateral,
               shippingCost,
               productObs,
               runs,
@@ -126,6 +140,8 @@ export class BlueprintDetailsComponent implements OnInit {
               const sellCalculation: { 
                 bpo: BlueprintDetails,
                 volume: number,
+                shippingVolume: number
+                shippingColateral: number
                 shippingCost: number,
                 materialCost: number,
                 single_sellPrice: number, 
@@ -136,6 +152,8 @@ export class BlueprintDetailsComponent implements OnInit {
               { 
                 bpo: bpo,
                 volume: totalVolume,
+                shippingVolume: shippingVolume,
+                shippingColateral: shippingColateral,
                 shippingCost: shippingCost,
                 materialCost: totalMaterialCosts,
                 single_sellPrice: lowestSellEntry.price,

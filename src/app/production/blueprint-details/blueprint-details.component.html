@@ -50,12 +50,22 @@
 
         <mat-divider></mat-divider>
 
-        <div class="calcSummaryEntry" style="padding-top: 10px;">
-            <span>Sell price</span> <span class="positivNumber valueLabel">{{ sellData.total_sellPrice | currency }}</span>
+        <div class="calcSummaryEntry" (click)="copy(sellData.shippingColateral)" style="padding-top: 10px;">
+            <span>Shipping Colateral</span> <span class="minorInfo">{{ sellData.shippingColateral | currency }}</span>
         </div>
 
-        <div class="calcSummaryEntry" (click)="copy(sellData.shippingCost)">
+        <div class="calcSummaryEntry" (click)="copy(sellData.shippingVolume)">
+            <span class="minorInfo">Shipping Volume</span> <span class="minorInfo">{{ sellData.shippingVolume | number }} m³</span>
+        </div>
+
+        <div class="calcSummaryEntry" (click)="copy(sellData.shippingCost)" style="padding-bottom: 10px;">
             <span>Shipping</span> <span class="negativeNumber valueLabel">{{ sellData.shippingCost *-1 | currency }}</span>
+        </div>
+        
+        <mat-divider></mat-divider>
+
+        <div class="calcSummaryEntry" style="padding-top: 10px;">
+            <span>Sell price</span> <span class="positivNumber valueLabel">{{ sellData.total_sellPrice | currency }}</span>
         </div>
 
         <div class="calcSummaryEntry">
