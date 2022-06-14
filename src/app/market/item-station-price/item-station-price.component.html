@@ -38,7 +38,7 @@
             </div>
         </div>
 
-        <div class="quickInfoBuySellContainerDiv">
+        <div class="quickInfoBuySellContainerDiv" style="padding-bottom: 10px;">
             <div class="quickInfoBuySell textLeft">
                 <label [class.multibleSellOrdersUsed]="tradeData.usedMarketEntries.length > 1"
                 [title]="tradeData.usedMarketEntries.length > 1 ? 'Average price for multible orders': ''">
@@ -56,18 +56,26 @@
     </div>
     
     <div class="sellCostsContainer">
+        <div class="priceEntryDiv" style="padding-bottom: 10px;">
+            <label class="titleLabel">Sell Price</label>
+            <label class="positivNumber valueLabel">{{ tradeData.sellPriceX | currency }}</label>
+        </div>
+
         <mat-divider></mat-divider>
 
-        <div class="priceEntryDiv">
-            <label class="titleLabel">Total Buy Cost</label>
+        <div class="priceEntryDiv" style="padding-top: 10px;">
+            <label class="titleLabel">Buy Price</label>
             <label class="negativeNumber valueLabel">{{ tradeData.buyPriceX * -1 | currency }}</label>
         </div>
 
-        <div class="priceEntryDiv">
-            <label class="titleLabel">Brutto Sell Price</label>
-            <label class="positivNumber valueLabel">{{ tradeData.sellPriceX | currency }}</label>
+        <div class="priceEntryDiv" style="padding-bottom: 10px;">
+            <label class="titleLabel">Shipping</label>
+            <label class="negativeNumber valueLabel">{{ tradeData.shippingCost * -1 | currency }}</label>
         </div>
-        <div class="priceEntryDiv">
+
+        <mat-divider></mat-divider>
+
+        <div class="priceEntryDiv" style="padding-top: 10px;">
             <label class="titleLabel">Broker Fee</label>
             <label class="negativeNumber valueLabel">{{ tradeData.brokerFee * -1 | currency }}</label>
         </div>
@@ -75,16 +83,14 @@
             <label class="titleLabel">Tax</label>
             <label class="negativeNumber valueLabel">{{ tradeData.saleTax * -1 | currency }}</label>
         </div>
-        <div class="priceEntryDiv">
+        <div class="priceEntryDiv" style="padding-bottom: 10px;">
             <label class="titleLabel">Netto Sell Price</label>
             <label class="positivNumber valueLabel">{{ tradeData.nettoSalePrice | currency }}</label>
         </div>
+
         <mat-divider></mat-divider>
-        <div class="priceEntryDiv">
-            <label class="titleLabel">Shipping Cost</label>
-            <label class="negativeNumber valueLabel">{{ tradeData.shippingCost * -1 | currency }}</label>
-        </div>
-        <div class="priceEntryDiv">
+
+        <div class="priceEntryDiv" style="padding-top: 10px;">
             <label class="titleLabel">Profit</label>
             <label class="valueLabel"
                 [ngClass]="tradeData.profit <= 0 ? 'negativeProfit' : 'positivProfit'">
@@ -92,9 +98,14 @@
             </label>       
         </div>
 
+        <div *ngIf="tradeData.artificialSellPrice" class="artificialSellPrice">
+            Target market does not have active sell orders for given item. <br>
+            Sell price is artificially set to Jita + Shipping + 20%. 
+        </div>
+
         <div *ngIf="!tradeData.hasEnoughMarketVolumen" class="notEnoughVolumen">
-            The market had not enough remaining volumen to fullfill the required amount.
-            The prices for remaining volumen is calculated with the highest price and may differ. 
+            The market had not enough remaining volumen. <br>
+            The prices for remaining volumen may differ. 
         </div>
     </div>
 </div>

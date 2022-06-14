@@ -10,6 +10,7 @@ export interface TradeCalculation {
     singleSellPrice: number;
     // the sell price for number of x item
     sellPriceX: number, 
+    artificialSellPrice: boolean,
     brokerFee: number, 
     saleTax: number, 
     nettoSalePrice: number,

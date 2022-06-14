@@ -191,6 +191,15 @@
             margin-top: 20px;
             margin-bottom: 10px;
             font-style: italic;
+            text-align: center;
+        }
+
+        .artificialSellPrice {
+            color: $warning_foreground;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-style: italic;
+            text-align: center;
         }
     }
 }
