@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Console } from 'console';
 import { combineLatest, debounceTime, map, mergeMap, Observable, switchMap } from 'rxjs';
 import { ItemDetails, MarketEntry, StationDetails, StructureDetails } from 'src/app/models';
 import { CalculateShippingCost, copyToClipboard, FavoritesService, ItemIdentifier, 
@@ -101,6 +102,8 @@ export class ItemStationPriceComponent implements OnInit {
           const usedOrders = getPriceForN(buyEntries, count);
           
           prices.singleBuyPrice = usedOrders.averagePrice;
+          console.log("singleBuyPrice: ", prices.singleBuyPrice);
+          
           prices.buyPriceX = usedOrders.totalPrice;
           prices.hasEnoughMarketVolumen = usedOrders.enough;
         
@@ -111,7 +114,8 @@ export class ItemStationPriceComponent implements OnInit {
           if(sellEntries && sellEntries.length > 0) {
             sellPrice = sellEntries[0].price;
           } else {
-            const artificialPrice = usedOrders.averagePrice + (usedOrders.averagePrice / 100 * 20) + prices.shippingCost;
+            const singleItemShipping = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, 1);
+            const artificialPrice = usedOrders.averagePrice + ((usedOrders.averagePrice / 100) * 20) + singleItemShipping;
             sellPrice = artificialPrice;
             prices.artificialSellPrice = true;
           }
