@@ -1,5 +1,5 @@
 import { BlueprintDetails, StationDetails, StructureDetails, EveItem } from "src/app/models";
-import { ItemIdentifier, ShoppingEntry } from "..";
+import { ItemIdentifier, ShippingService, ShoppingEntry } from "..";
 
 export const SHOPPINGENTRIES_KEY: string = "shopping-list";
 export const FAVORITEITEMS_KEY: string = "favorite-items";
@@ -7,6 +7,7 @@ export const BLUEPRINT_DETAILS_KEY: string = "blueprint-details";
 export const EVETYPE_KEY: string = "eve-types";
 export const SELECTEDSTATION_KEY: string = "selected-station";
 export const SELECTEDSTRUCTURE_KEY: string = "selected-structure";
+export const SELECTEDSHIPPINGSERVICE_KEY: string = "selected-shipping-service"
 
 
 
@@ -57,6 +58,15 @@ export function getStoredSelectedStructure(): number | null {
 export function storeSelectedStructure(entry: StructureDetails) {
       storeData<number>(entry.evelyn_structureId, SELECTEDSTRUCTURE_KEY);
 }
+
+export function getStoredSelectedShippingService(): number | null {
+      return getData<number>(SELECTEDSHIPPINGSERVICE_KEY);
+}
+
+export function storeSelectedShippingService(entry: ShippingService) {
+      storeData<number>(entry.id, SELECTEDSHIPPINGSERVICE_KEY);
+}
+
 
 function storeData<T>(data: T, key: string) {
       const dataString = JSON.stringify(data);

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { map, Observable, ReplaySubject, shareReplay, startWith, Subject, switchMap } from 'rxjs';
+import { Observable, ReplaySubject, shareReplay, startWith, Subject, switchMap } from 'rxjs';
 import { ItemDetails, StationDetails, StructureDetails } from 'src/app/models';
-import { storeSelectedStation, storeSelectedStructure } from '../functions/storage';
+import { storeSelectedShippingService, storeSelectedStation, storeSelectedStructure } from '../functions/storage';
 import { ItemIdentifier } from '../models/item-identifier';
+import { ShippingService } from '../models/shipping/shipping-service';
 import { UniverseService } from './universe.service';
 
 @Injectable({
@@ -15,6 +16,9 @@ export class ItemSearchService {
 
   private sellStructure$ : Subject<StructureDetails> = new ReplaySubject(1);
   public SellStructureObs: Observable<StructureDetails>;
+
+  private shippingService$ : Subject<ShippingService> = new ReplaySubject(1);
+  public ShippingServiceObs: Observable<ShippingService>;
 
   private accoutingSkillLevel$ : Subject<number> = new ReplaySubject(1);
   public AccoutingSkillLevelObs: Observable<number>;
@@ -49,7 +53,10 @@ export class ItemSearchService {
 
     this.SellStructureObs = this.sellStructure$.asObservable().pipe(
       shareReplay(1));
-   }
+
+    this.ShippingServiceObs = this.shippingService$.asObservable().pipe(
+      shareReplay(1));
+  }
 
   public setCurrentItem(item : ItemIdentifier) {
     this.currentItem$.next(item);
@@ -71,5 +78,10 @@ export class ItemSearchService {
   public setSellStructure(structure: StructureDetails) {
     storeSelectedStructure(structure);
     this.sellStructure$.next(structure);
+  }
+
+  public setShippingService(service: ShippingService) {
+    storeSelectedShippingService(service);
+    this.shippingService$.next(service);
   }
 }

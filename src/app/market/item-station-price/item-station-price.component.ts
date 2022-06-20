@@ -5,7 +5,7 @@ import { combineLatest, debounceTime, map, mergeMap, Observable, switchMap } fro
 import { ItemDetails, MarketEntry, StationDetails, StructureDetails } from 'src/app/models';
 import { CalculateShippingCost, copyToClipboard, FavoritesService, ItemIdentifier, 
   JITA_REGION_ID, MarketService, TradeCalculation, 
-  ShoppingEntry, ShoppingListService, UniverseService, getPriceForN } from 'src/app/shared';
+  ShoppingEntry, ShoppingListService, UniverseService, getPriceForN, ShippingService } from 'src/app/shared';
 
 @Component({
   selector: 'eve-item-station-price',
@@ -27,6 +27,8 @@ export class ItemStationPriceComponent implements OnInit {
   public itemIdentifier$: Observable<ItemIdentifier>;
   @Input()
   public itemDetails$: Observable<ItemDetails>
+  @Input()
+  public shippingService$: Observable<ShippingService>
   
   public itemBuyCostObs: Observable<MarketEntry[]>;
   public itemSellCostObs$: Observable<MarketEntry[]>;
@@ -72,7 +74,8 @@ export class ItemStationPriceComponent implements OnInit {
             this.itemBuyCostObs, 
             this.itemDetails$, 
             this.itemSellCostObs$,
-            this.saleTaxPercent$
+            this.saleTaxPercent$,
+            this.shippingService$
           ]).pipe(
             map((
               [
@@ -80,7 +83,8 @@ export class ItemStationPriceComponent implements OnInit {
                 buyEntries, 
                 itemDetails, 
                 sellEntries,
-                saleTaxPercent
+                saleTaxPercent,
+                shippingService
               ]) => {
             const prices: TradeCalculation = {
               quantity: count,
@@ -102,19 +106,17 @@ export class ItemStationPriceComponent implements OnInit {
           const usedOrders = getPriceForN(buyEntries, count);
           
           prices.singleBuyPrice = usedOrders.averagePrice;
-          console.log("singleBuyPrice: ", prices.singleBuyPrice);
-          
           prices.buyPriceX = usedOrders.totalPrice;
           prices.hasEnoughMarketVolumen = usedOrders.enough;
         
-          prices.shippingCost = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, count);
+          prices.shippingCost = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, count, shippingService);
 
           let sellPrice = 0;
 
           if(sellEntries && sellEntries.length > 0) {
             sellPrice = sellEntries[0].price;
           } else {
-            const singleItemShipping = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, 1);
+            const singleItemShipping = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, 1, shippingService);
             const artificialPrice = usedOrders.averagePrice + ((usedOrders.averagePrice / 100) * 20) + singleItemShipping;
             sellPrice = artificialPrice;
             prices.artificialSellPrice = true;

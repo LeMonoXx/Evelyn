@@ -5,7 +5,7 @@ import { IAuthResponseData, AuthService } from '../auth';
 import { StructureDetails, ItemDetails, StationDetails, BlueprintDetails } from '../models';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
 import { calculateMaterialQuantity, calculateRequiredRuns, CalculateShippingCostForBundle, calculateTaxPercentBySkillLevel, getPriceForN, getRigMEforItem, IndustryService, ItemIdentifier, 
-  ItemSearchService, JITA_REGION_ID, MarketService, MJ5F9_REGION_ID, ShoppingEntry, ShoppingListService, UniverseService } from '../shared';
+  ItemSearchService, JITA_REGION_ID, MarketService, MJ5F9_REGION_ID, ShippingService, ShoppingEntry, ShoppingListService, UniverseService } from '../shared';
 import { ManufacturingCostEntry } from './models/manufacturing-cost-entry';
 import { SubComponent, ManufacturingCalculation } from '.';
 import { ProductionSettingsService } from './services/production-settings.service';
@@ -19,6 +19,7 @@ import { ProductionSettingsService } from './services/production-settings.servic
 export class ProductionComponent implements OnInit {
   public currentItemObs: Observable<ItemIdentifier>;
   public currentSellStructureObs: Observable<StructureDetails>;
+  public shippingServiceObs: Observable<ShippingService>;
   public numberCountObs: Observable<number>;
   public itemDetailsObs: Observable<ItemDetails>;
   public currentBuyStationObs: Observable<StationDetails>;
@@ -57,6 +58,7 @@ export class ProductionComponent implements OnInit {
       this.authStatusObs = this.authService.authObs;    
       this.currentBuyStationObs = this.itemSearchService.BuyStationObs;
       this.currentSellStructureObs = this.itemSearchService.SellStructureObs;
+      this.shippingServiceObs = this.itemSearchService.ShippingServiceObs;
       this.runsObs = this.productionSettingsService.RunsObs;
       this.meLevelObs = this.productionSettingsService.MeLevelObs;
       this.subMeLevelObs = this.productionSettingsService.SubMeLevelObs;
@@ -193,10 +195,24 @@ export class ProductionComponent implements OnInit {
       shareReplay(1)
     );
 
-    this.subBPOsManufacturingCostsObs = combineLatest([allRequiredComponents, this.meLevelObs, mainBPOProductRigMe, this.currentSellStructureObs]).pipe(
+    this.subBPOsManufacturingCostsObs = combineLatest(
+      [
+        allRequiredComponents, 
+        this.meLevelObs, 
+        mainBPOProductRigMe, 
+        this.currentSellStructureObs,
+        this.shippingServiceObs
+      ]).pipe(
       debounceTime(50),
       tap(_ => this.indicatorSubject.next(true)),
-        mergeMap(([allReqComp, mainBpoMe, mainBPOProductRigMe, sellStructure]) =>
+        mergeMap((
+          [
+            allReqComp, 
+            mainBpoMe, 
+            mainBPOProductRigMe, 
+            sellStructure,
+            shippingService
+          ]) =>
         from(allReqComp.bpoComponents).pipe(
           mergeMap(component => {
             const reqAllRunsAmount = calculateMaterialQuantity(component.material.quantity, allReqComp.runs, mainBpoMe, mainBPOProductRigMe.modifier);
@@ -216,7 +232,8 @@ export class ProductionComponent implements OnInit {
                                 allReqComp.buyStation, 
                                 sellStructure,
                                 allReqComp.meLevel,
-                                subRigME.modifier).pipe(
+                                subRigME.modifier,
+                                shippingService).pipe(
               map(calc => (
                 { item: component.item, 
                   bpoCost: calc, 
@@ -225,7 +242,7 @@ export class ProductionComponent implements OnInit {
                 })));
 
             } else {
-              return this.getBuyCost(component.material.typeID, component.requiredAmount, allReqComp.buyStation, sellStructure).pipe(
+              return this.getBuyCost(component.material.typeID, component.requiredAmount, allReqComp.buyStation, sellStructure, shippingService).pipe(
                 map(c => [c]),
                 map(calc => (
                   { item: component.item, 
@@ -254,7 +271,8 @@ export class ProductionComponent implements OnInit {
     buyStation: StationDetails,
     sellStructure: StructureDetails,
     meLevel: number,
-    rigMELevel: number)
+    rigMELevel: number,
+    shippingService: ShippingService)
     : Observable<ManufacturingCostEntry[]> {
       const materials = bpo.activities.manufacturing.materials;
       return from(materials).pipe(
@@ -262,7 +280,7 @@ export class ProductionComponent implements OnInit {
           const reqQuantity = calculateMaterialQuantity(material.quantity, runs, meLevel, rigMELevel);
               // we give the sell-station as "buy-station", because we want to check if 
               // the price on location is even cheaper than buying elsewhere with shipping
-          return this.getBuyCost(material.typeID, reqQuantity, buyStation, sellStructure);
+          return this.getBuyCost(material.typeID, reqQuantity, buyStation, sellStructure, shippingService);
         }),
         toArray(), 
         debounceTime(50),
@@ -272,14 +290,14 @@ export class ProductionComponent implements OnInit {
       );
     }
 
-  private getBuyCost(typeId: number, quantity: number, buyStation: StationDetails, buyStructure: StructureDetails) : Observable<ManufacturingCostEntry> {
+  private getBuyCost(typeId: number, quantity: number, buyStation: StationDetails, buyStructure: StructureDetails, shippingService: ShippingService) : Observable<ManufacturingCostEntry> {
     const stationCostObs = this.getStationBuyCost(typeId, quantity, buyStation);
     const structureCostObs = of<ManufacturingCostEntry>().pipe(startWith(null)); // this.getStructureBuyCost(typeId, quantity, buyStructure);
 
     const result = combineLatest([stationCostObs, structureCostObs]).pipe(
       map(([stationCost, structureCost]) => {
         
-        const shipping = CalculateShippingCostForBundle(stationCost.total_buyPrice, stationCost.total_volume);
+        const shipping = CalculateShippingCostForBundle(stationCost.total_buyPrice, stationCost.total_volume, shippingService);
         const stationWithShipping = stationCost.total_buyPrice + shipping;
 
         // we check if the local price is cheaper

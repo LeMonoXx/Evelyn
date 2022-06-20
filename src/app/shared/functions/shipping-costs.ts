@@ -1,11 +1,13 @@
-  export function CalculateShippingCost(singleItemBuyCost: number, cubicMeters: number, itemCount: number, cubicMeterPrice: number = 620) : number {
-    var costs = ((singleItemBuyCost * itemCount) / 100 ) * 1.5 + ((itemCount * cubicMeters) * cubicMeterPrice)
+import { ShippingService } from "../models/shipping/shipping-service";
+
+  export function CalculateShippingCost(singleItemBuyCost: number, cubicMeters: number, itemCount: number, shippingService: ShippingService) : number {
+    var costs = ((singleItemBuyCost * itemCount) / 100 ) * shippingService.collateral + ((itemCount * cubicMeters) * shippingService.cubicMeterPrice)
 
     return costs;
   }
 
-  export function CalculateShippingCostForBundle(totalBundleCost: number, totalCubicMeters: number, cubicMeterPrice: number = 620) : number {
-    var costs = (totalBundleCost / 100 ) * 1.5 + (totalCubicMeters * cubicMeterPrice)
+  export function CalculateShippingCostForBundle(totalBundleCost: number, totalCubicMeters: number, shippingService: ShippingService) : number {
+    var costs = (totalBundleCost / 100 ) * shippingService.collateral + (totalCubicMeters * shippingService.cubicMeterPrice)
 
     return costs;
   }

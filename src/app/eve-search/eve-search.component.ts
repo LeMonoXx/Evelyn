@@ -2,13 +2,13 @@ import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { catchError, debounceTime, filter, forkJoin, map, Observable, Subscription, switchMap, tap } from 'rxjs';
+import { catchError, debounceTime, filter, forkJoin, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
 import { MarketerSearchResult, StationDetails, StructureDetails } from '../models';
 import { ProductionSettingsService } from '../production/services/production-settings.service';
 import { EveMarketerDataRepositoryService } from '../repositories';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
-import { ACCOUNTING_SKILL_ID, CharacterService, getAllowedStationIds, getAllowedStructureIds, getStoredSelectedStation, 
-  getStoredSelectedStructure, InputErrorStateMatcher, ItemSearchService, UniverseService } from '../shared';
+import { ACCOUNTING_SKILL_ID, CharacterService, getAllowedShippingServices, getAllowedStationIds, getAllowedStructureIds, getStoredSelectedShippingService, getStoredSelectedStation, 
+  getStoredSelectedStructure, InputErrorStateMatcher, ItemSearchService, ShippingService, UniverseService } from '../shared';
 
 @Component({
   selector: 'app-eve-search',
@@ -30,6 +30,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   public accountingLevelControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.max(5), Validators.min(1)]);
   public buyStationControl = new FormControl(null, [Validators.required]);
   public sellStructureControl = new FormControl(null, [Validators.required]);
+  public shippingServiceControl = new FormControl(null, [Validators.required]);
 
   public productionFormGroup: FormGroup;
   public runsControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.min(1)]);
@@ -42,12 +43,14 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   public zeroToTwenty = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
   private allowedStationIds: number[] = getAllowedStationIds();
   private allowedStructureIds: number[] = getAllowedStructureIds();
+  private allowedShippingServices: ShippingService[] = getAllowedShippingServices();
 
   autoCompleteObs: Observable<MarketerSearchResult[] | undefined> | undefined;
   currentItemImageSourceObs: Observable<string> | undefined;
   initAccountingSkillLevelObs: Observable<number>;
   allowedStructuresObs: Observable<StructureDetails[]>;
   allowedStationsObs: Observable<StationDetails[]>;
+  allowedShippingServicesObs: Observable<ShippingService[]>;
 
   matcher: InputErrorStateMatcher;
   
@@ -64,6 +67,8 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   private teLevelSubscription: Subscription;
   private meLevelSubscription: Subscription;
   private subMeLevelSubscription: Subscription;
+  private allowedShippingServicesSubscription: Subscription;
+  private shippingServiceSubscription: Subscription;
 
   constructor(
     fb: FormBuilder,
@@ -79,7 +84,8 @@ export class EveSearchComponent implements OnInit, OnDestroy {
         itemCount: this.itemCountControl,
         accountingLevel: this.accountingLevelControl,
         buyStation: this.buyStationControl,
-        sellStructure: this.sellStructureControl
+        sellStructure: this.sellStructureControl,
+        shippingService: this.shippingServiceControl
       });
 
       this.productionFormGroup = fb.group({
@@ -140,6 +146,8 @@ export class EveSearchComponent implements OnInit, OnDestroy {
 
     this.allowedStationsObs = forkJoin(stationsObsArray);
 
+    this.allowedShippingServicesObs = of(this.allowedShippingServices);
+
     this.initAccountingSkillLevelObs = this.characterService.getAuthenticatedCharacterInfo().pipe(
       switchMap(character => this.characterService.getCharacterSkills(character.CharacterID)),
       map(characterSkill => {
@@ -184,6 +192,10 @@ export class EveSearchComponent implements OnInit, OnDestroy {
         map((structure: StructureDetails) => this.itemSearchService.setSellStructure(structure))
       ).subscribe();    
 
+      this.shippingServiceSubscription = this.shippingServiceControl.valueChanges.pipe(
+        map((service: ShippingService) => this.itemSearchService.setShippingService(service))
+      ).subscribe();    
+
       this.stationsSubscription = this.allowedStationsObs.pipe(
         map(stations => {
           
@@ -199,9 +211,16 @@ export class EveSearchComponent implements OnInit, OnDestroy {
         })
       ).subscribe();
       
-    this.inputItemNameSubscription = this.inputItemName$.pipe(
+      this.allowedShippingServicesSubscription = this.allowedShippingServicesObs.pipe(
+        map(services => {        
+          const service = services.find(service => service.id === getStoredSelectedShippingService()) ?? services[0];
+          this.shippingServiceControl.patchValue(service)
+        })
+      ).subscribe();
+
+      this.inputItemNameSubscription = this.inputItemName$.pipe(
       map(inputValue => this.itemNameControl.setValue(inputValue))
-    ).subscribe();
+      ).subscribe();
 
   }
 
@@ -232,6 +251,8 @@ export class EveSearchComponent implements OnInit, OnDestroy {
     this.sellStructureSubscription.unsubscribe();
     this.stationsSubscription.unsubscribe();
     this.structuresSubscription.unsubscribe();
+    this.allowedShippingServicesSubscription.unsubscribe();
+    this.shippingServiceSubscription.unsubscribe();
     this.inputItemNameSubscription.unsubscribe();
 
     this.runsSubscription?.unsubscribe();

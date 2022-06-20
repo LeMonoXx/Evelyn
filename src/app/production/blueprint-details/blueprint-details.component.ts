@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { combineLatest, debounceTime, filter, map, mergeMap, Observable, switchMap, tap } from 'rxjs';
 import { BlueprintDetails, ItemDetails, MarketEntry, StructureDetails } from 'src/app/models';
-import { calculateShippingColaterial, CalculateShippingCostForBundle, calculateTotalCosts, calculateTotalShippingVolume, calculateTotalVolume, copyToClipboard, MarketService, UniverseService } from 'src/app/shared';
+import { calculateShippingColaterial, CalculateShippingCostForBundle, calculateTotalCosts, calculateTotalShippingVolume, calculateTotalVolume, copyToClipboard, MarketService, ShippingService, UniverseService } from 'src/app/shared';
 import { ManufacturingCalculation } from '..';
 
 @Component({
@@ -15,21 +15,18 @@ export class BlueprintDetailsComponent implements OnInit {
 
   @Input() 
   public runs$: Observable<number>;
-
   @Input()
   public BPOItem$: Observable<ItemDetails>;
-
   @Input()
   public BPODetails$: Observable<BlueprintDetails>;
-
   @Input()
   public subBPOsManufacturingCosts$: Observable<ManufacturingCalculation[]>;
-
   @Input()
   public saleTaxPercent$: Observable<number>;
-
   @Input()
   public sellStructure$: Observable<StructureDetails>;
+  @Input()
+  public shippingService$: Observable<ShippingService>;
   
   public currentItemImageSourceObs: Observable<string>;
   public productObs: Observable<{ product: ItemDetails, amount: number, imageSource: string }>;
@@ -89,8 +86,8 @@ export class BlueprintDetailsComponent implements OnInit {
         map(entries => calculateTotalShippingVolume(entries))
       )
 
-      this.shippingCostObs = combineLatest([this.ShippingColateralObs, this.ShippingVolumeObs]).pipe(
-        map(([price, volume]) => CalculateShippingCostForBundle(price, volume))
+      this.shippingCostObs = combineLatest([this.ShippingColateralObs, this.ShippingVolumeObs, this.shippingService$]).pipe(
+        map(([price, volume, shippingService]) => CalculateShippingCostForBundle(price, volume, shippingService))
       )
 
       this.lowestSellEntryObs = combineLatest([this.sellStructure$, this.productObs]).pipe(
