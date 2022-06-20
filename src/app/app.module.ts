@@ -33,8 +33,9 @@ import {
   BlueprintDetailsComponent, 
   BlueprintManufacturingComponent, 
   BlueprintSummaryComponent, 
-  ProductionComponent 
+  ProductionComponent
 } from './production';
+import { ShippingCalculatorComponent } from './shipping';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import {
     ProductionComponent,
     BlueprintManufacturingComponent,
     BlueprintDetailsComponent,
-    BlueprintSummaryComponent
+    BlueprintSummaryComponent,
+    ShippingCalculatorComponent
   ],
   imports: [
     HttpClientModule,

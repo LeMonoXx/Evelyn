@@ -1,0 +1,19 @@
+<form [formGroup]="shippingCalcGroup">
+    <mat-form-field class="itemList">
+        <mat-label>Item list</mat-label>
+        <textarea matInput type="text"
+            class="itemSearchInput"
+            placeholder="Insert item list..."
+            [formControl]="itemListControl"
+            [errorStateMatcher]="matcher"></textarea>
+      </mat-form-field>
+  
+    <!-- <mat-form-field>
+    <mat-label>Material Efficiency</mat-label>
+    <mat-select [formControl]="meLevelControl">
+        <mat-option *ngFor="let me of zeroToTen" [value]="me">
+        {{me}}
+        </mat-option>
+    </mat-select>
+    </mat-form-field> -->
+</form>
