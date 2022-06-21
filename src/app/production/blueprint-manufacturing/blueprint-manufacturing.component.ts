@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
+import { ItemDetails } from 'src/app/models';
 import { calculateComponentCosts, calculateTotalCosts, copyToClipboard, UniverseService } from 'src/app/shared';
 import { ManufacturingCalculation, ManufacturingCostEntry, SubComponent } from '..';
 
@@ -11,6 +12,8 @@ import { ManufacturingCalculation, ManufacturingCostEntry, SubComponent } from '
   encapsulation: ViewEncapsulation.None
 })
 export class BlueprintManufacturingComponent implements OnInit {
+  @Input()
+  public targetItem$: Observable<ItemDetails>;
 
   @Input()
   public subBPOsManufacturingCosts$: Observable<ManufacturingCalculation[]>;
@@ -36,15 +39,44 @@ export class BlueprintManufacturingComponent implements OnInit {
     this.snackBar.open("Copied!", undefined, { duration: 2000 });
   }
   
-  public getImageForItem(typeId: number | undefined): string {
+  public getImageForItem(typeId: number | undefined, size = 32): string {
     if(!typeId)
     return "";
 
-    return this.universeService.getImageUrlForType(typeId, 32);
+    return this.universeService.getImageUrlForType(typeId, size);
   }
 
   public getComponentCosts(component: ManufacturingCostEntry[]): number {
     return calculateComponentCosts(component);
+  }
+
+public copyAllManufacturingCalculation(manuCalcs: ManufacturingCalculation[]) {
+  let str = "";
+  manuCalcs.forEach(entry => {
+    const entryStr = this.manufacturingCalculationToMultiBuy(entry);
+    str += entryStr;
+  })
+
+  this.copy(str);
+}
+
+  public copyManufacturingCalculation(manuCalc: ManufacturingCalculation) {
+    const str = this.manufacturingCalculationToMultiBuy(manuCalc);
+    this.copy(str);
+  }
+
+  public manufacturingCalculationToMultiBuy(manuCalc: ManufacturingCalculation) {
+    let str = "";
+    if(manuCalc.bpoCost && manuCalc.bpoCost.length > 1) {
+      manuCalc.bpoCost.forEach(entry => {
+        const partStr = entry.itemName + "\t" + entry.quantity_total + "\n"
+        str += partStr;
+      });
+    } else {
+      str = manuCalc.item.name + "\t" + manuCalc.reqAmount + "\n"
+    }
+
+    return str;
   }
 
 }

@@ -1,115 +1,161 @@
 @import 'src/styles/variables';
 @import 'src/styles/functions';
 
+.manufacturingDiv { 
 
-.mainBPOComponent {
-    padding-top: 10px;
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-items: center;
-    column-gap: 10px;
-    
-    .mainComponentName {
-        width: 240px;
+    .itemInfo {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow: hidden;
+        padding-bottom: 10px;
+          
+        .foundItemImage {
+            cursor: pointer;
+        }
+
+        @include breakpoint(490px) {
+            max-width: 300px;
+            }
+        @include breakpoint(410px) {
+            max-width: 250px;
+            }
+
+        .itemDetails {
+            margin: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: left;
+            
+            .itemInfoName{
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                cursor: pointer;
+            }
+        
+            .itemInfoId {
+                font-size: 70%;
+                font-style: italic;
+                color: $foreground-soft2;
+            }
+        }
+    } 
+
+    .mainBPOComponent {
+        padding-top: 10px;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        column-gap: 10px;
+        
+        .foundItemImage {
+            cursor: pointer;
+        }
+
+        .mainComponentName {
+            width: 240px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 90%;
+            cursor: pointer;
+            padding-right: 10px;
+
+            // @include breakpoint(625px) {
+            //     width: 130px;
+            // }
+        }
+
+        .mainComponentQuantity {
+            width: 80px;
+            text-align: end;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 90%;
+            padding-right: 85px;
+        }
+        
+        .mainComponentCost {
+            width: 120px;
+            text-align: end;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 90%;
+        }   
+    }
+
+
+    .nameColumn {
+        width: 200px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         font-size: 90%;
         cursor: pointer;
-        padding-right: 10px;
+        color: $foreground-soft1;
 
-        // @include breakpoint(625px) {
-        //     width: 130px;
-        // }
+        @include breakpoint(625px) {
+            width: 130px;
+        }
     }
 
-    .mainComponentQuantity {
+    .buyLocationColumn {
         width: 80px;
-        text-align: end;
         overflow: hidden;
         text-overflow: ellipsis;
+        white-space: nowrap;
         font-size: 90%;
-        padding-right: 85px;
+        cursor: pointer;
+        color: $foreground-soft1; 
     }
-    
-    .mainComponentCost {
+
+    .tableRowCenter {
+        text-align: center;
+    }
+
+    .tableRowLeft {
+        width: 200px;
+        text-align: left;
+        font-size: 90%;
+    }
+
+    .tableRowRight {
         width: 120px;
         text-align: end;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-size: 90%;
-    }   
-}
-
-
-.nameColumn {
-    width: 200px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 90%;
-    cursor: pointer;
-    color: $foreground-soft1;
-
-    @include breakpoint(625px) {
-        width: 130px;
+        font-size: 80%;
+        color: $foreground-soft1;
     }
-}
 
-.buyLocationColumn {
-    width: 80px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 90%;
-    cursor: pointer;
-    color: $foreground-soft1; 
-}
+    .hideOnPhone {
+        @include breakpoint(625px) {
+            display: none;
+            }
+    }
 
-.tableRowCenter {
-    text-align: center;
-}
+    .shortOnPhone {
+        @include breakpoint(625px) {
+            max-width: 120px;
+            }
+    }
 
-.tableRowLeft {
-    width: 200px;
-    text-align: left;
-    font-size: 90%;
-}
+    .subComponent {
+        padding-left: 40px;
 
-.tableRowRight {
-    width: 120px;
-    text-align: end;
-    font-size: 80%;
-    color: $foreground-soft1;
-}
-
-.hideOnPhone {
-    @include breakpoint(625px) {
-        display: none;
+        th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+            padding-left: 0px;
         }
-}
 
-.shortOnPhone {
-    @include breakpoint(625px) {
-        max-width: 120px;
+        th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+            padding-right: 0px;
+        }  
+
+        tr.mat-row {
+            height: 10px;
         }
-}
-
-.subComponent {
-    padding-left: 40px;
-
-    th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
-        padding-left: 0px;
     }
 
-    th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
-        padding-right: 0px;
-    }  
-
-    tr.mat-row {
-        height: 10px;
-    }
 }

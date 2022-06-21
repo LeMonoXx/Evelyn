@@ -31,6 +31,7 @@
          <mat-card class="manufacturingContent">
             <mat-card-title>Required materials</mat-card-title>
             <app-blueprint-manufacturing *ngIf="!(isLoadingObs | async); else ProdLoadingIndicator"
+               [targetItem$]="itemDetailsObs"
                [subBPOsManufacturingCosts$]="subBPOsManufacturingCostsObs">
             </app-blueprint-manufacturing>        
          </mat-card>
