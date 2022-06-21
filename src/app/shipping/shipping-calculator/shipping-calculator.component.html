@@ -69,9 +69,9 @@
         </div>
     </mat-card>
 
-    <mat-card>
+    <mat-card *ngIf="calculationResultObs | async as items">
         <mat-card-title>Details</mat-card-title>
-        <div *ngIf="calculationResultObs | async as items">
+        <div>
             <table mat-table [dataSource]="items" class="itemTable">
                 <ng-container matColumnDef="count">
                     <th mat-header-cell *matHeaderCellDef class="tableRowRight"> Qty </th>

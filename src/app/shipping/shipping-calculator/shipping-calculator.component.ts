@@ -46,7 +46,7 @@ export class ShippingCalculatorComponent implements OnInit {
 
     this.itemsObs = this.itemListControl.valueChanges.pipe(
       filter((value: string) => value?.trim().length > 2),
-      debounceTime(50),
+      debounceTime(80),
       map((value: string) => {
         const result: Observable<{ item: ItemDetails, count: number }>[] = [];      
         var lines = value.split("\n");
