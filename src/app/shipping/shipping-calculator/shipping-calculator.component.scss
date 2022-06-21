@@ -1,7 +1,129 @@
-.itemList {
-    width: 600px;
-}
+@import '../../../styles/variables';
+@import '../../../styles/functions';
 
+.shippingCalcMainDiv {
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+    row-gap: 10px;
+    padding: 10px;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    // we need this, because we have a sticky header with over 56px.
+    padding-bottom: 70px;
+
+    @include breakpoint(991px) {
+    flex-direction: column;
+    }
+
+    .contractDetails {
+        .contractEntryDiv {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+            align-items: center;
+            flex-wrap: nowrap;
+            align-content: center;
+
+            .titleLabel{
+                width: 120px;
+                padding-right: 10px;
+                overflow: hidden;
+                text-align: left;
+                display: inline-block;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                color: $foreground-soft1;
+            }
+
+            .valueLabel{
+                overflow: hidden;
+                text-align: right;
+                display: inline-block;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+    .searchContent {
+        width: 260px;
+        @include breakpoint(1052px) {
+            width: 200px;
+        }
+        @include breakpoint(991px) {
+            width: auto;
+        }
+    }
+
+    .itemListForm {
+        width: 600px;
+        display: inline-grid;
+
+        .itemList {
+            min-height: 300px;
+            font-size: 60%;
+            width: 600px;
+        }
+    }
+ 
+    .nameColumn {
+        max-width: 230px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 90%;
+        cursor: pointer;
+
+        @include breakpoint(625px) {
+            width: 130px;
+        }
+    }
+    
+    .tableRowCenter {
+        padding-right: 10px;
+        text-align: center;
+    }
+    
+    .tableRowLeft {
+        padding-right: 10px;
+        text-align: left;
+        font-size: 90%;
+    }
+    
+    .tableRowRight {
+        padding-right: 10px;
+        text-align: end;
+        font-size: 85%;
+    }
+
+    .hideOnPhone {
+        @include breakpoint(625px) {
+            display: none;
+          }
+    }
+
+    .shortOnPhone {
+        @include breakpoint(625px) {
+            max-width: 120px;
+          }
+    }
+
+.itemTable {
+    padding-left: 40px;
+
+    th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+        padding-left: 0px;
+    }
+
+    th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+        padding-right: 0px;
+    }  
+
+    tr.mat-row {
+        height: 10px;
+    }
+}
+}
 
 // (?<name>.*)(?<count>\t*\d\t)(?<category>.*)\t(?<qubic>[\d.,?]+) m[3³]
 // (?<name>.*\s)(?<count>\d*)\s(?<category>.*\s)(?<qubic>[\d.,?]+) m[3³]

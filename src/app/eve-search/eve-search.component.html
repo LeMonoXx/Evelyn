@@ -1,5 +1,5 @@
-<div class="searchComponent" >
-  <form [formGroup]="defaultFormGroup">
+<div class="searchComponent">
+  <form [formGroup]="defaultFormGroup" *ngIf="mode === 'production' || mode === 'trade'">
       <mat-form-field>
         <mat-label>Item</mat-label>
         <input matInput type="text"
@@ -21,7 +21,7 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-form-field *ngIf="mode !== 'production'">
+      <mat-form-field *ngIf="mode === 'trade'">
         <mat-label>Count</mat-label>
         <input matInput type="number"
             placeholder="Item count"
@@ -44,33 +44,35 @@
           Character skill level is {{ initSkillLevel }}
         </mat-hint>
       </mat-form-field>
+  </form>
 
-      <mat-form-field *ngIf="allowedStationsObs | async as buyStations">
-        <mat-label>Buy station</mat-label>
-        <mat-select [formControl]="buyStationControl">
-          <mat-option *ngFor="let station of buyStations" [value]="station">
-            {{station.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+  <form [formGroup]="shippingFormGroup">   
+    <mat-form-field *ngIf="allowedStationsObs | async as buyStations">
+      <mat-label>Buy station</mat-label>
+      <mat-select [formControl]="buyStationControl">
+        <mat-option *ngFor="let station of buyStations" [value]="station">
+          {{station.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-      <mat-form-field *ngIf="allowedStructuresObs | async as sellStructures">
-        <mat-label>Sell structure</mat-label>
-        <mat-select [formControl]="sellStructureControl">
-          <mat-option *ngFor="let structure of sellStructures" [value]="structure">
-            {{structure.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+    <mat-form-field *ngIf="allowedStructuresObs | async as sellStructures">
+      <mat-label>Sell structure</mat-label>
+      <mat-select [formControl]="sellStructureControl">
+        <mat-option *ngFor="let structure of sellStructures" [value]="structure">
+          {{structure.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-      <mat-form-field *ngIf="allowedShippingServicesObs | async as shippingServices">
-        <mat-label>Shipping service</mat-label>
-        <mat-select [formControl]="shippingServiceControl">
-          <mat-option *ngFor="let service of shippingServices" [value]="service">
-            {{service.serviceName}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+    <mat-form-field *ngIf="allowedShippingServicesObs | async as shippingServices">
+      <mat-label>Shipping service</mat-label>
+      <mat-select [formControl]="shippingServiceControl">
+        <mat-option *ngFor="let service of shippingServices" [value]="service">
+          {{service.serviceName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </form>
 
   <form *ngIf="mode === 'production'"

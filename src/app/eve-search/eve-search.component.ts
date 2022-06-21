@@ -28,15 +28,17 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   public itemNameControl = new FormControl(null, [Validators.minLength(3), Validators.required]);
   public itemCountControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.max(25000), Validators.min(1)]);
   public accountingLevelControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.max(5), Validators.min(1)]);
-  public buyStationControl = new FormControl(null, [Validators.required]);
-  public sellStructureControl = new FormControl(null, [Validators.required]);
-  public shippingServiceControl = new FormControl(null, [Validators.required]);
 
   public productionFormGroup: FormGroup;
   public runsControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.min(1)]);
   public meLevelControl = new FormControl(0, [Validators.pattern("[0-9]*"), Validators.max(10), Validators.min(0)]);
   public subMeLevelControl = new FormControl(0, [Validators.pattern("[0-9]*"), Validators.max(10), Validators.min(0)]);
   public teLevelControl = new FormControl(0, [Validators.pattern("[0-9]*"), Validators.max(20), Validators.min(0)]);
+
+  public shippingFormGroup: FormGroup;
+  public buyStationControl = new FormControl(null, [Validators.required]);
+  public sellStructureControl = new FormControl(null, [Validators.required]);
+  public shippingServiceControl = new FormControl(null, [Validators.required]);
 
   public oneToFive = [1, 2, 3, 4, 5];
   public zeroToTen = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -82,11 +84,14 @@ export class EveSearchComponent implements OnInit, OnDestroy {
       this.defaultFormGroup = fb.group({
         itemName: this.itemNameControl,
         itemCount: this.itemCountControl,
-        accountingLevel: this.accountingLevelControl,
+        accountingLevel: this.accountingLevelControl
+      });
+
+      this.shippingFormGroup = fb.group({
         buyStation: this.buyStationControl,
         sellStructure: this.sellStructureControl,
         shippingService: this.shippingServiceControl
-      });
+      })
 
       this.productionFormGroup = fb.group({
         runs: this.runsControl,
@@ -218,9 +223,10 @@ export class EveSearchComponent implements OnInit, OnDestroy {
         })
       ).subscribe();
 
-      this.inputItemNameSubscription = this.inputItemName$.pipe(
-      map(inputValue => this.itemNameControl.setValue(inputValue))
-      ).subscribe();
+      if(this.inputItemName$)
+        this.inputItemNameSubscription = this.inputItemName$.pipe(
+        map(inputValue => this.itemNameControl.setValue(inputValue))
+        ).subscribe();
 
   }
 
