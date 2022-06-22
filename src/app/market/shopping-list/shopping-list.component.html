@@ -1,10 +1,14 @@
 <div class="cardHeaderArea">
     <mat-card-title>Shopping list</mat-card-title>
     <mat-card-actions>
+        <button class="mat-button" mat-button title="Copy in Multibuy format"
+            (click)="copyAsMultibuyFormat()">
+            <mat-icon>assignment</mat-icon>
+        </button>
         <button class="mat-button" mat-button title="Clear shopping list"
-        (click)="clearShoppingList()">
-        <mat-icon>remove_shopping_cart</mat-icon>
-    </button>
+            (click)="clearShoppingList()">
+            <mat-icon>remove_shopping_cart</mat-icon>
+        </button>
     </mat-card-actions>
  </div>
 

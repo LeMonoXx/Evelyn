@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { ItemDetails } from 'src/app/models';
-import { calculateComponentCosts, calculateTotalCosts, copyToClipboard, UniverseService } from 'src/app/shared';
+import { calculateComponentCosts, calculateTotalCosts, copyToClipboard, toMultiBuyString, UniverseService } from 'src/app/shared';
 import { ManufacturingCalculation, ManufacturingCostEntry, SubComponent } from '..';
 
 @Component({
@@ -69,11 +69,11 @@ public copyAllManufacturingCalculation(manuCalcs: ManufacturingCalculation[]) {
     let str = "";
     if(manuCalc.bpoCost && manuCalc.bpoCost.length > 1) {
       manuCalc.bpoCost.forEach(entry => {
-        const partStr = entry.itemName + "\t" + entry.quantity_total + "\n"
+        const partStr = toMultiBuyString(entry.itemName, entry.quantity_total);
         str += partStr;
       });
     } else {
-      str = manuCalc.item.name + "\t" + manuCalc.reqAmount + "\n"
+      str = toMultiBuyString(manuCalc.item.name, manuCalc.reqAmount);
     }
 
     return str;

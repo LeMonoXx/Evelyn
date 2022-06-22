@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { map, Observable, tap } from 'rxjs';
-import { copyToClipboard, ShoppingEntry, ShoppingListService, UniverseService } from 'src/app/shared';
+import { map, Observable, take } from 'rxjs';
+import { copyToClipboard, ShoppingEntry, ShoppingListService, toMultiBuyString, UniverseService } from 'src/app/shared';
 
 @Component({
   selector: 'app-shopping-list',
@@ -40,7 +40,21 @@ export class ShoppingListComponent implements OnInit {
   public clearShoppingList(): void {
     this.shoppingListService.ClearShoppingList();
   }
-  
+
+  public copyAsMultibuyFormat(): void {
+    this.shoppingList$.pipe(
+      take(1),
+      map(entries => {
+        let multiBuyStr = "";
+        entries.forEach(entry => {
+          multiBuyStr+= toMultiBuyString(entry.item_name, entry.quantity);
+        });
+
+        this.copy(multiBuyStr);
+      })
+    ).subscribe();
+  }
+
   public copy(text: string) {
     copyToClipboard(text);
     
