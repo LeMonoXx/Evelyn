@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { filter, debounceTime, map, Observable, switchMap, forkJoin, combineLatest, from, toArray, shareReplay, distinctUntilChanged, tap } from 'rxjs';
+import { AuthService, IAuthResponseData } from 'src/app/auth';
 import { ItemDetails } from 'src/app/models';
 import { EveMarketerDataRepositoryService } from 'src/app/repositories';
 import { ItemSearchService, CharacterService, UniverseService, InputErrorStateMatcher, copyToClipboard, MarketService, getPriceForN, CalculateShippingCost, CalculateShippingCostForBundle, ShippingService } from 'src/app/shared';
@@ -23,16 +24,19 @@ export class ShippingCalculatorComponent implements OnInit {
   public shippingServiceObs: Observable<ShippingService>;
   public shippingPriceObs: Observable<number>;
   public totalVolumeObs: Observable<number>;
+  public authStatusObs: Observable<IAuthResponseData | null>;
 
   constructor(
     fb: FormBuilder,
+    private authService: AuthService,
     private itemSearchService: ItemSearchService,
     private characterService: CharacterService,
     private universeService: UniverseService,
     private autoCompleteService : EveMarketerDataRepositoryService,
     private marketService: MarketService,
     private snackBar: MatSnackBar) { 
-
+      this.authStatusObs = this.authService.authObs;
+      
     this.shippingCalcGroup = fb.group({
       itemName: this.itemListControl
     });

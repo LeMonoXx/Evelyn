@@ -1,4 +1,4 @@
-<div class="shippingCalcMainDiv">
+<div class="shippingCalcMainDiv" *ngIf="authStatusObs | async; else NotAuthenticated">
     <mat-card>
         <mat-card-title>Settings</mat-card-title>
         <div class="searchContent">
@@ -107,3 +107,9 @@
         </div>
     </mat-card>
 </div>  
+
+<ng-template #NotAuthenticated>
+    <div class="notAuthenticated">
+       You need to login, to see the station market.
+    </div>
+ </ng-template>
