@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, Observable, of, tap } from 'rxjs';
+import { catchError, filter, map, Observable, of, tap } from 'rxjs';
 import { ItemDetails, SearchResult, StationDetails, StructureDetails as StructureDetails, EveItem, ItemGroup } from 'src/app/models';
 import { ItemCategory } from 'src/app/models/universe/categories/item-category';
 import { EsiDataRepositoryService } from 'src/app/repositories/esi-data-repository.service';
@@ -43,7 +43,18 @@ export class UniverseService {
 
   public findItemByName(searchName: string) : Observable<SearchResult> {
     const url = environment.esiBaseUrl + `/search/?categories=inventory_type&language=en&search=${searchName}&strict=true`;
-    return this.esiDataService.getRequest<SearchResult>(url);
+    return this.esiDataService.getRequest<SearchResult>(url).pipe(
+      map(r => {
+        if (r && r.inventory_type) {
+          return r;
+        }
+        return ({ inventory_type: [0] });
+      }),
+      catchError(err => {
+      return of({
+        inventory_type: [0]
+    })
+    }));
   }
 
   public getAllGroups(): Observable<number[]> {

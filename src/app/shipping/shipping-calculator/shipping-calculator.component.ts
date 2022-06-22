@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { filter, debounceTime, map, Observable, switchMap, forkJoin, combineLatest, from, toArray, shareReplay, distinctUntilChanged, tap } from 'rxjs';
+import { filter, debounceTime, map, Observable, switchMap, forkJoin, combineLatest, from, toArray, shareReplay, distinctUntilChanged, mergeMap } from 'rxjs';
 import { AuthService, IAuthResponseData } from 'src/app/auth';
 import { ItemDetails } from 'src/app/models';
-import { EveMarketerDataRepositoryService } from 'src/app/repositories';
-import { ItemSearchService, CharacterService, UniverseService, InputErrorStateMatcher, copyToClipboard, MarketService, getPriceForN, CalculateShippingCost, CalculateShippingCostForBundle, ShippingService } from 'src/app/shared';
+import { ItemSearchService, UniverseService, InputErrorStateMatcher, copyToClipboard, MarketService, getPriceForN, CalculateShippingCost, ShippingService } from 'src/app/shared';
 
 @Component({
   selector: 'app-shipping-calculator',
@@ -18,8 +17,22 @@ export class ShippingCalculatorComponent implements OnInit {
   public shippingCalcGroup: FormGroup;
   public itemListControl = new FormControl(null, [Validators.minLength(3), Validators.required]);
   public matcher: InputErrorStateMatcher;
-  public itemsObs: Observable<{ item: ItemDetails; count: number; }[]>;
-  public calculationResultObs: Observable<{ item: ItemDetails; count: number; singlePrice: number; totalPrice: number; singlequbicMeters: number; qubicMeters: number; shippingPrice: number; }[]>;
+  
+  public itemsObs: Observable<{ 
+    order: number, 
+    item: ItemDetails; 
+    count: number; }[]>;
+
+  public calculationResultObs: Observable<{ 
+    order: number, 
+    item: ItemDetails; 
+    count: number; 
+    singlePrice: number; 
+    totalPrice: number; 
+    singlequbicMeters: number; 
+    qubicMeters: number; 
+    shippingPrice: number; }[]>;
+
   public collateralObs: Observable<number>;
   public shippingServiceObs: Observable<ShippingService>;
   public shippingPriceObs: Observable<number>;
@@ -30,9 +43,7 @@ export class ShippingCalculatorComponent implements OnInit {
     fb: FormBuilder,
     private authService: AuthService,
     private itemSearchService: ItemSearchService,
-    private characterService: CharacterService,
     private universeService: UniverseService,
-    private autoCompleteService : EveMarketerDataRepositoryService,
     private marketService: MarketService,
     private snackBar: MatSnackBar) { 
       this.authStatusObs = this.authService.authObs;
@@ -49,37 +60,45 @@ export class ShippingCalculatorComponent implements OnInit {
     this.shippingServiceObs = this.itemSearchService.ShippingServiceObs;
 
     this.itemsObs = this.itemListControl.valueChanges.pipe(
+      debounceTime(250),
       filter((value: string) => value?.trim().length > 2),
-      debounceTime(80),
       map((value: string) => {
-        const result: Observable<{ item: ItemDetails, count: number }>[] = [];      
-        var lines = value.split("\n");
+        const result: Observable<{ order: number, typeId: number, itemName: string, count: number }>[] = [];      
+        const lines = value.split("\n");
+        let order = 1;
         lines.forEach(line => {
           const itemArray = line.split("\t");
           const itemName = itemArray[0];
-
           if (itemArray.length > 0 && itemName.length > 0) {
             let countStr = itemArray.length > 1 ? itemArray[1].trim() === "" ? "1" : itemArray[1].trim() : "1";
             const count = parseInt(countStr);
+
+            let curOrder = order;
             const itemObs = this.universeService.findItemByName(itemName).pipe(
-              filter(x => !!x && x.inventory_type && x.inventory_type.length > 0),
-              map(item => item.inventory_type[0]),
-              switchMap(typeId => this.universeService.getItemDetails(typeId).pipe(
-                map(item => ({ item: item, count: count }))
-            )));
+              map(item => ({ order: curOrder, typeId: item.inventory_type[0], itemName: itemName, count: count })));
             result.push(itemObs);
+            order++;
           }
         })
         return result;
       }),
       switchMap(values => forkJoin(values)),
-      tap(e => console.log("length: ", e.length)),
-      shareReplay(1),
-      distinctUntilChanged());
+      map(x => x.filter(e => e.typeId > 0)),
+      switchMap(entries =>
+        from(entries).pipe(
+          mergeMap(entry => this.universeService.getItemDetails(entry.typeId).pipe(
+            map(item => ({ order: entry.order, item: item, count: entry.count }))
+          ), 
+          ),
+          toArray())
+        ),
+        map(entries => entries.sort(a => a.order))
+      );
 
       this.calculationResultObs = combineLatest([this.itemsObs, this.itemSearchService.BuyStationObs, this.shippingServiceObs]).pipe(
         map(([items, buyStation, shippingService]) => {
           const result: Observable<{ 
+            order: number,
             item: ItemDetails, 
             count: number, 
             singlePrice: number, 
@@ -101,8 +120,8 @@ export class ShippingCalculatorComponent implements OnInit {
                 const qubicMeters = value.item.packaged_volume * value.count;
 
                 const shippingPrice = CalculateShippingCost(singlePrice, singlequbicMeters, value.count, shippingService);
-                console.log("item: ", value.item.name, totalPrice);
                 return ({ 
+                  order: value.order,
                   item: value.item, 
                   count: value.count, 
                   singlePrice: singlePrice, 
@@ -119,6 +138,7 @@ export class ShippingCalculatorComponent implements OnInit {
           return result;
         }),
         switchMap(obs => forkJoin(obs)),
+        map(entries => entries.sort(a => a.order)),
         shareReplay(1),
         distinctUntilChanged()
       );
