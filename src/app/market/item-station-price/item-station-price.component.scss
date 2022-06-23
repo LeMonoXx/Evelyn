@@ -3,12 +3,6 @@
    
 .stationPriceContainer {
 
-    .CalcIsLoading {
-        display: flex;
-        justify-content: center;
-        justify-self: center;
-    }
-
     .itemInfoContainer {
         color: $foreground-soft1;
         display: flex;
@@ -167,7 +161,7 @@
             flex-wrap: nowrap;
             align-content: center;
 
-            .titleLabel{
+            .titleLabel {
                 width: 120px;
                 padding-right: 10px;
                 overflow: hidden;
@@ -177,16 +171,20 @@
                 text-overflow: ellipsis;
             }
 
-            .valueLabel{
+            .valueLabel {
                 overflow: hidden;
                 text-align: right;
                 display: inline-block;
                 white-space: nowrap;
                 text-overflow: ellipsis;
             }
+
+            .artificialPrice {
+                color: $warning_foreground;
+            }
         }
 
-        .notEnoughVolumen {
+        .notEnoughVolumenDiv {
             color: $warning_foreground;
             margin-top: 20px;
             margin-bottom: 10px;
@@ -194,7 +192,7 @@
             text-align: center;
         }
 
-        .artificialSellPrice {
+        .artificialSellPriceDiv {
             color: $warning_foreground;
             margin-top: 20px;
             margin-bottom: 10px;
@@ -202,4 +200,11 @@
             text-align: center;
         }
     }
+}
+
+.calcIsLoading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -50px 0 0 -50px;
 }

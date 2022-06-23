@@ -17,5 +17,6 @@ export interface TradeCalculation {
     shippingCost: number,
     profit: number
     usedMarketEntries: MarketEntry[],
-    hasEnoughMarketVolumen: boolean
+    hasEnoughMarketVolumen: boolean,
+    requiresShipping: boolean
 }

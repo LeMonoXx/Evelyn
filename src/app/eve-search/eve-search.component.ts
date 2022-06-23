@@ -108,7 +108,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.autoCompleteObs = this.itemNameControl.valueChanges.pipe(
       filter((value: string) => value?.trim().length > 2),
-      debounceTime(350),
+      debounceTime(150),
       switchMap((value: string) => {
         return this.autoCompleteService.getAutoCompleteSuggestions(value?.trim())
           .pipe(

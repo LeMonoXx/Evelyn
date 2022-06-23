@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Console } from 'console';
-import { combineLatest, debounceTime, map, mergeMap, Observable, switchMap } from 'rxjs';
+import { combineLatest, debounceTime, map, mergeMap, Observable, switchMap, tap } from 'rxjs';
 import { ItemDetails, MarketEntry, StationDetails, StructureDetails } from 'src/app/models';
 import { CalculateShippingCost, copyToClipboard, FavoritesService, ItemIdentifier, 
   JITA_REGION_ID, MarketService, TradeCalculation, 
@@ -62,7 +61,6 @@ export class ItemStationPriceComponent implements OnInit {
         
 
       this.itemSellCostObs$ = combineLatest([this.sellStation$, this.itemIdentifier$]).pipe(
-        debounceTime(100),
         mergeMap(([sellStation, itemIdentifier]) =>  
           this.marketService.getStructureMarketForItem(sellStation.evelyn_structureId, itemIdentifier.id, false)
         ));
@@ -77,6 +75,7 @@ export class ItemStationPriceComponent implements OnInit {
             this.saleTaxPercent$,
             this.shippingService$
           ]).pipe(
+            debounceTime(80),
             map((
               [
                 count, 
@@ -101,22 +100,32 @@ export class ItemStationPriceComponent implements OnInit {
               profit: 0,
               shippingCost: 0,
               usedMarketEntries: [],
-              hasEnoughMarketVolumen: false
+              hasEnoughMarketVolumen: false,
+              requiresShipping: shippingService.id === 0 ? false : true
             };
+
+          if(buyEntries.length <= 0)
+            return prices;
+
           const usedOrders = getPriceForN(buyEntries, count);
           
           prices.singleBuyPrice = usedOrders.averagePrice;
           prices.buyPriceX = usedOrders.totalPrice;
           prices.hasEnoughMarketVolumen = usedOrders.enough;
         
-          prices.shippingCost = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, count, shippingService);
+          if (prices.requiresShipping)
+            prices.shippingCost = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, count, shippingService);
 
           let sellPrice = 0;
 
           if(sellEntries && sellEntries.length > 0) {
             sellPrice = sellEntries[0].price;
           } else {
-            const singleItemShipping = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, 1, shippingService);
+            let singleItemShipping = 0;
+            
+            if (prices.requiresShipping)
+              singleItemShipping = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, 1, shippingService);
+
             const artificialPrice = usedOrders.averagePrice + ((usedOrders.averagePrice / 100) * 20) + singleItemShipping;
             sellPrice = artificialPrice;
             prices.artificialSellPrice = true;
