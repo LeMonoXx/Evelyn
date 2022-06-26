@@ -71,6 +71,10 @@ export class ShippingCalculatorComponent implements OnInit {
           const itemName = itemArray[0];
           if (itemArray.length > 0 && itemName.length > 0) {
             let countStr = itemArray.length > 1 ? itemArray[1].trim() === "" ? "1" : itemArray[1].trim() : "1";
+
+            if(countStr.includes('.'))
+            countStr = countStr.replace(".","");
+
             const count = parseInt(countStr);
 
             let curOrder = order;
