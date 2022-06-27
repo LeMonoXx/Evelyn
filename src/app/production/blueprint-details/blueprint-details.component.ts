@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { combineLatest, debounceTime, filter, map, mergeMap, Observable, switchMap, tap } from 'rxjs';
+import { combineLatest, debounceTime, filter, map, mergeMap, Observable, startWith, switchMap, tap } from 'rxjs';
 import { BlueprintDetails, ItemDetails, MarketEntry, StructureDetails } from 'src/app/models';
 import { calculateShippingColaterial, CalculateShippingCostForBundle, calculateTotalCosts, calculateTotalShippingVolume, calculateTotalVolume, copyToClipboard, MarketService, ShippingService, UniverseService } from 'src/app/shared';
 import { ManufacturingCalculation } from '..';
@@ -35,7 +35,7 @@ export class BlueprintDetailsComponent implements OnInit {
   public ShippingColateralObs: Observable<number>;
   public ShippingVolumeObs: Observable<number>;
   public shippingCostObs: Observable<number>;
-  public lowestSellEntryObs: Observable<MarketEntry>;
+  public sellEntriesObs: Observable<MarketEntry[]>;
   public sellDataObs: Observable<{ 
     bpo: BlueprintDetails,
     volume: number,
@@ -44,6 +44,7 @@ export class BlueprintDetailsComponent implements OnInit {
     shippingCost: number,
     materialCost: number,
     single_sellPrice: number, 
+    artificialSellPrice: boolean,
     total_sellPrice: number,
     brokerFee: number,
     saleTax: number,
@@ -90,13 +91,10 @@ export class BlueprintDetailsComponent implements OnInit {
         map(([price, volume, shippingService]) => CalculateShippingCostForBundle(price, volume, shippingService))
       )
 
-      this.lowestSellEntryObs = combineLatest([this.sellStructure$, this.productObs]).pipe(
-        debounceTime(100),
+      this.sellEntriesObs = combineLatest([this.sellStructure$, this.productObs]).pipe(
+        debounceTime(50),
         mergeMap(([sellStructure, product]) =>  
-          this.marketService.getStructureMarketForItem(sellStructure.evelyn_structureId, product.product.type_id, false).pipe(
-            filter(e => !!e && e.length > 0),
-            map(entries => entries[0])
-          )
+          this.marketService.getStructureMarketForItem(sellStructure.evelyn_structureId, product.product.type_id, false)
         ));
 
       this.sellDataObs = 
@@ -110,7 +108,7 @@ export class BlueprintDetailsComponent implements OnInit {
           this.productObs, 
           this.runs$,
           this.totalMaterialCostsObs, 
-          this.lowestSellEntryObs,
+          this.sellEntriesObs,
           this.saleTaxPercent$
         ]).pipe(
           map((
@@ -123,11 +121,25 @@ export class BlueprintDetailsComponent implements OnInit {
               productObs,
               runs,
               totalMaterialCosts, 
-              lowestSellEntry,  
+              sellEntries,  
               saleTaxPercent
             ]) => {
               const sellAmout = productObs.amount * runs;
-              const sellPriceForX = lowestSellEntry.price * sellAmout;
+              let sellPrice = 0;
+              let artificialSellPrice = false;
+
+              if(sellEntries && sellEntries.length > 0) {
+                sellPrice = sellEntries[0].price;
+              } else {
+                artificialSellPrice = true;
+                let artificialPrice = (totalMaterialCosts + shippingCost) / sellAmout;
+                artificialPrice = artificialPrice + (artificialPrice / 100 * 20)
+
+                sellPrice = artificialPrice;
+              }
+
+
+              const sellPriceForX = sellPrice * sellAmout;
 
               const brokerFee =  sellPriceForX / 100 * 2.5;
   
@@ -142,6 +154,7 @@ export class BlueprintDetailsComponent implements OnInit {
                 shippingCost: number,
                 materialCost: number,
                 single_sellPrice: number, 
+                artificialSellPrice: boolean,
                 total_sellPrice: number,
                 brokerFee: number,
                 saleTax: number,
@@ -153,7 +166,8 @@ export class BlueprintDetailsComponent implements OnInit {
                 shippingColateral: shippingColateral,
                 shippingCost: shippingCost,
                 materialCost: totalMaterialCosts,
-                single_sellPrice: lowestSellEntry.price,
+                single_sellPrice: sellPrice,
+                artificialSellPrice: artificialSellPrice,
                 total_sellPrice: sellPriceForX,
                 brokerFee: brokerFee,
                 saleTax: saleTax,

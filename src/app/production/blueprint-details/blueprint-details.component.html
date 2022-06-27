@@ -8,7 +8,7 @@
                 <div class="itemInfoName" [title]="bpoItem.name"
                     (click)="copy(bpoItem.name)">{{ bpoItem.name }}</div>
                 <div class="itemInfoId">{{ bpoItem.type_id }}</div>
-                <div class="itemInfoId"> {{ bpoItem.packaged_volume }} m³ </div>
+                <div class="itemInfoId">{{ bpoItem.packaged_volume }} m³</div>
             </div>
         </div>
 
@@ -22,7 +22,7 @@
                 <div class="itemInfoName" [title]="productObj.product.name"
                     (click)="copy(productObj.product.name)">{{ productObj.product.name }}</div>
                 <div class="itemInfoId">{{ productObj.product.type_id }}</div>
-                <div class="itemInfoId"> {{ productObj.product.packaged_volume }} m³ </div>
+                <div class="itemInfoId">{{ productObj.product.packaged_volume }} m³</div>
             </div>
         </div>
     </div>
@@ -39,7 +39,8 @@
         </div> 
 
         <div class="calcSummaryEntry" (click)="copy(sellData.total_sellPrice)" style="padding-bottom: 10px;">
-            <span>Sell price</span> <span class="positivNumber valueLabel canCopy">{{ sellData.total_sellPrice | currency }}</span>
+            <span>Sell price</span> <span [ngClass]="sellData.artificialSellPrice ? 'artificialPrice' : 'positivNumber'"
+            class="valueLabel canCopy">{{ sellData.total_sellPrice | currency }}</span>
         </div>
 
         <mat-divider></mat-divider>
@@ -84,6 +85,12 @@
              [ngClass]="sellData.profit <= 0 ? 'negativeProfit' : 'positivProfit'">
                 {{ sellData.profit | currency }}
             </span>
+        </div>
+
+        
+        <div *ngIf="sellData.artificialSellPrice" class="artificialSellPriceDiv">
+            Target market does not have active sell orders for given item. <br>
+            Sell price is artificially set to material cost + shipping + 20%. 
         </div>
     </div>
 </div>

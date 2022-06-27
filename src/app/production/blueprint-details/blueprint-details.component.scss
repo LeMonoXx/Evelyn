@@ -48,17 +48,6 @@
     } 
 }
 
-.bpoDetailsContainer {
-    display: flex;
-    flex-direction: column;
-    align-content: space-around;
-    justify-content: center;
-    align-items: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-size: 80%;
-}
-
 .calcSummaryEntry {
     display: flex;
     justify-content: space-between;
@@ -111,5 +100,17 @@
     .canCopy {
         cursor: pointer;
     }
+    
+    .artificialPrice {
+        color: $warning_foreground;
+    }
+}
+
+.artificialSellPriceDiv {
+    color: $warning_foreground;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-style: italic;
+    text-align: center;
 }
     
