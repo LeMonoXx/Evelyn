@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { filter, map, Observable } from 'rxjs';
-import { MarketEntry, MarketHistory } from 'src/app/models';
-import { MarketOrder } from 'src/app/models/market/market-order';
+import { MarketEntry, MarketHistory, Prices, MarketOrder } from 'src/app/models';
 import { EsiDataRepositoryService } from 'src/app/repositories/esi-data-repository.service';
 import { environment } from 'src/environments/environment';
 
@@ -50,6 +49,26 @@ export class MarketService {
         return entries;
       })
     );
+  }
+
+  public getAllAdjustedPrices(): Observable<Prices[]> {
+    const url = environment.esiBaseUrl + '/markets/prices/'
+
+    return this.esiDataService.getRequest<Prices[]>(url);
+  }
+
+  public getAdjustedPriceForItem(itemId: number): Observable<Prices> {
+    const url = environment.esiBaseUrl + '/markets/prices/'
+
+    return this.esiDataService.getRequest<Prices[]>(url).pipe(
+      map(entries =>  {
+        const result = entries.find(e => e.type_id === itemId);
+
+        if(!result)
+          return ({ adjusted_price: 0, average_price: 0, type_id: itemId });
+
+        return result;
+      } ));
   }
 
   public getMarketOrders(structureId: number, characterId: number, isBuyOrder: boolean): Observable<MarketOrder[]> {

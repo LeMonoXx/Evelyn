@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, filter, from, map, mergeMap, Observable, of, share, shareReplay, startWith, Subject, switchMap, take, tap, toArray } from 'rxjs';
 import { IAuthResponseData, AuthService } from '../auth';
-import { StructureDetails, ItemDetails, StationDetails, BlueprintDetails } from '../models';
+import { StructureDetails, ItemDetails, StationDetails, BlueprintDetails, Prices } from '../models';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
 import { calculateMaterialQuantity, calculateRequiredRuns, CalculateShippingCostForBundle, calculateTaxPercentBySkillLevel, getPriceForN, getRigMEforItem, IndustryService, ItemIdentifier, 
   ItemSearchService, JITA_REGION_ID, MarketService, MJ5F9_REGION_ID, ShippingService, ShoppingEntry, ShoppingListService, UniverseService } from '../shared';
@@ -43,6 +43,8 @@ export class ProductionComponent implements OnInit {
   public indicatorSubject = new BehaviorSubject<boolean>(false);
   public isLoadingObs = this.indicatorSubject.asObservable().pipe(distinctUntilChanged());
 
+  private allAdjustedPrices : Observable<Prices[]>;
+
   constructor(
     private industryService: IndustryService,
     private universeService: UniverseService,
@@ -62,6 +64,8 @@ export class ProductionComponent implements OnInit {
       this.runsObs = this.productionSettingsService.RunsObs;
       this.meLevelObs = this.productionSettingsService.MeLevelObs;
       this.subMeLevelObs = this.productionSettingsService.SubMeLevelObs;
+
+      this.allAdjustedPrices = this.marketService.getAllAdjustedPrices();
     }
 
   public ngOnInit(): void { 
@@ -112,6 +116,21 @@ export class ProductionComponent implements OnInit {
       )),
       map(value => getRigMEforItem(value.item, value.category))
     );
+
+
+    const IEVObs = combineLatest([this.mainBPODetailsObs, this.runsObs, this.allAdjustedPrices]).pipe(
+      map(([bpo, runs, allPrices]) => {
+        let totalPrice = 0;
+        bpo.activities.manufacturing.materials.forEach(material => {
+          const itemPrice = allPrices.find(e => e.type_id === material.typeID);
+
+          if(itemPrice)
+            totalPrice += itemPrice.adjusted_price * material.quantity;
+        })
+        return totalPrice * runs;
+      }),
+      tap(p => console.log("IEV: ", p))
+    ).subscribe();
 
     const materialItemObs = this.mainBPODetailsObs.pipe(
       filter(x => !!x),
