@@ -40,14 +40,15 @@ export function getStoredBlueprintDetails(): { [typeId: number]: BlueprintDetail
             const daysBetween = moment.duration(curMoment.diff(savedMoment)).asDays();
             if(daysBetween < 3) {
                   refreshData = false;
-            } else {
-                  console.log("StoredBlueprintDetails refresh triggered!")
-                  storeData<string>("", BLUEPRINT_DETAILS_KEY);
             }
       }
 
-      if(refreshData)
+      if(refreshData){
+            console.log("StoredBlueprintDetails refresh triggered!")
+            storeData<string>("", BLUEPRINT_DETAILS_KEY);
             return null;
+      }
+
 
       return getData<{ [typeId: number]: BlueprintDetails }>(BLUEPRINT_DETAILS_KEY);
 }
