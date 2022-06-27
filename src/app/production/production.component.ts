@@ -118,7 +118,7 @@ export class ProductionComponent implements OnInit {
     );
 
 
-    const IEVObs = combineLatest([this.mainBPODetailsObs, this.runsObs, this.allAdjustedPrices]).pipe(
+    const mainBpoIEVObs = combineLatest([this.mainBPODetailsObs, this.runsObs, this.allAdjustedPrices]).pipe(
       map(([bpo, runs, allPrices]) => {
         let totalPrice = 0;
         bpo.activities.manufacturing.materials.forEach(material => {
@@ -167,7 +167,7 @@ export class ProductionComponent implements OnInit {
             map(items => items[0]),
             mergeMap(item => this.industryService.getBlueprintDetails(item.id).pipe(
               mergeMap(bpo => this.universeService.getItemDetails(bpo.blueprintTypeID).pipe(
-                map(bpoItem => ({bpo: bpo, bpoItem: bpoItem})
+                map(bpoItem => ({ bpo: bpo, bpoItem: bpoItem })
               ),
               map(result => {
                  component.bpo = result.bpo;
