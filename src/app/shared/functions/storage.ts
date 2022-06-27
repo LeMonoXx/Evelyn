@@ -1,3 +1,4 @@
+import * as moment from "moment";
 import { BlueprintDetails, StationDetails, StructureDetails, EveItem } from "src/app/models";
 import { ItemIdentifier, ShippingService, ShoppingEntry } from "..";
 
@@ -8,6 +9,7 @@ export const EVETYPE_KEY: string = "eve-types";
 export const SELECTEDSTATION_KEY: string = "selected-station";
 export const SELECTEDSTRUCTURE_KEY: string = "selected-structure";
 export const SELECTEDSHIPPINGSERVICE_KEY: string = "selected-shipping-service"
+export const BLUEPRINT_DETAILS_SAVED_DATE_KEY: string = "blueprint-details-saved-date"
 
 
 
@@ -28,10 +30,31 @@ export function storeFavoriteItems(entries: ItemIdentifier[]) {
 }
 
 export function getStoredBlueprintDetails(): { [typeId: number]: BlueprintDetails } | null {
+      const savedTime = getData<string>(BLUEPRINT_DETAILS_SAVED_DATE_KEY);
+
+      let refreshData = true;
+      if(savedTime != null && savedTime.length > 1) {
+            const savedMoment = moment(savedTime);
+            const curMoment = moment(new Date());
+
+            const daysBetween = moment.duration(curMoment.diff(savedMoment)).asDays();
+            if(daysBetween < 3) {
+                  refreshData = false;
+            } else {
+                  console.log("StoredBlueprintDetails refresh triggered!")
+                  storeData<string>("", BLUEPRINT_DETAILS_KEY);
+            }
+      }
+
+      if(refreshData)
+            return null;
+
       return getData<{ [typeId: number]: BlueprintDetails }>(BLUEPRINT_DETAILS_KEY);
 }
 
 export function storeBlueprintDetails(entries: { [typeId: number]: BlueprintDetails }) {
+      const savedTime = new Date().toUTCString();
+      storeData<string>(savedTime, BLUEPRINT_DETAILS_SAVED_DATE_KEY);
       storeData<{ [typeId: number]: BlueprintDetails }>(entries, BLUEPRINT_DETAILS_KEY);
 }
 
