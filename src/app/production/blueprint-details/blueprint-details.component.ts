@@ -1,8 +1,10 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { combineLatest, debounceTime, filter, map, mergeMap, Observable, startWith, switchMap, tap } from 'rxjs';
+import { combineLatest, debounceTime, filter, map, mergeMap, Observable, shareReplay, switchMap } from 'rxjs';
 import { BlueprintDetails, ItemDetails, MarketEntry, StructureDetails } from 'src/app/models';
-import { calculateShippingColaterial, CalculateShippingCostForBundle, calculateTotalCosts, calculateTotalShippingVolume, calculateTotalVolume, copyToClipboard, MarketService, ShippingService, UniverseService } from 'src/app/shared';
+import { calculateShippingColaterial, CalculateShippingCostForBundle, 
+  calculateTotalJobCosts, calculateTotalMaterialCosts, calculateTotalShippingVolume, 
+  calculateTotalVolume, copyToClipboard, MarketService, ShippingService, UniverseService } from 'src/app/shared';
 import { ManufacturingCalculation } from '..';
 
 @Component({
@@ -19,6 +21,8 @@ export class BlueprintDetailsComponent implements OnInit {
   public BPOItem$: Observable<ItemDetails>;
   @Input()
   public BPODetails$: Observable<BlueprintDetails>;
+  @Input()
+  public mainBpoJobCost$: Observable<number>;
   @Input()
   public subBPOsManufacturingCosts$: Observable<ManufacturingCalculation[]>;
   @Input()
@@ -43,13 +47,17 @@ export class BlueprintDetailsComponent implements OnInit {
     shippingColateral: number
     shippingCost: number,
     materialCost: number,
+    mainBpoJobCost: number,
+    subComponentsJobCost: number,
     single_sellPrice: number, 
     artificialSellPrice: boolean,
     total_sellPrice: number,
     brokerFee: number,
     saleTax: number,
     profit: number }>;
-  
+
+  private subComponentsJobCostObs: Observable<number>;
+
   constructor(
     private universeService: UniverseService,
     private marketService: MarketService,
@@ -60,7 +68,8 @@ export class BlueprintDetailsComponent implements OnInit {
     this.currentItemImageSourceObs = this.BPOItem$.pipe(
       map(item => {
         return this.universeService.getImageUrlForType(item.type_id, 64);
-      }));
+      }),
+      shareReplay(1));
 
       this.productObs = this.BPODetails$.pipe(
         filter(x => !!x),
@@ -70,32 +79,51 @@ export class BlueprintDetailsComponent implements OnInit {
             amount: bpo.activities.manufacturing.products[0].quantity,
             imageSource: this.universeService.getImageUrlForType(item.type_id, 64) 
           }))
-        ))
+        )),
+        shareReplay(1)
       )
 
       this.totalMaterialCostsObs = this.subBPOsManufacturingCosts$.pipe(
-        map(entries => calculateTotalCosts(entries))); 
+        map(entries => calculateTotalMaterialCosts(entries)),
+        shareReplay(1)); 
 
       this.totalVolumeObs = this.subBPOsManufacturingCosts$.pipe(
-        map(entries => calculateTotalVolume(entries))
+        map(entries => calculateTotalVolume(entries)),
+        shareReplay(1)
       )
 
       this.ShippingColateralObs = this.subBPOsManufacturingCosts$.pipe(
-        map(entries => calculateShippingColaterial(entries))); 
+        map(entries => calculateShippingColaterial(entries)),
+        shareReplay(1)); 
 
       this.ShippingVolumeObs = this.subBPOsManufacturingCosts$.pipe(
-        map(entries => calculateTotalShippingVolume(entries))
+        map(entries => calculateTotalShippingVolume(entries)),
+        shareReplay(1)
       )
 
       this.shippingCostObs = combineLatest([this.ShippingColateralObs, this.ShippingVolumeObs, this.shippingService$]).pipe(
-        map(([price, volume, shippingService]) => CalculateShippingCostForBundle(price, volume, shippingService))
+        map(([price, volume, shippingService]) => CalculateShippingCostForBundle(price, volume, shippingService)),
+        shareReplay(1)
       )
+
+      this.subComponentsJobCostObs = this.subBPOsManufacturingCosts$.pipe(
+        map(subBPOsManufacturingCosts => {
+          let total = 0;
+          subBPOsManufacturingCosts.forEach(entry => {
+            if(entry.subComponent?.jobCost)
+              total += entry.subComponent?.jobCost
+          });
+          return total;
+        })
+      );
+
 
       this.sellEntriesObs = combineLatest([this.sellStructure$, this.productObs]).pipe(
         debounceTime(50),
         mergeMap(([sellStructure, product]) =>  
           this.marketService.getStructureMarketForItem(sellStructure.evelyn_structureId, product.product.type_id, false)
-        ));
+        ),
+        shareReplay(1));
 
       this.sellDataObs = 
       combineLatest(
@@ -105,6 +133,8 @@ export class BlueprintDetailsComponent implements OnInit {
           this.ShippingVolumeObs,
           this.ShippingColateralObs,
           this.shippingCostObs,
+          this.mainBpoJobCost$,
+          this.subComponentsJobCostObs,
           this.productObs, 
           this.runs$,
           this.totalMaterialCostsObs, 
@@ -118,6 +148,8 @@ export class BlueprintDetailsComponent implements OnInit {
               shippingVolume,
               shippingColateral,
               shippingCost,
+              mainBpoJobCost,
+              subComponentsJobCost,
               productObs,
               runs,
               totalMaterialCosts, 
@@ -144,7 +176,7 @@ export class BlueprintDetailsComponent implements OnInit {
               const brokerFee =  sellPriceForX / 100 * 2.5;
   
               const saleTax = sellPriceForX / 100 * saleTaxPercent;
-              const profit = (((sellPriceForX - totalMaterialCosts) - brokerFee) - saleTax) - shippingCost;
+              const profit = (((((sellPriceForX - totalMaterialCosts) - brokerFee) - saleTax) - shippingCost) - mainBpoJobCost) - subComponentsJobCost;
 
               const sellCalculation: { 
                 bpo: BlueprintDetails,
@@ -153,6 +185,8 @@ export class BlueprintDetailsComponent implements OnInit {
                 shippingColateral: number
                 shippingCost: number,
                 materialCost: number,
+                mainBpoJobCost: number,
+                subComponentsJobCost: number,
                 single_sellPrice: number, 
                 artificialSellPrice: boolean,
                 total_sellPrice: number,
@@ -166,6 +200,8 @@ export class BlueprintDetailsComponent implements OnInit {
                 shippingColateral: shippingColateral,
                 shippingCost: shippingCost,
                 materialCost: totalMaterialCosts,
+                mainBpoJobCost: mainBpoJobCost,
+                subComponentsJobCost: subComponentsJobCost,
                 single_sellPrice: sellPrice,
                 artificialSellPrice: artificialSellPrice,
                 total_sellPrice: sellPriceForX,
@@ -175,7 +211,8 @@ export class BlueprintDetailsComponent implements OnInit {
               };
 
               return sellCalculation;
-            }));
+            }),
+            shareReplay(1));
   }
   
   public copy(text: string | number) {

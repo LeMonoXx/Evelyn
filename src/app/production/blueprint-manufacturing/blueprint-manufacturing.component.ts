@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { ItemDetails } from 'src/app/models';
-import { calculateComponentCosts, calculateTotalCosts, copyToClipboard, toMultiBuyString, UniverseService } from 'src/app/shared';
+import { calculateComponentMaterialCosts, calculateTotalMaterialCosts, copyToClipboard, toMultiBuyString, UniverseService } from 'src/app/shared';
 import { ManufacturingCalculation, ManufacturingCostEntry, SubComponent } from '..';
 
 @Component({
@@ -47,7 +47,7 @@ export class BlueprintManufacturingComponent implements OnInit {
   }
 
   public getComponentCosts(component: ManufacturingCostEntry[]): number {
-    return calculateComponentCosts(component);
+    return calculateComponentMaterialCosts(component);
   }
 
 public copyAllManufacturingCalculation(manuCalcs: ManufacturingCalculation[]) {

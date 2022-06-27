@@ -18,6 +18,8 @@ export * from './market/market-order'
 export * from './market/market-history'
 export * from './market/prices'
 
+export * from './industry/industry-system'
+
 export * from './types/dogma-attribute'
 export * from './types/dogma-effect'
 export * from './types/item-details'

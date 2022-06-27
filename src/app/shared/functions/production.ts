@@ -1,6 +1,7 @@
-import { BlueprintDetails, ItemDetails, StructureDetails } from "src/app/models";
+import { BlueprintDetails, ItemDetails } from "src/app/models";
 import { ItemCategory } from "src/app/models/universe/categories/item-category";
-import { ManufacturingCalculation, ManufacturingCostEntry } from "src/app/production";
+import { ManufacturingCalculation, ManufacturingCostEntry, SubComponent } from "src/app/production";
+import { Facility } from "../models/facilities/facility";
 
 const MJ5F9ECSmallMedLargeShips_byGroup: { [groupId: number]: number; } = {
   1201: 5.04, // Attack Battlecruiser 
@@ -21,6 +22,7 @@ const MJ5F9ECStructuresFuelComponents_byGroup: { [categoryId: number]: number } 
   334:  4.20, // Construction Components
   913:  4.20, // Advanced Capital Construction Components
 }
+
 const MJ5F9ECStructuresFuelComponents_byCategory: { [categoryId: number]: number } = {
   39:   5.04, // Infrastructure Upgrades
   40:   5.04, // Sovereignty Structures
@@ -29,14 +31,15 @@ const MJ5F9ECStructuresFuelComponents_byCategory: { [categoryId: number]: number
   66:   5.04  // Structure Module
 }
 
-const facilitiesByItemGroup: { name: string, entries: { [groupId: number]: number } }[] = [
-  { name: "MJ-5F9 - EC Small Med Large Ships", entries: MJ5F9ECSmallMedLargeShips_byGroup },
-  { name: "MJ-5F9 - EC Structures, Fuel, Components", entries: MJ5F9ECStructuresFuelComponents_byGroup },
+const facilitiesByItemGroup: Facility[] = [
+  { name: "MJ-5F9 - EC Small Med Large Ships", structureJobCostModifier: 4, facilityTax: 10, materialConsumptionModifier: MJ5F9ECSmallMedLargeShips_byGroup },
+  { name: "MJ-5F9 - EC Structures, Fuel, Components", structureJobCostModifier: 3, facilityTax: 10, materialConsumptionModifier: MJ5F9ECStructuresFuelComponents_byGroup },
 ]
 
-const facilitiesByItemCategory: { name: string, entries: { [categoryId: number]: number } }[] = [
-  { name: "MJ-5F9 - EC Structures, Fuel, Components", entries: MJ5F9ECStructuresFuelComponents_byCategory }
+const facilitiesByItemCategory: Facility[] = [
+  { name: "MJ-5F9 - EC Structures, Fuel, Components", structureJobCostModifier: 3, facilityTax: 10, materialConsumptionModifier: MJ5F9ECStructuresFuelComponents_byCategory }
 ]
+
 export function calculateMaterialQuantity(
   baseAmount: number, 
   runs: number, 
@@ -91,40 +94,46 @@ export function calculateRequiredRuns(requiredProductTypeId: number, requiredPro
         return { reqRuns, overflow }
 }
 
-export function getRigMEforItem(itemDetails: ItemDetails, itemCategory: ItemCategory): { modifier: number, facilityName: string } { 
-  // const def = this.universeService.getAllGroups().pipe(
-  //   tap(ids => console.log(ids)),
-  //   mergeMap(ids =>
-  //     from(ids).pipe(
-  //       mergeMap(id => this.universeService.getItemGroup(id).pipe(
-  //         mergeMap(group => this.universeService.getItemCategory(group.category_id).pipe(
-  //           tap(category => console.log(`${group.group_id}: ${group.name} (${group.category_id} - ${category.name})`)))
-  //         )
-  //       )),
-  //       toArray()
-  //     )
-  //   ));
-  //   def.subscribe();
-
+export function getRigMEforItem(itemDetails: ItemDetails, itemCategory: ItemCategory): { modifier: number, facility: Facility } { 
     for(let i=0; i < facilitiesByItemGroup.length; i++) {
       const facility = facilitiesByItemGroup[i];
-      const groupValue = facility.entries[itemDetails.group_id];
+      const groupValue = facility.materialConsumptionModifier[itemDetails.group_id];
 
       if(groupValue != undefined) {
-        return { modifier: groupValue, facilityName: facility.name };
+        return { modifier: groupValue, facility: facility };
       }
     }
 
     for(let i=0; i < facilitiesByItemCategory.length; i++) {
       const facility = facilitiesByItemCategory[i];
-      const categoryValue = facility.entries[itemCategory.category_id];
+      const categoryValue = facility.materialConsumptionModifier[itemCategory.category_id];
 
       if(categoryValue != undefined) {
-        return { modifier: categoryValue, facilityName: facility.name };
+        return { modifier: categoryValue, facility: facility };
       }
     }
 
-    return  { modifier: 0, facilityName: "-" };
+    return  { modifier: 0, facility: facilitiesByItemGroup[facilitiesByItemGroup.length - 1] };
+}
+
+export function calculateTotalJobCosts(manufacturing : ManufacturingCalculation[], systemCostIndex: number, structureRoleBonus: number, facilityTax: number): number {
+  let cost = 0;
+  manufacturing.forEach(entry => {
+    if(entry.subComponent && entry.subComponent.IEV && entry.subComponent.prodFacility)
+      cost += calculateJobCost(entry.subComponent?.IEV, systemCostIndex, entry.subComponent.prodFacility);
+  });
+
+  return cost;
+}
+
+export function calculateJobCost(totalBpoIEV: number, systemCostIndex: number, facility: Facility): number {
+  const systemCostMargin = totalBpoIEV * systemCostIndex; // e.g. 0.0554
+  const structureRoleMargin = (systemCostMargin / 100) * facility.structureJobCostModifier;
+  const jobGrossCost = systemCostMargin - structureRoleMargin;
+
+  const taxMargin = (jobGrossCost / 100) * facility.facilityTax;
+  const cost = jobGrossCost + taxMargin;
+  return cost;
 }
 
 export function calculateTotalShippingVolume(manufacturing : ManufacturingCalculation[]) {
@@ -157,16 +166,16 @@ export function calculateComponentVolume(costEntries : ManufacturingCostEntry[])
   return volume;
 }
 
-export function calculateTotalCosts(manufacturing : ManufacturingCalculation[]) {
+export function calculateTotalMaterialCosts(manufacturing : ManufacturingCalculation[]) {
 
   let price = 0;
 
-  manufacturing.forEach(entry => price += calculateComponentCosts(entry.bpoCost));
+  manufacturing.forEach(entry => price += calculateComponentMaterialCosts(entry.bpoCost));
 
   return price;
 }
 
-export function calculateComponentCosts(costEntries : ManufacturingCostEntry[]) {
+export function calculateComponentMaterialCosts(costEntries : ManufacturingCostEntry[]) {
   let price = 0;
   costEntries.forEach(cost => price += cost.total_buyPrice);
   return price;

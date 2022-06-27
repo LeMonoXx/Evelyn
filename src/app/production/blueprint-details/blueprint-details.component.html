@@ -66,8 +66,17 @@
         <div class="calcSummaryEntry" (click)="copy(sellData.shippingVolume)" style="padding-bottom: 10px;">
             <span class="minorInfo">Volume</span> <span class="minorInfo canCopy">{{ sellData.shippingVolume | number }} m³</span>
         </div>
-        
-        <mat-divider></mat-divider>
+
+        <mat-divider></mat-divider> 
+
+        <div class="calcSummaryEntry" style="padding-top: 10px;" (click)="copy(sellData.mainBpoJobCost)">
+            <span>Job cost</span> <span class="negativeNumber valueLabel canCopy">{{ sellData.mainBpoJobCost *-1 | currency }}</span>
+        </div>
+        <div class="calcSummaryEntry" style="padding-bottom: 10px;" (click)="copy(sellData.subComponentsJobCost)">
+            <span>Sub-job costs</span> <span class="negativeNumber valueLabel canCopy">{{ sellData.subComponentsJobCost *-1 | currency }}</span>
+        </div>
+
+        <mat-divider></mat-divider> 
 
         <div class="calcSummaryEntry" style="padding-top: 10px;">
             <span>Broker Fee</span> <span class="negativeNumber valueLabel">{{ sellData.brokerFee *-1 | currency }}</span>

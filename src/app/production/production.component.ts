@@ -4,7 +4,7 @@ import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, fil
 import { IAuthResponseData, AuthService } from '../auth';
 import { StructureDetails, ItemDetails, StationDetails, BlueprintDetails, Prices } from '../models';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
-import { calculateMaterialQuantity, calculateRequiredRuns, CalculateShippingCostForBundle, calculateTaxPercentBySkillLevel, getPriceForN, getRigMEforItem, IndustryService, ItemIdentifier, 
+import { calculateJobCost, calculateMaterialQuantity, calculateRequiredRuns, CalculateShippingCostForBundle, calculateTaxPercentBySkillLevel, calculateTotalJobCosts, getPriceForN, getRigMEforItem, IndustryService, ItemIdentifier, 
   ItemSearchService, JITA_REGION_ID, MarketService, MJ5F9_REGION_ID, ShippingService, ShoppingEntry, ShoppingListService, UniverseService } from '../shared';
 import { ManufacturingCostEntry } from './models/manufacturing-cost-entry';
 import { SubComponent, ManufacturingCalculation } from '.';
@@ -32,6 +32,9 @@ export class ProductionComponent implements OnInit {
   public mainBPOItemObs: Observable<ItemDetails>
   public mainBPODetailsObs: Observable<BlueprintDetails>;
   public subComponentsObs: Observable<SubComponent[]>;
+  public mainBpoJobCostObs: Observable<number>;
+
+  public sellStructureSystemCostIndexObs: Observable<number>;
   public subBPOsManufacturingCostsObs: Observable<ManufacturingCalculation[]>;
 
   public runsObs: Observable<number>;
@@ -44,7 +47,6 @@ export class ProductionComponent implements OnInit {
   public isLoadingObs = this.indicatorSubject.asObservable().pipe(distinctUntilChanged());
 
   private allAdjustedPrices : Observable<Prices[]>;
-
   constructor(
     private industryService: IndustryService,
     private universeService: UniverseService,
@@ -105,7 +107,7 @@ export class ProductionComponent implements OnInit {
       shareReplay(1)
     );
 
-    const mainBPOProductRigMe = this.mainBPODetailsObs.pipe(
+    const mainBPOProductRigMeObs = this.mainBPODetailsObs.pipe(
       map(bpo => bpo.activities.manufacturing.products[0].typeID),
       switchMap(typeId => this.universeService.getItemDetails(typeId)),
       switchMap(item => this.universeService.getItemGroup(item.group_id).pipe(
@@ -114,23 +116,47 @@ export class ProductionComponent implements OnInit {
           map(category => ({ item: item, category: category }))
         ))
       )),
-      map(value => getRigMEforItem(value.item, value.category))
+      map(value => getRigMEforItem(value.item, value.category)),
+      shareReplay(1)
     );
 
+    this.sellStructureSystemCostIndexObs = this.currentSellStructureObs.pipe(
+      switchMap(structure => this.industryService.getIndustrySystem(structure.solar_system_id)),
+      map(induSystem => {
+        let costIndex = 0;
 
-    const mainBpoIEVObs = combineLatest([this.mainBPODetailsObs, this.runsObs, this.allAdjustedPrices]).pipe(
-      map(([bpo, runs, allPrices]) => {
-        let totalPrice = 0;
+        const manuIndex = induSystem.cost_indices.find(i => i.activity === "manufacturing");
+
+        if(manuIndex) 
+          costIndex = manuIndex.cost_index;
+
+        return costIndex;
+      }),
+      shareReplay(1)
+    );
+
+    this.mainBpoJobCostObs = combineLatest([
+      this.mainBPODetailsObs, 
+      this.runsObs, 
+      this.allAdjustedPrices,
+      mainBPOProductRigMeObs,
+      this.sellStructureSystemCostIndexObs
+    ]).pipe(
+      map(([bpo, runs, allPrices, mainBPOProductRigMe, systemCostIndex]) => {
+        let totalIV = 0;
         bpo.activities.manufacturing.materials.forEach(material => {
           const itemPrice = allPrices.find(e => e.type_id === material.typeID);
 
           if(itemPrice)
-            totalPrice += itemPrice.adjusted_price * material.quantity;
+            totalIV += itemPrice.adjusted_price * material.quantity;
         })
-        return totalPrice * runs;
+        totalIV = totalIV * runs;
+
+        const totalCost = calculateJobCost(totalIV, systemCostIndex, mainBPOProductRigMe.facility);
+        return totalCost;
       }),
-      tap(p => console.log("IEV: ", p))
-    ).subscribe();
+      shareReplay(1)
+    );
 
     const materialItemObs = this.mainBPODetailsObs.pipe(
       filter(x => !!x),
@@ -155,8 +181,8 @@ export class ProductionComponent implements OnInit {
       shareReplay(1),
       distinctUntilChanged());
 
-    const bpoComponentsObs = materialItemObs.pipe(
-      mergeMap(components => 
+    const bpoComponentsObs = combineLatest([this.runsObs, materialItemObs]).pipe(
+      mergeMap(([runs, components]) => 
         from(components).pipe(
           // we could filter here for components that should not be build by a BPO.
           // if its filtered out, the component is calculated as bought form market.
@@ -168,9 +194,13 @@ export class ProductionComponent implements OnInit {
             mergeMap(item => this.industryService.getBlueprintDetails(item.id).pipe(
               mergeMap(bpo => this.universeService.getItemDetails(bpo.blueprintTypeID).pipe(
                 map(bpoItem => ({ bpo: bpo, bpoItem: bpoItem })
-              ),
+              ),                
+              switchMap(sc => this.getIEVForBPO(sc.bpo, runs).pipe(
+                map(iev => ({ bpo: sc.bpo, bpoItem: sc.bpoItem, iev }))
+              )),
               map(result => {
                  component.bpo = result.bpo;
+                 component.IEV = result.iev;
                  component.bpoItem = result.bpoItem;                 
                  return component;
                 }),
@@ -190,21 +220,41 @@ export class ProductionComponent implements OnInit {
       ),
       shareReplay(1),
       distinctUntilChanged(),
-      debounceTime(250)
+      debounceTime(100)
     )));
 
-    const allRequiredComponents: Observable<{ runs: number, bpoComponents: SubComponent[], buyStation: StationDetails, meLevel: number }> = 
-      combineLatest([this.runsObs, materialItemObs, bpoComponentsObs, this.currentBuyStationObs, this.subMeLevelObs]).pipe(
-      debounceTime(250),
-      map(([runs, subMaterials, bpoComponents, buyStation, meLevel]) => {
+    const allRequiredComponents: Observable<{ runs: number, bpoComponents: SubComponent[], buyStation: StationDetails, mainMeLevel: number, subMeLevel: number }> = 
+      combineLatest([this.runsObs, materialItemObs, bpoComponentsObs, this.currentBuyStationObs, this.meLevelObs, this.subMeLevelObs, mainBPOProductRigMeObs, this.sellStructureSystemCostIndexObs]).pipe(
+      debounceTime(150),
+      map(([runs, subMaterials, bpoComponents, buyStation, mainMeLevel, subMeLevel, mainBPOProductRigMe, systemCostIndex]) => {
         subMaterials.forEach(component => {
           const exists = bpoComponents.some(c => c.item.type_id === component.material.typeID);
           if(!exists) {
             bpoComponents.push(component);
           }
         })
-        return ({ runs, bpoComponents, buyStation, meLevel });
+        return ({ runs, bpoComponents, buyStation, mainMeLevel, subMeLevel, mainBPOProductRigMe, systemCostIndex });
         }
+      ),
+      tap(allReqComp => 
+        allReqComp.bpoComponents.forEach(component => {
+            const reqAllRunsAmount = calculateMaterialQuantity(component.material.quantity, allReqComp.runs, allReqComp.mainMeLevel, allReqComp.mainBPOProductRigMe.modifier);
+            component.requiredAmount = reqAllRunsAmount;
+
+            if(component.bpo) {           
+              const subComponentRuns = calculateRequiredRuns(component.material.typeID, component.requiredAmount, component.bpo);
+              component.requiredRuns = subComponentRuns.reqRuns;
+              component.overflow = subComponentRuns.overflow;
+
+              const subRigME = getRigMEforItem(component.item, component.itemCategory);
+ 
+              component.prodFacility = subRigME.facility;
+
+              if(component.IEV)
+                component.jobCost = calculateJobCost(allReqComp.systemCostIndex, component.IEV, subRigME.facility);
+            }
+          }
+        ),
       ),
       shareReplay(1)
     );
@@ -217,8 +267,6 @@ export class ProductionComponent implements OnInit {
     this.subBPOsManufacturingCostsObs = combineLatest(
       [
         allRequiredComponents, 
-        this.meLevelObs, 
-        mainBPOProductRigMe, 
         this.currentSellStructureObs,
         this.shippingServiceObs
       ]).pipe(
@@ -227,30 +275,28 @@ export class ProductionComponent implements OnInit {
         mergeMap((
           [
             allReqComp, 
-            mainBpoMe, 
-            mainBPOProductRigMe, 
             sellStructure,
             shippingService
           ]) =>
         from(allReqComp.bpoComponents).pipe(
           mergeMap(component => {
-            const reqAllRunsAmount = calculateMaterialQuantity(component.material.quantity, allReqComp.runs, mainBpoMe, mainBPOProductRigMe.modifier);
-            component.requiredAmount = reqAllRunsAmount;
+            // const reqAllRunsAmount = calculateMaterialQuantity(component.material.quantity, allReqComp.runs, mainBpoMe, mainBPOProductRigMe.modifier);
+            // component.requiredAmount = reqAllRunsAmount;
 
-            if(component.bpo) {           
-              const subComponentRuns = calculateRequiredRuns(component.material.typeID, component.requiredAmount, component.bpo);
-              component.requiredRuns = subComponentRuns.reqRuns;
-              component.overflow = subComponentRuns.overflow;
+            if(component.bpo && component.requiredRuns) {           
+              // const subComponentRuns = calculateRequiredRuns(component.material.typeID, component.requiredAmount, component.bpo);
+              // component.requiredRuns = subComponentRuns.reqRuns;
+              // component.overflow = subComponentRuns.overflow;
 
-              const subRigME = getRigMEforItem(component.item, component.itemCategory);
+               const subRigME = getRigMEforItem(component.item, component.itemCategory);
  
-              component.prodFacilityName = subRigME.facilityName;
+              // component.prodFacility = subRigME.facility;
               return this.getBpoMaterialBuyCost(
-                                subComponentRuns.reqRuns, 
+                                component.requiredRuns, 
                                 component.bpo, 
                                 allReqComp.buyStation, 
                                 sellStructure,
-                                allReqComp.meLevel,
+                                allReqComp.subMeLevel,
                                 subRigME.modifier,
                                 shippingService).pipe(
               map(calc => (
@@ -376,6 +422,22 @@ export class ProductionComponent implements OnInit {
         )
       ),
       shareReplay(1)
+    );
+  }
+
+  private getIEVForBPO(bpo: BlueprintDetails, runs: number): Observable<number> {
+    return this.allAdjustedPrices.pipe(
+      map(allPrices => {
+        let totalPrice = 0;
+        bpo.activities.manufacturing.materials.forEach(material => {
+          const itemPrice = allPrices.find(e => e.type_id === material.typeID);
+
+          if(itemPrice)
+            totalPrice += itemPrice.adjusted_price * material.quantity;
+        })
+        const result = totalPrice * runs;
+        return result;
+      })
     );
   }
 }
