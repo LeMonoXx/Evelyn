@@ -70,10 +70,12 @@
         <mat-divider></mat-divider> 
 
         <div class="calcSummaryEntry" style="padding-top: 10px;" (click)="copy(sellData.mainBpoJobCost)">
-            <span>Job cost</span> <span class="negativeNumber valueLabel canCopy">{{ sellData.mainBpoJobCost *-1 | currency }}</span>
+            <span [title]="'Industry job cost for ' + bpoItem.name">Job</span> 
+            <span class="negativeNumber valueLabel canCopy">{{ sellData.mainBpoJobCost *-1 | currency }}</span>
         </div>
-        <div class="calcSummaryEntry" style="padding-bottom: 10px;" (click)="copy(sellData.subComponentsJobCost)">
-            <span>Sub-job costs</span> <span class="negativeNumber valueLabel canCopy">{{ sellData.subComponentsJobCost *-1 | currency }}</span>
+        <div class="calcSummaryEntry" style="padding-bottom: 10px;" (click)="copy(sellData.subComponentsJobCost)" *ngIf="sellData.subComponentsJobCost > 0">
+            <span [title]="'Industry job cost for all sub-components'">Sub-jobs</span> 
+            <span class="negativeNumber valueLabel canCopy">{{ sellData.subComponentsJobCost *-1 | currency }}</span>
         </div>
 
         <mat-divider></mat-divider> 

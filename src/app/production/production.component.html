@@ -22,7 +22,7 @@
                </app-blueprint-details>        
          </mat-card>
   
-         <mat-card class="manufacturingContent">
+         <mat-card class="manufacturingContent-weight">
             <mat-card-title>Required BPCs</mat-card-title>
             <app-blueprint-summary *ngIf="!(isLoadingObs | async); else ProdLoadingIndicator"
                [subBPOs$]="subComponentsObs">  

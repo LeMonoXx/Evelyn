@@ -48,6 +48,12 @@
       min-height: 600px;
     }
 
+    
+    .manufacturingContent-weight {
+      width: auto;
+      min-height: 600px;
+    }
+
     @include breakpoint(991px) {
       flex-direction: column;
     }
