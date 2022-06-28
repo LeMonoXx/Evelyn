@@ -1,0 +1,9 @@
+
+<div class="dashboardItemsContainerDiv">
+    <mat-card class="tradePriceCard" *ngFor="let fav of favoritesObs | async">
+        <app-trade-price-widget [inputItem]="fav">
+
+        </app-trade-price-widget>
+    </mat-card>
+</div>
+

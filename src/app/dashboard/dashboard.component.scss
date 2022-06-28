@@ -1,0 +1,17 @@
+.dashboardItemsContainerDiv {
+    display: flex;
+    column-gap: 10px;
+    row-gap: 10px;
+    overflow-x: hidden;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: center;
+    flex-direction: row;
+    align-items: flex-start;
+
+    .tradePriceCard {
+        width: 250;
+        height: 150;
+        overflow: hidden;
+    }
+}

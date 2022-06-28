@@ -11,8 +11,8 @@ export class TradePriceWidgetComponent implements OnInit {
 
   @Input()
   public inputItem: ItemTradeFavorite;
-  @Input()
-  public characterSellTaxPercent: number;
+  // @Input()
+  // public characterSellTaxPercent: number;
 
   constructor() { }
 

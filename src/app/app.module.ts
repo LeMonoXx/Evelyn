@@ -36,6 +36,7 @@ import {
   ProductionComponent
 } from './production';
 import { ShippingCalculatorComponent } from './shipping';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { ShippingCalculatorComponent } from './shipping';
     BlueprintManufacturingComponent,
     BlueprintDetailsComponent,
     BlueprintSummaryComponent,
-    ShippingCalculatorComponent
+    ShippingCalculatorComponent,
+    DashboardComponent
   ],
   imports: [
     HttpClientModule,
