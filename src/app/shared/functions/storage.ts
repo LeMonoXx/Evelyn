@@ -1,9 +1,9 @@
 import * as moment from "moment";
 import { BlueprintDetails, StationDetails, StructureDetails, EveItem } from "src/app/models";
-import { ItemIdentifier, ShippingService, ShoppingEntry } from "..";
+import { ItemTradeFavorite, ShippingService, ShoppingEntry } from "..";
 
 export const SHOPPINGENTRIES_KEY: string = "shopping-list";
-export const FAVORITEITEMS_KEY: string = "favorite-items";
+export const FAVORITE_TRADE_ITEMS_KEY: string = "favorite-trade-items";
 export const BLUEPRINT_DETAILS_KEY: string = "blueprint-details";
 export const EVETYPE_KEY: string = "eve-types";
 export const SELECTEDSTATION_KEY: string = "selected-station";
@@ -21,12 +21,12 @@ export function storeShoppingList(entries: ShoppingEntry[]) {
       storeData<ShoppingEntry[]>(entries, SHOPPINGENTRIES_KEY);
 }
 
-export function getStoredFavoriteItems(): ItemIdentifier[] | null {
-      return getData<ItemIdentifier[]>(FAVORITEITEMS_KEY);
+export function getStoredFavoriteItems(): ItemTradeFavorite[] | null {
+      return getData<ItemTradeFavorite[]>(FAVORITE_TRADE_ITEMS_KEY);
 }
 
-export function storeFavoriteItems(entries: ItemIdentifier[]) {
-      storeData<ItemIdentifier[]>(entries, FAVORITEITEMS_KEY);
+export function storeFavoriteItems(entries: ItemTradeFavorite[]) {
+      storeData<ItemTradeFavorite[]>(entries, FAVORITE_TRADE_ITEMS_KEY);
 }
 
 export function getStoredBlueprintDetails(): { [typeId: number]: BlueprintDetails } | null {

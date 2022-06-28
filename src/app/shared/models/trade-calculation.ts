@@ -1,4 +1,4 @@
-import { MarketEntry } from "src/app/models";
+import { MarketEntry, StationDetails, StructureDetails } from "src/app/models";
 
 export interface TradeCalculation {
     type_id: number,
@@ -18,5 +18,7 @@ export interface TradeCalculation {
     profit: number
     usedMarketEntries: MarketEntry[],
     hasEnoughMarketVolumen: boolean,
-    requiresShipping: boolean
+    requiresShipping: boolean,
+    buyStation: StationDetails,
+    sellStructure: StructureDetails
 }

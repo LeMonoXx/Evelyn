@@ -10,6 +10,7 @@ export interface SubComponent {
     requiredAmount: number,
     overflow: number,
     bpo?: BlueprintDetails,
+    //Industry Estimated (Item) Value
     IEV?: number,
     jobCost?: number,
     bpoItem?: ItemDetails,

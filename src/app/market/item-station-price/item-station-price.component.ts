@@ -4,7 +4,7 @@ import { combineLatest, debounceTime, map, mergeMap, Observable, switchMap, tap 
 import { ItemDetails, MarketEntry, StationDetails, StructureDetails } from 'src/app/models';
 import { CalculateShippingCost, copyToClipboard, FavoritesService, ItemIdentifier, 
   JITA_REGION_ID, MarketService, TradeCalculation, 
-  ShoppingEntry, ShoppingListService, UniverseService, getPriceForN, ShippingService } from 'src/app/shared';
+  ShoppingEntry, ShoppingListService, UniverseService, getPriceForN, ShippingService, ItemTradeFavorite } from 'src/app/shared';
 
 @Component({
   selector: 'eve-item-station-price',
@@ -68,6 +68,8 @@ export class ItemStationPriceComponent implements OnInit {
         this.tradeData$ = 
         combineLatest(
           [
+            this.buyStation$,
+            this.sellStation$,
             this.numberCount$, 
             this.itemBuyCostObs, 
             this.itemDetails$, 
@@ -78,6 +80,8 @@ export class ItemStationPriceComponent implements OnInit {
             debounceTime(80),
             map((
               [
+                buyStation,
+                sellStructure,
                 count, 
                 buyEntries, 
                 itemDetails, 
@@ -101,7 +105,9 @@ export class ItemStationPriceComponent implements OnInit {
               shippingCost: 0,
               usedMarketEntries: [],
               hasEnoughMarketVolumen: false,
-              requiresShipping: shippingService.id === 0 ? false : true
+              requiresShipping: shippingService.id === 0 ? false : true,
+              buyStation: buyStation,
+              sellStructure: sellStructure
             };
 
           if(buyEntries.length <= 0)
@@ -172,11 +178,17 @@ export class ItemStationPriceComponent implements OnInit {
     }
   }
 
-  public addOrRemoveFavorite(item: ItemIdentifier) {
+  public addOrRemoveFavorite(item: ItemIdentifier, buyStation: StationDetails, sellStructure: StructureDetails) {
     const existingEntry = this.favoriteService.GetEntryById(item.id);
 
     if(!existingEntry) {
-      this.favoriteService.AddFavoriteItem(item);  
+      const fav: ItemTradeFavorite = {
+        type_id: item.id,
+        buy_station: buyStation.type_id,
+        sell_structure: sellStructure.type_id
+      };
+
+      this.favoriteService.AddFavoriteItem(fav);  
     } else {
       this.favoriteService.RemoveFavoriteItem(existingEntry);
     }

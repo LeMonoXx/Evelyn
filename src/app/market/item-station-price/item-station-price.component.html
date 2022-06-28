@@ -19,21 +19,21 @@
                     <mat-icon [class.fillIcon]="IsOnShoppingList(item.id)">add_shopping_cart</mat-icon>
                 </button>
                 <button class="mat-button" mat-button title="Add to favorites"
-                (click)="addOrRemoveFavorite(item)">
+                (click)="addOrRemoveFavorite(item, tradeData.buyStation, tradeData.sellStructure)">
                     <mat-icon [class.fillIcon]="IsFavorite(item.id)">star</mat-icon>
                 </button>
             </div>
         </div>
         <div class="stationRoute" >
-            <div *ngIf="buyStation$ | async as buyStation" class="stationName textLeft">
-                {{ buyStation.name }}
+            <div class="stationName textLeft">
+                {{ tradeData.buyStation.name }}
                 
             </div>
             <div class="fromToStationIcon">
                 <mat-icon [inline]="true">arrow_forward</mat-icon>
             </div>
-            <div *ngIf="sellStation$ | async as sellStation" class="stationName textRight">
-                {{ sellStation.name }}
+            <div class="stationName textRight">
+                {{ tradeData.sellStructure.name }}
                
             </div>
         </div>

@@ -181,7 +181,7 @@ export class ProductionComponent implements OnInit {
       shareReplay(1),
       distinctUntilChanged());
 
-    const bpoComponentsObs = combineLatest([this.runsObs, materialItemObs]).pipe(
+    const subBPOsObs = combineLatest([this.runsObs, materialItemObs]).pipe(
       mergeMap(([runs, components]) => 
         from(components).pipe(
           // we could filter here for components that should not be build by a BPO.
@@ -220,28 +220,30 @@ export class ProductionComponent implements OnInit {
       ),
       shareReplay(1),
       distinctUntilChanged(),
-      debounceTime(100)
+      debounceTime(50)
     )));
 
     const allRequiredComponents: Observable<{ runs: number, bpoComponents: SubComponent[], buyStation: StationDetails, mainMeLevel: number, subMeLevel: number }> = 
-      combineLatest([this.runsObs, materialItemObs, bpoComponentsObs, this.currentBuyStationObs, this.meLevelObs, this.subMeLevelObs, mainBPOProductRigMeObs, this.sellStructureSystemCostIndexObs]).pipe(
-      debounceTime(150),
-      map(([runs, subMaterials, bpoComponents, buyStation, mainMeLevel, subMeLevel, mainBPOProductRigMe, systemCostIndex]) => {
+      combineLatest([this.runsObs, materialItemObs, subBPOsObs, this.currentBuyStationObs, this.meLevelObs, this.subMeLevelObs, mainBPOProductRigMeObs, this.sellStructureSystemCostIndexObs]).pipe(
+      debounceTime(100),
+      map(([runs, subMaterials, subBPOs, buyStation, mainMeLevel, subMeLevel, mainBPOProductRigMe, systemCostIndex]) => {
         subMaterials.forEach(component => {
-          const exists = bpoComponents.some(c => c.item.type_id === component.material.typeID);
+          const exists = subBPOs.some(c => c.item.type_id === component.material.typeID);
           if(!exists) {
-            bpoComponents.push(component);
+            subBPOs.push(component);
           }
         })
-        return ({ runs, bpoComponents, buyStation, mainMeLevel, subMeLevel, mainBPOProductRigMe, systemCostIndex });
+        return ({ runs, bpoComponents: subBPOs, buyStation, mainMeLevel, subMeLevel, mainBPOProductRigMe, systemCostIndex });
         }
       ),
+      // calculate required amount (factor in ME)
+      // calculate Rig-ME production facility, if component is a BPO
       tap(allReqComp => 
         allReqComp.bpoComponents.forEach(component => {
             const reqAllRunsAmount = calculateMaterialQuantity(component.material.quantity, allReqComp.runs, allReqComp.mainMeLevel, allReqComp.mainBPOProductRigMe.modifier);
             component.requiredAmount = reqAllRunsAmount;
 
-            if(component.bpo) {           
+            if(component.bpo) {
               const subComponentRuns = calculateRequiredRuns(component.material.typeID, component.requiredAmount, component.bpo);
               component.requiredRuns = subComponentRuns.reqRuns;
               component.overflow = subComponentRuns.overflow;
@@ -280,17 +282,8 @@ export class ProductionComponent implements OnInit {
           ]) =>
         from(allReqComp.bpoComponents).pipe(
           mergeMap(component => {
-            // const reqAllRunsAmount = calculateMaterialQuantity(component.material.quantity, allReqComp.runs, mainBpoMe, mainBPOProductRigMe.modifier);
-            // component.requiredAmount = reqAllRunsAmount;
-
             if(component.bpo && component.requiredRuns) {           
-              // const subComponentRuns = calculateRequiredRuns(component.material.typeID, component.requiredAmount, component.bpo);
-              // component.requiredRuns = subComponentRuns.reqRuns;
-              // component.overflow = subComponentRuns.overflow;
-
                const subRigME = getRigMEforItem(component.item, component.itemCategory);
- 
-              // component.prodFacility = subRigME.facility;
               return this.getBpoMaterialBuyCost(
                                 component.requiredRuns, 
                                 component.bpo, 

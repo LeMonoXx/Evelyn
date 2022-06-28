@@ -1,18 +1,19 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, shareReplay, Subscription, tap } from 'rxjs';
-import { getStoredFavoriteItems, ItemIdentifier, storeFavoriteItems } from '..';
+import { getStoredFavoriteItems, ItemTradeFavorite, storeFavoriteItems } from '..';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavoritesService implements OnDestroy {
 
-  private favoriteItems$ : BehaviorSubject<ItemIdentifier[]> = new BehaviorSubject<ItemIdentifier[]>([{
-    id: 0,
-    name: ""
+  private favoriteItems$ : BehaviorSubject<ItemTradeFavorite[]> = new BehaviorSubject<ItemTradeFavorite[]>([{
+    type_id: 0,
+    buy_station: 0,
+    sell_structure: 0
   }]);
 
-  public FavoriteItemsObs: Observable<ItemIdentifier[]>;
+  public FavoriteItemsObs: Observable<ItemTradeFavorite[]>;
   private favItemsSubscription: Subscription;
 
   constructor() { 
@@ -35,24 +36,24 @@ export class FavoritesService implements OnDestroy {
     this.favItemsSubscription.unsubscribe();
   }
 
-  public AddFavoriteItem(item : ItemIdentifier) {
+  public AddFavoriteItem(item : ItemTradeFavorite) {
     let entries = this.favoriteItems$.value;
 
     if(!entries) {
       entries = [];
     }
 
-    if(!entries.some(e => e.id === item.id))
+    if(!entries.some(e => e.type_id === item.type_id))
       entries.push(item);
     
     this.favoriteItems$.next(entries);
   }
 
-  public RemoveFavoriteItem(item : ItemIdentifier) {
+  public RemoveFavoriteItem(item : ItemTradeFavorite) {
     let entries = this.favoriteItems$.value;
 
     if(entries) {
-      const indexOfEntry = entries.findIndex(entry => entry.id === item.id);
+      const indexOfEntry = entries.findIndex(entry => entry.type_id === item.type_id);
 
       if(indexOfEntry >= 0) {
         entries.splice(indexOfEntry);
@@ -61,11 +62,11 @@ export class FavoritesService implements OnDestroy {
     }
   }
 
-  public GetEntryById(typeId: number): ItemIdentifier | null {
+  public GetEntryById(typeId: number): ItemTradeFavorite | null {
     let entries = this.favoriteItems$.value;
 
     if(entries) {
-      const indexOfEntry = entries.findIndex(entry => entry.id == typeId)
+      const indexOfEntry = entries.findIndex(entry => entry.type_id == typeId)
       if(indexOfEntry >= 0) {
         return entries[indexOfEntry];
       }
@@ -79,7 +80,7 @@ export class FavoritesService implements OnDestroy {
   }
 
   public ContainsItem(type_id: number): boolean {
-    const result = this.favoriteItems$.value?.some(entry => entry.id == type_id);
+    const result = this.favoriteItems$.value?.some(entry => entry.type_id == type_id);
 
     if(result)
       return result;
