@@ -160,7 +160,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
         if(accountingSkill)
           return accountingSkill?.active_skill_level;
 
-          else return 1;
+          else return 0;
       }));
     
       this.searchSubscription = this.autoCompleteObs.pipe(

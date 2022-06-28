@@ -1,4 +1,5 @@
 .dashboardItemsContainerDiv {
+    padding: 10px;
     display: flex;
     column-gap: 10px;
     row-gap: 10px;
@@ -10,8 +11,8 @@
     align-items: flex-start;
 
     .tradePriceCard {
-        width: 250;
-        height: 150;
+        width: 310px;
+        height: 150px;
         overflow: hidden;
     }
 }

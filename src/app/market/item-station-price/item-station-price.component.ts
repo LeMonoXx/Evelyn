@@ -4,7 +4,7 @@ import { combineLatest, debounceTime, map, mergeMap, Observable, switchMap, tap 
 import { ItemDetails, MarketEntry, StationDetails, StructureDetails } from 'src/app/models';
 import { CalculateShippingCost, copyToClipboard, FavoritesService, ItemIdentifier, 
   JITA_REGION_ID, MarketService, TradeCalculation, 
-  ShoppingEntry, ShoppingListService, UniverseService, getPriceForN, ShippingService, ItemTradeFavorite } from 'src/app/shared';
+  ShoppingEntry, ShoppingListService, UniverseService, getPriceForN, ShippingService, ItemTradeFavorite, getTradeCalculation } from 'src/app/shared';
 
 @Component({
   selector: 'eve-item-station-price',
@@ -51,15 +51,13 @@ export class ItemStationPriceComponent implements OnInit {
         return this.universeService.getImageUrlForType(item.id, 64);
       }));
 
-      this.itemBuyCostObs = this.buyStation$.pipe(
-        switchMap(station => this.itemIdentifier$.pipe(
-          switchMap(item => this.marketService.getRegionMarketForItem(item.id, JITA_REGION_ID).pipe(
-            // we get the market for the whole region. But we only want Jita.
+      this.itemBuyCostObs = combineLatest([ this.buyStation$, this.itemIdentifier$]).pipe(
+        switchMap(([station, item]) => this.marketService.getRegionMarketForItem(item.id, JITA_REGION_ID).pipe(
+            // we get the market for the whole region. But we only want the buyStation.
             map(entries => entries.filter(entry => entry.location_id === station.station_id))
           ))
-        )));
+        );
         
-
       this.itemSellCostObs$ = combineLatest([this.sellStation$, this.itemIdentifier$]).pipe(
         mergeMap(([sellStation, itemIdentifier]) =>  
           this.marketService.getStructureMarketForItem(sellStation.evelyn_structureId, itemIdentifier.id, false)
@@ -88,70 +86,14 @@ export class ItemStationPriceComponent implements OnInit {
                 sellEntries,
                 saleTaxPercent,
                 shippingService
-              ]) => {
-            const prices: TradeCalculation = {
-              quantity: count,
-              type_id: itemDetails.type_id,
-              type_name: itemDetails.name,
-              singleBuyPrice: 0,
-              buyPriceX: 0,
-              singleSellPrice: 0,
-              sellPriceX: 0,
-              artificialSellPrice: false,
-              brokerFee: 0,
-              saleTax: 0,
-              nettoSalePrice: 0,
-              profit: 0,
-              shippingCost: 0,
-              usedMarketEntries: [],
-              hasEnoughMarketVolumen: false,
-              requiresShipping: shippingService.id === 0 ? false : true,
-              buyStation: buyStation,
-              sellStructure: sellStructure
-            };
-
-          if(buyEntries.length <= 0)
-            return prices;
-
-          const usedOrders = getPriceForN(buyEntries, count);
-          
-          prices.singleBuyPrice = usedOrders.averagePrice;
-          prices.buyPriceX = usedOrders.totalPrice;
-          prices.hasEnoughMarketVolumen = usedOrders.enough;
-        
-          if (prices.requiresShipping)
-            prices.shippingCost = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, count, shippingService);
-
-          let sellPrice = 0;
-
-          if(sellEntries && sellEntries.length > 0) {
-            sellPrice = sellEntries[0].price;
-          } else {
-            let singleItemShipping = 0;
-            
-            if (prices.requiresShipping)
-              singleItemShipping = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, 1, shippingService);
-
-            const artificialPrice = usedOrders.averagePrice + ((usedOrders.averagePrice / 100) * 20) + singleItemShipping;
-            sellPrice = artificialPrice;
-            prices.artificialSellPrice = true;
-          }
-          
-          prices.singleSellPrice = sellPrice;
-          const sellPriceForX = prices.singleSellPrice * count;
-          prices.sellPriceX = sellPriceForX;
-
-          const brokerFee =  sellPriceForX / 100 * 2.5;
-          prices.brokerFee = brokerFee;
-
-          const saleTax = sellPriceForX / 100 * saleTaxPercent;
-          prices.saleTax = saleTax;
-
-          prices.nettoSalePrice = (sellPriceForX - brokerFee) - saleTax;
-          prices.profit = (prices.nettoSalePrice - prices.buyPriceX) - prices.shippingCost;
-
-          return prices;
-        }));
+              ]) => getTradeCalculation(buyStation,
+                sellStructure,
+                count, 
+                buyEntries, 
+                itemDetails, 
+                sellEntries,
+                saleTaxPercent,
+                shippingService)));
   }
 
   public IsOnShoppingList(type_id: number): boolean {
@@ -184,8 +126,8 @@ export class ItemStationPriceComponent implements OnInit {
     if(!existingEntry) {
       const fav: ItemTradeFavorite = {
         type_id: item.id,
-        buy_station: buyStation.type_id,
-        sell_structure: sellStructure.type_id
+        buy_station: buyStation.station_id,
+        sell_structure: sellStructure.evelyn_structureId
       };
 
       this.favoriteService.AddFavoriteItem(fav);  

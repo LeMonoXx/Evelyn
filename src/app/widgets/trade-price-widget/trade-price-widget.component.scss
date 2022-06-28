@@ -1,0 +1,133 @@
+@import 'src/styles/variables';
+@import 'src/styles/functions';
+   
+.stationPriceContainer {
+
+    .itemInfoContainer {
+        color: $foreground-soft1;
+        display: flex;
+        flex-direction: column;
+        align-content: space-around;
+        flex-wrap: nowrap;
+
+        .itemInfo {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow: hidden;
+            padding-bottom: 5px;
+                
+            .itemInfoName{
+                margin: 5px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-align: left;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                cursor: pointer;
+            }                   
+        }
+
+        .stationRoute {
+            padding-top: 5px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: stretch;
+            flex-direction: row;
+            justify-content: space-between;
+            align-content: space-between;
+            flex-wrap: nowrap;
+
+            .stationName {
+                font-size: 70%;
+                width: 40%;
+            }
+
+            .alignEnd {
+                text-align: right;
+            }
+
+            .fromToStationIcon {
+                width: 15px;
+                height: 15px;
+                line-height: 15px;
+            }
+        }
+
+        .quickInfoBuySellContainerDiv{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-content: space-between;
+            flex-wrap: nowrap;
+
+            .quickInfoBuySell {
+                font-size: 80%;
+                width: 45%;
+            }
+            
+            .textLeft {
+                text-align: left;
+            }
+
+            
+            .textRight {
+                text-align: right;
+            }        
+        }
+    }
+
+    .sellCostsContainer {
+        padding-top: 5px;
+        padding-bottom: 5px;
+
+        .negativeNumber {
+            color: $accent2;
+        }
+
+        .negativeProfit {
+            color: $accent2-strong3;
+            font-weight: bold;
+        }
+
+        .positivProfit {
+            color: $accent3-strong3;
+            font-weight: bold;
+        }
+
+        .positivNumber {
+            color: $accent3;
+        }
+
+        .priceEntryDiv {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+            align-items: center;
+            flex-wrap: nowrap;
+            align-content: center;
+
+            .titleLabel {
+                padding-right: 5px;
+                overflow: hidden;
+                text-align: left;
+                display: inline-block;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+
+            .valueLabel {
+                overflow: hidden;
+                text-align: right;
+                display: inline-block;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+
+            .artificialPrice {
+                color: $warning_foreground;
+            }
+        }
+    }
+}

@@ -1,4 +1,7 @@
-import { MarketEntry } from "src/app/models";
+import { ItemDetails, MarketEntry, StationDetails, StructureDetails } from "src/app/models";
+import { ShippingService } from "../models/shipping/shipping-service";
+import { TradeCalculation } from "../models/trade-calculation";
+import { CalculateShippingCost } from "./shipping-costs";
 
 export function getPriceForN(marketEntries: MarketEntry[], amount: number) : PriceForN {
     let totalPrice = 0;
@@ -59,4 +62,78 @@ export interface PriceForN {
     averagePrice: number;
     enough: boolean;
     usedMarketEntries: MarketEntry[];
+}
+
+export function getTradeCalculation(                
+  buyStation: StationDetails,
+  sellStructure: StructureDetails,
+  count: number,
+  buyEntries: MarketEntry[],
+  itemDetails: ItemDetails,
+  sellEntries: MarketEntry[],
+  saleTaxPercent: number,
+  shippingService: ShippingService
+  ): TradeCalculation {
+    const prices: TradeCalculation = {
+      quantity: count,
+      type_id: itemDetails.type_id,
+      type_name: itemDetails.name,
+      singleBuyPrice: 0,
+      buyPriceX: 0,
+      singleSellPrice: 0,
+      sellPriceX: 0,
+      artificialSellPrice: false,
+      brokerFee: 0,
+      saleTax: 0,
+      nettoSalePrice: 0,
+      profit: 0,
+      shippingCost: 0,
+      usedMarketEntries: [],
+      hasEnoughMarketVolumen: false,
+      requiresShipping: shippingService.id === 0 ? false : true,
+      buyStation: buyStation,
+      sellStructure: sellStructure
+    };
+
+    if(buyEntries.length <= 0)
+      return prices;
+
+    const usedOrders = getPriceForN(buyEntries, count);
+    
+    prices.singleBuyPrice = usedOrders.averagePrice;
+    prices.buyPriceX = usedOrders.totalPrice;
+    prices.hasEnoughMarketVolumen = usedOrders.enough;
+
+    if (prices.requiresShipping)
+      prices.shippingCost = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, count, shippingService);
+
+    let sellPrice = 0;
+
+    if(sellEntries && sellEntries.length > 0) {
+      sellPrice = sellEntries[0].price;
+    } else {
+      let singleItemShipping = 0;
+      
+      if (prices.requiresShipping)
+        singleItemShipping = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, 1, shippingService);
+
+      const artificialPrice = usedOrders.averagePrice + ((usedOrders.averagePrice / 100) * 20) + singleItemShipping;
+      sellPrice = artificialPrice;
+      prices.artificialSellPrice = true;
+    }
+    
+    prices.singleSellPrice = sellPrice;
+    const sellPriceForX = prices.singleSellPrice * count;
+    prices.sellPriceX = sellPriceForX;
+
+    const brokerFee =  sellPriceForX / 100 * 2.5;
+    prices.brokerFee = brokerFee;
+
+    const saleTax = sellPriceForX / 100 * saleTaxPercent;
+    prices.saleTax = saleTax;
+
+    prices.nettoSalePrice = (sellPriceForX - brokerFee) - saleTax;
+    prices.profit = (prices.nettoSalePrice - prices.buyPriceX) - prices.shippingCost;
+
+    return prices;
 }

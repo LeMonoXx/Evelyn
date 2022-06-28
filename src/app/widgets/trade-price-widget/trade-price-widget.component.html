@@ -1,2 +1,68 @@
-<p>trade-price-widget works!</p>
-{{ inputItem.type_id }}
+<div class="stationPriceContainer" *ngIf="tradeDataObs | async as tradeData; else CalcIsLoading">
+    <div class="itemInfoContainer">
+        <div class="itemInfo">
+            <div>
+                <img class="foundItemImage"  [src]="getImageForItem(inputItem.type_id)">
+            </div>
+            <div class="itemInfoName" [title]="tradeData.type_name"
+                (click)="copy(tradeData.type_name)">{{ tradeData.type_name }}
+            </div>
+        </div>
+
+        <div>
+            <mat-divider></mat-divider>
+        </div>
+
+        <div class="stationRoute">
+            <div class="stationName">
+                {{ tradeData.buyStation.name }}             
+            </div>
+            <div class="fromToStationIcon">
+                <mat-icon [inline]="true">arrow_forward</mat-icon>
+            </div>
+            <div class="stationName alignEnd">
+                {{ tradeData.sellStructure.name }}
+               
+            </div>
+        </div>
+
+        <div class="quickInfoBuySellContainerDiv" style="padding-bottom: 5px;">
+            <div class="quickInfoBuySell textLeft">
+                <label>
+                    {{ tradeData.singleBuyPrice * -1 | currency }}
+                </label>    
+            </div>
+
+            <label class="quickInfoBuySell textRight">{{ tradeData.singleSellPrice | currency }}</label>
+        </div>
+
+    </div>
+    
+    <div class="sellCostsContainer">
+        <mat-divider></mat-divider>
+
+        <div class="priceEntryDiv" style="padding-top: 5px;">
+            <label class="titleLabel">Profit</label>
+            <label class="valueLabel"
+                [ngClass]="tradeData.profit <= 0 ? 'negativeProfit' : 'positivProfit'">
+                {{ tradeData.profit | currency }}
+            </label>       
+        </div>
+
+        <div *ngIf="tradeData.artificialSellPrice" class="artificialSellPriceDiv">
+            Target market does not have active sell orders for given item. <br>
+            Sell price is artificially set to Jita + 20% + Shipping. 
+        </div>
+
+        <div *ngIf="!tradeData.hasEnoughMarketVolumen" class="notEnoughVolumenDiv">
+            The market had not enough remaining volumen. <br>
+            The prices for remaining volumen may differ. 
+        </div>
+    </div>
+</div>
+
+<ng-template #CalcIsLoading>
+    <div class="calcIsLoading">
+        <mat-spinner></mat-spinner>
+    </div>
+ </ng-template>
