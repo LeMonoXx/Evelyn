@@ -1,4 +1,5 @@
 .dashboardItemsContainerDiv {
+    max-width: 1900px;
     padding: 10px;
     display: flex;
     column-gap: 10px;
@@ -15,4 +16,14 @@
         height: 150px;
         overflow: hidden;
     }
+}
+
+
+.notAuthenticated {
+    font-style: italic;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -50px 0 0 -50px;
 }
