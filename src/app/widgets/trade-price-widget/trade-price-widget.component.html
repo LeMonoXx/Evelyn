@@ -4,8 +4,9 @@
             <div>
                 <img class="foundItemImage"  [src]="getImageForItem(inputItem.type_id)">
             </div>
+            
             <div class="itemInfoName" [title]="tradeData.type_name"
-                (click)="copy(tradeData.type_name)">{{ tradeData.type_name }}
+                (click)="navigate(tradeData.type_id)">{{ tradeData.type_name }}
             </div>
         </div>
 

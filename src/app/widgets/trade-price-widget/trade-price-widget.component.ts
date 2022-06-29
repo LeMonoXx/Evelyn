@@ -1,9 +1,11 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { map, switchMap, combineLatest, Observable } from 'rxjs';
 import { ItemDetails } from 'src/app/models';
 import { ACCOUNTING_SKILL_ID, calculateTaxPercentBySkillLevel, 
   CharacterService, copyToClipboard, getAllowedShippingServices, getTradeCalculation,
+  ItemSearchService,
   ItemTradeFavorite, JITA_REGION_ID, MarketService, TradeCalculation, UniverseService } from 'src/app/shared';
 
 @Component({
@@ -20,6 +22,8 @@ export class TradePriceWidgetComponent implements OnInit {
   public itemDetailsObs: Observable<ItemDetails>;
 
   constructor(
+    private searchService: ItemSearchService,
+    private router: Router,
     private marketService: MarketService,
     private snackBar: MatSnackBar,
     private characterService: CharacterService,
@@ -89,6 +93,11 @@ export class TradePriceWidgetComponent implements OnInit {
     copyToClipboard(text);
 
     this.snackBar.open("Copied!", undefined, { duration: 2000 });
+  }
+
+  public navigate(type_id: number) {
+    this.searchService.setCurrentItem(({ id: type_id }))
+    this.router.navigate(['/trade'])
   }
 
 }

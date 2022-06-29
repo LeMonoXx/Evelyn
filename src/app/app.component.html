@@ -6,6 +6,13 @@
     <mat-sidenav-container class="app-mat-sidenav-content">
         <mat-sidenav #sidenav mode="side">
             <mat-nav-list class="appNavigationList">
+                <a mat-list-item routerLink="/dashboard"
+                    title="Dashboard" routerLinkActive="active">
+                    <mat-icon class="dashboardIcon">dashboard</mat-icon>
+                </a>
+
+                <mat-divider></mat-divider>
+
                 <a mat-list-item routerLink="/trade"
                 title="Trading" routerLinkActive="active">
                     <img class="mat-list-item-image" src="../assets/icons/eve-icons/market.svg">

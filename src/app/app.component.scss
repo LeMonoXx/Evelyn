@@ -23,6 +23,13 @@
 
   .appNavigationList {
 
+    .mat-list-item-content {
+      justify-content: center;
+    }
+    .dashboardIcon {
+      transform: scale(1.5);
+    }
+
     .mat-list-item-image {
       padding: 10px;
       width: 50px;
