@@ -14,7 +14,6 @@
             display: flex;
             flex-wrap: nowrap;
             overflow: hidden;
-            padding-bottom: 5px;
                 
             .itemInfoName{
                 margin: 5px;
@@ -88,12 +87,10 @@
 
         .negativeProfit {
             color: $accent2-strong3;
-            font-weight: bold;
         }
 
         .positivProfit {
             color: $accent3-strong3;
-            font-weight: bold;
         }
 
         .positivNumber {

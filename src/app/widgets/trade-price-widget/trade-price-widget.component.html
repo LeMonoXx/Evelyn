@@ -9,7 +9,7 @@
             </div>
         </div>
 
-        <div>
+        <div  style="padding-top: 5px; padding-bottom: 5px;">
             <mat-divider></mat-divider>
         </div>
 
@@ -41,22 +41,12 @@
     <div class="sellCostsContainer">
         <mat-divider></mat-divider>
 
-        <div class="priceEntryDiv" style="padding-top: 5px;">
+        <div class="priceEntryDiv" style="padding-top: 15px;">
             <label class="titleLabel">Profit</label>
             <label class="valueLabel"
-                [ngClass]="tradeData.profit <= 0 ? 'negativeProfit' : 'positivProfit'">
+            [ngClass]="tradeData.artificialSellPrice ? 'artificialPrice' : tradeData.profit <= 0 ? 'negativeProfit' : 'positivProfit'">
                 {{ tradeData.profit | currency }}
             </label>       
-        </div>
-
-        <div *ngIf="tradeData.artificialSellPrice" class="artificialSellPriceDiv">
-            Target market does not have active sell orders for given item. <br>
-            Sell price is artificially set to Jita + 20% + Shipping. 
-        </div>
-
-        <div *ngIf="!tradeData.hasEnoughMarketVolumen" class="notEnoughVolumenDiv">
-            The market had not enough remaining volumen. <br>
-            The prices for remaining volumen may differ. 
         </div>
     </div>
 </div>

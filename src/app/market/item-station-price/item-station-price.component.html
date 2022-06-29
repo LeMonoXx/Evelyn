@@ -94,7 +94,7 @@
         <div class="priceEntryDiv" style="padding-top: 10px;">
             <label class="titleLabel">Profit</label>
             <label class="valueLabel"
-                [ngClass]="tradeData.profit <= 0 ? 'negativeProfit' : 'positivProfit'">
+                [ngClass]="tradeData.artificialSellPrice ? 'artificialPrice' : tradeData.profit <= 0 ? 'negativeProfit' : 'positivProfit'">
                 {{ tradeData.profit | currency }}
             </label>       
         </div>
