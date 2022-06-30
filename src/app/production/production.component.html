@@ -10,7 +10,7 @@
      <div class="productionContentDiv">
          <mat-card class="manufacturingContent">
             <mat-card-title>Manufacturing summary</mat-card-title>
-               <app-blueprint-details *ngIf="!(isLoadingObs | async); else ProdLoadingIndicator"
+               <!-- <app-blueprint-details *ngIf="!(isLoadingObs | async); else ProdLoadingIndicator"
                   [runs$]="runsObs"
                   [sellStructure$]="currentSellStructureObs"
                   [saleTaxPercent$]="characterSaleTaxPercentObs"
@@ -19,7 +19,7 @@
                   [subBPOsManufacturingCosts$]="subBPOsManufacturingCostsObs"
                   [BPOItem$]="itemDetailsObs"
                   [BPODetails$]="mainBPODetailsObs">
-               </app-blueprint-details>        
+               </app-blueprint-details>         -->
          </mat-card>
   
          <mat-card class="manufacturingContent-weight">
@@ -33,7 +33,8 @@
             <mat-card-title>Required materials</mat-card-title>
             <app-blueprint-manufacturing *ngIf="!(isLoadingObs | async); else ProdLoadingIndicator"
                [targetItem$]="itemDetailsObs"
-               [subBPOsManufacturingCosts$]="subBPOsManufacturingCostsObs">
+               [subBPOsManufacturingCosts$]="subBPOsManufacturingCostsObs"
+               [allRequiredMaterials$]="allRequiredMaterials">
             </app-blueprint-manufacturing>        
          </mat-card>
      </div>

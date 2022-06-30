@@ -17,6 +17,9 @@ export class BlueprintManufacturingComponent implements OnInit {
 
   @Input()
   public subBPOsManufacturingCosts$: Observable<ManufacturingCalculation[]>;
+
+  @Input()
+  public allRequiredMaterials$: Observable<{ subComponent: SubComponent; reqAmount: number; subMaterials: { itemDetails: ItemDetails; quantity_total: number; }[]; }[]>;
   
   constructor(
     private universeService: UniverseService,
