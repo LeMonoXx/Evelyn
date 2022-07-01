@@ -16,9 +16,7 @@
     <div>
         <div *ngFor="let entry of firstLevelMaterials">
             <div class="mainBPOComponent">
-                <img class="foundItemImage"
-                title="Click to copy items in Multibuy format"
-                [src]="getImageForItem(entry.subComponent.item.type_id)">
+                <img [src]="getImageForItem(entry.subComponent.item.type_id)">
     
                 <div class="mainComponentName" [title]="entry.subComponent.item.name" (click)="copy(entry.subComponent.item.name)">
                     {{ entry.subComponent.item.name }}

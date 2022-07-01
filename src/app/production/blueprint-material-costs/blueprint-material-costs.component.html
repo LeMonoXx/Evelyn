@@ -5,8 +5,8 @@
             <mat-icon>assignment</mat-icon>
             {{ entry.key }}
         </button>
-
-        <table mat-table [dataSource]="entry.value" style="width: 100%;">
+        
+        <table mat-table [dataSource]="entry.value" class="materialsTable">
             <ng-container matColumnDef="image">
                 <td mat-cell *matCellDef="let element" 
                     class="tableRowLeft imageColumn">

@@ -8,10 +8,6 @@
         overflow: hidden;
         padding-bottom: 10px;
           
-        .foundItemImage {
-            cursor: pointer;
-        }
-
         @include breakpoint(490px) {
             max-width: 300px;
             }

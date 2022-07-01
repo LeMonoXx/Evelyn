@@ -11,6 +11,7 @@ import { calculateJobCost, calculateMaterialQuantity, calculateRequiredRuns, Cal
 import { ManufacturingCostEntry } from './models/manufacturing-cost-entry';
 import { SubComponent } from '.';
 import { ProductionSettingsService } from './services/production-settings.service';
+import { sort } from '@syncfusion/ej2-angular-charts';
 
 @Component({
   selector: 'app-production',
@@ -109,7 +110,8 @@ export class ProductionComponent implements OnInit {
     this.mainBPODetailsObs = this.itemDetailsObs.pipe(
       filter(i => !!i),
       switchMap(item => this.industryService.getBlueprintDetails(item.type_id)),
-      shareReplay(1)
+      shareReplay(1),
+      distinctUntilChanged()
     );
 
     const mainBPOProductRigMeObs = this.mainBPODetailsObs.pipe(
@@ -122,7 +124,8 @@ export class ProductionComponent implements OnInit {
         ))
       )),
       map(value => getRigMEforItem(value.item, value.category)),
-      shareReplay(1)
+      shareReplay(1),
+      distinctUntilChanged()
     );
 
     this.sellStructureSystemCostIndexObs = this.currentSellStructureObs.pipe(
@@ -224,8 +227,7 @@ export class ProductionComponent implements OnInit {
         ),
       ),
       shareReplay(1),
-      distinctUntilChanged(),
-      debounceTime(50)
+      distinctUntilChanged()
     )));
 
     const allRequiredComponents: Observable<{ runs: number, bpoComponents: SubComponent[], buyStation: StationDetails, mainMeLevel: number, subMeLevel: number }> = 
@@ -263,7 +265,8 @@ export class ProductionComponent implements OnInit {
           }
         ),
       ),
-      shareReplay(1)
+      shareReplay(1),
+      distinctUntilChanged()
     );
 
     this.subComponentsObs = allRequiredComponents.pipe(     
@@ -272,7 +275,6 @@ export class ProductionComponent implements OnInit {
     );
 
     this.allRequiredMaterials = allRequiredComponents.pipe(
-      debounceTime(50),
         mergeMap(allReqComp =>
         from(allReqComp.bpoComponents).pipe(
           mergeMap(component => {
@@ -341,7 +343,8 @@ export class ProductionComponent implements OnInit {
         });
         return itemsMap;
         }),
-        map(dicEntries => Object.values(dicEntries))
+        map(dicEntries => Object.values(dicEntries)),        
+        shareReplay(1)
       );
 
       this.manufacturingCostsObs = combineLatest([flatMatEntriesObs, this.currentBuyStationObs, this.currentSellStructureObs, this.shippingServiceObs]).pipe(
@@ -356,14 +359,15 @@ export class ProductionComponent implements OnInit {
 
           return forkJoin(results);
         }
-        ),        
-        tap(entries => console.log(entries))
+        ),
+        map(entries => entries.sort((a, b) => a.typeID - b.typeID)),        
+        shareReplay(1)
       );
   }
 
   private getBuyCost(typeId: number, quantity: number, buyStation: StationDetails, buyStructure: StructureDetails, shippingService: ShippingService) : Observable<ManufacturingCostEntry> {
     const stationCostObs = this.getStationBuyCost(typeId, quantity, buyStation);
-    const structureCostObs = of<ManufacturingCostEntry>().pipe(startWith(null)); // this.getStructureBuyCost(typeId, quantity, buyStructure);
+    const structureCostObs = of<ManufacturingCostEntry>().pipe(startWith(null)); //this.getStructureBuyCost(typeId, quantity, buyStructure);
 
     const result = combineLatest([stationCostObs, structureCostObs]).pipe(
       map(([stationCost, structureCost]) => {
@@ -376,7 +380,8 @@ export class ProductionComponent implements OnInit {
           return structureCost;
 
         return stationCost;
-      })
+      }),        
+      shareReplay(1)
     );
     return result;
   }
@@ -429,7 +434,7 @@ export class ProductionComponent implements OnInit {
         result.push(itemDetailsObs);
       });
 
-      return forkJoin(result);
+      return forkJoin(result).pipe(shareReplay(1));
     }
 
   private getStructureBuyCost(typeId: number, quantity: number, buyStructure: StructureDetails): Observable<ManufacturingCostEntry> {
@@ -468,7 +473,8 @@ export class ProductionComponent implements OnInit {
         })
         const result = totalPrice * runs;
         return result;
-      })
+      }),        
+      shareReplay(1)
     );
   }
 }

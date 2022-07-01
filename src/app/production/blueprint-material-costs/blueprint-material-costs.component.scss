@@ -7,10 +7,17 @@
         padding: 0px;
     }
 
+    .materialsTable {
+        width: 100%; 
+        padding-left: 10px;
+        padding-bottom: 20px;
+    }
+
     .nameColumn {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        width: 200px;
         font-size: 90%;
         cursor: pointer;
         color: $foreground-soft1;
