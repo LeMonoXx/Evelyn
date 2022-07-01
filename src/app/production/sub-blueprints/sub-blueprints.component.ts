@@ -5,12 +5,12 @@ import { copyToClipboard, UniverseService } from 'src/app/shared';
 import { SubComponent } from '../models/sub-component';
 
 @Component({
-  selector: 'app-blueprint-summary',
-  templateUrl: './blueprint-summary.component.html',
-  styleUrls: ['./blueprint-summary.component.scss'],
+  selector: 'app-sub-blueprints',
+  templateUrl: './sub-blueprints.component.html',
+  styleUrls: ['./sub-blueprints.component.scss'],
   encapsulation: ViewEncapsulation.None 
 })
-export class BlueprintSummaryComponent implements OnInit {
+export class SubBlueprintsComponent implements OnInit {
 
   @Input()
   public subBPOs$: Observable<SubComponent[]>;

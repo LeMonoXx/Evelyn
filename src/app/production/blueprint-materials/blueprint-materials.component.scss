@@ -1,8 +1,7 @@
 @import 'src/styles/variables';
 @import 'src/styles/functions';
 
-.manufacturingDiv { 
-
+.blueprintMaterialsDiv { 
     .itemInfo {
         display: flex;
         flex-wrap: nowrap;
@@ -57,7 +56,6 @@
         }
 
         .mainComponentName {
-            width: 240px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -71,26 +69,16 @@
         }
 
         .mainComponentQuantity {
-            width: 80px;
+            margin-left: auto;
             text-align: end;
             overflow: hidden;
             text-overflow: ellipsis;
             font-size: 90%;
-            padding-right: 85px;
         }
-        
-        .mainComponentCost {
-            width: 120px;
-            text-align: end;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-size: 90%;
-        }   
     }
 
 
     .nameColumn {
-        width: 200px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -103,28 +91,17 @@
         }
     }
 
-    .buyLocationColumn {
-        width: 80px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        font-size: 90%;
-        cursor: pointer;
-        color: $foreground-soft1; 
-    }
-
-    .tableRowCenter {
-        text-align: center;
-    }
-
     .tableRowLeft {
-        width: 200px;
         text-align: left;
         font-size: 90%;
+        padding-left: 5px;
+    }
+
+    .imageColumn {
+        width: 32px;
     }
 
     .tableRowRight {
-        width: 120px;
         text-align: end;
         font-size: 80%;
         color: $foreground-soft1;
@@ -144,6 +121,12 @@
 
     .subComponent {
         padding-left: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: space-around;
 
         th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
             padding-left: 0px;

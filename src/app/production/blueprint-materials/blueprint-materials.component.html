@@ -1,4 +1,4 @@
-<div class="manufacturingDiv" *ngIf="allRequiredMaterials$ | async as firstLevelMaterials">
+<div class="blueprintMaterialsDiv" *ngIf="allRequiredMaterials$ | async as firstLevelMaterials">
     <div *ngIf="targetItem$ | async as targetItem">
         <div class="itemInfo" title="Click to copy items in Multibuy format">
             <div>
@@ -29,11 +29,11 @@
                 </div>
             </div>
     
-            <div *ngIf="entry.subMaterials.length > 1">
-                <table mat-table [dataSource]="entry.subMaterials" class="subComponent">
+            <div *ngIf="entry.subMaterials.length > 1" class="subComponent">
+                <table mat-table [dataSource]="entry.subMaterials" style="width: 100%;">
                     <ng-container matColumnDef="image">
                         <td mat-cell *matCellDef="let element" 
-                        class="tableRowCenter">
+                            class="tableRowLeft imageColumn">
                             <img class="foundItemImage" [src]="getImageForItem(element.itemDetails.type_id)">
                         </td>
                     </ng-container>

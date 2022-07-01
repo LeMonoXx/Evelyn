@@ -136,27 +136,9 @@ export function calculateJobCost(totalBpoIEV: number, systemCostIndex: number, f
   return cost;
 }
 
-export function calculateTotalShippingVolume(manufacturing : ManufacturingCalculation[]) {
-
-  let volume = 0;
-
-  manufacturing.forEach(entry => volume += calculateShippingComponentVolume(entry.bpoCost));
-
-  return volume;
-}
-
 export function calculateShippingComponentVolume(costEntries : ManufacturingCostEntry[]) {
   let volume = 0;
   costEntries.filter(e => e.requireShipping).forEach(cost => volume += cost.total_volume);
-  return volume;
-}
-
-export function calculateTotalVolume(manufacturing : ManufacturingCalculation[]) {
-
-  let volume = 0;
-
-  manufacturing.forEach(entry => volume += calculateComponentVolume(entry.bpoCost));
-
   return volume;
 }
 
@@ -166,27 +148,9 @@ export function calculateComponentVolume(costEntries : ManufacturingCostEntry[])
   return volume;
 }
 
-export function calculateTotalMaterialCosts(manufacturing : ManufacturingCalculation[]) {
-
-  let price = 0;
-
-  manufacturing.forEach(entry => price += calculateComponentMaterialCosts(entry.bpoCost));
-
-  return price;
-}
-
 export function calculateComponentMaterialCosts(costEntries : ManufacturingCostEntry[]) {
   let price = 0;
   costEntries.forEach(cost => price += cost.total_buyPrice);
-  return price;
-}
-
-export function calculateShippingColaterial(manufacturing : ManufacturingCalculation[]) {
-
-  let price = 0;
-
-  manufacturing.forEach(entry => price += calculateComponentShippingColaterial(entry.bpoCost));
-
   return price;
 }
 

@@ -31,8 +31,8 @@ import { ChartModule, DataLabelService, LineSeriesService, CategoryService, Zoom
 import { TradePriceWidgetComponent } from './widgets/trade-price-widget/trade-price-widget.component';
 import { 
   BlueprintDetailsComponent, 
-  BlueprintManufacturingComponent, 
-  BlueprintSummaryComponent, 
+  BlueprintMaterialsComponent, 
+  SubBlueprintsComponent, 
   ProductionComponent
 } from './production';
 import { ShippingCalculatorComponent } from './shipping';
@@ -49,9 +49,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     ItemHistoryComponent,
     TradePriceWidgetComponent, 
     ProductionComponent,
-    BlueprintManufacturingComponent,
+    BlueprintMaterialsComponent,
     BlueprintDetailsComponent,
-    BlueprintSummaryComponent,
+    SubBlueprintsComponent,
     ShippingCalculatorComponent,
     DashboardComponent
   ],
