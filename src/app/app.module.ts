@@ -16,7 +16,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { httpInterceptorProviders } from './http-interceptors';
 import { ItemStationPriceComponent } from './market/item-station-price/item-station-price.component';
 import { SharedModule } from './shared/shared.module';
-import { ProductionModule } from './production/production.module';
 import { StationToStationTradeComponent } from './station-to-station-trade/station-to-station-trade.component';
 import { AuthModule } from './auth/auth.module';
 import { StationOrderStatusComponent } from './market/station-order-status/station-order-status.component';
@@ -33,11 +32,11 @@ import {
   BlueprintDetailsComponent, 
   BlueprintMaterialsComponent, 
   SubBlueprintsComponent, 
-  ProductionComponent
+  BlueprintMaterialCostsComponent,
+  ProductionComponent,
 } from './production';
 import { ShippingCalculatorComponent } from './shipping';
 import { DashboardComponent } from './dashboard/dashboard.component';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,6 +51,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     BlueprintMaterialsComponent,
     BlueprintDetailsComponent,
     SubBlueprintsComponent,
+    BlueprintMaterialCostsComponent,
     ShippingCalculatorComponent,
     DashboardComponent
   ],

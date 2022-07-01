@@ -22,7 +22,7 @@ export class BlueprintDetailsComponent implements OnInit {
   @Input()
   public mainBpoJobCost$: Observable<number>;
   @Input()
-  public manufacuringCosts$: Observable<ManufacturingCostEntry[]>;
+  public manufacturingCosts$: Observable<ManufacturingCostEntry[]>;
   @Input()
   public subComponents$: Observable<SubComponent[]>;
   @Input()
@@ -83,20 +83,20 @@ export class BlueprintDetailsComponent implements OnInit {
         shareReplay(1)
       )
 
-      this.totalMaterialCostsObs = this.manufacuringCosts$.pipe(
+      this.totalMaterialCostsObs = this.manufacturingCosts$.pipe(
         map(entries => calculateComponentMaterialCosts(entries)),
         shareReplay(1)); 
 
-      this.totalVolumeObs = this.manufacuringCosts$.pipe(
+      this.totalVolumeObs = this.manufacturingCosts$.pipe(
         map(entries => calculateComponentMaterialCosts(entries)),
         shareReplay(1)
       )
 
-      this.ShippingColateralObs = this.manufacuringCosts$.pipe(
+      this.ShippingColateralObs = this.manufacturingCosts$.pipe(
         map(entries => calculateComponentShippingColaterial(entries)),
         shareReplay(1)); 
 
-      this.ShippingVolumeObs = this.manufacuringCosts$.pipe(
+      this.ShippingVolumeObs = this.manufacturingCosts$.pipe(
         map(entries => calculateComponentVolume(entries)),
         shareReplay(1)
       )

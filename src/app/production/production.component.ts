@@ -38,7 +38,7 @@ export class ProductionComponent implements OnInit {
 
   public sellStructureSystemCostIndexObs: Observable<number>;
   public allRequiredMaterials: Observable<{ subComponent: SubComponent; reqAmount: number; subMaterials: { itemDetails: ItemDetails; quantity_total: number; }[]; }[]>;
-  public manufacuringCostsObs: Observable<ManufacturingCostEntry[]>;
+  public manufacturingCostsObs: Observable<ManufacturingCostEntry[]>;
 
   public runsObs: Observable<number>;
   // me level for the main bpo
@@ -344,7 +344,7 @@ export class ProductionComponent implements OnInit {
         map(dicEntries => Object.values(dicEntries))
       );
 
-      this.manufacuringCostsObs = combineLatest([flatMatEntriesObs, this.currentBuyStationObs, this.currentSellStructureObs, this.shippingServiceObs]).pipe(
+      this.manufacturingCostsObs = combineLatest([flatMatEntriesObs, this.currentBuyStationObs, this.currentSellStructureObs, this.shippingServiceObs]).pipe(
         debounceTime(50),
         switchMap(([flatMatEntries, buyStation, sellStructure, shippingService]) => {
           const results: Observable<ManufacturingCostEntry>[] = [];
@@ -365,7 +365,6 @@ export class ProductionComponent implements OnInit {
     const stationCostObs = this.getStationBuyCost(typeId, quantity, buyStation);
     const structureCostObs = of<ManufacturingCostEntry>().pipe(startWith(null)); // this.getStructureBuyCost(typeId, quantity, buyStructure);
 
-    console.log("getBuyCost for", typeId);
     const result = combineLatest([stationCostObs, structureCostObs]).pipe(
       map(([stationCost, structureCost]) => {
         
@@ -379,7 +378,6 @@ export class ProductionComponent implements OnInit {
         return stationCost;
       })
     );
-
     return result;
   }
 

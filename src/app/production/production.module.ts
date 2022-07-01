@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from '../app-routing.module';
 import { BlueprintDetailsComponent } from './blueprint-details/blueprint-details.component';
 import { SubBlueprintsComponent } from './sub-blueprints/sub-blueprints.component';
+import { BlueprintMaterialCostsComponent } from './blueprint-material-costs/blueprint-material-costs.component';
 
 @NgModule({
   declarations: [
