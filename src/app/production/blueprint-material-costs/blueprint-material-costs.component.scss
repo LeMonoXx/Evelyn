@@ -1,0 +1,65 @@
+@import 'src/styles/variables';
+@import 'src/styles/functions';
+
+.materialCostsDiv {
+
+    .multibuyButton {
+        padding: 0px;
+    }
+
+    .materialsTable {
+        width: 100%; 
+        padding-left: 10px;
+        padding-bottom: 20px;
+    }
+
+    .nameColumn {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 200px;
+        font-size: 90%;
+        cursor: pointer;
+        color: $foreground-soft1;
+
+        @include breakpoint(625px) {
+            width: 130px;
+        }
+    }
+
+    .tableRowLeft {
+        text-align: left;
+        font-size: 90%;
+        padding-left: 15px;
+    }
+
+    .buyLocation {
+        text-align: left;
+        font-size: 70%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .imageColumn {
+        width: 32px;
+    }
+
+    .tableRowRight {
+        padding-left: 15px;
+        text-align: end;
+        font-size: 80%;
+        color: $foreground-soft1;
+    }
+
+    th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+        padding-left: 0px;
+    }
+
+    th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+        padding-right: 0px;
+    }  
+
+    tr.mat-row {
+        height: 10px;
+    }
+}

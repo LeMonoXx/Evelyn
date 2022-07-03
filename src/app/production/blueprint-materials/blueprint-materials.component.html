@@ -1,0 +1,58 @@
+<div class="blueprintMaterialsDiv" *ngIf="allRequiredMaterials$ | async as firstLevelMaterials">
+    <div *ngIf="targetItem$ | async as targetItem">
+        <div class="itemInfo" title="Click to copy items in Multibuy format">
+            <div>
+                <img class="foundItemImage" [src]="getImageForItem(targetItem.type_id, 64)">
+            </div>
+            <div class="itemDetails">
+                <div class="itemInfoName" [title]="targetItem.name">{{ targetItem.name }}</div>
+                <div class="itemInfoId">{{ targetItem.type_id }}</div>
+                <div class="itemInfoId"> {{ targetItem.packaged_volume }} m³ </div>
+            </div>
+        </div>
+        <mat-divider></mat-divider>
+    </div>
+    
+    <div>
+        <div *ngFor="let entry of firstLevelMaterials">
+            <div class="mainBPOComponent">
+                <img [src]="getImageForItem(entry.subComponent.item.type_id)">
+    
+                <div class="mainComponentName" [title]="entry.subComponent.item.name" (click)="copy(entry.subComponent.item.name)">
+                    {{ entry.subComponent.item.name }}
+                </div>
+    
+                <div class="mainComponentQuantity">
+                    {{ entry.reqAmount | number }}
+                </div>
+            </div>
+    
+            <div *ngIf="entry.subMaterials.length > 1" class="subComponent">
+                <table mat-table [dataSource]="entry.subMaterials" style="width: 100%;">
+                    <ng-container matColumnDef="image">
+                        <td mat-cell *matCellDef="let element" 
+                            class="tableRowLeft imageColumn">
+                            <img class="foundItemImage" [src]="getImageForItem(element.itemDetails.type_id)">
+                        </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="name">
+                        <td mat-cell *matCellDef="let element" class="tableRowLeft"
+                        (click)="copy(element.itemDetails.name)">
+                            <div class="nameColumn shortOnPhone" [title]="element.itemDetails.itemName">{{ element.itemDetails.name }}</div> 
+                        </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="quantity_total">
+                        <td mat-cell *matCellDef="let element" class="tableRowRight"> {{ element.quantity_total | number }} </td>
+                    </ng-container>
+                    
+                    <tr mat-row *matRowDef="let row; columns: ['image', 'name', 'quantity_total']"></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

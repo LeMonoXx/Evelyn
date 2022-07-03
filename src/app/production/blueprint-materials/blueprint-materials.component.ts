@@ -2,21 +2,21 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { ItemDetails } from 'src/app/models';
-import { calculateComponentMaterialCosts, calculateTotalMaterialCosts, copyToClipboard, toMultiBuyString, UniverseService } from 'src/app/shared';
+import { calculateComponentMaterialCosts, copyToClipboard, toMultiBuyString, UniverseService } from 'src/app/shared';
 import { ManufacturingCalculation, ManufacturingCostEntry, SubComponent } from '..';
 
 @Component({
-  selector: 'app-blueprint-manufacturing',
-  templateUrl: './blueprint-manufacturing.component.html',
-  styleUrls: ['./blueprint-manufacturing.component.scss'],
+  selector: 'app-blueprint-materials',
+  templateUrl: './blueprint-materials.component.html',
+  styleUrls: ['./blueprint-materials.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class BlueprintManufacturingComponent implements OnInit {
+export class BlueprintMaterialsComponent implements OnInit {
   @Input()
   public targetItem$: Observable<ItemDetails>;
 
   @Input()
-  public subBPOsManufacturingCosts$: Observable<ManufacturingCalculation[]>;
+  public allRequiredMaterials$: Observable<{ subComponent: SubComponent; reqAmount: number; subMaterials: { itemDetails: ItemDetails; quantity_total: number; }[]; }[]>;
   
   constructor(
     private universeService: UniverseService,

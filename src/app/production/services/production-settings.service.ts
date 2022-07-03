@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject, shareReplay, startWith, Subject } from 'rxjs';
+import { BuyMode, storeSelectedBuyMode, storeSelectedMELevel, storeSelectedSubMELevel } from 'src/app/shared';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,9 @@ export class ProductionSettingsService {
 
   private teLevel$ : Subject<number> = new ReplaySubject(1);
   public TeLevelObs: Observable<number>;
+
+  private buyMode$ : Subject<BuyMode> = new ReplaySubject(1);
+  public BuyModeObs: Observable<BuyMode>;
 
   constructor() { 
     this.RunsObs = this.runs$.asObservable()
@@ -38,21 +42,33 @@ export class ProductionSettingsService {
     .pipe(
       startWith(0), 
       shareReplay(1));
+
+      this.BuyModeObs = this.buyMode$.asObservable()
+      .pipe(shareReplay(1));
   }
   
   public setRuns(runs : number) {
+    
     this.runs$.next(runs);
   }
 
   public setME(me : number) {
+    storeSelectedMELevel(me);
     this.meLevel$.next(me);
   }
   
   public setSubME(me : number) {
+    storeSelectedSubMELevel(me);
     this.subMeLevel$.next(me);
   }
 
   public setTE(te : number) {
     this.teLevel$.next(te);
   }
+    
+  public setBuyMode(mode: BuyMode) {
+    storeSelectedBuyMode(mode);
+    this.buyMode$.next(mode);
+  }
+
 }

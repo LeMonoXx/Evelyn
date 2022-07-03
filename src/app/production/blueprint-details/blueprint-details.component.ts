@@ -2,10 +2,8 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { combineLatest, debounceTime, filter, map, mergeMap, Observable, shareReplay, switchMap } from 'rxjs';
 import { BlueprintDetails, ItemDetails, MarketEntry, StructureDetails } from 'src/app/models';
-import { calculateShippingColaterial, CalculateShippingCostForBundle, 
-  calculateTotalJobCosts, calculateTotalMaterialCosts, calculateTotalShippingVolume, 
-  calculateTotalVolume, copyToClipboard, MarketService, ShippingService, UniverseService } from 'src/app/shared';
-import { ManufacturingCalculation } from '..';
+import { calculateComponentMaterialCosts, calculateComponentShippingColaterial, calculateComponentVolume, calculateShippingComponentVolume, CalculateShippingCostForBundle, copyToClipboard, MarketService, ShippingService, UniverseService } from 'src/app/shared';
+import { ManufacturingCostEntry, SubComponent } from '..';
 
 @Component({
   selector: 'app-blueprint-details',
@@ -24,7 +22,9 @@ export class BlueprintDetailsComponent implements OnInit {
   @Input()
   public mainBpoJobCost$: Observable<number>;
   @Input()
-  public subBPOsManufacturingCosts$: Observable<ManufacturingCalculation[]>;
+  public manufacturingCosts$: Observable<ManufacturingCostEntry[]>;
+  @Input()
+  public subComponents$: Observable<SubComponent[]>;
   @Input()
   public saleTaxPercent$: Observable<number>;
   @Input()
@@ -54,6 +54,7 @@ export class BlueprintDetailsComponent implements OnInit {
     total_sellPrice: number,
     brokerFee: number,
     saleTax: number,
+    sumCosts: number,
     profit: number }>;
 
   private subComponentsJobCostObs: Observable<number>;
@@ -83,21 +84,21 @@ export class BlueprintDetailsComponent implements OnInit {
         shareReplay(1)
       )
 
-      this.totalMaterialCostsObs = this.subBPOsManufacturingCosts$.pipe(
-        map(entries => calculateTotalMaterialCosts(entries)),
+      this.totalMaterialCostsObs = this.manufacturingCosts$.pipe(
+        map(entries => calculateComponentMaterialCosts(entries)),
         shareReplay(1)); 
 
-      this.totalVolumeObs = this.subBPOsManufacturingCosts$.pipe(
-        map(entries => calculateTotalVolume(entries)),
+      this.totalVolumeObs = this.manufacturingCosts$.pipe(
+        map(entries => calculateComponentMaterialCosts(entries)),
         shareReplay(1)
       )
 
-      this.ShippingColateralObs = this.subBPOsManufacturingCosts$.pipe(
-        map(entries => calculateShippingColaterial(entries)),
+      this.ShippingColateralObs = this.manufacturingCosts$.pipe(
+        map(entries => calculateComponentShippingColaterial(entries)),
         shareReplay(1)); 
 
-      this.ShippingVolumeObs = this.subBPOsManufacturingCosts$.pipe(
-        map(entries => calculateTotalShippingVolume(entries)),
+      this.ShippingVolumeObs = this.manufacturingCosts$.pipe(
+        map(entries => calculateShippingComponentVolume(entries)),
         shareReplay(1)
       )
 
@@ -106,12 +107,12 @@ export class BlueprintDetailsComponent implements OnInit {
         shareReplay(1)
       )
 
-      this.subComponentsJobCostObs = this.subBPOsManufacturingCosts$.pipe(
-        map(subBPOsManufacturingCosts => {
+      this.subComponentsJobCostObs = this.subComponents$.pipe(
+        map(subComponents => {
           let total = 0;
-          subBPOsManufacturingCosts.forEach(entry => {
-            if(entry.subComponent?.jobCost)
-              total += entry.subComponent?.jobCost
+          subComponents.forEach(entry => {
+            if(entry.jobCost)
+              total += entry.jobCost
           });
           return total;
         })
@@ -176,7 +177,8 @@ export class BlueprintDetailsComponent implements OnInit {
               const brokerFee =  sellPriceForX / 100 * 2.5;
   
               const saleTax = sellPriceForX / 100 * saleTaxPercent;
-              const profit = (((((sellPriceForX - totalMaterialCosts) - brokerFee) - saleTax) - shippingCost) - mainBpoJobCost) - subComponentsJobCost;
+              const sumCosts = totalMaterialCosts + brokerFee + saleTax + shippingCost + mainBpoJobCost + subComponentsJobCost;
+              const profit = sellPriceForX - sumCosts;
 
               const sellCalculation: { 
                 bpo: BlueprintDetails,
@@ -192,6 +194,7 @@ export class BlueprintDetailsComponent implements OnInit {
                 total_sellPrice: number,
                 brokerFee: number,
                 saleTax: number,
+                sumCosts: number,
                 profit: number } = 
               { 
                 bpo: bpo,
@@ -207,6 +210,7 @@ export class BlueprintDetailsComponent implements OnInit {
                 total_sellPrice: sellPriceForX,
                 brokerFee: brokerFee,
                 saleTax: saleTax,
+                sumCosts:sumCosts,
                 profit: profit
               };
 

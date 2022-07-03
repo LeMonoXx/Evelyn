@@ -3,6 +3,7 @@ export * from './models/item-identifier'
 export * from './models/trade-calculation'
 export * from './models/Ids'
 export * from './models/shopping-list/shopping-entry'
+export * from './models/buy-mode'
 
 export * from './models/shipping/shipping-service'
 

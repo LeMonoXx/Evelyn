@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject, shareReplay, startWith, Subject, switchMap } from 'rxjs';
 import { ItemDetails, StationDetails, StructureDetails } from 'src/app/models';
-import { storeSelectedShippingService, storeSelectedStation, storeSelectedStructure } from '../functions/storage';
+import { storeSelectedBuyMode, storeSelectedShippingService, storeSelectedStation, storeSelectedStructure } from '../functions/storage';
+import { BuyMode } from '../models/buy-mode';
 import { ItemIdentifier } from '../models/item-identifier';
 import { ShippingService } from '../models/shipping/shipping-service';
 import { UniverseService } from './universe.service';
@@ -28,7 +29,7 @@ export class ItemSearchService {
 
   private currentItem$ : Subject<ItemIdentifier> = new ReplaySubject(1);
   public CurrentItemObs: Observable<ItemIdentifier>;
-
+  
   public CurrentItemDetailsObs: Observable<ItemDetails>;
 
   constructor(universeService: UniverseService) {
@@ -46,7 +47,6 @@ export class ItemSearchService {
     this.AccoutingSkillLevelObs = this.accoutingSkillLevel$.asObservable().pipe(
         startWith(1), 
         shareReplay(1));
-    
 
     this.BuyStationObs = this.buyStation$.asObservable().pipe(
       shareReplay(1));
@@ -83,5 +83,5 @@ export class ItemSearchService {
   public setShippingService(service: ShippingService) {
     storeSelectedShippingService(service);
     this.shippingService$.next(service);
-  }
+  } 
 }

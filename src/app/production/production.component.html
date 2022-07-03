@@ -16,7 +16,8 @@
                   [saleTaxPercent$]="characterSaleTaxPercentObs"
                   [shippingService$]="shippingServiceObs"
                   [mainBpoJobCost$]="mainBpoJobCostObs"
-                  [subBPOsManufacturingCosts$]="subBPOsManufacturingCostsObs"
+                  [manufacturingCosts$]="manufacturingCostsObs"
+                  [subComponents$]="subComponentsObs"
                   [BPOItem$]="itemDetailsObs"
                   [BPODetails$]="mainBPODetailsObs">
                </app-blueprint-details>        
@@ -24,17 +25,25 @@
   
          <mat-card class="manufacturingContent-weight">
             <mat-card-title>Required BPCs</mat-card-title>
-            <app-blueprint-summary *ngIf="!(isLoadingObs | async); else ProdLoadingIndicator"
+            <app-sub-blueprints *ngIf="!(isLoadingObs | async); else ProdLoadingIndicator"
                [subBPOs$]="subComponentsObs">  
-            </app-blueprint-summary>      
+            </app-sub-blueprints>      
          </mat-card>
 
          <mat-card class="manufacturingContent">
+            <mat-card-title>Shopping list</mat-card-title>
+            <app-blueprint-material-costs
+             [manufacturingCosts$]="manufacturingCostsObs">
+            </app-blueprint-material-costs>
+         </mat-card>
+
+
+         <mat-card class="manufacturingContent">
             <mat-card-title>Required materials</mat-card-title>
-            <app-blueprint-manufacturing *ngIf="!(isLoadingObs | async); else ProdLoadingIndicator"
+            <app-blueprint-materials *ngIf="!(isLoadingObs | async); else ProdLoadingIndicator"
                [targetItem$]="itemDetailsObs"
-               [subBPOsManufacturingCosts$]="subBPOsManufacturingCostsObs">
-            </app-blueprint-manufacturing>        
+               [allRequiredMaterials$]="allRequiredMaterials">
+            </app-blueprint-materials>        
          </mat-card>
      </div>
 </div>  
