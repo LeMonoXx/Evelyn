@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { combineLatest, debounceTime, filter, map, mergeMap, Observable, shareReplay, switchMap } from 'rxjs';
 import { BlueprintDetails, ItemDetails, MarketEntry, StructureDetails } from 'src/app/models';
-import { calculateComponentMaterialCosts, calculateComponentShippingColaterial, calculateComponentVolume, CalculateShippingCostForBundle, copyToClipboard, MarketService, ShippingService, UniverseService } from 'src/app/shared';
+import { calculateComponentMaterialCosts, calculateComponentShippingColaterial, calculateComponentVolume, calculateShippingComponentVolume, CalculateShippingCostForBundle, copyToClipboard, MarketService, ShippingService, UniverseService } from 'src/app/shared';
 import { ManufacturingCostEntry, SubComponent } from '..';
 
 @Component({
@@ -54,6 +54,7 @@ export class BlueprintDetailsComponent implements OnInit {
     total_sellPrice: number,
     brokerFee: number,
     saleTax: number,
+    sumCosts: number,
     profit: number }>;
 
   private subComponentsJobCostObs: Observable<number>;
@@ -97,7 +98,7 @@ export class BlueprintDetailsComponent implements OnInit {
         shareReplay(1)); 
 
       this.ShippingVolumeObs = this.manufacturingCosts$.pipe(
-        map(entries => calculateComponentVolume(entries)),
+        map(entries => calculateShippingComponentVolume(entries)),
         shareReplay(1)
       )
 
@@ -176,7 +177,8 @@ export class BlueprintDetailsComponent implements OnInit {
               const brokerFee =  sellPriceForX / 100 * 2.5;
   
               const saleTax = sellPriceForX / 100 * saleTaxPercent;
-              const profit = (((((sellPriceForX - totalMaterialCosts) - brokerFee) - saleTax) - shippingCost) - mainBpoJobCost) - subComponentsJobCost;
+              const sumCosts = totalMaterialCosts + brokerFee + saleTax + shippingCost + mainBpoJobCost + subComponentsJobCost;
+              const profit = sellPriceForX - sumCosts;
 
               const sellCalculation: { 
                 bpo: BlueprintDetails,
@@ -192,6 +194,7 @@ export class BlueprintDetailsComponent implements OnInit {
                 total_sellPrice: number,
                 brokerFee: number,
                 saleTax: number,
+                sumCosts: number,
                 profit: number } = 
               { 
                 bpo: bpo,
@@ -207,6 +210,7 @@ export class BlueprintDetailsComponent implements OnInit {
                 total_sellPrice: sellPriceForX,
                 brokerFee: brokerFee,
                 saleTax: saleTax,
+                sumCosts:sumCosts,
                 profit: profit
               };
 

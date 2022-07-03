@@ -90,6 +90,10 @@
 
         <mat-divider></mat-divider>
 
+        <div class="calcSummaryEntry" style="padding-top: 10px; padding-bottom: 10px;">
+            <span class="minorInfo">All costs</span> <span class="minorInfo">{{ sellData.sumCosts *-1 | currency }}</span>
+        </div>
+        
         <div class="calcSummaryEntry" (click)="copy(sellData.profit)" style="padding-top: 10px;">
             <span>Profit</span> 
             <span class="valueLabel canCopy"

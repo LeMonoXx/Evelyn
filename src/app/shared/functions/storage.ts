@@ -1,17 +1,19 @@
 import * as moment from "moment";
 import { BlueprintDetails, StationDetails, StructureDetails, EveItem } from "src/app/models";
-import { ItemTradeFavorite, ShippingService, ShoppingEntry } from "..";
+import { BuyMode, ItemTradeFavorite, ShippingService, ShoppingEntry } from "..";
 
 export const SHOPPINGENTRIES_KEY: string = "shopping-list";
 export const FAVORITE_TRADE_ITEMS_KEY: string = "favorite-trade-items";
 export const BLUEPRINT_DETAILS_KEY: string = "blueprint-details";
 export const EVETYPE_KEY: string = "eve-types";
 export const SELECTEDSTATION_KEY: string = "selected-station";
+export const SELECTED_BUY_MODE:string = "selected-buy-mode";
 export const SELECTEDSTRUCTURE_KEY: string = "selected-structure";
-export const SELECTEDSHIPPINGSERVICE_KEY: string = "selected-shipping-service"
-export const BLUEPRINT_DETAILS_SAVED_DATE_KEY: string = "blueprint-details-saved-date"
+export const SELECTEDSHIPPINGSERVICE_KEY: string = "selected-shipping-service";
+export const BLUEPRINT_DETAILS_SAVED_DATE_KEY: string = "blueprint-details-saved-date";
 
-
+export const SELECTED_PRODUCTION_ME_LEVEL: string = "selected-production-me-level";
+export const SELECTED_PRODUCTION_SUB_ME_LEVEL: string = "selected-production-sub-me-level";
 
 export function getStoredShoppingList(): ShoppingEntry[] | null {
       return getData<ShoppingEntry[]>(SHOPPINGENTRIES_KEY);
@@ -65,6 +67,30 @@ export function getStoredEveTypes(): { [typeId: number]: EveItem } | null {
 
 export function storeEveTypes(entries: { [typeId: number]: EveItem }) {
       storeData<{ [typeId: number]: EveItem }>(entries, EVETYPE_KEY);
+}
+
+export function getStoredBuyMode(): number | null {
+      return getData<number>(SELECTED_BUY_MODE);
+}
+
+export function storeSelectedBuyMode(entry: BuyMode) {
+      storeData<number>(entry.id, SELECTED_BUY_MODE);
+}
+
+export function getStoredMELevel(): number | null {
+      return getData<number>(SELECTED_PRODUCTION_ME_LEVEL);
+}
+
+export function storeSelectedMELevel(entry: number) {
+      storeData<number>(entry, SELECTED_PRODUCTION_ME_LEVEL);
+}
+
+export function getStoredSubMELevel(): number | null {
+      return getData<number>(SELECTED_PRODUCTION_SUB_ME_LEVEL);
+}
+
+export function storeSelectedSubMELevel(entry: number) {
+      storeData<number>(entry, SELECTED_PRODUCTION_SUB_ME_LEVEL);
 }
 
 export function getStoredSelectedStation(): number | null {

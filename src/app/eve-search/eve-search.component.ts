@@ -7,8 +7,8 @@ import { MarketerSearchResult, StationDetails, StructureDetails } from '../model
 import { ProductionSettingsService } from '../production/services/production-settings.service';
 import { EveMarketerDataRepositoryService } from '../repositories';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
-import { ACCOUNTING_SKILL_ID, CharacterService, getAllowedShippingServices, getAllowedStationIds, getAllowedStructureIds, getStoredSelectedShippingService, getStoredSelectedStation, 
-  getStoredSelectedStructure, InputErrorStateMatcher, ItemSearchService, ShippingService, UniverseService } from '../shared';
+import { ACCOUNTING_SKILL_ID, BuyMode, CharacterService, getAllowedBuyModes, getAllowedShippingServices, getAllowedStationIds, getAllowedStructureIds, getStoredBuyMode, getStoredMELevel, getStoredSelectedShippingService, getStoredSelectedStation, 
+  getStoredSelectedStructure, getStoredSubMELevel, InputErrorStateMatcher, ItemSearchService, ShippingService, UniverseService } from '../shared';
 
 @Component({
   selector: 'app-eve-search',
@@ -36,7 +36,10 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   public teLevelControl = new FormControl(0, [Validators.pattern("[0-9]*"), Validators.max(20), Validators.min(0)]);
 
   public shippingFormGroup: FormGroup;
-  public buyStationControl = new FormControl(null, [Validators.required]);
+  public buyStationControl = new FormControl(null, [Validators.required]); 
+  public buyModeControl = new FormControl(null, [Validators.required]);
+  public selectedBuyMode: BuyMode;
+  
   public sellStructureControl = new FormControl(null, [Validators.required]);
   public shippingServiceControl = new FormControl(null, [Validators.required]);
 
@@ -46,6 +49,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   private allowedStationIds: number[] = getAllowedStationIds();
   private allowedStructureIds: number[] = getAllowedStructureIds();
   private allowedShippingServices: ShippingService[] = getAllowedShippingServices();
+  private allowedBuyModes: BuyMode[] = getAllowedBuyModes();
 
   autoCompleteObs: Observable<MarketerSearchResult[] | undefined> | undefined;
   currentItemImageSourceObs: Observable<string> | undefined;
@@ -53,6 +57,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   allowedStructuresObs: Observable<StructureDetails[]>;
   allowedStationsObs: Observable<StationDetails[]>;
   allowedShippingServicesObs: Observable<ShippingService[]>;
+  allowedBuyModesObs: Observable<BuyMode[]>;
 
   matcher: InputErrorStateMatcher;
   
@@ -71,6 +76,8 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   private subMeLevelSubscription: Subscription;
   private allowedShippingServicesSubscription: Subscription;
   private shippingServiceSubscription: Subscription;
+  private buyModeSubscription: Subscription;
+  private allowedBuyModesSubscription: Subscription;
 
   constructor(
     fb: FormBuilder,
@@ -94,6 +101,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
       })
 
       this.productionFormGroup = fb.group({
+        buyMode: this.buyModeControl,
         runs: this.runsControl,
         meLevel: this.meLevelControl,
         subMeLevel: this.subMeLevelControl,
@@ -153,6 +161,8 @@ export class EveSearchComponent implements OnInit, OnDestroy {
 
     this.allowedShippingServicesObs = of(this.allowedShippingServices);
 
+    this.allowedBuyModesObs = of(this.allowedBuyModes);
+
     this.initAccountingSkillLevelObs = this.characterService.getAuthenticatedCharacterInfo().pipe(
       switchMap(character => this.characterService.getCharacterSkills(character.CharacterID)),
       map(characterSkill => {
@@ -192,6 +202,10 @@ export class EveSearchComponent implements OnInit, OnDestroy {
       this.buyStationSubscription = this.buyStationControl.valueChanges.pipe(
         map((station: StationDetails) => this.itemSearchService.setBuyStation(station))
       ).subscribe();
+      
+      this.buyModeSubscription = this.buyModeControl.valueChanges.pipe(
+        map((mode: BuyMode) => this.productionSettingsService.setBuyMode(mode))
+      ).subscribe();
 
       this.sellStructureSubscription = this.sellStructureControl.valueChanges.pipe(
         map((structure: StructureDetails) => this.itemSearchService.setSellStructure(structure))
@@ -215,7 +229,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
           this.sellStructureControl.patchValue(structure)
         })
       ).subscribe();
-      
+
       this.allowedShippingServicesSubscription = this.allowedShippingServicesObs.pipe(
         map(services => {        
           const service = services.find(service => service.id === getStoredSelectedShippingService()) ?? services[0];
@@ -228,6 +242,16 @@ export class EveSearchComponent implements OnInit, OnDestroy {
         map(inputValue => this.itemNameControl.setValue(inputValue))
         ).subscribe();
 
+      this.allowedBuyModesSubscription = this.allowedBuyModesObs.pipe(
+        map(modes => {
+          const mode = modes.find(mode => mode.id === getStoredBuyMode()) ?? modes[0];
+          this.buyModeControl.patchValue(mode);
+          this.selectedBuyMode = mode;
+        })
+      ).subscribe();
+
+      this.meLevelControl.patchValue(getStoredMELevel());
+      this.subMeLevelControl.patchValue(getStoredSubMELevel());
   }
 
   private initProductionFormGroup(): void {
@@ -254,6 +278,8 @@ export class EveSearchComponent implements OnInit, OnDestroy {
     this.initAccountingSkillLevelSubscription.unsubscribe();
     this.accountingSkillLevelSubscription.unsubscribe();
     this.buyStationSubscription.unsubscribe();
+    this.buyModeSubscription.unsubscribe();
+    this.allowedBuyModesSubscription.unsubscribe();
     this.sellStructureSubscription.unsubscribe();
     this.stationsSubscription.unsubscribe();
     this.structuresSubscription.unsubscribe();

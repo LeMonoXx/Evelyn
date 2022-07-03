@@ -156,6 +156,7 @@ export function calculateComponentMaterialCosts(costEntries : ManufacturingCostE
 
 export function calculateComponentShippingColaterial(costEntries : ManufacturingCostEntry[]) {
   let price = 0;
+  console.log("no shipping: " + costEntries.filter(e => !e.requireShipping).length);
   costEntries.filter(e => e.requireShipping).forEach(cost => price += cost.total_buyPrice);
   return price;
 }

@@ -20,6 +20,12 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  .performanceWarning {
+    vertical-align: middle;
+    line-height: 18px;
+    color: $warning_foreground;
+  }
 }
 
 .mat-option {
