@@ -51,6 +51,7 @@ export class BlueprintDetailsComponent implements OnInit {
     subComponentsJobCost: number,
     single_sellPrice: number, 
     artificialSellPrice: boolean,
+    allMaterialsAvailable: boolean,
     total_sellPrice: number,
     brokerFee: number,
     saleTax: number,
@@ -82,7 +83,7 @@ export class BlueprintDetailsComponent implements OnInit {
           }))
         )),
         shareReplay(1)
-      )
+      );
 
       this.totalMaterialCostsObs = this.manufacturingCosts$.pipe(
         map(entries => calculateComponentMaterialCosts(entries)),
@@ -91,7 +92,7 @@ export class BlueprintDetailsComponent implements OnInit {
       this.totalVolumeObs = this.manufacturingCosts$.pipe(
         map(entries => calculateComponentMaterialCosts(entries)),
         shareReplay(1)
-      )
+      );
 
       this.ShippingColateralObs = this.manufacturingCosts$.pipe(
         map(entries => calculateComponentShippingColaterial(entries)),
@@ -100,7 +101,12 @@ export class BlueprintDetailsComponent implements OnInit {
       this.ShippingVolumeObs = this.manufacturingCosts$.pipe(
         map(entries => calculateShippingComponentVolume(entries)),
         shareReplay(1)
-      )
+      );
+
+      const allMaterialsAvailableObs = this.manufacturingCosts$.pipe(
+          map(entries => entries.every(e => e.enoughVolume)),
+          shareReplay(1)
+        );
 
       this.shippingCostObs = combineLatest([this.ShippingColateralObs, this.ShippingVolumeObs, this.shippingService$]).pipe(
         map(([price, volume, shippingService]) => CalculateShippingCostForBundle(price, volume, shippingService)),
@@ -140,7 +146,8 @@ export class BlueprintDetailsComponent implements OnInit {
           this.runs$,
           this.totalMaterialCostsObs, 
           this.sellEntriesObs,
-          this.saleTaxPercent$
+          this.saleTaxPercent$,
+          allMaterialsAvailableObs,
         ]).pipe(
           map((
             [
@@ -155,7 +162,8 @@ export class BlueprintDetailsComponent implements OnInit {
               runs,
               totalMaterialCosts, 
               sellEntries,  
-              saleTaxPercent
+              saleTaxPercent,
+              allMaterialsAvailable
             ]) => {
               const sellAmout = productObs.amount * runs;
               let sellPrice = 0;
@@ -191,6 +199,7 @@ export class BlueprintDetailsComponent implements OnInit {
                 subComponentsJobCost: number,
                 single_sellPrice: number, 
                 artificialSellPrice: boolean,
+                allMaterialsAvailable: boolean,
                 total_sellPrice: number,
                 brokerFee: number,
                 saleTax: number,
@@ -207,6 +216,7 @@ export class BlueprintDetailsComponent implements OnInit {
                 subComponentsJobCost: subComponentsJobCost,
                 single_sellPrice: sellPrice,
                 artificialSellPrice: artificialSellPrice,
+                allMaterialsAvailable: allMaterialsAvailable,
                 total_sellPrice: sellPriceForX,
                 brokerFee: brokerFee,
                 saleTax: saleTax,

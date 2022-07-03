@@ -13,6 +13,20 @@
         padding-bottom: 20px;
     }
 
+    .notEnoughVolume {
+        cursor: not-allowed;
+        background-image: linear-gradient(
+            129deg, 
+            transparent 41.67%, 
+            rgba(255, 46, 46, 0.616) 41.67%, 
+            rgba(255, 46, 46, 0.616) 50%, 
+            transparent 50%, 
+            transparent 91.67%, 
+            rgba(255, 46, 46, 0.616) 91.67%, 
+            rgba(255, 46, 46, 0.616) 100%);
+        background-size: 15.44px 19.07px;
+    }
+
     .nameColumn {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -20,6 +34,7 @@
         width: 200px;
         font-size: 90%;
         cursor: pointer;
+        line-height: 33px;
         color: $foreground-soft1;
 
         @include breakpoint(625px) {
@@ -30,7 +45,6 @@
     .tableRowLeft {
         text-align: left;
         font-size: 90%;
-        padding-left: 15px;
     }
 
     .buyLocation {

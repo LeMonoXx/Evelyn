@@ -107,5 +107,10 @@
             Target market does not have active sell orders for given item. <br>
             Sell price is artificially set to material cost + shipping + 20%. 
         </div>
+
+        <div *ngIf="!sellData.allMaterialsAvailable" class="calculationFailedDiv">
+            Not all materials are available. <br>
+            Calculation failed! 
+        </div>
     </div>
 </div>

@@ -9,28 +9,33 @@
         <table mat-table [dataSource]="entry.value" class="materialsTable">
             <ng-container matColumnDef="image">
                 <td mat-cell *matCellDef="let element" 
-                    class="tableRowLeft imageColumn">
-                    <img class="foundItemImage" [src]="getImageForItem(element.typeID)">
+                    class="tableRowLeft"
+                    [ngClass]="element.enoughVolume ? 'regular' : 'notEnoughVolume'">
+                    <img class="imageColumn" [src]="getImageForItem(element.typeID)">
                 </td>
             </ng-container>
         
             <ng-container matColumnDef="name">
-                <td mat-cell *matCellDef="let element" class="tableRowLeft"
+                <td mat-cell *matCellDef="let element" class="tableRowLeft nameColumn"
                 (click)="copy(element.itemName)">
-                    <div class="nameColumn" [title]="element.itemName">{{ element.itemName }}</div> 
+                    <div [title]="element.itemName"
+                    [ngClass]="element.enoughVolume ? 'regular' : 'notEnoughVolume'">{{ element.itemName }}</div> 
                 </td>
             </ng-container>
         
             <ng-container matColumnDef="quantity_total">
-                <td mat-cell *matCellDef="let element" class="tableRowRight"> {{ element.quantity_total | number }} </td>
+                <td mat-cell *matCellDef="let element" class="tableRowRight"
+                [ngClass]="element.enoughVolume ? 'regular' : 'notEnoughVolume'"> {{ element.quantity_total | number }} </td>
             </ng-container>
 
             <ng-container matColumnDef="single_buyPrice">
-                <td mat-cell *matCellDef="let element" class="tableRowRight"> {{ element.single_buyPrice | currency }} </td>
+                <td mat-cell *matCellDef="let element" class="tableRowRight"
+                [ngClass]="element.enoughVolume ? 'regular' : 'notEnoughVolume'"> {{ element.single_buyPrice | currency }} </td>
             </ng-container>        
             
-            <ng-container matColumnDef="total_buyPrice">
-                <td mat-cell *matCellDef="let element" class="tableRowRight"> {{ element.total_buyPrice | currency }} </td>
+            <ng-container matColumnDef="total_buyPrice" >
+                <td mat-cell *matCellDef="let element" class="tableRowRight"
+                [ngClass]="element.enoughVolume ? 'regular' : 'notEnoughVolume'"> {{ element.total_buyPrice | currency }} </td>
             </ng-container>
 
             <tr mat-row *matRowDef="let row; columns: ['image', 'name', 'quantity_total', 'single_buyPrice', 'total_buyPrice']"></tr>
