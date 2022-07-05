@@ -105,7 +105,7 @@
         
         <div *ngIf="sellData.artificialSellPrice" class="artificialSellPriceDiv">
             Target market does not have active sell orders for given item. <br>
-            Sell price is artificially set to material cost + shipping + 20%. 
+            Sell price is artificially set to material + shipping + jobs + 20%. 
         </div>
 
         <div *ngIf="!sellData.allMaterialsAvailable" class="calculationFailedDiv">
