@@ -202,10 +202,6 @@ export class EveSearchComponent implements OnInit, OnDestroy {
       this.buyStationSubscription = this.buyStationControl.valueChanges.pipe(
         map((station: StationDetails) => this.itemSearchService.setBuyStation(station))
       ).subscribe();
-      
-      this.buyModeSubscription = this.buyModeControl.valueChanges.pipe(
-        map((mode: BuyMode) => this.productionSettingsService.setBuyMode(mode))
-      ).subscribe();
 
       this.sellStructureSubscription = this.sellStructureControl.valueChanges.pipe(
         map((structure: StructureDetails) => this.itemSearchService.setSellStructure(structure))
@@ -254,7 +250,11 @@ export class EveSearchComponent implements OnInit, OnDestroy {
       this.subMeLevelControl.patchValue(getStoredSubMELevel());
   }
 
-  private initProductionFormGroup(): void {
+  private initProductionFormGroup(): void {  
+    this.buyModeSubscription = this.buyModeControl.valueChanges.pipe(
+      map((mode: BuyMode) => this.productionSettingsService.setBuyMode(mode))
+    ).subscribe();
+
     this.runsSubscription = this.runsControl.valueChanges.pipe(
       map((runs: number) => this.productionSettingsService.setRuns(runs))
     ).subscribe(); 
@@ -278,15 +278,16 @@ export class EveSearchComponent implements OnInit, OnDestroy {
     this.initAccountingSkillLevelSubscription.unsubscribe();
     this.accountingSkillLevelSubscription.unsubscribe();
     this.buyStationSubscription.unsubscribe();
-    this.buyModeSubscription.unsubscribe();
     this.allowedBuyModesSubscription.unsubscribe();
     this.sellStructureSubscription.unsubscribe();
     this.stationsSubscription.unsubscribe();
     this.structuresSubscription.unsubscribe();
     this.allowedShippingServicesSubscription.unsubscribe();
     this.shippingServiceSubscription.unsubscribe();
-    this.inputItemNameSubscription.unsubscribe();
 
+    this.inputItemNameSubscription?.unsubscribe();
+
+    this.buyModeSubscription?.unsubscribe();
     this.runsSubscription?.unsubscribe();
     this.meLevelSubscription?.unsubscribe();
     this.subMeLevelSubscription?.unsubscribe();
