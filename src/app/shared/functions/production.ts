@@ -116,23 +116,13 @@ export function getRigMEforItem(itemDetails: ItemDetails, itemCategory: ItemCate
     return  { modifier: 0, facility: facilitiesByItemGroup[facilitiesByItemGroup.length - 1] };
 }
 
-export function calculateTotalJobCosts(manufacturing : ManufacturingCalculation[], systemCostIndex: number, structureRoleBonus: number, facilityTax: number): number {
-  let cost = 0;
-  manufacturing.forEach(entry => {
-    if(entry.subComponent && entry.subComponent.IEV && entry.subComponent.prodFacility)
-      cost += calculateJobCost(entry.subComponent?.IEV, systemCostIndex, entry.subComponent.prodFacility);
-  });
-
-  return cost;
-}
-
-export function calculateJobCost(totalBpoIEV: number, systemCostIndex: number, facility: Facility): number {
-  const systemCostMargin = totalBpoIEV * systemCostIndex; // e.g. 0.0554
+export function calculateJobCost(bpoIEV: number, runs: number, systemCostIndex: number, facility: Facility): number {
+  const systemCostMargin = bpoIEV * systemCostIndex; // e.g. 0.0554
   const structureRoleMargin = (systemCostMargin / 100) * facility.structureJobCostModifier;
   const jobGrossCost = systemCostMargin - structureRoleMargin;
 
   const taxMargin = (jobGrossCost / 100) * facility.facilityTax;
-  const cost = jobGrossCost + taxMargin;
+  const cost = (jobGrossCost + taxMargin) * runs;
   return cost;
 }
 
