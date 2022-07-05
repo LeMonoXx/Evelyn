@@ -153,16 +153,15 @@ export class ProductionComponent implements OnInit {
       this.sellStructureSystemCostIndexObs
     ]).pipe(
       map(([bpo, runs, allPrices, mainBPOProductRigMe, systemCostIndex]) => {
-        let totalIV = 0;
+        let bpoIEV = 0;
         bpo.activities.manufacturing.materials.forEach(material => {
           const itemPrice = allPrices.find(e => e.type_id === material.typeID);
 
           if(itemPrice)
-            totalIV += itemPrice.adjusted_price * material.quantity;
+            bpoIEV += itemPrice.adjusted_price * material.quantity;
         })
-        totalIV = totalIV * runs;
 
-        const totalCost = calculateJobCost(totalIV, systemCostIndex, mainBPOProductRigMe.facility);
+        const totalCost = calculateJobCost(bpoIEV, runs, systemCostIndex, mainBPOProductRigMe.facility);
         return totalCost;
       }),
       shareReplay(1)
@@ -262,7 +261,7 @@ export class ProductionComponent implements OnInit {
               component.prodFacility = subRigME.facility;
 
               if(component.IEV)
-                component.jobCost = calculateJobCost(allReqComp.systemCostIndex, component.IEV, subRigME.facility);
+                component.jobCost = calculateJobCost(allReqComp.systemCostIndex, component.requiredRuns, component.IEV, subRigME.facility);
             }
           }
         ),
