@@ -173,7 +173,7 @@ export class BlueprintDetailsComponent implements OnInit {
                 sellPrice = sellEntries[0].price;
               } else {
                 artificialSellPrice = true;
-                let artificialPrice = (totalMaterialCosts + shippingCost) / sellAmout;
+                let artificialPrice = (totalMaterialCosts + shippingCost + mainBpoJobCost + subComponentsJobCost) / sellAmout;
                 artificialPrice = artificialPrice + (artificialPrice / 100 * 20)
 
                 sellPrice = artificialPrice;
