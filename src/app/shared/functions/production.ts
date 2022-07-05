@@ -65,7 +65,7 @@ export function calculateMaterialQuantity(
     if(structureRigBonus > 0) {
       structureRigMinus = (runsbaseAmount / 100) * structureRigBonus;
     }
-  
+
     runsbaseAmount = Math.ceil(runsbaseAmount - structureRigMinus);
 
     return runsbaseAmount;
@@ -117,12 +117,13 @@ export function getRigMEforItem(itemDetails: ItemDetails, itemCategory: ItemCate
 }
 
 export function calculateJobCost(bpoIEV: number, runs: number, systemCostIndex: number, facility: Facility): number {
-  const systemCostMargin = bpoIEV * systemCostIndex; // e.g. 0.0554
-  const structureRoleMargin = (systemCostMargin / 100) * facility.structureJobCostModifier;
-  const jobGrossCost = systemCostMargin - structureRoleMargin;
 
-  const taxMargin = (jobGrossCost / 100) * facility.facilityTax;
-  const cost = (jobGrossCost + taxMargin) * runs;
+  const allrunsIEV = bpoIEV * runs;
+  const systemCostMargin = Math.ceil(allrunsIEV * systemCostIndex); // e.g. 0.0554
+  const structureRoleMargin = Math.ceil((systemCostMargin / 100) * facility.structureJobCostModifier);
+  const jobGrossCost = systemCostMargin - structureRoleMargin;
+  const taxMargin = Math.ceil((jobGrossCost / 100) * facility.facilityTax);
+  const cost = jobGrossCost + taxMargin
   return cost;
 }
 
