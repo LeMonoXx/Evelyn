@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { catchError, debounceTime, filter, forkJoin, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
@@ -24,24 +24,24 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   @Input()
   public mode: string;
 
-  public defaultFormGroup: FormGroup;
-  public itemNameControl = new FormControl(null, [Validators.minLength(3), Validators.required]);
-  public itemCountControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.max(25000), Validators.min(1)]);
-  public accountingLevelControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.max(5), Validators.min(1)]);
+  public defaultFormGroup: UntypedFormGroup;
+  public itemNameControl = new UntypedFormControl(null, [Validators.minLength(3), Validators.required]);
+  public itemCountControl = new UntypedFormControl(1, [Validators.pattern("[0-9]*"), Validators.max(25000), Validators.min(1)]);
+  public accountingLevelControl = new UntypedFormControl(1, [Validators.pattern("[0-9]*"), Validators.max(5), Validators.min(1)]);
 
-  public productionFormGroup: FormGroup;
-  public runsControl = new FormControl(1, [Validators.pattern("[0-9]*"), Validators.min(1)]);
-  public meLevelControl = new FormControl(0, [Validators.pattern("[0-9]*"), Validators.max(10), Validators.min(0)]);
-  public subMeLevelControl = new FormControl(0, [Validators.pattern("[0-9]*"), Validators.max(10), Validators.min(0)]);
-  public teLevelControl = new FormControl(0, [Validators.pattern("[0-9]*"), Validators.max(20), Validators.min(0)]);
+  public productionFormGroup: UntypedFormGroup;
+  public runsControl = new UntypedFormControl(1, [Validators.pattern("[0-9]*"), Validators.min(1)]);
+  public meLevelControl = new UntypedFormControl(0, [Validators.pattern("[0-9]*"), Validators.max(10), Validators.min(0)]);
+  public subMeLevelControl = new UntypedFormControl(0, [Validators.pattern("[0-9]*"), Validators.max(10), Validators.min(0)]);
+  public teLevelControl = new UntypedFormControl(0, [Validators.pattern("[0-9]*"), Validators.max(20), Validators.min(0)]);
 
-  public shippingFormGroup: FormGroup;
-  public buyStationControl = new FormControl(null, [Validators.required]); 
-  public buyModeControl = new FormControl(null, [Validators.required]);
+  public shippingFormGroup: UntypedFormGroup;
+  public buyStationControl = new UntypedFormControl(null, [Validators.required]); 
+  public buyModeControl = new UntypedFormControl(null, [Validators.required]);
   public selectedBuyMode: BuyMode;
   
-  public sellStructureControl = new FormControl(null, [Validators.required]);
-  public shippingServiceControl = new FormControl(null, [Validators.required]);
+  public sellStructureControl = new UntypedFormControl(null, [Validators.required]);
+  public shippingServiceControl = new UntypedFormControl(null, [Validators.required]);
 
   public oneToFive = [1, 2, 3, 4, 5];
   public zeroToTen = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -80,7 +80,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   private allowedBuyModesSubscription: Subscription;
 
   constructor(
-    fb: FormBuilder,
+    fb: UntypedFormBuilder,
     private autoCompleteService : EveMarketerDataRepositoryService,
     private itemSearchService: ItemSearchService,
     private characterService: CharacterService,
