@@ -27,11 +27,16 @@
         background-size: 15.44px 19.07px;
     }
 
+    .tableRowLeft {
+        text-align: left;
+        font-size: 90%;
+    }
+
     .nameColumn {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        width: 200px;
+        width: 170px;
         font-size: 90%;
         cursor: pointer;
         line-height: 33px;
@@ -40,11 +45,6 @@
         @include breakpoint(625px) {
             width: 130px;
         }
-    }
-
-    .tableRowLeft {
-        text-align: left;
-        font-size: 90%;
     }
 
     .buyLocation {

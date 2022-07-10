@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { filter, debounceTime, map, Observable, switchMap, forkJoin, combineLatest, from, toArray, shareReplay, distinctUntilChanged, mergeMap } from 'rxjs';
 import { AuthService, IAuthResponseData } from 'src/app/auth';
@@ -14,8 +14,8 @@ import { ItemSearchService, UniverseService, InputErrorStateMatcher, copyToClipb
 })
 export class ShippingCalculatorComponent implements OnInit {
 
-  public shippingCalcGroup: FormGroup;
-  public itemListControl = new FormControl(null, [Validators.minLength(3), Validators.required]);
+  public shippingCalcGroup: UntypedFormGroup;
+  public itemListControl = new UntypedFormControl(null, [Validators.minLength(3), Validators.required]);
   public matcher: InputErrorStateMatcher;
   
   public itemsObs: Observable<{ 
@@ -40,7 +40,7 @@ export class ShippingCalculatorComponent implements OnInit {
   public authStatusObs: Observable<IAuthResponseData | null>;
 
   constructor(
-    fb: FormBuilder,
+    fb: UntypedFormBuilder,
     private authService: AuthService,
     private itemSearchService: ItemSearchService,
     private universeService: UniverseService,

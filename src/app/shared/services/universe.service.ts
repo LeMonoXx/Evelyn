@@ -41,14 +41,27 @@ export class UniverseService {
     return this.esiDataService.getRequest<StationDetails>(url);
   } 
 
+  // public findItemByName(searchName: string) : Observable<SearchResult> {
+  //   const url = environment.esiBaseUrl + `/search/?categories=inventory_type&language=en&search=${searchName}&strict=true`;
+  //   return this.esiDataService.getRequest<SearchResult>(url).pipe(
+  //     map(r => {
+  //       if (r && r.inventory_type) {
+  //         return r;
+  //       }
+  //       return ({ inventory_type: [0] });
+  //     }),
+  //     catchError(err => {
+  //     return of({
+  //       inventory_type: [0]
+  //   })
+  //   }));
+  // }  
+  
   public findItemByName(searchName: string) : Observable<SearchResult> {
-    const url = environment.esiBaseUrl + `/search/?categories=inventory_type&language=en&search=${searchName}&strict=true`;
-    return this.esiDataService.getRequest<SearchResult>(url).pipe(
+    const url = `https://www.fuzzwork.co.uk/api/typeid2.php?typename=${searchName}`;
+    return this.esiDataService.getRequest<([{typeID: number, typeName: string}])>(url).pipe(
       map(r => {
-        if (r && r.inventory_type) {
-          return r;
-        }
-        return ({ inventory_type: [0] });
+        return ({ inventory_type: [r[0].typeID] });
       }),
       catchError(err => {
       return of({
