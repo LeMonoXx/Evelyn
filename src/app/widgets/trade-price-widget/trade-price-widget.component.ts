@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { map, switchMap, combineLatest, Observable } from 'rxjs';
 import { ItemDetails } from 'src/app/models';
 import { ACCOUNTING_SKILL_ID, calculateTaxPercentBySkillLevel, 
-  CharacterService, copyToClipboard, getAllowedShippingServices, getTradeCalculation,
+  CharacterService, copyToClipboard, GetShippingRoute, getShippingServices, getTradeCalculation,
   ItemSearchService,
   ItemTradeFavorite, JITA_REGION_ID, MarketService, TradeCalculation, UniverseService } from 'src/app/shared';
 
@@ -50,7 +50,7 @@ export class TradePriceWidgetComponent implements OnInit {
       
     const itemSellCostObs = this.marketService.getStructureMarketForItem(this.inputItem.sell_structure, this.inputItem.type_id, false);
 
-    const shippingService = getAllowedShippingServices()[1];
+    const shippingService = getShippingServices()[1];
 
     const buyStationObs = this.universeService.getStationDetails(this.inputItem.buy_station);
 
@@ -72,15 +72,18 @@ export class TradePriceWidgetComponent implements OnInit {
           itemDetails, 
           sellEntries,
           saleTaxPercent
-          ]) => getTradeCalculation(
-            buyStation,
-            sellStructure,
-            1, 
-            buyEntries, 
-            itemDetails, 
-            sellEntries,
-            saleTaxPercent,
-            shippingService)
+          ]) => {
+            const route = GetShippingRoute(shippingService, buyStation, sellStructure);
+            return getTradeCalculation(
+              buyStation,
+              sellStructure,
+              1, 
+              buyEntries, 
+              itemDetails, 
+              sellEntries,
+              saleTaxPercent,
+              route);
+          } 
           )
         );
   } 

@@ -1,5 +1,5 @@
 import { ItemDetails, MarketEntry, StationDetails, StructureDetails } from "src/app/models";
-import { ShippingService } from "../models/shipping/shipping-service";
+import { ShippingRoute } from "..";
 import { TradeCalculation } from "../models/trade-calculation";
 import { CalculateShippingCost } from "./shipping-costs";
 
@@ -72,7 +72,7 @@ export function getTradeCalculation(
   itemDetails: ItemDetails,
   sellEntries: MarketEntry[],
   saleTaxPercent: number,
-  shippingService: ShippingService
+  shippingRoute: ShippingRoute
   ): TradeCalculation {
     const prices: TradeCalculation = {
       quantity: count,
@@ -90,7 +90,7 @@ export function getTradeCalculation(
       shippingCost: 0,
       usedMarketEntries: [],
       hasEnoughMarketVolumen: false,
-      requiresShipping: shippingService.id === 0 ? false : true,
+      requiresShipping: shippingRoute.startSystem === -1 ? false : true,
       buyStation: buyStation,
       sellStructure: sellStructure
     };
@@ -104,8 +104,10 @@ export function getTradeCalculation(
     prices.buyPriceX = usedOrders.totalPrice;
     prices.hasEnoughMarketVolumen = usedOrders.enough;
 
-    if (prices.requiresShipping)
-      prices.shippingCost = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, count, shippingService);
+    if (prices.requiresShipping) {
+        prices.shippingCost = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, count, shippingRoute);
+    }
+      
 
     let sellPrice = 0;
 
@@ -114,8 +116,9 @@ export function getTradeCalculation(
     } else {
       let singleItemShipping = 0;
       
-      if (prices.requiresShipping)
-        singleItemShipping = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, 1, shippingService);
+      if (prices.requiresShipping) {
+        singleItemShipping = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, 1, shippingRoute);
+      }
 
       const artificialPrice = usedOrders.averagePrice + ((usedOrders.averagePrice / 100) * 20) + singleItemShipping;
       sellPrice = artificialPrice;

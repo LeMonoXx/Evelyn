@@ -127,13 +127,13 @@ export class AuthService {
     public startRefreshTokenTimer() {
         // parse json object from base64 encoded jwt token
         const jwtToken = AuthService.authValue;
-
+        console.log(jwtToken?.access_token);
         if(jwtToken && jwtToken.expires_in > 0) {
             // set a timeout to refresh the token a minute before it expires
             const timeoutMs = + (jwtToken.expires_in - 60) * 1000;
-            console.log("setup refreshTokenTimeout - timout: ", timeoutMs);
+            // console.log("setup refreshTokenTimeout - timout: ", timeoutMs);
             this.refreshTokenTimeout = setTimeout(() => {
-                console.log("refreshTokenTimeout executing started!");
+                // console.log("refreshTokenTimeout executing started!");
                 // we use first(). that will result in a single execution, 
                 // the subscription gets destroyed afterwards
                 this.refreshToken(jwtToken.refresh_token).pipe(
@@ -166,7 +166,7 @@ export class AuthService {
                     
             if(!refresh_tokenCookie.endsWith("==")) {
                 refresh_tokenCookie += "==";
-                console.log("refresh_tokenCookie added ==", refresh_tokenCookie);
+                // console.log("refresh_tokenCookie added ==", refresh_tokenCookie);
             }
 
             this.refreshToken(refresh_tokenCookie).pipe(first()).subscribe();

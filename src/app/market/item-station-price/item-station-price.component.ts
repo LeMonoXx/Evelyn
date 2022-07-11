@@ -4,7 +4,8 @@ import { combineLatest, debounceTime, map, mergeMap, Observable, switchMap, tap 
 import { ItemDetails, MarketEntry, StationDetails, StructureDetails } from 'src/app/models';
 import { CalculateShippingCost, copyToClipboard, FavoritesService, ItemIdentifier, 
   JITA_REGION_ID, MarketService, TradeCalculation, 
-  ShoppingEntry, ShoppingListService, UniverseService, getPriceForN, ShippingService, ItemTradeFavorite, getTradeCalculation } from 'src/app/shared';
+  ShoppingEntry, ShoppingListService, UniverseService, getPriceForN, ShippingService, ItemTradeFavorite, getTradeCalculation, ShippingRoute } from 'src/app/shared';
+import { ShippingModule } from 'src/app/shipping/shipping.module';
 
 @Component({
   selector: 'eve-item-station-price',
@@ -28,6 +29,8 @@ export class ItemStationPriceComponent implements OnInit {
   public itemDetails$: Observable<ItemDetails>
   @Input()
   public shippingService$: Observable<ShippingService>
+  @Input()
+  public shippingRoute$: Observable<ShippingRoute>
   
   public itemBuyCostObs: Observable<MarketEntry[]>;
   public itemSellCostObs$: Observable<MarketEntry[]>;
@@ -73,7 +76,7 @@ export class ItemStationPriceComponent implements OnInit {
             this.itemDetails$, 
             this.itemSellCostObs$,
             this.saleTaxPercent$,
-            this.shippingService$
+            this.shippingRoute$
           ]).pipe(
             debounceTime(80),
             map((
@@ -85,7 +88,7 @@ export class ItemStationPriceComponent implements OnInit {
                 itemDetails, 
                 sellEntries,
                 saleTaxPercent,
-                shippingService
+                shippingRoute
               ]) => getTradeCalculation(buyStation,
                 sellStructure,
                 count, 
@@ -93,7 +96,7 @@ export class ItemStationPriceComponent implements OnInit {
                 itemDetails, 
                 sellEntries,
                 saleTaxPercent,
-                shippingService)));
+                shippingRoute)));
   }
 
   public IsOnShoppingList(type_id: number): boolean {

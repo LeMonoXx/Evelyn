@@ -14,7 +14,6 @@ export class MarketService {
 
   
   public getStructureMarketEntries(structureId: number) : Observable<MarketEntry[]> {
-    const page = 1;
     const url = environment.esiBaseUrl + `/markets/structures/${structureId}/`
     return this.esiDataService.getPagingRequest<MarketEntry>(url);
   }

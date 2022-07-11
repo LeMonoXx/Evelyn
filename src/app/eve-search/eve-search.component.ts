@@ -2,13 +2,14 @@ import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { catchError, debounceTime, filter, forkJoin, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
+import { catchError, combineLatest, debounceTime, filter, forkJoin, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
 import { MarketerSearchResult, StationDetails, StructureDetails } from '../models';
 import { ProductionSettingsService } from '../production/services/production-settings.service';
 import { EveMarketerDataRepositoryService } from '../repositories';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
-import { ACCOUNTING_SKILL_ID, BuyMode, CharacterService, getAllowedBuyModes, getAllowedShippingServices, getAllowedStationIds, getAllowedStructureIds, getStoredBuyMode, getStoredMELevel, getStoredSelectedShippingService, getStoredSelectedStation, 
-  getStoredSelectedStructure, getStoredSubMELevel, InputErrorStateMatcher, ItemSearchService, ShippingService, UniverseService } from '../shared';
+import { ACCOUNTING_SKILL_ID, BuyMode, CharacterService, getAllowedBuyModes, getShippingServices, 
+  getAllowedStationIds, getAllowedStructureIds, getStoredBuyMode, getStoredMELevel, getStoredSelectedShippingService, getStoredSelectedStation, 
+  getStoredSelectedStructure, getStoredSubMELevel, InputErrorStateMatcher, ItemSearchService, ShippingService, UniverseService, ShippingServicesHasRoute } from '../shared';
 
 @Component({
   selector: 'app-eve-search',
@@ -48,7 +49,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   public zeroToTwenty = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
   private allowedStationIds: number[] = getAllowedStationIds();
   private allowedStructureIds: number[] = getAllowedStructureIds();
-  private allowedShippingServices: ShippingService[] = getAllowedShippingServices();
+  private allShippingServices: ShippingService[] = getShippingServices();
   private allowedBuyModes: BuyMode[] = getAllowedBuyModes();
 
   autoCompleteObs: Observable<MarketerSearchResult[] | undefined> | undefined;
@@ -159,7 +160,10 @@ export class EveSearchComponent implements OnInit, OnDestroy {
 
     this.allowedStationsObs = forkJoin(stationsObsArray);
 
-    this.allowedShippingServicesObs = of(this.allowedShippingServices);
+    this.allowedShippingServicesObs = combineLatest([this.itemSearchService.BuyStationObs, this.itemSearchService.SellStructureObs]).pipe(
+      map(([buyStation, sellStructure]) => {
+        return this.allShippingServices.filter(service => service.id === 0 || ShippingServicesHasRoute(service, buyStation, sellStructure))
+      }));
 
     this.allowedBuyModesObs = of(this.allowedBuyModes);
 
@@ -209,7 +213,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
 
       this.shippingServiceSubscription = this.shippingServiceControl.valueChanges.pipe(
         map((service: ShippingService) => this.itemSearchService.setShippingService(service))
-      ).subscribe();    
+      ).subscribe();
 
       this.stationsSubscription = this.allowedStationsObs.pipe(
         map(stations => {

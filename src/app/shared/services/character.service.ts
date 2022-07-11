@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ServerStatus, Character, AuthenticatedCharacter, Portrait, CharacterSkillBook } from 'src/app/models';
+import { ServerStatus, Character, AuthenticatedCharacter, Portrait, CharacterSkillBook, Asset } from 'src/app/models';
 import { EsiDataRepositoryService } from 'src/app/repositories';
 import { environment } from 'src/environments/environment';
 
@@ -34,5 +34,10 @@ export class CharacterService {
   public getCharacterSkills(characterId: number): Observable<CharacterSkillBook> {
       const url = environment.esiBaseUrl + `/characters/${characterId}/skills/`;
     return this.esiDataService.getRequest<CharacterSkillBook>(url)
+  }
+
+  public getCharacterAssets(characterId: number): Observable<Asset[]> {
+    const url = environment.esiBaseUrl + `/characters/${characterId}/assets/`;
+    return this.esiDataService.getPagingRequest<Asset>(url)
   }
 }

@@ -6,6 +6,7 @@ export * from './models/shopping-list/shopping-entry'
 export * from './models/buy-mode'
 
 export * from './models/shipping/shipping-service'
+export * from './models/shipping/shipping-route'
 
 export * from './models/favorites/item-trade-favorite'
 

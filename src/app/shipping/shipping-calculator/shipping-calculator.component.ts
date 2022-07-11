@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { filter, debounceTime, map, Observable, switchMap, forkJoin, combineLatest, from, toArray, shareReplay, distinctUntilChanged, mergeMap } from 'rxjs';
+import { filter, debounceTime, map, Observable, switchMap, forkJoin, combineLatest, 
+  from, toArray, shareReplay, distinctUntilChanged, mergeMap, tap } from 'rxjs';
 import { AuthService, IAuthResponseData } from 'src/app/auth';
-import { ItemDetails } from 'src/app/models';
-import { ItemSearchService, UniverseService, InputErrorStateMatcher, copyToClipboard, MarketService, getPriceForN, CalculateShippingCost, ShippingService } from 'src/app/shared';
+import { Asset, ItemDetails } from 'src/app/models';
+import { ItemSearchService, UniverseService, InputErrorStateMatcher, copyToClipboard, 
+  MarketService, getPriceForN, CalculateShippingCost, ShippingService, CharacterService, getAllowedStructureIds } from 'src/app/shared';
 
 @Component({
   selector: 'app-shipping-calculator',
@@ -38,13 +40,14 @@ export class ShippingCalculatorComponent implements OnInit {
   public shippingPriceObs: Observable<number>;
   public totalVolumeObs: Observable<number>;
   public authStatusObs: Observable<IAuthResponseData | null>;
-
+  public assetsObs: Observable<Asset[]>;
   constructor(
     fb: UntypedFormBuilder,
     private authService: AuthService,
     private itemSearchService: ItemSearchService,
     private universeService: UniverseService,
     private marketService: MarketService,
+    private characterService: CharacterService,
     private snackBar: MatSnackBar) { 
       this.authStatusObs = this.authService.authObs;
       
@@ -58,6 +61,29 @@ export class ShippingCalculatorComponent implements OnInit {
   ngOnInit(): void {
 
     this.shippingServiceObs = this.itemSearchService.ShippingServiceObs;
+    const shippingRouteObs = this.itemSearchService.ShippingRouteObs;
+
+    this.assetsObs = this.characterService.getAuthenticatedCharacterInfo().pipe(
+      tap(c => console.log(c.CharacterID)),
+      switchMap(character => this.characterService.getCharacterAssets(character.CharacterID).pipe(
+        map(assets => {
+          const ids = getAllowedStructureIds();
+          const filtered: Asset[] = []; 
+           assets.forEach(a => {
+            let result = true;
+            ids.forEach(id => {
+              if(a.location_id === id || a.location_flag !== "Hangar" || a.location_type === "station")
+                result = false;
+            });
+
+            if(result)
+              filtered.push(a)
+          });
+
+          return filtered;
+        }),
+        tap(e => console.log(e))
+      )));
 
     this.itemsObs = this.itemListControl.valueChanges.pipe(
       debounceTime(250),
@@ -99,8 +125,8 @@ export class ShippingCalculatorComponent implements OnInit {
         map(entries => entries.sort(a => a.order))
       );
 
-      this.calculationResultObs = combineLatest([this.itemsObs, this.itemSearchService.BuyStationObs, this.shippingServiceObs]).pipe(
-        map(([items, buyStation, shippingService]) => {
+      this.calculationResultObs = combineLatest([this.itemsObs, this.itemSearchService.BuyStationObs, shippingRouteObs]).pipe(
+        map(([items, buyStation, shippingRoute]) => {
           const result: Observable<{ 
             order: number,
             item: ItemDetails, 
@@ -123,7 +149,7 @@ export class ShippingCalculatorComponent implements OnInit {
                 const singlequbicMeters = value.item.packaged_volume
                 const qubicMeters = value.item.packaged_volume * value.count;
 
-                const shippingPrice = CalculateShippingCost(singlePrice, singlequbicMeters, value.count, shippingService);
+                const shippingPrice = CalculateShippingCost(singlePrice, singlequbicMeters, value.count, shippingRoute);
                 return ({ 
                   order: value.order,
                   item: value.item, 

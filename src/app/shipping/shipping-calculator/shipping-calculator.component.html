@@ -6,6 +6,13 @@
         </div>
      </mat-card>
 
+     <mat-card>
+        <div *ngIf="assetsObs | async as assets">
+            {{ assets | json }}
+        </div>
+     </mat-card>
+
+
     <mat-card>
         <mat-card-title>Item list</mat-card-title>
         <form [formGroup]="shippingCalcGroup" class="itemListForm">

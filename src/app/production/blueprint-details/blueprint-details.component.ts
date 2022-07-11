@@ -2,7 +2,8 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { combineLatest, debounceTime, filter, map, mergeMap, Observable, shareReplay, switchMap } from 'rxjs';
 import { BlueprintDetails, ItemDetails, MarketEntry, StructureDetails } from 'src/app/models';
-import { calculateComponentMaterialCosts, calculateComponentShippingColaterial, calculateComponentVolume, calculateShippingComponentVolume, CalculateShippingCostForBundle, copyToClipboard, MarketService, ShippingService, UniverseService } from 'src/app/shared';
+import { calculateComponentMaterialCosts, calculateComponentShippingColaterial, calculateShippingComponentVolume, 
+  CalculateShippingCostForBundle, copyToClipboard, MarketService, ShippingRoute, ShippingService, UniverseService } from 'src/app/shared';
 import { ManufacturingCostEntry, SubComponent } from '..';
 
 @Component({
@@ -31,6 +32,8 @@ export class BlueprintDetailsComponent implements OnInit {
   public sellStructure$: Observable<StructureDetails>;
   @Input()
   public shippingService$: Observable<ShippingService>;
+  @Input()
+  public shippingRoute$: Observable<ShippingRoute>;
   
   public currentItemImageSourceObs: Observable<string>;
   public productObs: Observable<{ product: ItemDetails, amount: number, imageSource: string }>;
@@ -108,8 +111,8 @@ export class BlueprintDetailsComponent implements OnInit {
           shareReplay(1)
         );
 
-      this.shippingCostObs = combineLatest([this.ShippingColateralObs, this.ShippingVolumeObs, this.shippingService$]).pipe(
-        map(([price, volume, shippingService]) => CalculateShippingCostForBundle(price, volume, shippingService)),
+      this.shippingCostObs = combineLatest([this.ShippingColateralObs, this.ShippingVolumeObs, this.shippingRoute$]).pipe(
+        map(([price, volume, shippingRoute]) => CalculateShippingCostForBundle(price, volume, shippingRoute)),
         shareReplay(1)
       )
 

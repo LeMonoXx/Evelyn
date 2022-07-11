@@ -4,8 +4,9 @@ import { BehaviorSubject, map, Observable, ReplaySubject, Subject } from 'rxjs';
 import { AuthService, IAuthResponseData } from '../auth';
 import { ItemDetails, StationDetails, StructureDetails } from '../models';
 import { calculateTaxPercentBySkillLevel, ItemIdentifier, 
-  ItemSearchService, JitaIVMoon4CaldariNavyAssemblyPlant_STATION_ID, MJ5F9BEANSTAR_STRUCTURE_ID, 
+  ItemSearchService, JitaIVMoon4CaldariNavyAssemblyPlant_STATION_ID, MJ5F9_BEANSTAR_STRUCTURE_ID, 
   MJ5F9_REGION_ID, 
+  ShippingRoute, 
   ShippingService, 
   ShoppingEntry, ShoppingListService, UniverseService } from '../shared';
 
@@ -19,7 +20,10 @@ export class StationToStationTradeComponent implements OnInit {
 
   public currentItemObs: Observable<ItemIdentifier>;
   public currentSellStructureObs: Observable<StructureDetails>;
+
   public shippingServiceObs: Observable<ShippingService>;
+  public shippingRouteObs: Observable<ShippingRoute>;
+  
   public numberCountObs: Observable<number>;
   public itemDetailsObs: Observable<ItemDetails>;
   public currentBuyStationObs: Observable<StationDetails>;
@@ -42,6 +46,7 @@ export class StationToStationTradeComponent implements OnInit {
       this.currentBuyStationObs = this.itemSearchService.BuyStationObs;
       this.currentSellStructureObs = this.itemSearchService.SellStructureObs;
       this.shippingServiceObs = this.itemSearchService.ShippingServiceObs;
+      this.shippingRouteObs = this.itemSearchService.ShippingRouteObs;
     }
 
   ngOnInit(): void {

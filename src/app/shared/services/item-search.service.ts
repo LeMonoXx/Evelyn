@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject, shareReplay, startWith, Subject, switchMap } from 'rxjs';
+import { combineLatest, map, Observable, ReplaySubject, shareReplay, startWith, Subject, switchMap } from 'rxjs';
 import { ItemDetails, StationDetails, StructureDetails } from 'src/app/models';
-import { storeSelectedBuyMode, storeSelectedShippingService, storeSelectedStation, storeSelectedStructure } from '../functions/storage';
-import { BuyMode } from '../models/buy-mode';
+import { GetShippingRoute, ShippingRoute, ShippingService } from '..';
+import { storeSelectedShippingService, storeSelectedStation, storeSelectedStructure } from '../functions/storage';
 import { ItemIdentifier } from '../models/item-identifier';
-import { ShippingService } from '../models/shipping/shipping-service';
 import { UniverseService } from './universe.service';
 
 @Injectable({
@@ -20,6 +19,9 @@ export class ItemSearchService {
 
   private shippingService$ : Subject<ShippingService> = new ReplaySubject(1);
   public ShippingServiceObs: Observable<ShippingService>;
+
+  private shippingRoute$ : Subject<ShippingRoute> = new ReplaySubject(1);
+  public ShippingRouteObs: Observable<ShippingRoute>;
 
   private accoutingSkillLevel$ : Subject<number> = new ReplaySubject(1);
   public AccoutingSkillLevelObs: Observable<number>;
@@ -55,7 +57,25 @@ export class ItemSearchService {
       shareReplay(1));
 
     this.ShippingServiceObs = this.shippingService$.asObservable().pipe(
-      shareReplay(1));
+      shareReplay(1));  
+      
+    this.ShippingRouteObs = combineLatest([this.BuyStationObs, this.SellStructureObs, this.ShippingServiceObs]).pipe(
+      map(([buyStation, sellStructure, service]) => {
+        if(service.id !== 0) {
+          const route = GetShippingRoute(service, buyStation, sellStructure);
+
+          if(route)
+          return route;
+        }
+
+        return ({     
+          startSystem: 0,
+          endSystem: 0,
+          cubicMeterPrice: 0,
+          collateral: 0,
+          maxVolume: 0,
+          maxCollateral: 0});
+      }))
   }
 
   public setCurrentItem(item : ItemIdentifier) {
@@ -83,5 +103,5 @@ export class ItemSearchService {
   public setShippingService(service: ShippingService) {
     storeSelectedShippingService(service);
     this.shippingService$.next(service);
-  } 
+  }
 }
