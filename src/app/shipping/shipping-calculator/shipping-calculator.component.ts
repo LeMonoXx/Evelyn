@@ -126,7 +126,7 @@ export class ShippingCalculatorComponent implements OnInit {
       );
 
       this.calculationResultObs = combineLatest([this.itemsObs, this.itemSearchService.StartStationObs, shippingRouteObs]).pipe(
-        map(([items, buyStation, shippingRoute]) => {
+        map(([items, startStation, shippingRoute]) => {
           const result: Observable<{ 
             order: number,
             item: ItemDetails, 
@@ -141,7 +141,7 @@ export class ShippingCalculatorComponent implements OnInit {
             const curObs = this.marketService.getRegionMarketForItem(value.item.type_id).pipe(
               filter(x => !!x && x.length > 0),
               // we get the market for the whole region. But we only want given buy-station.
-              map(entries => entries.filter(entry => entry.location_id === buyStation.station_Id)),
+              map(entries => entries.filter(entry => entry.location_id === startStation.station_Id)),
               map(buyEntries => {
                 const singlePrice = getPriceForN(buyEntries, 1).averagePrice;
                 const totalPrice = getPriceForN(buyEntries, value.count).totalPrice;

@@ -65,8 +65,8 @@ export interface PriceForN {
 }
 
 export function getTradeCalculation(                
-  buyStation: GeneralStation,
-  sellStructure: GeneralStation,
+  startStation: GeneralStation,
+  endStation: GeneralStation,
   count: number,
   buyEntries: MarketEntry[],
   itemDetails: ItemDetails,
@@ -91,8 +91,8 @@ export function getTradeCalculation(
       usedMarketEntries: [],
       hasEnoughMarketVolumen: false,
       requiresShipping: shippingRoute.startSystem === -1 ? false : true,
-      buyStation: buyStation,
-      sellStructure: sellStructure
+      startStation: startStation,
+      endStation: endStation
     };
 
     if(buyEntries.length <= 0)

@@ -162,8 +162,8 @@ export class EveSearchComponent implements OnInit, OnDestroy {
     this.allowedStartStationsObs = forkJoin(stationsObsArray);
 
     this.allowedShippingServicesObs = combineLatest([this.itemSearchService.StartStationObs, this.itemSearchService.EndStationObs]).pipe(
-      map(([buyStation, sellStructure]) => {
-        return this.allShippingServices.filter(service => service.id === 0 || ShippingServicesHasRoute(service, buyStation, sellStructure))
+      map(([startStation, endStation]) => {
+        return this.allShippingServices.filter(service => service.id === 0 || ShippingServicesHasRoute(service, startStation, endStation))
       }));
 
     this.allowedBuyModesObs = of(this.allowedBuyModes);

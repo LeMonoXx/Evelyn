@@ -20,7 +20,7 @@ export class ItemStationPriceComponent implements OnInit {
   @Input()
   public numberCount$ : Observable<number>;
   @Input()
-  public buyStation$: Observable<GeneralStation>;
+  public startStation$: Observable<GeneralStation>;
   @Input()
   public sellStation$ : Observable<GeneralStation>;
   @Input()
@@ -54,9 +54,9 @@ export class ItemStationPriceComponent implements OnInit {
         return this.universeService.getImageUrlForType(item.id, 64);
       }));
 
-      this.itemBuyCostObs = combineLatest([ this.buyStation$, this.itemIdentifier$]).pipe(
+      this.itemBuyCostObs = combineLatest([ this.startStation$, this.itemIdentifier$]).pipe(
         switchMap(([station, item]) => this.marketService.getRegionMarketForItem(item.id, JITA_REGION_ID).pipe(
-            // we get the market for the whole region. But we only want the buyStation.
+            // we get the market for the whole region. But we only want the startStation.
             map(entries => entries.filter(entry => entry.location_id === station.station_Id))
           ))
         );
@@ -69,7 +69,7 @@ export class ItemStationPriceComponent implements OnInit {
         this.tradeData$ = 
         combineLatest(
           [
-            this.buyStation$,
+            this.startStation$,
             this.sellStation$,
             this.numberCount$, 
             this.itemBuyCostObs, 
@@ -81,16 +81,16 @@ export class ItemStationPriceComponent implements OnInit {
             debounceTime(80),
             map((
               [
-                buyStation,
-                sellStructure,
+                startStation,
+                endStation,
                 count, 
                 buyEntries, 
                 itemDetails, 
                 sellEntries,
                 saleTaxPercent,
                 shippingRoute
-              ]) => getTradeCalculation(buyStation,
-                sellStructure,
+              ]) => getTradeCalculation(startStation,
+                endStation,
                 count, 
                 buyEntries, 
                 itemDetails, 
@@ -123,14 +123,14 @@ export class ItemStationPriceComponent implements OnInit {
     }
   }
 
-  public addOrRemoveFavorite(item: ItemIdentifier, buyStation: GeneralStation, sellStructure: GeneralStation) {
+  public addOrRemoveFavorite(item: ItemIdentifier, startStation: GeneralStation, endStation: GeneralStation) {
     const existingEntry = this.favoriteService.GetEntryById(item.id);
 
     if(!existingEntry) {
       const fav: ItemTradeFavorite = {
         type_id: item.id,
-        buy_station: buyStation.station_Id,
-        sell_structure: sellStructure.station_Id
+        buy_station: startStation.station_Id,
+        sell_structure: endStation.station_Id
       };
 
       this.favoriteService.AddFavoriteItem(fav);  

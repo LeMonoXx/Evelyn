@@ -19,21 +19,21 @@
                     <mat-icon [class.fillIcon]="IsOnShoppingList(item.id)">add_shopping_cart</mat-icon>
                 </button>
                 <button class="mat-button" mat-button title="Add to favorites"
-                (click)="addOrRemoveFavorite(item, tradeData.buyStation, tradeData.sellStructure)">
+                (click)="addOrRemoveFavorite(item, tradeData.startStation, tradeData.endStation)">
                     <mat-icon [class.fillIcon]="IsFavorite(item.id)">star</mat-icon>
                 </button>
             </div>
         </div>
         <div class="stationRoute" >
             <div class="stationName textLeft">
-                {{ tradeData.buyStation.name }}
+                {{ tradeData.startStation.name }}
                 
             </div>
             <div class="fromToStationIcon">
                 <mat-icon [inline]="true">arrow_forward</mat-icon>
             </div>
             <div class="stationName textRight">
-                {{ tradeData.sellStructure.name }}
+                {{ tradeData.endStation.name }}
                
             </div>
         </div>

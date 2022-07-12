@@ -14,8 +14,8 @@
                   <eve-item-station-price
                      [saleTaxPercent$]="characterSaleTaxPercentObs"
                      [numberCount$]="numberCountObs"
-                     [buyStation$]="currentBuyStationObs"
-                     [sellStation$]="currentSellStructureObs"
+                     [startStation$]="currentstartStationObs"
+                     [sellStation$]="currentendStationObs"
                      [shippingService$]="shippingServiceObs"
                      [shippingRoute$]="shippingRouteObs"
                      [itemIdentifier$]="currentItemObs"
@@ -36,7 +36,7 @@
       <mat-card class="default-mat-card">
          <mat-card-title>Active Orders</mat-card-title>
          <app-station-order-status
-            [structure$]="currentSellStructureObs">
+            [structure$]="currentendStationObs">
          </app-station-order-status>
       </mat-card>
    </div>

@@ -20,6 +20,6 @@ export interface TradeCalculation {
     usedMarketEntries: MarketEntry[],
     hasEnoughMarketVolumen: boolean,
     requiresShipping: boolean,
-    buyStation: GeneralStation,
-    sellStructure: GeneralStation
+    startStation: GeneralStation,
+    endStation: GeneralStation
 }

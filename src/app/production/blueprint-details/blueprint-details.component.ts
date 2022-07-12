@@ -29,7 +29,7 @@ export class BlueprintDetailsComponent implements OnInit {
   @Input()
   public saleTaxPercent$: Observable<number>;
   @Input()
-  public sellStructure$: Observable<GeneralStation>;
+  public endStation$: Observable<GeneralStation>;
   @Input()
   public shippingService$: Observable<ShippingService>;
   @Input()
@@ -128,10 +128,10 @@ export class BlueprintDetailsComponent implements OnInit {
       );
 
 
-      this.sellEntriesObs = combineLatest([this.sellStructure$, this.productObs]).pipe(
+      this.sellEntriesObs = combineLatest([this.endStation$, this.productObs]).pipe(
         debounceTime(50),
-        mergeMap(([sellStructure, product]) =>  
-          this.marketService.getStructureMarketForItem(sellStructure.station_Id, product.product.type_id, false)
+        mergeMap(([endStation, product]) =>  
+          this.marketService.getStructureMarketForItem(endStation.station_Id, product.product.type_id, false)
         ),
         shareReplay(1));
 

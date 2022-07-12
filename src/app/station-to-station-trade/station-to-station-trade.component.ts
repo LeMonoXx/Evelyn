@@ -16,14 +16,14 @@ import { calculateTaxPercentBySkillLevel, GeneralStation, ItemIdentifier,
 export class StationToStationTradeComponent implements OnInit {
 
   public currentItemObs: Observable<ItemIdentifier>;
-  public currentSellStructureObs: Observable<GeneralStation>;
+  public currentendStationObs: Observable<GeneralStation>;
 
   public shippingServiceObs: Observable<ShippingService>;
   public shippingRouteObs: Observable<ShippingRoute>;
   
   public numberCountObs: Observable<number>;
   public itemDetailsObs: Observable<ItemDetails>;
-  public currentBuyStationObs: Observable<GeneralStation>;
+  public currentstartStationObs: Observable<GeneralStation>;
   public authStatusObs: Observable<IAuthResponseData | null>;
   public characterSaleTaxPercentObs: Observable<number>;
   public shoppingListObs: Observable<ShoppingEntry[]>;
@@ -40,8 +40,8 @@ export class StationToStationTradeComponent implements OnInit {
       this.numberCountObs = this.itemSearchService.ItemCountObs;
       this.itemDetailsObs = this.itemSearchService.CurrentItemDetailsObs;
       this.authStatusObs = this.authService.authObs;    
-      this.currentBuyStationObs = this.itemSearchService.StartStationObs;
-      this.currentSellStructureObs = this.itemSearchService.EndStationObs;
+      this.currentstartStationObs = this.itemSearchService.StartStationObs;
+      this.currentendStationObs = this.itemSearchService.EndStationObs;
       this.shippingServiceObs = this.itemSearchService.ShippingServiceObs;
       this.shippingRouteObs = this.itemSearchService.ShippingRouteObs;
     }

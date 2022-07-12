@@ -44,7 +44,7 @@ export class TradePriceWidgetComponent implements OnInit {
     this.itemDetailsObs = this.universeService.getItemDetails(this.inputItem.type_id);
 
     const itemBuyCostObs =  this.marketService.getRegionMarketForItem(this.inputItem.type_id, JITA_REGION_ID).pipe(
-          // we get the market for the whole region. But we only want the buyStation.
+          // we get the market for the whole region. But we only want the startStation.
           map(entries => entries.filter(entry => entry.location_id === this.inputItem.buy_station))
         );
       
@@ -52,31 +52,31 @@ export class TradePriceWidgetComponent implements OnInit {
 
     const shippingService = getShippingServices()[1];
 
-    const buyStationObs = this.universeService.getStationDetails(this.inputItem.buy_station);
+    const startStationObs = this.universeService.getStationDetails(this.inputItem.buy_station);
 
-    const sellStructureObs = this.universeService.getStructureDetails(this.inputItem.sell_structure);
+    const endStationObs = this.universeService.getStructureDetails(this.inputItem.sell_structure);
 
     this.tradeDataObs = 
     combineLatest([
-        buyStationObs,
-        sellStructureObs,
+        startStationObs,
+        endStationObs,
         itemBuyCostObs, 
         this.itemDetailsObs, 
         itemSellCostObs,
         saleTaxPercentObs
       ]).pipe(
         map(([
-          buyStation,
-          sellStructure,
+          startStation,
+          endStation,
           buyEntries, 
           itemDetails, 
           sellEntries,
           saleTaxPercent
           ]) => {
-            const route = GetShippingRoute(shippingService, buyStation, sellStructure);
+            const route = GetShippingRoute(shippingService, startStation, endStation);
             return getTradeCalculation(
-              buyStation,
-              sellStructure,
+              startStation,
+              endStation,
               1, 
               buyEntries, 
               itemDetails, 
