@@ -1,13 +1,12 @@
-import { StationDetails, StructureDetails } from "src/app/models";
-import { ShippingRoute, ShippingService } from "..";
+import { GeneralStation, ShippingRoute, ShippingService } from "..";
 
-export function ShippingServicesHasRoute(service: ShippingService, startStation: StationDetails, endStructure: StructureDetails) : boolean {
-  const hasRoute = service.routes.find(r => r.startSystem === startStation.system_id && r.endSystem === endStructure.solar_system_id);
+export function ShippingServicesHasRoute(service: ShippingService, startStation: GeneralStation, endStructure: GeneralStation) : boolean {
+  const hasRoute = service.routes.find(r => r.startSystem === startStation.solar_system_id && r.endSystem === endStructure.solar_system_id);
   return hasRoute !== undefined;
 }
 
-export function GetShippingRoute(service: ShippingService, startStation: StationDetails, endStructure: StructureDetails) : ShippingRoute {
-  const route = service.routes.find(r => r.startSystem === startStation.system_id && r.endSystem === endStructure.solar_system_id);
+export function GetShippingRoute(service: ShippingService, startStation: GeneralStation, endStructure: GeneralStation) : ShippingRoute {
+  const route = service.routes.find(r => r.startSystem === startStation.solar_system_id && r.endSystem === endStructure.solar_system_id);
 
   if(route)
     return route;

@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { combineLatest, debounceTime, defaultIfEmpty, forkJoin, map, mergeMap, Observable, switchMap, tap } from 'rxjs';
-import { ItemDetails, MarketEntry, MarketOrder, StructureDetails } from 'src/app/models';
-import { CharacterService, copyToClipboard, MarketService, UniverseService } from 'src/app/shared';
+import { combineLatest, debounceTime, defaultIfEmpty, forkJoin, map, mergeMap, Observable, switchMap } from 'rxjs';
+import { ItemDetails, MarketEntry, MarketOrder } from 'src/app/models';
+import { CharacterService, copyToClipboard, GeneralStation, MarketService, UniverseService } from 'src/app/shared';
 
 @Component({
   selector: 'app-station-order-status',
@@ -13,7 +13,7 @@ import { CharacterService, copyToClipboard, MarketService, UniverseService } fro
 export class StationOrderStatusComponent implements OnInit {
 
   @Input()
-  public structure$ : Observable<StructureDetails>;
+  public structure$ : Observable<GeneralStation>;
   
   public charMarketOrdersObs: Observable<{ marketOrder?: MarketOrder, itemDetails?: ItemDetails, marketEntry?: MarketEntry }[] | null>;
 
@@ -29,7 +29,7 @@ export class StationOrderStatusComponent implements OnInit {
     this.charMarketOrdersObs = combineLatest([characterObs, this.structure$]).pipe(   
       debounceTime(500),
       mergeMap(([character, structure]) => 
-        this.marketService.getMarketOrders(structure.evelyn_structureId, character.CharacterID, false).pipe(
+        this.marketService.getMarketOrders(structure.station_Id, character.CharacterID, false).pipe(
           map(orders => {
             const requests: Observable<{ marketOrder: MarketOrder, itemDetails: ItemDetails, marketEntry: MarketEntry }>[] = [];
             orders.forEach(order => {

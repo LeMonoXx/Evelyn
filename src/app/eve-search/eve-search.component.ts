@@ -3,13 +3,14 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } 
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { catchError, combineLatest, debounceTime, filter, forkJoin, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
-import { MarketerSearchResult, StationDetails, StructureDetails } from '../models';
+import { MarketerSearchResult } from '../models';
 import { ProductionSettingsService } from '../production/services/production-settings.service';
 import { EveMarketerDataRepositoryService } from '../repositories';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
 import { ACCOUNTING_SKILL_ID, BuyMode, CharacterService, getAllowedBuyModes, getShippingServices, 
-  getAllowedStationIds, getAllowedStructureIds, getStoredBuyMode, getStoredMELevel, getStoredSelectedShippingService, getStoredSelectedStation, 
-  getStoredSelectedStructure, getStoredSubMELevel, InputErrorStateMatcher, ItemSearchService, ShippingService, UniverseService, ShippingServicesHasRoute } from '../shared';
+  getAllowedStationIds, getAllowedStructureIds, getStoredBuyMode, getStoredMELevel, getStoredSelectedShippingService, getStoredStartStation, 
+  getStoredEndStation, getStoredSubMELevel, InputErrorStateMatcher, ItemSearchService, ShippingService, 
+  UniverseService, ShippingServicesHasRoute, GeneralStation } from '../shared';
 
 @Component({
   selector: 'app-eve-search',
@@ -37,11 +38,11 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   public teLevelControl = new UntypedFormControl(0, [Validators.pattern("[0-9]*"), Validators.max(20), Validators.min(0)]);
 
   public shippingFormGroup: UntypedFormGroup;
-  public buyStationControl = new UntypedFormControl(null, [Validators.required]); 
+  public startStationControl = new UntypedFormControl(null, [Validators.required]); 
   public buyModeControl = new UntypedFormControl(null, [Validators.required]);
   public selectedBuyMode: BuyMode;
   
-  public sellStructureControl = new UntypedFormControl(null, [Validators.required]);
+  public endStationControl = new UntypedFormControl(null, [Validators.required]);
   public shippingServiceControl = new UntypedFormControl(null, [Validators.required]);
 
   public oneToFive = [1, 2, 3, 4, 5];
@@ -55,8 +56,8 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   autoCompleteObs: Observable<MarketerSearchResult[] | undefined> | undefined;
   currentItemImageSourceObs: Observable<string> | undefined;
   initAccountingSkillLevelObs: Observable<number>;
-  allowedStructuresObs: Observable<StructureDetails[]>;
-  allowedStationsObs: Observable<StationDetails[]>;
+  allowedStartStationsObs: Observable<GeneralStation[]>;
+  allowedEndStationsObs: Observable<GeneralStation[]>;
   allowedShippingServicesObs: Observable<ShippingService[]>;
   allowedBuyModesObs: Observable<BuyMode[]>;
 
@@ -66,10 +67,10 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   private searchSubscription: Subscription;
   private initAccountingSkillLevelSubscription: Subscription;
   private accountingSkillLevelSubscription: Subscription;
-  private buyStationSubscription: Subscription;
-  private sellStructureSubscription: Subscription;
-  private stationsSubscription: Subscription;
-  private structuresSubscription: Subscription;
+  private startStationSubscription: Subscription;
+  private endStationSubscription: Subscription;
+  private startStationsSubscription: Subscription;
+  private endStationsSubscription: Subscription;
   private inputItemNameSubscription: Subscription;
   private runsSubscription: Subscription;
   private teLevelSubscription: Subscription;
@@ -96,8 +97,8 @@ export class EveSearchComponent implements OnInit, OnDestroy {
       });
 
       this.shippingFormGroup = fb.group({
-        buyStation: this.buyStationControl,
-        sellStructure: this.sellStructureControl,
+        startStation: this.startStationControl,
+        endStation: this.endStationControl,
         shippingService: this.shippingServiceControl
       })
 
@@ -146,21 +147,21 @@ export class EveSearchComponent implements OnInit, OnDestroy {
       })
     );
 
-    const structuresObsArray: Observable<StructureDetails>[] = [];
+    const structuresObsArray: Observable<GeneralStation>[] = [];
     this.allowedStructureIds.forEach(structureId => {
       structuresObsArray.push(this.universeService.getStructureDetails(structureId))
     });
 
-    this.allowedStructuresObs = forkJoin(structuresObsArray);
+    this.allowedEndStationsObs = forkJoin(structuresObsArray);
 
-    const stationsObsArray: Observable<StationDetails>[] = [];
+    const stationsObsArray: Observable<GeneralStation>[] = [];
     this.allowedStationIds.forEach(stationId => {
       stationsObsArray.push(this.universeService.getStationDetails(stationId))
     });
 
-    this.allowedStationsObs = forkJoin(stationsObsArray);
+    this.allowedStartStationsObs = forkJoin(stationsObsArray);
 
-    this.allowedShippingServicesObs = combineLatest([this.itemSearchService.BuyStationObs, this.itemSearchService.SellStructureObs]).pipe(
+    this.allowedShippingServicesObs = combineLatest([this.itemSearchService.StartStationObs, this.itemSearchService.EndStationObs]).pipe(
       map(([buyStation, sellStructure]) => {
         return this.allShippingServices.filter(service => service.id === 0 || ShippingServicesHasRoute(service, buyStation, sellStructure))
       }));
@@ -203,30 +204,31 @@ export class EveSearchComponent implements OnInit, OnDestroy {
         map((level: number) => this.itemSearchService.setAccountingSkillLevel(level))
       ).subscribe();    
 
-      this.buyStationSubscription = this.buyStationControl.valueChanges.pipe(
-        map((station: StationDetails) => this.itemSearchService.setBuyStation(station))
+      this.startStationSubscription = this.startStationControl.valueChanges.pipe(
+        map((station: GeneralStation) => this.itemSearchService.setStartStation(station))
       ).subscribe();
 
-      this.sellStructureSubscription = this.sellStructureControl.valueChanges.pipe(
-        map((structure: StructureDetails) => this.itemSearchService.setSellStructure(structure))
+      this.endStationSubscription = this.endStationControl.valueChanges.pipe(
+        map((station: GeneralStation) => this.itemSearchService.setEndStation(station))
       ).subscribe();    
 
       this.shippingServiceSubscription = this.shippingServiceControl.valueChanges.pipe(
         map((service: ShippingService) => this.itemSearchService.setShippingService(service))
       ).subscribe();
 
-      this.stationsSubscription = this.allowedStationsObs.pipe(
+      this.startStationsSubscription = this.allowedStartStationsObs.pipe(
         map(stations => {
           
-          const station = stations.find(station => station.station_id === getStoredSelectedStation()) ?? stations[0];
-          this.buyStationControl.patchValue(station)
+          const station = stations.find(station => station.station_Id === getStoredStartStation()) ?? stations[0];
+          this.startStationControl.patchValue(station)
         })
       ).subscribe();
 
-      this.structuresSubscription = this.allowedStructuresObs.pipe(
-        map(structures => {        
-          const structure = structures.find(station => station.evelyn_structureId === getStoredSelectedStructure()) ?? structures[0];
-          this.sellStructureControl.patchValue(structure)
+      this.endStationsSubscription = this.allowedEndStationsObs.pipe(
+        map(stations => {        
+          const station = stations.find(station => station.station_Id === getStoredEndStation()) ?? stations[0];
+          console.log("patchValue", station)
+          this.endStationControl.patchValue(station)
         })
       ).subscribe();
 
@@ -281,11 +283,11 @@ export class EveSearchComponent implements OnInit, OnDestroy {
     this.searchSubscription.unsubscribe();
     this.initAccountingSkillLevelSubscription.unsubscribe();
     this.accountingSkillLevelSubscription.unsubscribe();
-    this.buyStationSubscription.unsubscribe();
+    this.startStationSubscription.unsubscribe();
     this.allowedBuyModesSubscription.unsubscribe();
-    this.sellStructureSubscription.unsubscribe();
-    this.stationsSubscription.unsubscribe();
-    this.structuresSubscription.unsubscribe();
+    this.endStationSubscription.unsubscribe();
+    this.startStationsSubscription.unsubscribe();
+    this.endStationsSubscription.unsubscribe();
     this.allowedShippingServicesSubscription.unsubscribe();
     this.shippingServiceSubscription.unsubscribe();
 

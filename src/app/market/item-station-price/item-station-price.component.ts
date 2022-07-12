@@ -1,11 +1,11 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { combineLatest, debounceTime, map, mergeMap, Observable, switchMap, tap } from 'rxjs';
-import { ItemDetails, MarketEntry, StationDetails, StructureDetails } from 'src/app/models';
-import { CalculateShippingCost, copyToClipboard, FavoritesService, ItemIdentifier, 
+import { combineLatest, debounceTime, map, mergeMap, Observable, switchMap } from 'rxjs';
+import { ItemDetails, MarketEntry, } from 'src/app/models';
+import { copyToClipboard, FavoritesService, ItemIdentifier, 
   JITA_REGION_ID, MarketService, TradeCalculation, 
-  ShoppingEntry, ShoppingListService, UniverseService, getPriceForN, ShippingService, ItemTradeFavorite, getTradeCalculation, ShippingRoute } from 'src/app/shared';
-import { ShippingModule } from 'src/app/shipping/shipping.module';
+  ShoppingEntry, ShoppingListService, UniverseService, ShippingService, 
+  ItemTradeFavorite, getTradeCalculation, ShippingRoute, GeneralStation } from 'src/app/shared';
 
 @Component({
   selector: 'eve-item-station-price',
@@ -20,9 +20,9 @@ export class ItemStationPriceComponent implements OnInit {
   @Input()
   public numberCount$ : Observable<number>;
   @Input()
-  public buyStation$: Observable<StationDetails>;
+  public buyStation$: Observable<GeneralStation>;
   @Input()
-  public sellStation$ : Observable<StructureDetails>;
+  public sellStation$ : Observable<GeneralStation>;
   @Input()
   public itemIdentifier$: Observable<ItemIdentifier>;
   @Input()
@@ -57,13 +57,13 @@ export class ItemStationPriceComponent implements OnInit {
       this.itemBuyCostObs = combineLatest([ this.buyStation$, this.itemIdentifier$]).pipe(
         switchMap(([station, item]) => this.marketService.getRegionMarketForItem(item.id, JITA_REGION_ID).pipe(
             // we get the market for the whole region. But we only want the buyStation.
-            map(entries => entries.filter(entry => entry.location_id === station.station_id))
+            map(entries => entries.filter(entry => entry.location_id === station.station_Id))
           ))
         );
         
       this.itemSellCostObs$ = combineLatest([this.sellStation$, this.itemIdentifier$]).pipe(
         mergeMap(([sellStation, itemIdentifier]) =>  
-          this.marketService.getStructureMarketForItem(sellStation.evelyn_structureId, itemIdentifier.id, false)
+          this.marketService.getStructureMarketForItem(sellStation.station_Id, itemIdentifier.id, false)
         ));
 
         this.tradeData$ = 
@@ -123,14 +123,14 @@ export class ItemStationPriceComponent implements OnInit {
     }
   }
 
-  public addOrRemoveFavorite(item: ItemIdentifier, buyStation: StationDetails, sellStructure: StructureDetails) {
+  public addOrRemoveFavorite(item: ItemIdentifier, buyStation: GeneralStation, sellStructure: GeneralStation) {
     const existingEntry = this.favoriteService.GetEntryById(item.id);
 
     if(!existingEntry) {
       const fav: ItemTradeFavorite = {
         type_id: item.id,
-        buy_station: buyStation.station_id,
-        sell_structure: sellStructure.evelyn_structureId
+        buy_station: buyStation.station_Id,
+        sell_structure: sellStructure.station_Id
       };
 
       this.favoriteService.AddFavoriteItem(fav);  

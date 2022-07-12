@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { catchError, filter, map, Observable, of, tap } from 'rxjs';
-import { ItemDetails, SearchResult, StationDetails, StructureDetails as StructureDetails, EveItem, ItemGroup } from 'src/app/models';
+import { catchError, map, Observable, of, tap } from 'rxjs';
+import { ItemDetails, SearchResult, EveItem, ItemGroup, StructureDetails, StationDetails } from 'src/app/models';
 import { ItemCategory } from 'src/app/models/universe/categories/item-category';
 import { EsiDataRepositoryService } from 'src/app/repositories/esi-data-repository.service';
 import { environment } from 'src/environments/environment';
 import { parse } from 'yaml';
 import { getStoredEveTypes, storeEveTypes } from '../functions/storage';
+import { GeneralStation } from '../models/structure/general-station';
 
 @Injectable({
   providedIn: 'root'
@@ -24,21 +25,32 @@ export class UniverseService {
     return this.esiDataService.getRequest<ItemDetails>(url)
   }
 
-  public getStructureDetails(structureId: number) : Observable<StructureDetails> {
+  public getStructureDetails(structureId: number) : Observable<GeneralStation> {
     const url = environment.esiBaseUrl + `/universe/structures/${structureId}/`
     return this.esiDataService.getRequest<StructureDetails>(url).pipe(
       map(structure => {
-
-        if(structure)
-          structure.evelyn_structureId = structureId;
-
-        return structure;
+        return ({
+          station_Id: structureId,
+          name: structure.name,
+          solar_system_id: structure.solar_system_id,
+          type_id: structure.type_id,
+          isStructure: true
+        });
       })
     )
   }
-  public getStationDetails(stationId: number) : Observable<StationDetails> {
+
+  public getStationDetails(stationId: number) : Observable<GeneralStation> {
     const url = environment.esiBaseUrl + `/universe/stations/${stationId}/`
-    return this.esiDataService.getRequest<StationDetails>(url);
+    return this.esiDataService.getRequest<StationDetails>(url).pipe(
+      map(details => ({
+        station_Id: details.station_id,
+        name: details.name,
+        solar_system_id: details.system_id,
+        type_id: details.type_id,
+        isStructure: false
+      }))
+    );
   } 
 
   // public findItemByName(searchName: string) : Observable<SearchResult> {

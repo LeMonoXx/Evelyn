@@ -15,6 +15,7 @@ export const TKE_REGION_ID: number = 10000034;
 export const JITA_REGION_ID: number = 10000002;
 
 export const JitaIVMoon4CaldariNavyAssemblyPlant_STATION_ID: number = 60003760;
+export const PerimeterTranquilityTradingTower_STATION_ID: number = 1028858195912;
 
 export function getAllowedStationIds() : number[] {
     return [JitaIVMoon4CaldariNavyAssemblyPlant_STATION_ID];
@@ -32,5 +33,6 @@ export function getAllowedStructureIds() : number[] {
         RQOO_U_FORT_EQUILIBRIUM_ID,
         RQOO_U_RESEARCH_STRUCTURE_ID,
         RQOO_U_T2_REACTIONS_STRUCTURE_ID,
+        PerimeterTranquilityTradingTower_STATION_ID
         ];
 }

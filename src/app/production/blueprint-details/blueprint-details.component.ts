@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { combineLatest, debounceTime, filter, map, mergeMap, Observable, shareReplay, switchMap } from 'rxjs';
 import { BlueprintDetails, ItemDetails, MarketEntry, StructureDetails } from 'src/app/models';
 import { calculateComponentMaterialCosts, calculateComponentShippingColaterial, calculateShippingComponentVolume, 
-  CalculateShippingCostForBundle, copyToClipboard, MarketService, ShippingRoute, ShippingService, UniverseService } from 'src/app/shared';
+  CalculateShippingCostForBundle, copyToClipboard, GeneralStation, MarketService, ShippingRoute, ShippingService, UniverseService } from 'src/app/shared';
 import { ManufacturingCostEntry, SubComponent } from '..';
 
 @Component({
@@ -29,7 +29,7 @@ export class BlueprintDetailsComponent implements OnInit {
   @Input()
   public saleTaxPercent$: Observable<number>;
   @Input()
-  public sellStructure$: Observable<StructureDetails>;
+  public sellStructure$: Observable<GeneralStation>;
   @Input()
   public shippingService$: Observable<ShippingService>;
   @Input()
@@ -131,7 +131,7 @@ export class BlueprintDetailsComponent implements OnInit {
       this.sellEntriesObs = combineLatest([this.sellStructure$, this.productObs]).pipe(
         debounceTime(50),
         mergeMap(([sellStructure, product]) =>  
-          this.marketService.getStructureMarketForItem(sellStructure.evelyn_structureId, product.product.type_id, false)
+          this.marketService.getStructureMarketForItem(sellStructure.station_Id, product.product.type_id, false)
         ),
         shareReplay(1));
 

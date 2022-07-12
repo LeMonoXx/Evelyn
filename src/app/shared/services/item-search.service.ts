@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, map, Observable, ReplaySubject, shareReplay, startWith, Subject, switchMap } from 'rxjs';
-import { ItemDetails, StationDetails, StructureDetails } from 'src/app/models';
-import { GetShippingRoute, ShippingRoute, ShippingService } from '..';
-import { storeSelectedShippingService, storeSelectedStation, storeSelectedStructure } from '../functions/storage';
+import { ItemDetails } from 'src/app/models';
+import { GeneralStation, GetShippingRoute, ShippingRoute, ShippingService } from '..';
+import { storeSelectedShippingService, storeStartStation, storeEndStation } from '../functions/storage';
 import { ItemIdentifier } from '../models/item-identifier';
 import { UniverseService } from './universe.service';
 
@@ -11,16 +11,15 @@ import { UniverseService } from './universe.service';
 })
 export class ItemSearchService {
 
-  private buyStation$ : Subject<StationDetails> = new ReplaySubject(1);
-  public BuyStationObs: Observable<StationDetails>;
+  private startStation$ : Subject<GeneralStation> = new ReplaySubject(1);
+  public StartStationObs: Observable<GeneralStation>;
 
-  private sellStructure$ : Subject<StructureDetails> = new ReplaySubject(1);
-  public SellStructureObs: Observable<StructureDetails>;
+  private endStation$ : Subject<GeneralStation> = new ReplaySubject(1);
+  public EndStationObs: Observable<GeneralStation>;
 
   private shippingService$ : Subject<ShippingService> = new ReplaySubject(1);
   public ShippingServiceObs: Observable<ShippingService>;
 
-  private shippingRoute$ : Subject<ShippingRoute> = new ReplaySubject(1);
   public ShippingRouteObs: Observable<ShippingRoute>;
 
   private accoutingSkillLevel$ : Subject<number> = new ReplaySubject(1);
@@ -50,19 +49,19 @@ export class ItemSearchService {
         startWith(1), 
         shareReplay(1));
 
-    this.BuyStationObs = this.buyStation$.asObservable().pipe(
+    this.StartStationObs = this.startStation$.asObservable().pipe(
       shareReplay(1));
 
-    this.SellStructureObs = this.sellStructure$.asObservable().pipe(
+    this.EndStationObs = this.endStation$.asObservable().pipe(
       shareReplay(1));
 
     this.ShippingServiceObs = this.shippingService$.asObservable().pipe(
       shareReplay(1));  
       
-    this.ShippingRouteObs = combineLatest([this.BuyStationObs, this.SellStructureObs, this.ShippingServiceObs]).pipe(
-      map(([buyStation, sellStructure, service]) => {
+    this.ShippingRouteObs = combineLatest([this.StartStationObs, this.EndStationObs, this.ShippingServiceObs]).pipe(
+      map(([startStation, endStation, service]) => {
         if(service.id !== 0) {
-          const route = GetShippingRoute(service, buyStation, sellStructure);
+          const route = GetShippingRoute(service, startStation, endStation);
 
           if(route)
           return route;
@@ -90,14 +89,14 @@ export class ItemSearchService {
     this.accoutingSkillLevel$.next(level);
   }
 
-  public setBuyStation(station: StationDetails) {
-    storeSelectedStation(station);
-    this.buyStation$.next(station);
+  public setStartStation(station: GeneralStation) {
+    storeStartStation(station);
+    this.startStation$.next(station);
   }
 
-  public setSellStructure(structure: StructureDetails) {
-    storeSelectedStructure(structure);
-    this.sellStructure$.next(structure);
+  public setEndStation(structure: GeneralStation) {
+    storeEndStation(structure);
+    this.endStation$.next(structure);
   }
 
   public setShippingService(service: ShippingService) {

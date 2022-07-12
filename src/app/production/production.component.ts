@@ -3,10 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, filter, forkJoin, from, 
   map, mergeMap, Observable, of, shareReplay, Subject, switchMap, tap, toArray } from 'rxjs';
 import { IAuthResponseData, AuthService } from '../auth';
-import { StructureDetails, ItemDetails, StationDetails, BlueprintDetails, Prices } from '../models';
+import { ItemDetails, BlueprintDetails, Prices } from '../models';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
 import { BuyMode, calculateJobCost, calculateMaterialQuantity, calculateRequiredRuns, CalculateShippingCostForBundle, 
-  calculateTaxPercentBySkillLevel, getPriceForN, getRigMEforItem, IndustryService, ItemIdentifier, 
+  calculateTaxPercentBySkillLevel, GeneralStation, getPriceForN, getRigMEforItem, IndustryService, ItemIdentifier, 
   ItemSearchService, JITA_REGION_ID, MarketService, MJ5F9_REGION_ID, ShippingRoute, ShippingService, ShoppingEntry, ShoppingListService, UniverseService } from '../shared';
 import { ManufacturingCostEntry } from './models/manufacturing-cost-entry';
 import { SubComponent } from '.';
@@ -20,14 +20,14 @@ import { ProductionSettingsService } from './services/production-settings.servic
 })
 export class ProductionComponent implements OnInit {
   public currentItemObs: Observable<ItemIdentifier>;
-  public currentSellStructureObs: Observable<StructureDetails>;
+  public currentSellStructureObs: Observable<GeneralStation>;
 
   public shippingServiceObs: Observable<ShippingService>;
   public shippingRouteObs: Observable<ShippingRoute>;
 
   public numberCountObs: Observable<number>;
   public itemDetailsObs: Observable<ItemDetails>;
-  public currentBuyStationObs: Observable<StationDetails>;
+  public currentBuyStationObs: Observable<GeneralStation>;
   public buyModeObs: Observable<BuyMode>;
   public authStatusObs: Observable<IAuthResponseData | null>;
   public characterSaleTaxPercentObs: Observable<number>;
@@ -68,8 +68,8 @@ export class ProductionComponent implements OnInit {
       this.currentItemObs = this.itemSearchService.CurrentItemObs;
       this.numberCountObs = this.itemSearchService.ItemCountObs;
       this.authStatusObs = this.authService.authObs;    
-      this.currentBuyStationObs = this.itemSearchService.BuyStationObs;
-      this.currentSellStructureObs = this.itemSearchService.SellStructureObs;
+      this.currentBuyStationObs = this.itemSearchService.StartStationObs;
+      this.currentSellStructureObs = this.itemSearchService.EndStationObs;
       this.shippingServiceObs = this.itemSearchService.ShippingServiceObs;
       this.shippingRouteObs = this.itemSearchService.ShippingRouteObs;
       this.runsObs = this.productionSettingsService.RunsObs;
@@ -233,7 +233,7 @@ export class ProductionComponent implements OnInit {
       distinctUntilChanged()
     )));
 
-    const allRequiredComponents: Observable<{ runs: number, bpoComponents: SubComponent[], buyStation: StationDetails, mainMeLevel: number, subMeLevel: number }> = 
+    const allRequiredComponents: Observable<{ runs: number, bpoComponents: SubComponent[], buyStation: GeneralStation, mainMeLevel: number, subMeLevel: number }> = 
       combineLatest([this.runsObs, materialItemObs, subBPOsObs, this.currentBuyStationObs, this.meLevelObs, this.subMeLevelObs, mainBPOProductRigMeObs, this.sellStructureSystemCostIndexObs]).pipe(
       debounceTime(100),
       map(([runs, subMaterials, subBPOs, buyStation, mainMeLevel, subMeLevel, mainBPOProductRigMe, systemCostIndex]) => {
@@ -368,7 +368,7 @@ export class ProductionComponent implements OnInit {
       );
   }
 
-  private getBuyCost(typeId: number, quantity: number, buyStation: StationDetails, buyStructure: StructureDetails, shippingService: ShippingService, route: ShippingRoute, buyMode: BuyMode) : Observable<ManufacturingCostEntry> {
+  private getBuyCost(typeId: number, quantity: number, buyStation: GeneralStation, buyStructure: GeneralStation, shippingService: ShippingService, route: ShippingRoute, buyMode: BuyMode) : Observable<ManufacturingCostEntry> {
     let stationCostObs = this.getStationBuyCost(typeId, quantity, buyStation); 
     // if want to buy only from buy-station   
     if(buyMode.id == 0)
@@ -397,10 +397,10 @@ export class ProductionComponent implements OnInit {
     return result;
   }
 
-  private getStationBuyCost(typeId: number, quantity: number, buyStation: StationDetails): Observable<ManufacturingCostEntry> {
+  private getStationBuyCost(typeId: number, quantity: number, buyStation: GeneralStation): Observable<ManufacturingCostEntry> {
     return this.universeService.getItemDetails(typeId).pipe(
       switchMap(itemDetails => this.marketService.getRegionMarketForItem(itemDetails.type_id, JITA_REGION_ID).pipe(
-        map(entries => entries.filter(marketEntry => marketEntry.location_id ===buyStation.station_id)),
+        map(entries => entries.filter(marketEntry => marketEntry.location_id ===buyStation.station_Id)),
         map(marketEntries => ({ itemDetails: itemDetails, marketEntries: marketEntries })),
         map(entry => {
           const nPrice = getPriceForN(entry.marketEntries, quantity);
@@ -448,9 +448,9 @@ export class ProductionComponent implements OnInit {
       return forkJoin(result).pipe(shareReplay(1));
     }
 
-  private getStructureBuyCost(typeId: number, quantity: number, buyStructure: StructureDetails): Observable<ManufacturingCostEntry> {
+  private getStructureBuyCost(typeId: number, quantity: number, buyStructure: GeneralStation): Observable<ManufacturingCostEntry> {
     return this.universeService.getItemDetails(typeId).pipe(
-      switchMap(itemDetails => this.marketService.getStructureMarketForItem(buyStructure.evelyn_structureId, itemDetails.type_id, false).pipe(
+      switchMap(itemDetails => this.marketService.getStructureMarketForItem(buyStructure.station_Id, itemDetails.type_id, false).pipe(
         map(marketEntries => ({ itemDetails: itemDetails, marketEntries: marketEntries })),
         map(entry => {
           const nPrice = getPriceForN(entry.marketEntries, quantity);

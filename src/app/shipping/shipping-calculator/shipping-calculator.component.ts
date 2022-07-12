@@ -63,27 +63,27 @@ export class ShippingCalculatorComponent implements OnInit {
     this.shippingServiceObs = this.itemSearchService.ShippingServiceObs;
     const shippingRouteObs = this.itemSearchService.ShippingRouteObs;
 
-    this.assetsObs = this.characterService.getAuthenticatedCharacterInfo().pipe(
-      tap(c => console.log(c.CharacterID)),
-      switchMap(character => this.characterService.getCharacterAssets(character.CharacterID).pipe(
-        map(assets => {
-          const ids = getAllowedStructureIds();
-          const filtered: Asset[] = []; 
-           assets.forEach(a => {
-            let result = true;
-            ids.forEach(id => {
-              if(a.location_id === id || a.location_flag !== "Hangar" || a.location_type === "station")
-                result = false;
-            });
+    // this.assetsObs = this.characterService.getAuthenticatedCharacterInfo().pipe(
+    //   tap(c => console.log(c.CharacterID)),
+    //   switchMap(character => this.characterService.getCharacterAssets(character.CharacterID).pipe(
+    //     map(assets => {
+    //       const ids = getAllowedStructureIds();
+    //       const filtered: Asset[] = []; 
+    //        assets.forEach(a => {
+    //         let result = true;
+    //         ids.forEach(id => {
+    //           if(a.location_id === id || a.location_flag !== "Hangar" || a.location_type === "station")
+    //             result = false;
+    //         });
 
-            if(result)
-              filtered.push(a)
-          });
+    //         if(result)
+    //           filtered.push(a)
+    //       });
 
-          return filtered;
-        }),
-        tap(e => console.log(e))
-      )));
+    //       return filtered;
+    //     }),
+    //     tap(e => console.log(e))
+    //   )));
 
     this.itemsObs = this.itemListControl.valueChanges.pipe(
       debounceTime(250),
@@ -125,7 +125,7 @@ export class ShippingCalculatorComponent implements OnInit {
         map(entries => entries.sort(a => a.order))
       );
 
-      this.calculationResultObs = combineLatest([this.itemsObs, this.itemSearchService.BuyStationObs, shippingRouteObs]).pipe(
+      this.calculationResultObs = combineLatest([this.itemsObs, this.itemSearchService.StartStationObs, shippingRouteObs]).pipe(
         map(([items, buyStation, shippingRoute]) => {
           const result: Observable<{ 
             order: number,
@@ -141,7 +141,7 @@ export class ShippingCalculatorComponent implements OnInit {
             const curObs = this.marketService.getRegionMarketForItem(value.item.type_id).pipe(
               filter(x => !!x && x.length > 0),
               // we get the market for the whole region. But we only want given buy-station.
-              map(entries => entries.filter(entry => entry.location_id === buyStation.station_id)),
+              map(entries => entries.filter(entry => entry.location_id === buyStation.station_Id)),
               map(buyEntries => {
                 const singlePrice = getPriceForN(buyEntries, 1).averagePrice;
                 const totalPrice = getPriceForN(buyEntries, value.count).totalPrice;

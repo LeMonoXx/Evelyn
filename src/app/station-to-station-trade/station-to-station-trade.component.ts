@@ -1,14 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, map, Observable, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
 import { AuthService, IAuthResponseData } from '../auth';
-import { ItemDetails, StationDetails, StructureDetails } from '../models';
-import { calculateTaxPercentBySkillLevel, ItemIdentifier, 
-  ItemSearchService, JitaIVMoon4CaldariNavyAssemblyPlant_STATION_ID, MJ5F9_BEANSTAR_STRUCTURE_ID, 
-  MJ5F9_REGION_ID, 
-  ShippingRoute, 
-  ShippingService, 
-  ShoppingEntry, ShoppingListService, UniverseService } from '../shared';
+import { ItemDetails } from '../models';
+import { calculateTaxPercentBySkillLevel, GeneralStation, ItemIdentifier, 
+  ItemSearchService, MJ5F9_REGION_ID, ShippingRoute, ShippingService, 
+  ShoppingEntry, ShoppingListService, } from '../shared';
 
 @Component({
   selector: 'app-station-to-station-trade',
@@ -19,14 +16,14 @@ import { calculateTaxPercentBySkillLevel, ItemIdentifier,
 export class StationToStationTradeComponent implements OnInit {
 
   public currentItemObs: Observable<ItemIdentifier>;
-  public currentSellStructureObs: Observable<StructureDetails>;
+  public currentSellStructureObs: Observable<GeneralStation>;
 
   public shippingServiceObs: Observable<ShippingService>;
   public shippingRouteObs: Observable<ShippingRoute>;
   
   public numberCountObs: Observable<number>;
   public itemDetailsObs: Observable<ItemDetails>;
-  public currentBuyStationObs: Observable<StationDetails>;
+  public currentBuyStationObs: Observable<GeneralStation>;
   public authStatusObs: Observable<IAuthResponseData | null>;
   public characterSaleTaxPercentObs: Observable<number>;
   public shoppingListObs: Observable<ShoppingEntry[]>;
@@ -43,8 +40,8 @@ export class StationToStationTradeComponent implements OnInit {
       this.numberCountObs = this.itemSearchService.ItemCountObs;
       this.itemDetailsObs = this.itemSearchService.CurrentItemDetailsObs;
       this.authStatusObs = this.authService.authObs;    
-      this.currentBuyStationObs = this.itemSearchService.BuyStationObs;
-      this.currentSellStructureObs = this.itemSearchService.SellStructureObs;
+      this.currentBuyStationObs = this.itemSearchService.StartStationObs;
+      this.currentSellStructureObs = this.itemSearchService.EndStationObs;
       this.shippingServiceObs = this.itemSearchService.ShippingServiceObs;
       this.shippingRouteObs = this.itemSearchService.ShippingRouteObs;
     }

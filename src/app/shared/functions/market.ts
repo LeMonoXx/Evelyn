@@ -1,5 +1,5 @@
-import { ItemDetails, MarketEntry, StationDetails, StructureDetails } from "src/app/models";
-import { ShippingRoute } from "..";
+import { ItemDetails, MarketEntry } from "src/app/models";
+import { GeneralStation, ShippingRoute } from "..";
 import { TradeCalculation } from "../models/trade-calculation";
 import { CalculateShippingCost } from "./shipping-costs";
 
@@ -65,8 +65,8 @@ export interface PriceForN {
 }
 
 export function getTradeCalculation(                
-  buyStation: StationDetails,
-  sellStructure: StructureDetails,
+  buyStation: GeneralStation,
+  sellStructure: GeneralStation,
   count: number,
   buyEntries: MarketEntry[],
   itemDetails: ItemDetails,
