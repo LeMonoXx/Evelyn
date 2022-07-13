@@ -3,7 +3,7 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } 
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { catchError, combineLatest, debounceTime, filter, forkJoin, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
-import { MarketerSearchResult, StationDetails, StructureDetails } from '../models';
+import { MarketerSearchResult } from '../models';
 import { ProductionSettingsService } from '../production/services/production-settings.service';
 import { EveMarketerDataRepositoryService } from '../repositories';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
@@ -25,6 +25,11 @@ export class EveSearchComponent implements OnInit, OnDestroy {
 
   @Input()
   public mode: string;
+
+  @Input()
+  public startStationLabelContent: string = "Buy station";
+  @Input()
+  public endStationLabelContent: string = "Sell station";
 
   public defaultFormGroup: UntypedFormGroup;
   public itemNameControl = new UntypedFormControl(null, [Validators.minLength(3), Validators.required]);

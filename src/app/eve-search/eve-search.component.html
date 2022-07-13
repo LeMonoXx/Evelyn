@@ -48,7 +48,7 @@
 
   <form [formGroup]="shippingFormGroup">   
     <mat-form-field *ngIf="allowedStartStationsObs | async as startStations">
-      <mat-label>Buy station</mat-label>
+      <mat-label>{{ startStationLabelContent }}</mat-label>
       <mat-select [formControl]="startStationControl" [compareWith]="compareStations">
         <mat-option *ngFor="let startStation of startStations" [value]="startStation">
           {{startStation.name}}
@@ -57,7 +57,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="allowedEndStationsObs | async as endStations">
-      <mat-label>Sell structure</mat-label>
+      <mat-label>{{ endStationLabelContent }}</mat-label>
       <mat-select [formControl]="endStationControl" [compareWith]="compareStations">
         <mat-option *ngFor="let endStation of endStations" [value]="endStation">
           {{endStation.name}}
