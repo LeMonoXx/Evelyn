@@ -46,9 +46,16 @@
             </div>
 
             <mat-divider></mat-divider>
+            
+            <div *ngIf="endStationObs | async as station"
+                class="contractEntryDiv" style="padding-top: 10px;"
+                (click)="copy(station.name)">
+                <label class="titleLabel">Shipping to</label>
+                <label class="valueLabel">{{ station.name }}</label>
+            </div>
 
             <div *ngIf="shippingPriceObs | async as reward"
-                class="contractEntryDiv" style="padding-top: 10px;"
+                class="contractEntryDiv"
                 (click)="copy(reward)">
                 <label class="titleLabel">Reward</label>
                 <label class="valueLabel">{{ reward | currency }}</label>

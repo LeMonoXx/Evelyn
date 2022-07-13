@@ -2,11 +2,11 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { filter, debounceTime, map, Observable, switchMap, forkJoin, combineLatest, 
-  from, toArray, shareReplay, distinctUntilChanged, mergeMap, tap } from 'rxjs';
+  from, toArray, shareReplay, distinctUntilChanged, mergeMap } from 'rxjs';
 import { AuthService, IAuthResponseData } from 'src/app/auth';
 import { Asset, ItemDetails } from 'src/app/models';
 import { ItemSearchService, UniverseService, InputErrorStateMatcher, copyToClipboard, 
-  MarketService, getPriceForN, CalculateShippingCost, ShippingService, CharacterService, getAllowedStructureIds } from 'src/app/shared';
+  MarketService, getPriceForN, CalculateShippingCost, ShippingService, CharacterService, GeneralStation } from 'src/app/shared';
 
 @Component({
   selector: 'app-shipping-calculator',
@@ -41,13 +41,14 @@ export class ShippingCalculatorComponent implements OnInit {
   public totalVolumeObs: Observable<number>;
   public authStatusObs: Observable<IAuthResponseData | null>;
   public assetsObs: Observable<Asset[]>;
+  public endStationObs: Observable<GeneralStation>;
+  
   constructor(
     fb: UntypedFormBuilder,
     private authService: AuthService,
     private itemSearchService: ItemSearchService,
     private universeService: UniverseService,
     private marketService: MarketService,
-    private characterService: CharacterService,
     private snackBar: MatSnackBar) { 
       this.authStatusObs = this.authService.authObs;
       
@@ -61,6 +62,7 @@ export class ShippingCalculatorComponent implements OnInit {
   ngOnInit(): void {
 
     this.shippingServiceObs = this.itemSearchService.ShippingServiceObs;
+    this.endStationObs = this.itemSearchService.EndStationObs;
     const shippingRouteObs = this.itemSearchService.ShippingRouteObs;
 
     // this.assetsObs = this.characterService.getAuthenticatedCharacterInfo().pipe(
@@ -125,8 +127,8 @@ export class ShippingCalculatorComponent implements OnInit {
         map(entries => entries.sort(a => a.order))
       );
 
-      this.calculationResultObs = combineLatest([this.itemsObs, this.itemSearchService.StartStationObs, shippingRouteObs]).pipe(
-        map(([items, startStation, shippingRoute]) => {
+      this.calculationResultObs = combineLatest([this.itemsObs, shippingRouteObs]).pipe(
+        map(([items, shippingRoute]) => {
           const result: Observable<{ 
             order: number,
             item: ItemDetails, 
@@ -138,10 +140,7 @@ export class ShippingCalculatorComponent implements OnInit {
             shippingPrice: number
           }>[] = [];
           items.forEach(value => {
-            const curObs = this.marketService.getRegionMarketForItem(value.item.type_id).pipe(
-              filter(x => !!x && x.length > 0),
-              // we get the market for the whole region. But we only want given buy-station.
-              map(entries => entries.filter(entry => entry.location_id === startStation.station_Id)),
+            const curObs = this.marketService.getJitaRegionMarketForItem(value.item.type_id).pipe(
               map(buyEntries => {
                 const singlePrice = getPriceForN(buyEntries, 1).averagePrice;
                 const totalPrice = getPriceForN(buyEntries, value.count).totalPrice;

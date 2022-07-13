@@ -4,6 +4,7 @@ import { filter, map, Observable } from 'rxjs';
 import { MarketEntry, MarketHistory, Prices, MarketOrder } from 'src/app/models';
 import { EsiDataRepositoryService } from 'src/app/repositories/esi-data-repository.service';
 import { environment } from 'src/environments/environment';
+import { JitaIVMoon4CaldariNavyAssemblyPlant_STATION_ID, JITA_REGION_ID } from '../models/Ids';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,20 @@ export class MarketService {
                         .sort((a, b) => a.price - b.price)
         )
       );
+  }
+
+  // This fixed method for jita is e.g. required for colateral calculation -> those are ALWAYS Jita prices.
+  public getJitaRegionMarketForItem(itemId: number, orderType: string = "sell"): Observable<MarketEntry[]> {
+    const regionId = JITA_REGION_ID;
+    // We do not need to load pages of the result because we filter for a type_id, and the service response in a single page
+    const url = environment.esiBaseUrl + `/markets/${regionId}/orders/?order_type=${orderType}&page=1&type_id=${itemId}`
+    return this.esiDataService.getRequest<MarketEntry[]>(url).pipe(
+      filter(x => !!x && x.length > 0),
+              // we get the market for the whole region. But we only want given buy-station.
+              map(entries => entries.filter(entry => entry.location_id === JitaIVMoon4CaldariNavyAssemblyPlant_STATION_ID)),
+      map(entries => {
+        return entries.sort((a, b) => a.price - b.price)
+      }));
   }
 
   public getRegionMarketForItem(itemId: number, regionId: number = 10000002, orderType: string = "sell"): Observable<MarketEntry[]> {

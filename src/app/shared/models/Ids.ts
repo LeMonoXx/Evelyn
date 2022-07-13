@@ -17,22 +17,20 @@ export const JITA_REGION_ID: number = 10000002;
 export const JitaIVMoon4CaldariNavyAssemblyPlant_STATION_ID: number = 60003760;
 export const PerimeterTranquilityTradingTower_STATION_ID: number = 1028858195912;
 
-export function getAllowedStationIds() : number[] {
-    return [JitaIVMoon4CaldariNavyAssemblyPlant_STATION_ID];
-}
-
-export function getAllowedStructureIds() : number[] {
+export function getAllowedStationIds() : ({ station_id: number, isStructure: boolean })[] {
     return [
-        MJ5F9_BEANSTAR_STRUCTURE_ID, 
-        MJ5F9_EC_StucturesFuelComponents_STRUCTURE_ID,
-        MJ5F9_EC_SMALL_MED_LARGE_SHIPS_STRUCTURE_ID,
+        // stations
+        ({ station_id: JitaIVMoon4CaldariNavyAssemblyPlant_STATION_ID, isStructure: false }), 
 
-        R1OGN_BEANSTAR_STRUCTURE_ID, 
-
-        RQOO_U_EC_CAPITAL_SHIPS_STRUCTURE_ID, 
-        RQOO_U_FORT_EQUILIBRIUM_ID,
-        RQOO_U_RESEARCH_STRUCTURE_ID,
-        RQOO_U_T2_REACTIONS_STRUCTURE_ID,
-        PerimeterTranquilityTradingTower_STATION_ID
+        // structures
+        ({ station_id: MJ5F9_BEANSTAR_STRUCTURE_ID, isStructure: true }), 
+        ({ station_id: MJ5F9_EC_StucturesFuelComponents_STRUCTURE_ID, isStructure: true }),
+        ({ station_id: MJ5F9_EC_SMALL_MED_LARGE_SHIPS_STRUCTURE_ID, isStructure: true }),
+        ({ station_id: R1OGN_BEANSTAR_STRUCTURE_ID, isStructure: true }), 
+        ({ station_id: RQOO_U_EC_CAPITAL_SHIPS_STRUCTURE_ID, isStructure: true }), 
+        ({ station_id: RQOO_U_FORT_EQUILIBRIUM_ID, isStructure: true }),
+        ({ station_id: RQOO_U_RESEARCH_STRUCTURE_ID, isStructure: true }),
+        ({ station_id: RQOO_U_T2_REACTIONS_STRUCTURE_ID, isStructure: true }),
+        ({ station_id: PerimeterTranquilityTradingTower_STATION_ID, isStructure: true })
         ];
 }

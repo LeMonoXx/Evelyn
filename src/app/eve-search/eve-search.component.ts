@@ -8,7 +8,7 @@ import { ProductionSettingsService } from '../production/services/production-set
 import { EveMarketerDataRepositoryService } from '../repositories';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
 import { ACCOUNTING_SKILL_ID, BuyMode, CharacterService, getAllowedBuyModes, getShippingServices, 
-  getAllowedStationIds, getAllowedStructureIds, getStoredBuyMode, getStoredMELevel, getStoredSelectedShippingService, getStoredStartStation, 
+  getAllowedStationIds, getStoredBuyMode, getStoredMELevel, getStoredSelectedShippingService, getStoredStartStation, 
   getStoredEndStation, getStoredSubMELevel, InputErrorStateMatcher, ItemSearchService, ShippingService, 
   UniverseService, ShippingServicesHasRoute, GeneralStation } from '../shared';
 
@@ -53,16 +53,15 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   public oneToFive = [1, 2, 3, 4, 5];
   public zeroToTen = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   public zeroToTwenty = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-  private allowedStationIds: number[] = getAllowedStationIds();
-  private allowedStructureIds: number[] = getAllowedStructureIds();
+  private allowedStationIds: ({ station_id: number, isStructure: boolean })[] = getAllowedStationIds();
   private allShippingServices: ShippingService[] = getShippingServices();
   private allowedBuyModes: BuyMode[] = getAllowedBuyModes();
 
   autoCompleteObs: Observable<MarketerSearchResult[] | undefined> | undefined;
   currentItemImageSourceObs: Observable<string> | undefined;
   initAccountingSkillLevelObs: Observable<number>;
-  allowedStartStationsObs: Observable<GeneralStation[]>;
-  allowedEndStationsObs: Observable<GeneralStation[]>;
+  allowedStationsObs: Observable<GeneralStation[]>;
+
   allowedShippingServicesObs: Observable<ShippingService[]>;
   allowedBuyModesObs: Observable<BuyMode[]>;
 
@@ -74,8 +73,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   private accountingSkillLevelSubscription: Subscription;
   private startStationSubscription: Subscription;
   private endStationSubscription: Subscription;
-  private startStationsSubscription: Subscription;
-  private endStationsSubscription: Subscription;
+  private allowedStationsSubscription: Subscription;
   private inputItemNameSubscription: Subscription;
   private runsSubscription: Subscription;
   private teLevelSubscription: Subscription;
@@ -152,19 +150,12 @@ export class EveSearchComponent implements OnInit, OnDestroy {
       })
     );
 
-    const structuresObsArray: Observable<GeneralStation>[] = [];
-    this.allowedStructureIds.forEach(structureId => {
-      structuresObsArray.push(this.universeService.getStructureDetails(structureId))
-    });
-
-    this.allowedEndStationsObs = forkJoin(structuresObsArray);
-
     const stationsObsArray: Observable<GeneralStation>[] = [];
-    this.allowedStationIds.forEach(stationId => {
-      stationsObsArray.push(this.universeService.getStationDetails(stationId))
+    this.allowedStationIds.forEach(station => {
+      stationsObsArray.push(this.universeService.getStation(station.station_id, station.isStructure))
     });
 
-    this.allowedStartStationsObs = forkJoin(stationsObsArray);
+    this.allowedStationsObs = forkJoin(stationsObsArray);
 
     this.allowedShippingServicesObs = combineLatest([this.itemSearchService.StartStationObs, this.itemSearchService.EndStationObs]).pipe(
       map(([startStation, endStation]) => {
@@ -221,19 +212,14 @@ export class EveSearchComponent implements OnInit, OnDestroy {
         map((service: ShippingService) => this.itemSearchService.setShippingService(service))
       ).subscribe();
 
-      this.startStationsSubscription = this.allowedStartStationsObs.pipe(
+      this.allowedStationsSubscription = this.allowedStationsObs.pipe(
         map(stations => {
           
-          const station = stations.find(station => station.station_Id === getStoredStartStation()) ?? stations[0];
-          this.startStationControl.patchValue(station, )
-        })
-      ).subscribe();
+          const startStation = stations.find(station => station.station_Id === getStoredStartStation()) ?? stations[0];
+          this.startStationControl.patchValue(startStation)
 
-      this.endStationsSubscription = this.allowedEndStationsObs.pipe(
-        map(stations => {        
-          const station = stations.find(station => station.station_Id === getStoredEndStation()) ?? stations[0];
-          console.log("patchValue", station)
-          this.endStationControl.patchValue(station)
+          const endStation = stations.find(station => station.station_Id === getStoredEndStation()) ?? stations[0];
+          this.endStationControl.patchValue(endStation)
         })
       ).subscribe();
 
@@ -295,8 +281,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
     this.startStationSubscription.unsubscribe();
     this.allowedBuyModesSubscription.unsubscribe();
     this.endStationSubscription.unsubscribe();
-    this.startStationsSubscription.unsubscribe();
-    this.endStationsSubscription.unsubscribe();
+    this.allowedStationsSubscription.unsubscribe();
     this.allowedShippingServicesSubscription.unsubscribe();
     this.shippingServiceSubscription.unsubscribe();
 

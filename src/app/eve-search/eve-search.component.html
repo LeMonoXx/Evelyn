@@ -46,20 +46,20 @@
       </mat-form-field>
   </form>
 
-  <form [formGroup]="shippingFormGroup">   
-    <mat-form-field *ngIf="allowedStartStationsObs | async as startStations">
+  <form [formGroup]="shippingFormGroup" *ngIf="allowedStationsObs | async as allStations">   
+    <mat-form-field>
       <mat-label>{{ startStationLabelContent }}</mat-label>
       <mat-select [formControl]="startStationControl" [compareWith]="compareStations">
-        <mat-option *ngFor="let startStation of startStations" [value]="startStation">
+        <mat-option *ngFor="let startStation of allStations" [value]="startStation">
           {{startStation.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field *ngIf="allowedEndStationsObs | async as endStations">
+    <mat-form-field>
       <mat-label>{{ endStationLabelContent }}</mat-label>
       <mat-select [formControl]="endStationControl" [compareWith]="compareStations">
-        <mat-option *ngFor="let endStation of endStations" [value]="endStation">
+        <mat-option *ngFor="let endStation of allStations" [value]="endStation">
           {{endStation.name}}
         </mat-option>
       </mat-select>

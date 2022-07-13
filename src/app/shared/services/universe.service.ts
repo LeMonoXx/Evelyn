@@ -25,6 +25,13 @@ export class UniverseService {
     return this.esiDataService.getRequest<ItemDetails>(url)
   }
 
+  public getStation(station_id: number, isStructure: boolean) : Observable<GeneralStation> {
+    if(isStructure)
+      return this.getStructureDetails(station_id);
+
+    return this.getStationDetails(station_id);
+  }
+
   public getStructureDetails(structureId: number) : Observable<GeneralStation> {
     const url = environment.esiBaseUrl + `/universe/structures/${structureId}/`
     return this.esiDataService.getRequest<StructureDetails>(url).pipe(
