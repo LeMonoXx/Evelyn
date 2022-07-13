@@ -35,7 +35,7 @@ export class UniverseService {
           solar_system_id: structure.solar_system_id,
           type_id: structure.type_id,
           isStructure: true
-        });
+        } as GeneralStation);
       })
     )
   }
@@ -49,7 +49,7 @@ export class UniverseService {
         solar_system_id: details.system_id,
         type_id: details.type_id,
         isStructure: false
-      }))
+      } as GeneralStation))
     );
   } 
 

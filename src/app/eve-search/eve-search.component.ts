@@ -3,7 +3,7 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } 
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { catchError, combineLatest, debounceTime, filter, forkJoin, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
-import { MarketerSearchResult } from '../models';
+import { MarketerSearchResult, StationDetails, StructureDetails } from '../models';
 import { ProductionSettingsService } from '../production/services/production-settings.service';
 import { EveMarketerDataRepositoryService } from '../repositories';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
@@ -220,7 +220,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
         map(stations => {
           
           const station = stations.find(station => station.station_Id === getStoredStartStation()) ?? stations[0];
-          this.startStationControl.patchValue(station)
+          this.startStationControl.patchValue(station, )
         })
       ).subscribe();
 
@@ -254,6 +254,10 @@ export class EveSearchComponent implements OnInit, OnDestroy {
 
       this.meLevelControl.patchValue(getStoredMELevel());
       this.subMeLevelControl.patchValue(getStoredSubMELevel());
+  }
+
+  public compareStations(o1: GeneralStation, o2: GeneralStation): boolean {
+    return o1.station_Id === o2.station_Id;
   }
 
   private initProductionFormGroup(): void {  
