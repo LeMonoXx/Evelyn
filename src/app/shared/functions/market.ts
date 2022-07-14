@@ -107,7 +107,6 @@ export function getTradeCalculation(
     if (prices.requiresShipping) {
         prices.shippingCost = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, count, shippingRoute);
     }
-      
 
     let sellPrice = 0;
 
@@ -115,11 +114,11 @@ export function getTradeCalculation(
       sellPrice = sellEntries[0].price;
     } else {
       let singleItemShipping = 0;
-      
       if (prices.requiresShipping) {
         singleItemShipping = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, 1, shippingRoute);
+        
       }
-
+      
       const artificialPrice = usedOrders.averagePrice + ((usedOrders.averagePrice / 100) * 20) + singleItemShipping;
       sellPrice = artificialPrice;
       prices.artificialSellPrice = true;

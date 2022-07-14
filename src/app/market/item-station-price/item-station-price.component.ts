@@ -134,8 +134,8 @@ export class ItemStationPriceComponent implements OnInit {
     if(!existingEntry) {
       const fav: ItemTradeFavorite = {
         type_id: item.id,
-        buy_station: startStation.station_Id,
-        sell_structure: endStation.station_Id
+        buy_station: startStation,
+        sell_station: endStation,
       };
 
       this.favoriteService.AddFavoriteItem(fav);  

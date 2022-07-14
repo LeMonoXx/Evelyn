@@ -17,7 +17,8 @@ import { ACCOUNTING_SKILL_ID, calculateTaxPercentBySkillLevel,
 export class TradePriceWidgetComponent implements OnInit {
 
   @Input()
-  public inputItem: ItemTradeFavorite;
+  public inputTradeFavorite: ItemTradeFavorite;
+
   public tradeDataObs: Observable<TradeCalculation>;
   public itemDetailsObs: Observable<ItemDetails>;
 
@@ -41,43 +42,34 @@ export class TradePriceWidgetComponent implements OnInit {
       }),
       map(level => calculateTaxPercentBySkillLevel(level)));
 
-    this.itemDetailsObs = this.universeService.getItemDetails(this.inputItem.type_id);
+    this.itemDetailsObs = this.universeService.getItemDetails(this.inputTradeFavorite.type_id);
 
     const shippingService = getShippingServices()[1];
 
-    const startStationObs = this.universeService.getStationDetails(this.inputItem.buy_station);
-
-    const endStationObs = this.universeService.getStructureDetails(this.inputItem.sell_structure);
-
-    const itemBuyCostObs =  startStationObs.pipe(
-      switchMap(station => this.marketService.getMarketEntries(this.inputItem.type_id, station, false)), 
+    const itemBuyCostObs = this.marketService.getMarketEntries(this.inputTradeFavorite.type_id, this.inputTradeFavorite.buy_station, false).pipe( 
       // we get the market for the whole region. But we only want the startStation.
-      map(entries => entries.filter(entry => entry.location_id === this.inputItem.buy_station))
+      map(entries => entries.filter(entry => entry.location_id === this.inputTradeFavorite.buy_station.station_Id))
       );
       
-    const itemSellCostObs = this.marketService.getStructureMarketForItem(this.inputItem.sell_structure, this.inputItem.type_id, false);
+    const itemSellCostObs = this.marketService.getMarketEntries(this.inputTradeFavorite.type_id, this.inputTradeFavorite.sell_station, false);
 
     this.tradeDataObs = 
     combineLatest([
-        startStationObs,
-        endStationObs,
         itemBuyCostObs, 
         this.itemDetailsObs, 
         itemSellCostObs,
         saleTaxPercentObs
       ]).pipe(
         map(([
-          startStation,
-          endStation,
           buyEntries, 
           itemDetails, 
           sellEntries,
           saleTaxPercent
           ]) => {
-            const route = GetShippingRoute(shippingService, startStation, endStation);
+            const route = GetShippingRoute(shippingService, this.inputTradeFavorite.buy_station, this.inputTradeFavorite.sell_station);
             return getTradeCalculation(
-              startStation,
-              endStation,
+              this.inputTradeFavorite.buy_station, 
+              this.inputTradeFavorite.sell_station,
               1, 
               buyEntries, 
               itemDetails, 

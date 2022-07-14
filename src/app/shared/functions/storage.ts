@@ -3,7 +3,7 @@ import { BlueprintDetails, EveItem } from "src/app/models";
 import { BuyMode, GeneralStation, ItemTradeFavorite, ShippingService, ShoppingEntry } from "..";
 
 export const SHOPPINGENTRIES_KEY: string = "shopping-list";
-export const FAVORITE_TRADE_ITEMS_KEY: string = "favorite-trade-items";
+export const FAVORITE_TRADE_ITEMS_KEY: string = "favorite-trade-items-v1";
 export const BLUEPRINT_DETAILS_KEY: string = "blueprint-details";
 export const EVETYPE_KEY: string = "eve-types";
 export const SELECTED_START_STATION_KEY: string = "selected-start-station";

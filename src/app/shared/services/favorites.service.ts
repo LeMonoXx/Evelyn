@@ -7,11 +7,7 @@ import { getStoredFavoriteItems, ItemTradeFavorite, storeFavoriteItems } from '.
 })
 export class FavoritesService implements OnDestroy {
 
-  private favoriteItems$ : BehaviorSubject<ItemTradeFavorite[]> = new BehaviorSubject<ItemTradeFavorite[]>([{
-    type_id: 0,
-    buy_station: 0,
-    sell_structure: 0
-  }]);
+  private favoriteItems$ : BehaviorSubject<ItemTradeFavorite[]> = new BehaviorSubject<ItemTradeFavorite[]>([{type_id: 0} as ItemTradeFavorite]);
 
   public FavoriteItemsObs: Observable<ItemTradeFavorite[]>;
   private favItemsSubscription: Subscription;
