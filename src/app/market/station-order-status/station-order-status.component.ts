@@ -36,7 +36,6 @@ export class StationOrderStatusComponent implements OnInit {
                               map(details => ({ marketOrder: order, itemDetails: details, marketEntry: null })));
               const itemMarketDataObs = itemDetailsObs.
                           pipe(
-                          tap(_ => console.log("start station-order-status getStructureMarketForItem")),
                           switchMap(order_item => this.marketService
                                  .getMarketEntries(order.type_id, station, false).pipe(
                                   map(items => (

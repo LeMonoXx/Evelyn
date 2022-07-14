@@ -64,12 +64,7 @@ export class ItemStationPriceComponent implements OnInit {
         );
         
       this.itemSellCostObs$ = combineLatest([this.sellStation$, this.itemIdentifier$]).pipe(
-        mergeMap(([sellStation, itemIdentifier]) => 
-        {
-          console.log(sellStation); 
-          return this.marketService.getMarketEntries(itemIdentifier.id, sellStation, false);
-        }
-        ));
+        mergeMap(([sellStation, itemIdentifier]) => this.marketService.getMarketEntries(itemIdentifier.id, sellStation, false)));
 
         this.tradeData$ = 
         combineLatest(

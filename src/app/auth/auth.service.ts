@@ -127,7 +127,7 @@ export class AuthService {
     public startRefreshTokenTimer() {
         // parse json object from base64 encoded jwt token
         const jwtToken = AuthService.authValue;
-        console.log(jwtToken?.access_token);
+       // console.log(jwtToken?.access_token);
         if(jwtToken && jwtToken.expires_in > 0) {
             // set a timeout to refresh the token a minute before it expires
             const timeoutMs = + (jwtToken.expires_in - 60) * 1000;

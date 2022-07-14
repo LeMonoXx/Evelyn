@@ -11,17 +11,17 @@ const FILES_TO_CACHE = [
 ];
 
 self.addEventListener('install', e => {
-  console.log('[ServiceWorker] Install');
+  // console.log('[ServiceWorker] Install');
   // Precache static resources here maybe??. 'styles/variables.scss'
 
   self.skipWaiting();
 });
 
 self.addEventListener('activate', e => {
-  console.log('[ServiceWorker] Activate');
+ // console.log('[ServiceWorker] Activate');
   e.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
-      console.log('[ServiceWorker] Caching offline page');
+    //  console.log('[ServiceWorker] Caching offline page');
       return cache.addAll(FILES_TO_CACHE);
     })
   );
@@ -32,7 +32,7 @@ self.addEventListener('activate', e => {
       return Promise.all(
         keyList.map(key => {
           if (key !== CACHE_NAME) {
-            console.log('[ServiceWorker] Removing old cache', key);
+         //   console.log('[ServiceWorker] Removing old cache', key);
             return caches.delete(key);
           }
         })
