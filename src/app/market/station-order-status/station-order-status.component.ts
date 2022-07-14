@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { combineLatest, debounceTime, defaultIfEmpty, forkJoin, map, mergeMap, Observable, switchMap } from 'rxjs';
+import { combineLatest, debounceTime, defaultIfEmpty, forkJoin, map, mergeMap, Observable, switchMap, tap } from 'rxjs';
 import { ItemDetails, MarketEntry, MarketOrder } from 'src/app/models';
 import { CharacterService, copyToClipboard, GeneralStation, MarketService, UniverseService } from 'src/app/shared';
 
@@ -13,7 +13,7 @@ import { CharacterService, copyToClipboard, GeneralStation, MarketService, Unive
 export class StationOrderStatusComponent implements OnInit {
 
   @Input()
-  public structure$ : Observable<GeneralStation>;
+  public station$ : Observable<GeneralStation>;
   
   public charMarketOrdersObs: Observable<{ marketOrder?: MarketOrder, itemDetails?: ItemDetails, marketEntry?: MarketEntry }[] | null>;
 
@@ -25,20 +25,20 @@ export class StationOrderStatusComponent implements OnInit {
   ngOnInit(): void {
 
     const characterObs = this.characterService.getAuthenticatedCharacterInfo();
-
-    this.charMarketOrdersObs = combineLatest([characterObs, this.structure$]).pipe(   
+    this.charMarketOrdersObs = combineLatest([characterObs, this.station$]).pipe(   
       debounceTime(500),
-      mergeMap(([character, structure]) => 
-        this.marketService.getMarketOrders(structure.station_Id, character.CharacterID, false).pipe(
+      mergeMap(([character, station]) => 
+        this.marketService.getMarketOrders(station.station_Id, character.CharacterID, false).pipe(
           map(orders => {
             const requests: Observable<{ marketOrder: MarketOrder, itemDetails: ItemDetails, marketEntry: MarketEntry }>[] = [];
             orders.forEach(order => {
               const itemDetailsObs = this.universeService.getItemDetails(order.type_id).pipe(
                               map(details => ({ marketOrder: order, itemDetails: details, marketEntry: null })));
-
-              const itemMarketDataObs = itemDetailsObs.pipe(
+              const itemMarketDataObs = itemDetailsObs.
+                          pipe(
+                          tap(_ => console.log("start station-order-status getStructureMarketForItem")),
                           switchMap(order_item => this.marketService
-                                 .getStructureMarketForItem(order.location_id, order.type_id, false).pipe(
+                                 .getMarketEntries(order.type_id, station, false).pipe(
                                   map(items => (
                                       { 
                                         marketOrder: order_item.marketOrder,

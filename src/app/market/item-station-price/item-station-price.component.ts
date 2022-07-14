@@ -1,9 +1,9 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { combineLatest, debounceTime, map, mergeMap, Observable, switchMap } from 'rxjs';
-import { ItemDetails, MarketEntry, } from 'src/app/models';
+import { combineLatest, debounceTime, map, mergeMap, Observable, switchMap, tap } from 'rxjs';
+import { ItemDetails, MarketEntry } from 'src/app/models';
 import { copyToClipboard, FavoritesService, ItemIdentifier, 
-  JITA_REGION_ID, MarketService, TradeCalculation, 
+  MarketService, TradeCalculation, 
   ShoppingEntry, ShoppingListService, UniverseService, ShippingService, 
   ItemTradeFavorite, getTradeCalculation, ShippingRoute, GeneralStation } from 'src/app/shared';
 
@@ -55,15 +55,20 @@ export class ItemStationPriceComponent implements OnInit {
       }));
 
       this.itemBuyCostObs = combineLatest([ this.startStation$, this.itemIdentifier$]).pipe(
-        switchMap(([station, item]) => this.marketService.getRegionMarketForItem(item.id, JITA_REGION_ID).pipe(
+        switchMap(([station, item]) => {
+          return this.marketService.getMarketEntries(item.id, station, false).pipe(
             // we get the market for the whole region. But we only want the startStation.
             map(entries => entries.filter(entry => entry.location_id === station.station_Id))
-          ))
+          )
+        })
         );
         
       this.itemSellCostObs$ = combineLatest([this.sellStation$, this.itemIdentifier$]).pipe(
-        mergeMap(([sellStation, itemIdentifier]) =>  
-          this.marketService.getStructureMarketForItem(sellStation.station_Id, itemIdentifier.id, false)
+        mergeMap(([sellStation, itemIdentifier]) => 
+        {
+          console.log(sellStation); 
+          return this.marketService.getMarketEntries(itemIdentifier.id, sellStation, false);
+        }
         ));
 
         this.tradeData$ = 

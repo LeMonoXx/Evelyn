@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, of, tap } from 'rxjs';
-import { ItemDetails, SearchResult, EveItem, ItemGroup, StructureDetails, StationDetails } from 'src/app/models';
+import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
+import { ItemDetails, SearchResult, EveItem, ItemGroup, StructureDetails, StationDetails, Constellation, Region, System } from 'src/app/models';
 import { ItemCategory } from 'src/app/models/universe/categories/item-category';
 import { EsiDataRepositoryService } from 'src/app/repositories/esi-data-repository.service';
 import { environment } from 'src/environments/environment';
@@ -26,10 +26,21 @@ export class UniverseService {
   }
 
   public getStation(station_id: number, isStructure: boolean) : Observable<GeneralStation> {
-    if(isStructure)
-      return this.getStructureDetails(station_id);
 
-    return this.getStationDetails(station_id);
+    let stationObs: Observable<GeneralStation>;
+    if(isStructure)
+      stationObs = this.getStructureDetails(station_id);
+    else
+      stationObs = this.getStationDetails(station_id);
+
+    return stationObs.pipe(
+      switchMap(station => this.getSystem(station.solar_system_id).pipe(
+        switchMap(system => this.getConstellation(system.constellation_id).pipe(
+          map(constellation => {
+            station.region_id = constellation.region_id;
+            return station;
+          })))
+      )));
   }
 
   public getStructureDetails(structureId: number) : Observable<GeneralStation> {
@@ -58,7 +69,22 @@ export class UniverseService {
         isStructure: false
       } as GeneralStation))
     );
-  } 
+  }
+
+  public getSystem(system_id: number) : Observable<System> {
+    const url = environment.esiBaseUrl + `/universe/systems/${system_id}/`
+    return this.esiDataService.getRequest<System>(url);
+  }
+
+  public getConstellation(constellation_id: number) : Observable<Constellation> {
+    const url = environment.esiBaseUrl + `/universe/constellations/${constellation_id}/`
+    return this.esiDataService.getRequest<Constellation>(url);
+  }
+
+  public getRegion(region_id: number) : Observable<Region> {
+    const url = environment.esiBaseUrl + `/universe/regions/${region_id}/`
+    return this.esiDataService.getRequest<Region>(url);
+  }
 
   // public findItemByName(searchName: string) : Observable<SearchResult> {
   //   const url = environment.esiBaseUrl + `/search/?categories=inventory_type&language=en&search=${searchName}&strict=true`;

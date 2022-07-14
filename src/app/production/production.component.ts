@@ -7,7 +7,7 @@ import { ItemDetails, BlueprintDetails, Prices } from '../models';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
 import { BuyMode, calculateJobCost, calculateMaterialQuantity, calculateRequiredRuns, CalculateShippingCostForBundle, 
   calculateTaxPercentBySkillLevel, GeneralStation, getPriceForN, getRigMEforItem, IndustryService, ItemIdentifier, 
-  ItemSearchService, JITA_REGION_ID, MarketService, MJ5F9_REGION_ID, ShippingRoute, ShippingService, ShoppingEntry, ShoppingListService, UniverseService } from '../shared';
+  ItemSearchService, MarketService, MJ5F9_REGION_ID, ShippingRoute, ShippingService, ShoppingEntry, ShoppingListService, UniverseService } from '../shared';
 import { ManufacturingCostEntry } from './models/manufacturing-cost-entry';
 import { SubComponent } from '.';
 import { ProductionSettingsService } from './services/production-settings.service';
@@ -399,8 +399,8 @@ export class ProductionComponent implements OnInit {
 
   private getStationBuyCost(typeId: number, quantity: number, startStation: GeneralStation): Observable<ManufacturingCostEntry> {
     return this.universeService.getItemDetails(typeId).pipe(
-      switchMap(itemDetails => this.marketService.getRegionMarketForItem(itemDetails.type_id, JITA_REGION_ID).pipe(
-        map(entries => entries.filter(marketEntry => marketEntry.location_id ===startStation.station_Id)),
+      switchMap(itemDetails => this.marketService.getMarketEntries(itemDetails.type_id, startStation, false).pipe(
+        map(entries => entries.filter(marketEntry => marketEntry.location_id === startStation.station_Id)),
         map(marketEntries => ({ itemDetails: itemDetails, marketEntries: marketEntries })),
         map(entry => {
           const nPrice = getPriceForN(entry.marketEntries, quantity);
@@ -450,7 +450,7 @@ export class ProductionComponent implements OnInit {
 
   private getStructureBuyCost(typeId: number, quantity: number, buyStructure: GeneralStation): Observable<ManufacturingCostEntry> {
     return this.universeService.getItemDetails(typeId).pipe(
-      switchMap(itemDetails => this.marketService.getStructureMarketForItem(buyStructure.station_Id, itemDetails.type_id, false).pipe(
+      switchMap(itemDetails => this.marketService.getMarketEntries(itemDetails.type_id, buyStructure, false).pipe(
         map(marketEntries => ({ itemDetails: itemDetails, marketEntries: marketEntries })),
         map(entry => {
           const nPrice = getPriceForN(entry.marketEntries, quantity);

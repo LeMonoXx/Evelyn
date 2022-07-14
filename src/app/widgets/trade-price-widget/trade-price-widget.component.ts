@@ -6,7 +6,7 @@ import { ItemDetails } from 'src/app/models';
 import { ACCOUNTING_SKILL_ID, calculateTaxPercentBySkillLevel, 
   CharacterService, copyToClipboard, GetShippingRoute, getShippingServices, getTradeCalculation,
   ItemSearchService,
-  ItemTradeFavorite, JITA_REGION_ID, MarketService, TradeCalculation, UniverseService } from 'src/app/shared';
+  ItemTradeFavorite, MarketService, TradeCalculation, UniverseService } from 'src/app/shared';
 
 @Component({
   selector: 'app-trade-price-widget',
@@ -43,18 +43,19 @@ export class TradePriceWidgetComponent implements OnInit {
 
     this.itemDetailsObs = this.universeService.getItemDetails(this.inputItem.type_id);
 
-    const itemBuyCostObs =  this.marketService.getRegionMarketForItem(this.inputItem.type_id, JITA_REGION_ID).pipe(
-          // we get the market for the whole region. But we only want the startStation.
-          map(entries => entries.filter(entry => entry.location_id === this.inputItem.buy_station))
-        );
-      
-    const itemSellCostObs = this.marketService.getStructureMarketForItem(this.inputItem.sell_structure, this.inputItem.type_id, false);
-
     const shippingService = getShippingServices()[1];
 
     const startStationObs = this.universeService.getStationDetails(this.inputItem.buy_station);
 
     const endStationObs = this.universeService.getStructureDetails(this.inputItem.sell_structure);
+
+    const itemBuyCostObs =  startStationObs.pipe(
+      switchMap(station => this.marketService.getMarketEntries(this.inputItem.type_id, station, false)), 
+      // we get the market for the whole region. But we only want the startStation.
+      map(entries => entries.filter(entry => entry.location_id === this.inputItem.buy_station))
+      );
+      
+    const itemSellCostObs = this.marketService.getStructureMarketForItem(this.inputItem.sell_structure, this.inputItem.type_id, false);
 
     this.tradeDataObs = 
     combineLatest([

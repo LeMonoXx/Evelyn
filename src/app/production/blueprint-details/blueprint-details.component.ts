@@ -131,7 +131,7 @@ export class BlueprintDetailsComponent implements OnInit {
       this.sellEntriesObs = combineLatest([this.endStation$, this.productObs]).pipe(
         debounceTime(50),
         mergeMap(([endStation, product]) =>  
-          this.marketService.getStructureMarketForItem(endStation.station_Id, product.product.type_id, false)
+          this.marketService.getMarketEntries(product.product.type_id, endStation, false)
         ),
         shareReplay(1));
 

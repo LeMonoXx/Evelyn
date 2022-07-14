@@ -248,7 +248,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   }
 
   public compareStations(o1: GeneralStation, o2: GeneralStation): boolean {
-    return o1.station_Id === o2.station_Id;
+    return o1 == null || o2 == null || o1.station_Id === o2.station_Id;
   }
 
   private initProductionFormGroup(): void {  
