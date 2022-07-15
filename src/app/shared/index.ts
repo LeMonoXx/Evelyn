@@ -6,8 +6,11 @@ export * from './models/shopping-list/shopping-entry'
 export * from './models/buy-mode'
 
 export * from './models/shipping/shipping-service'
+export * from './models/shipping/shipping-route'
 
 export * from './models/favorites/item-trade-favorite'
+
+export * from './models/structure/general-station'
 
 export * from './services/character.service'
 export * from './services/favorites.service'

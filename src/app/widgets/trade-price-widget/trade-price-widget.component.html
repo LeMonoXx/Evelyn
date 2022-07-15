@@ -2,7 +2,7 @@
     <div class="itemInfoContainer">
         <div class="itemInfo">
             <div>
-                <img class="foundItemImage"  [src]="getImageForItem(inputItem.type_id)">
+                <img class="foundItemImage"  [src]="getImageForItem(inputTradeFavorite.type_id)">
             </div>
             
             <div class="itemInfoName" [title]="tradeData.type_name"
@@ -16,13 +16,13 @@
 
         <div class="stationRoute">
             <div class="stationName">
-                {{ tradeData.buyStation.name }}             
+                {{ tradeData.startStation.name }}             
             </div>
             <div class="fromToStationIcon">
                 <mat-icon [inline]="true">arrow_forward</mat-icon>
             </div>
             <div class="stationName alignEnd">
-                {{ tradeData.sellStructure.name }}
+                {{ tradeData.endStation.name }}
                
             </div>
         </div>

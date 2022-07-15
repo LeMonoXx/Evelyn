@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { catchError, filter, map, Observable, of, tap } from 'rxjs';
-import { ItemDetails, SearchResult, StationDetails, StructureDetails as StructureDetails, EveItem, ItemGroup } from 'src/app/models';
+import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
+import { ItemDetails, SearchResult, EveItem, ItemGroup, StructureDetails, StationDetails, Constellation, Region, System } from 'src/app/models';
 import { ItemCategory } from 'src/app/models/universe/categories/item-category';
 import { EsiDataRepositoryService } from 'src/app/repositories/esi-data-repository.service';
 import { environment } from 'src/environments/environment';
 import { parse } from 'yaml';
 import { getStoredEveTypes, storeEveTypes } from '../functions/storage';
+import { GeneralStation } from '../models/structure/general-station';
 
 @Injectable({
   providedIn: 'root'
@@ -24,22 +25,66 @@ export class UniverseService {
     return this.esiDataService.getRequest<ItemDetails>(url)
   }
 
-  public getStructureDetails(structureId: number) : Observable<StructureDetails> {
+  public getStation(station_id: number, isStructure: boolean) : Observable<GeneralStation> {
+
+    let stationObs: Observable<GeneralStation>;
+    if(isStructure)
+      stationObs = this.getStructureDetails(station_id);
+    else
+      stationObs = this.getStationDetails(station_id);
+
+    return stationObs.pipe(
+      switchMap(station => this.getSystem(station.solar_system_id).pipe(
+        switchMap(system => this.getConstellation(system.constellation_id).pipe(
+          map(constellation => {
+            station.region_id = constellation.region_id;
+            return station;
+          })))
+      )));
+  }
+
+  public getStructureDetails(structureId: number) : Observable<GeneralStation> {
     const url = environment.esiBaseUrl + `/universe/structures/${structureId}/`
     return this.esiDataService.getRequest<StructureDetails>(url).pipe(
       map(structure => {
-
-        if(structure)
-          structure.evelyn_structureId = structureId;
-
-        return structure;
+        return ({
+          station_Id: structureId,
+          name: structure.name,
+          solar_system_id: structure.solar_system_id,
+          type_id: structure.type_id,
+          isStructure: true
+        } as GeneralStation);
       })
     )
   }
-  public getStationDetails(stationId: number) : Observable<StationDetails> {
+
+  public getStationDetails(stationId: number) : Observable<GeneralStation> {
     const url = environment.esiBaseUrl + `/universe/stations/${stationId}/`
-    return this.esiDataService.getRequest<StationDetails>(url);
-  } 
+    return this.esiDataService.getRequest<StationDetails>(url).pipe(
+      map(details => ({
+        station_Id: details.station_id,
+        name: details.name,
+        solar_system_id: details.system_id,
+        type_id: details.type_id,
+        isStructure: false
+      } as GeneralStation))
+    );
+  }
+
+  public getSystem(system_id: number) : Observable<System> {
+    const url = environment.esiBaseUrl + `/universe/systems/${system_id}/`
+    return this.esiDataService.getRequest<System>(url);
+  }
+
+  public getConstellation(constellation_id: number) : Observable<Constellation> {
+    const url = environment.esiBaseUrl + `/universe/constellations/${constellation_id}/`
+    return this.esiDataService.getRequest<Constellation>(url);
+  }
+
+  public getRegion(region_id: number) : Observable<Region> {
+    const url = environment.esiBaseUrl + `/universe/regions/${region_id}/`
+    return this.esiDataService.getRequest<Region>(url);
+  }
 
   // public findItemByName(searchName: string) : Observable<SearchResult> {
   //   const url = environment.esiBaseUrl + `/search/?categories=inventory_type&language=en&search=${searchName}&strict=true`;

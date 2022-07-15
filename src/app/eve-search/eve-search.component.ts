@@ -2,13 +2,15 @@ import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { catchError, debounceTime, filter, forkJoin, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
-import { MarketerSearchResult, StationDetails, StructureDetails } from '../models';
+import { catchError, combineLatest, debounceTime, filter, forkJoin, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
+import { MarketerSearchResult } from '../models';
 import { ProductionSettingsService } from '../production/services/production-settings.service';
 import { EveMarketerDataRepositoryService } from '../repositories';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
-import { ACCOUNTING_SKILL_ID, BuyMode, CharacterService, getAllowedBuyModes, getAllowedShippingServices, getAllowedStationIds, getAllowedStructureIds, getStoredBuyMode, getStoredMELevel, getStoredSelectedShippingService, getStoredSelectedStation, 
-  getStoredSelectedStructure, getStoredSubMELevel, InputErrorStateMatcher, ItemSearchService, ShippingService, UniverseService } from '../shared';
+import { ACCOUNTING_SKILL_ID, BuyMode, CharacterService, getAllowedBuyModes, getShippingServices, 
+  getAllowedStationIds, getStoredBuyMode, getStoredMELevel, getStoredSelectedShippingService, getStoredStartStation, 
+  getStoredEndStation, getStoredSubMELevel, InputErrorStateMatcher, ItemSearchService, ShippingService, 
+  UniverseService, ShippingServicesHasRoute, GeneralStation } from '../shared';
 
 @Component({
   selector: 'app-eve-search',
@@ -24,6 +26,11 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   @Input()
   public mode: string;
 
+  @Input()
+  public startStationLabelContent: string = "Buy station";
+  @Input()
+  public endStationLabelContent: string = "Sell station";
+
   public defaultFormGroup: UntypedFormGroup;
   public itemNameControl = new UntypedFormControl(null, [Validators.minLength(3), Validators.required]);
   public itemCountControl = new UntypedFormControl(1, [Validators.pattern("[0-9]*"), Validators.max(25000), Validators.min(1)]);
@@ -36,26 +43,25 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   public teLevelControl = new UntypedFormControl(0, [Validators.pattern("[0-9]*"), Validators.max(20), Validators.min(0)]);
 
   public shippingFormGroup: UntypedFormGroup;
-  public buyStationControl = new UntypedFormControl(null, [Validators.required]); 
+  public startStationControl = new UntypedFormControl(null, [Validators.required]); 
   public buyModeControl = new UntypedFormControl(null, [Validators.required]);
   public selectedBuyMode: BuyMode;
   
-  public sellStructureControl = new UntypedFormControl(null, [Validators.required]);
+  public endStationControl = new UntypedFormControl(null, [Validators.required]);
   public shippingServiceControl = new UntypedFormControl(null, [Validators.required]);
 
   public oneToFive = [1, 2, 3, 4, 5];
   public zeroToTen = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   public zeroToTwenty = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-  private allowedStationIds: number[] = getAllowedStationIds();
-  private allowedStructureIds: number[] = getAllowedStructureIds();
-  private allowedShippingServices: ShippingService[] = getAllowedShippingServices();
+  private allowedStationIds: ({ station_id: number, isStructure: boolean })[] = getAllowedStationIds();
+  private allShippingServices: ShippingService[] = getShippingServices();
   private allowedBuyModes: BuyMode[] = getAllowedBuyModes();
 
   autoCompleteObs: Observable<MarketerSearchResult[] | undefined> | undefined;
   currentItemImageSourceObs: Observable<string> | undefined;
   initAccountingSkillLevelObs: Observable<number>;
-  allowedStructuresObs: Observable<StructureDetails[]>;
-  allowedStationsObs: Observable<StationDetails[]>;
+  allowedStationsObs: Observable<GeneralStation[]>;
+
   allowedShippingServicesObs: Observable<ShippingService[]>;
   allowedBuyModesObs: Observable<BuyMode[]>;
 
@@ -65,10 +71,9 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   private searchSubscription: Subscription;
   private initAccountingSkillLevelSubscription: Subscription;
   private accountingSkillLevelSubscription: Subscription;
-  private buyStationSubscription: Subscription;
-  private sellStructureSubscription: Subscription;
-  private stationsSubscription: Subscription;
-  private structuresSubscription: Subscription;
+  private startStationSubscription: Subscription;
+  private endStationSubscription: Subscription;
+  private allowedStationsSubscription: Subscription;
   private inputItemNameSubscription: Subscription;
   private runsSubscription: Subscription;
   private teLevelSubscription: Subscription;
@@ -95,8 +100,8 @@ export class EveSearchComponent implements OnInit, OnDestroy {
       });
 
       this.shippingFormGroup = fb.group({
-        buyStation: this.buyStationControl,
-        sellStructure: this.sellStructureControl,
+        startStation: this.startStationControl,
+        endStation: this.endStationControl,
         shippingService: this.shippingServiceControl
       })
 
@@ -145,21 +150,17 @@ export class EveSearchComponent implements OnInit, OnDestroy {
       })
     );
 
-    const structuresObsArray: Observable<StructureDetails>[] = [];
-    this.allowedStructureIds.forEach(structureId => {
-      structuresObsArray.push(this.universeService.getStructureDetails(structureId))
-    });
-
-    this.allowedStructuresObs = forkJoin(structuresObsArray);
-
-    const stationsObsArray: Observable<StationDetails>[] = [];
-    this.allowedStationIds.forEach(stationId => {
-      stationsObsArray.push(this.universeService.getStationDetails(stationId))
+    const stationsObsArray: Observable<GeneralStation>[] = [];
+    this.allowedStationIds.forEach(station => {
+      stationsObsArray.push(this.universeService.getStation(station.station_id, station.isStructure))
     });
 
     this.allowedStationsObs = forkJoin(stationsObsArray);
 
-    this.allowedShippingServicesObs = of(this.allowedShippingServices);
+    this.allowedShippingServicesObs = combineLatest([this.itemSearchService.StartStationObs, this.itemSearchService.EndStationObs]).pipe(
+      map(([startStation, endStation]) => {
+        return this.allShippingServices.filter(service => service.id === 0 || ShippingServicesHasRoute(service, startStation, endStation))
+      }));
 
     this.allowedBuyModesObs = of(this.allowedBuyModes);
 
@@ -199,30 +200,26 @@ export class EveSearchComponent implements OnInit, OnDestroy {
         map((level: number) => this.itemSearchService.setAccountingSkillLevel(level))
       ).subscribe();    
 
-      this.buyStationSubscription = this.buyStationControl.valueChanges.pipe(
-        map((station: StationDetails) => this.itemSearchService.setBuyStation(station))
+      this.startStationSubscription = this.startStationControl.valueChanges.pipe(
+        map((station: GeneralStation) => this.itemSearchService.setStartStation(station))
       ).subscribe();
 
-      this.sellStructureSubscription = this.sellStructureControl.valueChanges.pipe(
-        map((structure: StructureDetails) => this.itemSearchService.setSellStructure(structure))
+      this.endStationSubscription = this.endStationControl.valueChanges.pipe(
+        map((station: GeneralStation) => this.itemSearchService.setEndStation(station))
       ).subscribe();    
 
       this.shippingServiceSubscription = this.shippingServiceControl.valueChanges.pipe(
         map((service: ShippingService) => this.itemSearchService.setShippingService(service))
-      ).subscribe();    
-
-      this.stationsSubscription = this.allowedStationsObs.pipe(
-        map(stations => {
-          
-          const station = stations.find(station => station.station_id === getStoredSelectedStation()) ?? stations[0];
-          this.buyStationControl.patchValue(station)
-        })
       ).subscribe();
 
-      this.structuresSubscription = this.allowedStructuresObs.pipe(
-        map(structures => {        
-          const structure = structures.find(station => station.evelyn_structureId === getStoredSelectedStructure()) ?? structures[0];
-          this.sellStructureControl.patchValue(structure)
+      this.allowedStationsSubscription = this.allowedStationsObs.pipe(
+        map(stations => {
+          
+          const startStation = stations.find(station => station.station_Id === getStoredStartStation()) ?? stations[0];
+          this.startStationControl.patchValue(startStation)
+
+          const endStation = stations.find(station => station.station_Id === getStoredEndStation()) ?? stations[0];
+          this.endStationControl.patchValue(endStation)
         })
       ).subscribe();
 
@@ -248,6 +245,10 @@ export class EveSearchComponent implements OnInit, OnDestroy {
 
       this.meLevelControl.patchValue(getStoredMELevel());
       this.subMeLevelControl.patchValue(getStoredSubMELevel());
+  }
+
+  public compareStations(o1: GeneralStation, o2: GeneralStation): boolean {
+    return o1 == null || o2 == null || o1.station_Id === o2.station_Id;
   }
 
   private initProductionFormGroup(): void {  
@@ -277,11 +278,10 @@ export class EveSearchComponent implements OnInit, OnDestroy {
     this.searchSubscription.unsubscribe();
     this.initAccountingSkillLevelSubscription.unsubscribe();
     this.accountingSkillLevelSubscription.unsubscribe();
-    this.buyStationSubscription.unsubscribe();
+    this.startStationSubscription.unsubscribe();
     this.allowedBuyModesSubscription.unsubscribe();
-    this.sellStructureSubscription.unsubscribe();
-    this.stationsSubscription.unsubscribe();
-    this.structuresSubscription.unsubscribe();
+    this.endStationSubscription.unsubscribe();
+    this.allowedStationsSubscription.unsubscribe();
     this.allowedShippingServicesSubscription.unsubscribe();
     this.shippingServiceSubscription.unsubscribe();
 

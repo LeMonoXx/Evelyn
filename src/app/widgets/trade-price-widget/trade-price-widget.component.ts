@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { map, switchMap, combineLatest, Observable } from 'rxjs';
 import { ItemDetails } from 'src/app/models';
 import { ACCOUNTING_SKILL_ID, calculateTaxPercentBySkillLevel, 
-  CharacterService, copyToClipboard, getAllowedShippingServices, getTradeCalculation,
+  CharacterService, copyToClipboard, GetShippingRoute, getShippingServices, getTradeCalculation,
   ItemSearchService,
-  ItemTradeFavorite, JITA_REGION_ID, MarketService, TradeCalculation, UniverseService } from 'src/app/shared';
+  ItemTradeFavorite, MarketService, TradeCalculation, UniverseService } from 'src/app/shared';
 
 @Component({
   selector: 'app-trade-price-widget',
@@ -17,7 +17,8 @@ import { ACCOUNTING_SKILL_ID, calculateTaxPercentBySkillLevel,
 export class TradePriceWidgetComponent implements OnInit {
 
   @Input()
-  public inputItem: ItemTradeFavorite;
+  public inputTradeFavorite: ItemTradeFavorite;
+
   public tradeDataObs: Observable<TradeCalculation>;
   public itemDetailsObs: Observable<ItemDetails>;
 
@@ -41,46 +42,41 @@ export class TradePriceWidgetComponent implements OnInit {
       }),
       map(level => calculateTaxPercentBySkillLevel(level)));
 
-    this.itemDetailsObs = this.universeService.getItemDetails(this.inputItem.type_id);
+    this.itemDetailsObs = this.universeService.getItemDetails(this.inputTradeFavorite.type_id);
 
-    const itemBuyCostObs =  this.marketService.getRegionMarketForItem(this.inputItem.type_id, JITA_REGION_ID).pipe(
-          // we get the market for the whole region. But we only want the buyStation.
-          map(entries => entries.filter(entry => entry.location_id === this.inputItem.buy_station))
-        );
+    const shippingService = getShippingServices()[1];
+
+    const itemBuyCostObs = this.marketService.getMarketEntries(this.inputTradeFavorite.type_id, this.inputTradeFavorite.buy_station, false).pipe( 
+      // we get the market for the whole region. But we only want the startStation.
+      map(entries => entries.filter(entry => entry.location_id === this.inputTradeFavorite.buy_station.station_Id))
+      );
       
-    const itemSellCostObs = this.marketService.getStructureMarketForItem(this.inputItem.sell_structure, this.inputItem.type_id, false);
-
-    const shippingService = getAllowedShippingServices()[1];
-
-    const buyStationObs = this.universeService.getStationDetails(this.inputItem.buy_station);
-
-    const sellStructureObs = this.universeService.getStructureDetails(this.inputItem.sell_structure);
+    const itemSellCostObs = this.marketService.getMarketEntries(this.inputTradeFavorite.type_id, this.inputTradeFavorite.sell_station, false);
 
     this.tradeDataObs = 
     combineLatest([
-        buyStationObs,
-        sellStructureObs,
         itemBuyCostObs, 
         this.itemDetailsObs, 
         itemSellCostObs,
         saleTaxPercentObs
       ]).pipe(
         map(([
-          buyStation,
-          sellStructure,
           buyEntries, 
           itemDetails, 
           sellEntries,
           saleTaxPercent
-          ]) => getTradeCalculation(
-            buyStation,
-            sellStructure,
-            1, 
-            buyEntries, 
-            itemDetails, 
-            sellEntries,
-            saleTaxPercent,
-            shippingService)
+          ]) => {
+            const route = GetShippingRoute(shippingService, this.inputTradeFavorite.buy_station, this.inputTradeFavorite.sell_station);
+            return getTradeCalculation(
+              this.inputTradeFavorite.buy_station, 
+              this.inputTradeFavorite.sell_station,
+              1, 
+              buyEntries, 
+              itemDetails, 
+              sellEntries,
+              saleTaxPercent,
+              route);
+          } 
           )
         );
   } 

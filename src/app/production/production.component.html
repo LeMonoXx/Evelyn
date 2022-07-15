@@ -12,8 +12,9 @@
             <mat-card-title>Manufacturing summary</mat-card-title>
                <app-blueprint-details *ngIf="!(isLoadingObs | async); else ProdLoadingIndicator"
                   [runs$]="runsObs"
-                  [sellStructure$]="currentSellStructureObs"
+                  [endStation$]="currentendStationObs"
                   [saleTaxPercent$]="characterSaleTaxPercentObs"
+                  [shippingRoute$]="shippingRouteObs"
                   [shippingService$]="shippingServiceObs"
                   [mainBpoJobCost$]="mainBpoJobCostObs"
                   [manufacturingCosts$]="manufacturingCostsObs"

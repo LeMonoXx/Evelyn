@@ -2,7 +2,8 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { combineLatest, debounceTime, filter, map, mergeMap, Observable, shareReplay, switchMap } from 'rxjs';
 import { BlueprintDetails, ItemDetails, MarketEntry, StructureDetails } from 'src/app/models';
-import { calculateComponentMaterialCosts, calculateComponentShippingColaterial, calculateComponentVolume, calculateShippingComponentVolume, CalculateShippingCostForBundle, copyToClipboard, MarketService, ShippingService, UniverseService } from 'src/app/shared';
+import { calculateComponentMaterialCosts, calculateComponentShippingColaterial, calculateShippingComponentVolume, 
+  CalculateShippingCostForBundle, copyToClipboard, GeneralStation, MarketService, ShippingRoute, ShippingService, UniverseService } from 'src/app/shared';
 import { ManufacturingCostEntry, SubComponent } from '..';
 
 @Component({
@@ -28,9 +29,11 @@ export class BlueprintDetailsComponent implements OnInit {
   @Input()
   public saleTaxPercent$: Observable<number>;
   @Input()
-  public sellStructure$: Observable<StructureDetails>;
+  public endStation$: Observable<GeneralStation>;
   @Input()
   public shippingService$: Observable<ShippingService>;
+  @Input()
+  public shippingRoute$: Observable<ShippingRoute>;
   
   public currentItemImageSourceObs: Observable<string>;
   public productObs: Observable<{ product: ItemDetails, amount: number, imageSource: string }>;
@@ -108,8 +111,8 @@ export class BlueprintDetailsComponent implements OnInit {
           shareReplay(1)
         );
 
-      this.shippingCostObs = combineLatest([this.ShippingColateralObs, this.ShippingVolumeObs, this.shippingService$]).pipe(
-        map(([price, volume, shippingService]) => CalculateShippingCostForBundle(price, volume, shippingService)),
+      this.shippingCostObs = combineLatest([this.ShippingColateralObs, this.ShippingVolumeObs, this.shippingRoute$]).pipe(
+        map(([price, volume, shippingRoute]) => CalculateShippingCostForBundle(price, volume, shippingRoute)),
         shareReplay(1)
       )
 
@@ -125,10 +128,10 @@ export class BlueprintDetailsComponent implements OnInit {
       );
 
 
-      this.sellEntriesObs = combineLatest([this.sellStructure$, this.productObs]).pipe(
+      this.sellEntriesObs = combineLatest([this.endStation$, this.productObs]).pipe(
         debounceTime(50),
-        mergeMap(([sellStructure, product]) =>  
-          this.marketService.getStructureMarketForItem(sellStructure.evelyn_structureId, product.product.type_id, false)
+        mergeMap(([endStation, product]) =>  
+          this.marketService.getMarketEntries(product.product.type_id, endStation, false)
         ),
         shareReplay(1));
 

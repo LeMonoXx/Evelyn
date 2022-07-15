@@ -37,9 +37,9 @@ export class HeaderComponent implements OnInit{
 
       this.characterObs = this.characterService
       .getAuthenticatedCharacterInfo()
-      .pipe(
-        tap(c => console.log(c))
-      );
+      // .pipe(
+      //   tap(c => console.log(c))
+      // );
 
       this.characterPortraitObs = this.characterObs.pipe(
         switchMap(authChar => this.characterService.getCharacterImage(authChar.CharacterID))
@@ -64,7 +64,7 @@ export class HeaderComponent implements OnInit{
   }
 
   startLogin(): void {
-    console.log("startLogin started");
+    // console.log("startLogin started");
     this.doAuth();
   }
 }

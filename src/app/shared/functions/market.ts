@@ -1,5 +1,5 @@
-import { ItemDetails, MarketEntry, StationDetails, StructureDetails } from "src/app/models";
-import { ShippingService } from "../models/shipping/shipping-service";
+import { ItemDetails, MarketEntry } from "src/app/models";
+import { GeneralStation, ShippingRoute } from "..";
 import { TradeCalculation } from "../models/trade-calculation";
 import { CalculateShippingCost } from "./shipping-costs";
 
@@ -65,14 +65,14 @@ export interface PriceForN {
 }
 
 export function getTradeCalculation(                
-  buyStation: StationDetails,
-  sellStructure: StructureDetails,
+  startStation: GeneralStation,
+  endStation: GeneralStation,
   count: number,
   buyEntries: MarketEntry[],
   itemDetails: ItemDetails,
   sellEntries: MarketEntry[],
   saleTaxPercent: number,
-  shippingService: ShippingService
+  shippingRoute: ShippingRoute
   ): TradeCalculation {
     const prices: TradeCalculation = {
       quantity: count,
@@ -90,9 +90,9 @@ export function getTradeCalculation(
       shippingCost: 0,
       usedMarketEntries: [],
       hasEnoughMarketVolumen: false,
-      requiresShipping: shippingService.id === 0 ? false : true,
-      buyStation: buyStation,
-      sellStructure: sellStructure
+      requiresShipping: shippingRoute.startSystem === -1 ? false : true,
+      startStation: startStation,
+      endStation: endStation
     };
 
     if(buyEntries.length <= 0)
@@ -104,8 +104,9 @@ export function getTradeCalculation(
     prices.buyPriceX = usedOrders.totalPrice;
     prices.hasEnoughMarketVolumen = usedOrders.enough;
 
-    if (prices.requiresShipping)
-      prices.shippingCost = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, count, shippingService);
+    if (prices.requiresShipping) {
+        prices.shippingCost = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, count, shippingRoute);
+    }
 
     let sellPrice = 0;
 
@@ -113,10 +114,11 @@ export function getTradeCalculation(
       sellPrice = sellEntries[0].price;
     } else {
       let singleItemShipping = 0;
+      if (prices.requiresShipping) {
+        singleItemShipping = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, 1, shippingRoute);
+        
+      }
       
-      if (prices.requiresShipping)
-        singleItemShipping = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, 1, shippingService);
-
       const artificialPrice = usedOrders.averagePrice + ((usedOrders.averagePrice / 100) * 20) + singleItemShipping;
       sellPrice = artificialPrice;
       prices.artificialSellPrice = true;

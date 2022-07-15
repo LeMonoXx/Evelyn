@@ -7,6 +7,7 @@ export * from './character/character'
 export * from './character/portrait'
 export * from './character/character-skill'
 export * from './character/character-skill-book'
+export * from './character/asset'
 
 export * from './eve-maketer/marketer-search-result'
 
@@ -27,8 +28,11 @@ export * from './types/item-details'
 export * from './universe/position'
 export * from './universe/structure-details'
 export * from './universe/station-details'
-
 export * from './universe/groups/item-group'
+export * from './universe/region'
+export * from './universe/planet'
+export * from './universe/system'
+export * from './universe/constellation'
 
 export * from './sde/fsd/blueprint/blueprint-details'
 export * from './sde/fsd/blueprint/activities'

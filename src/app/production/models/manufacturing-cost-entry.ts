@@ -1,8 +1,8 @@
-import { StationDetails, StructureDetails } from "src/app/models";
+import { GeneralStation } from "src/app/shared";
 
 export interface ManufacturingCostEntry {
     requireShipping: boolean,
-    buyLocation: StationDetails | StructureDetails
+    buyLocation: GeneralStation
     typeID: number;
     itemName: string;
     quantity_total: number;
