@@ -206,7 +206,7 @@ export class ProductionComponent implements OnInit {
               mergeMap(bpo => this.universeService.getItemDetails(bpo.blueprintTypeID).pipe(
                 map(bpoItem => ({ bpo: bpo, bpoItem: bpoItem })
               ),                
-              switchMap(sc => this.getIEVForBPO(sc.bpo, runs).pipe(
+              switchMap(sc => this.getIEVForBPO(sc.bpo).pipe(
                 map(iev => ({ bpo: sc.bpo, bpoItem: sc.bpoItem, iev }))
               )),
               map(result => {
@@ -472,7 +472,7 @@ export class ProductionComponent implements OnInit {
     );
   }
 
-  private getIEVForBPO(bpo: BlueprintDetails, runs: number): Observable<number> {
+  private getIEVForBPO(bpo: BlueprintDetails): Observable<number> {
     return this.allAdjustedPrices.pipe(
       map(allPrices => {
         let totalPrice = 0;
@@ -482,8 +482,8 @@ export class ProductionComponent implements OnInit {
           if(itemPrice)
             totalPrice += itemPrice.adjusted_price * material.quantity;
         })
-        const result = totalPrice * runs;
-        return result;
+
+        return totalPrice;
       }),        
       shareReplay(1)
     );
