@@ -25,6 +25,7 @@ export class ShoppingListComponent implements OnInit {
 
   public calcProfitSum(entries: ShoppingEntry[]) {
     const result = entries.reduce((accumulator, current) => {
+      // profit is already the sum of the amount
       return accumulator + current.profit;
     }, 0);
     return result;
@@ -32,7 +33,8 @@ export class ShoppingListComponent implements OnInit {
 
   public calcBuySum(entries: ShoppingEntry[]) {
     const result = entries.reduce((accumulator, current) => {
-      return accumulator + current.buy_price;
+      // the buy-price is for single item. so we need to multiply by the quantity
+      return accumulator + (current.buy_price * current.quantity);
     }, 0);
     return result;
   }

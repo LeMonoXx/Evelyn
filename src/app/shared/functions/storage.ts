@@ -61,13 +61,14 @@ export function storeBlueprintDetails(entries: { [typeId: number]: BlueprintDeta
       storeData<{ [typeId: number]: BlueprintDetails }>(entries, BLUEPRINT_DETAILS_KEY);
 }
 
-export function getStoredEveTypes(): { [typeId: number]: EveItem } | null {
-      return getData<{ [typeId: number]: EveItem }>(EVETYPE_KEY);
-}
+// export function getStoredEveTypes(): { [typeId: number]: EveItem } | null {
+//       return getData<{ [typeId: number]: EveItem }>(EVETYPE_KEY);
+// }
 
-export function storeEveTypes(entries: { [typeId: number]: EveItem }) {
-      storeData<{ [typeId: number]: EveItem }>(entries, EVETYPE_KEY);
-}
+// export function storeEveTypes(entries: { [typeId: number]: EveItem }) {
+//       console.log("store ", entries)
+//       storeData<{ [typeId: number]: EveItem }>(entries, EVETYPE_KEY);
+// }
 
 export function getStoredBuyMode(): number | null {
       return getData<number>(SELECTED_BUY_MODE);
