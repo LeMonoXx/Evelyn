@@ -20,8 +20,6 @@
     "@angular/platform-browser": "^14.0.5",
     "@angular/platform-browser-dynamic": "^14.0.5",
     "@angular/router": "^14.0.5",
-    "@syncfusion/ej2-angular-base": "^20.1.48",
-    "@syncfusion/ej2-angular-charts": "^20.1.50",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.3",
     "rxjs": "~7.5.0",

@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, distinctUntilChanged, map, Observable, of, shareReplay, switchMap, tap } from 'rxjs';
 import { ItemDetails, SearchResult, EveItem, ItemGroup, StructureDetails, StationDetails, Constellation, Region, System } from 'src/app/models';
 import { ItemCategory } from 'src/app/models/universe/categories/item-category';
 import { EsiDataRepositoryService } from 'src/app/repositories/esi-data-repository.service';
 import { environment } from 'src/environments/environment';
 import { parse } from 'yaml';
-import { getStoredEveTypes, storeEveTypes } from '../functions/storage';
 import { GeneralStation } from '../models/structure/general-station';
 
 @Injectable({
@@ -133,22 +132,5 @@ export class UniverseService {
   public getItemCategory(categoryId: number): Observable<ItemCategory> {
     const url = environment.esiBaseUrl + `/universe/categories/${categoryId}`;
     return this.esiDataService.getRequest<ItemCategory>(url);
-  }
-
-  public getGetAllItems() : Observable<EveItem[]> {
-
-    const storedDetails = getStoredEveTypes(); 
-
-    if(storedDetails) {
-      return of(Object.values(storedDetails));
-    }
-
-    const url = environment.sdeBaseUrl + `/fsd/typeIDs.yaml`
-    return this.esiDataService.getText(url).pipe(
-      map(text => parse(text) as { [typeId: number]: EveItem }),
-      // add all blueprint-details to the storage for later usage
-      tap(types => storeEveTypes(types)),
-      map(types => Object.values(types))
-    );
   }
 }

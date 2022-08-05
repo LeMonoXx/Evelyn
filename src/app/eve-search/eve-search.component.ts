@@ -3,9 +3,10 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } 
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { catchError, combineLatest, debounceTime, filter, forkJoin, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
-import { MarketerSearchResult } from '../models';
+import { EveItem, MarketerSearchResult } from '../models';
 import { ProductionSettingsService } from '../production/services/production-settings.service';
 import { EveMarketerDataRepositoryService } from '../repositories';
+import { AutocompleteService } from '../repositories/autocomplete.service';
 import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
 import { ACCOUNTING_SKILL_ID, BuyMode, CharacterService, getAllowedBuyModes, getShippingServices, 
   getAllowedStationIds, getStoredBuyMode, getStoredMELevel, getStoredSelectedShippingService, getStoredStartStation, 
@@ -57,7 +58,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
   private allShippingServices: ShippingService[] = getShippingServices();
   private allowedBuyModes: BuyMode[] = getAllowedBuyModes();
 
-  autoCompleteObs: Observable<MarketerSearchResult[] | undefined> | undefined;
+  autoCompleteObs: Observable<EveItem[] | undefined> | undefined;
   currentItemImageSourceObs: Observable<string> | undefined;
   initAccountingSkillLevelObs: Observable<number>;
   allowedStationsObs: Observable<GeneralStation[]>;
@@ -86,7 +87,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
 
   constructor(
     fb: UntypedFormBuilder,
-    private autoCompleteService : EveMarketerDataRepositoryService,
+    private autoCompleteService : AutocompleteService,
     private itemSearchService: ItemSearchService,
     private characterService: CharacterService,
     private universeService: UniverseService,
@@ -132,8 +133,9 @@ export class EveSearchComponent implements OnInit, OnDestroy {
               .pipe(
                 map(esiSearch => {
                   if(esiSearch.inventory_type) {
-                    const fallback: MarketerSearchResult = {
-                      id: esiSearch.inventory_type[0]
+                    const fallback: EveItem = {
+                      typeId: esiSearch.inventory_type[0],
+                      order: 0
                     };
 
                     this.titleService.setTitle(`${searchStr}`)
@@ -182,7 +184,7 @@ export class EveSearchComponent implements OnInit, OnDestroy {
             this.titleService.setTitle(`${item.name}`)
             this.router.navigate([], { queryParams: { item: item.name } });
 
-            this.itemSearchService.setCurrentItem({ id: item.id, name: item.name });
+            this.itemSearchService.setCurrentItem({ id: item.typeId, name: item.name });
           }
           return item;
       })).subscribe();

@@ -8,6 +8,5 @@ export const ESI_API_SCOPES = [
     'esi-markets.structure_markets.v1',
     'esi-markets.read_character_orders.v1',
     'esi-contracts.read_character_contracts.v1',
-    'esi-universe.read_structures.v1',
-    'esi-clones.read_clones.v1'
+    'esi-universe.read_structures.v1'
 ];
