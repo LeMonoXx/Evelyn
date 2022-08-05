@@ -4,13 +4,13 @@ import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, fil
   map, mergeMap, Observable, of, shareReplay, Subject, switchMap, tap, toArray } from 'rxjs';
 import { IAuthResponseData, AuthService } from '../auth';
 import { ItemDetails, BlueprintDetails, Prices } from '../models';
-import { EvepraisalDataRepositoryService } from '../repositories/evepraisal-data-repository.service';
 import { BuyMode, calculateJobCost, calculateMaterialQuantity, calculateRequiredRuns, CalculateShippingCostForBundle, 
   calculateTaxPercentBySkillLevel, GeneralStation, getPriceForN, getRigMEforItem, IndustryService, ItemIdentifier, 
   ItemSearchService, MarketService, MJ5F9_REGION_ID, ShippingRoute, ShippingService, ShoppingEntry, ShoppingListService, UniverseService } from '../shared';
 import { ManufacturingCostEntry } from './models/manufacturing-cost-entry';
 import { SubComponent } from '.';
 import { ProductionSettingsService } from './services/production-settings.service';
+import { AutocompleteService } from '../repositories/autocomplete.service';
 
 @Component({
   selector: 'app-production',
@@ -52,6 +52,7 @@ export class ProductionComponent implements OnInit {
 
   public indicatorSubject = new BehaviorSubject<boolean>(false);
   public isLoadingObs = this.indicatorSubject.asObservable().pipe(distinctUntilChanged());
+  public initalTypesLoadObs: Observable<any>;
 
   private allAdjustedPrices : Observable<Prices[]>;
 
@@ -59,12 +60,13 @@ export class ProductionComponent implements OnInit {
     private industryService: IndustryService,
     private universeService: UniverseService,
     private marketService: MarketService,
-    private autoCompleteService : EvepraisalDataRepositoryService,
+    private autoCompleteService : AutocompleteService,
     private itemSearchService: ItemSearchService,
     private authService: AuthService,
     private shoppingListService: ShoppingListService,
     private productionSettingsService: ProductionSettingsService,
     private readonly route: ActivatedRoute) {
+      this.initalTypesLoadObs = this.autoCompleteService.getGetAllItems();
       this.currentItemObs = this.itemSearchService.CurrentItemObs;
       this.numberCountObs = this.itemSearchService.ItemCountObs;
       this.authStatusObs = this.authService.authObs;    
@@ -102,8 +104,8 @@ export class ProductionComponent implements OnInit {
         var switchResult = this.autoCompleteService.getAutoCompleteSuggestions(bpoItem).pipe(
          // map(result => result.find(r => r.name === bpoItem)),
          map(result => result[0]),
-          filter(x => !!x && !!x.id),
-          switchMap(bpoItem => this.universeService.getItemDetails(bpoItem?.id))
+          filter(x => !!x && !!x.typeId),
+          switchMap(bpoItem => this.universeService.getItemDetails(bpoItem?.typeId))
         );
         return switchResult;
       }),
@@ -199,10 +201,10 @@ export class ProductionComponent implements OnInit {
           // if its filtered out, the component is calculated as bought form market.
          // filter(c => c.item.type_id !== 17478),
           mergeMap(component => this.autoCompleteService.getAutoCompleteSuggestions(component.item.name + " Blueprint").pipe(
-            map(x => x?.filter(e => e.name.startsWith(component.item.name))),
+            map(x => x?.filter(e => e.name?.startsWith(component.item.name))),
             filter(x => !!x && x.length > 0),
             map(items => items[0]),
-            mergeMap(item => this.industryService.getBlueprintDetails(item.id).pipe(
+            mergeMap(item => this.industryService.getBlueprintDetails(item.typeId).pipe(
               mergeMap(bpo => this.universeService.getItemDetails(bpo.blueprintTypeID).pipe(
                 map(bpoItem => ({ bpo: bpo, bpoItem: bpoItem })
               ),                

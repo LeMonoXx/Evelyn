@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
 import { AuthService, IAuthResponseData } from '../auth';
 import { ItemDetails } from '../models';
+import { AutocompleteService } from '../repositories/autocomplete.service';
 import { calculateTaxPercentBySkillLevel, GeneralStation, ItemIdentifier, 
   ItemSearchService, MJ5F9_REGION_ID, ShippingRoute, ShippingService, 
   ShoppingEntry, ShoppingListService, } from '../shared';
@@ -30,12 +31,16 @@ export class StationToStationTradeComponent implements OnInit {
   public currentRegionObs: Observable<number> = new BehaviorSubject<number>(MJ5F9_REGION_ID);
 
   public routerItemNameSubject: Subject<string> = new BehaviorSubject("");
+  public initalTypesLoadObs: Observable<any>;
 
   constructor(
+    private autoCompleteService: AutocompleteService,
     private itemSearchService: ItemSearchService,
     private authService: AuthService,
     private shoppingListService: ShoppingListService,
     private readonly route: ActivatedRoute) {
+      this.initalTypesLoadObs = this.autoCompleteService.getGetAllItems();
+
       this.currentItemObs = this.itemSearchService.CurrentItemObs;
       this.numberCountObs = this.itemSearchService.ItemCountObs;
       this.itemDetailsObs = this.itemSearchService.CurrentItemDetailsObs;

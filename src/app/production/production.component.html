@@ -1,53 +1,65 @@
-<div class="productionMainDiv" *ngIf="authStatusObs | async; else NotAuthenticated">
-    <mat-card>
-        <mat-card-title>Item search</mat-card-title>
-        <div class="searchContent">
-           <app-eve-search mode="production"
-           [inputItemName$]="routerItemNameSubject"></app-eve-search>
-        </div>
-     </mat-card>
-
-     <div class="productionContentDiv">
-         <mat-card class="manufacturingContent">
-            <mat-card-title>Manufacturing summary</mat-card-title>
-               <app-blueprint-details *ngIf="!(isLoadingObs | async); else ProdLoadingIndicator"
-                  [runs$]="runsObs"
-                  [endStation$]="currentendStationObs"
-                  [saleTaxPercent$]="characterSaleTaxPercentObs"
-                  [shippingRoute$]="shippingRouteObs"
-                  [shippingService$]="shippingServiceObs"
-                  [mainBpoJobCost$]="mainBpoJobCostObs"
-                  [manufacturingCosts$]="manufacturingCostsObs"
-                  [subComponents$]="subComponentsObs"
-                  [BPOItem$]="itemDetailsObs"
-                  [BPODetails$]="mainBPODetailsObs">
-               </app-blueprint-details>        
-         </mat-card>
-  
-         <mat-card class="manufacturingContent-weight">
-            <mat-card-title>Required BPCs</mat-card-title>
-            <app-sub-blueprints *ngIf="!(isLoadingObs | async); else ProdLoadingIndicator"
-               [subBPOs$]="subComponentsObs">  
-            </app-sub-blueprints>      
-         </mat-card>
-
-         <mat-card class="manufacturingContent">
-            <mat-card-title>Shopping list</mat-card-title>
-            <app-blueprint-material-costs
-             [manufacturingCosts$]="manufacturingCostsObs">
-            </app-blueprint-material-costs>
-         </mat-card>
-
-
-         <mat-card class="manufacturingContent">
-            <mat-card-title>Required materials</mat-card-title>
-            <app-blueprint-materials *ngIf="!(isLoadingObs | async); else ProdLoadingIndicator"
-               [targetItem$]="itemDetailsObs"
-               [allRequiredMaterials$]="allRequiredMaterials">
-            </app-blueprint-materials>        
-         </mat-card>
-     </div>
+<div *ngIf="authStatusObs | async; else NotAuthenticated">
+   <div class="productionMainDiv" *ngIf="initalTypesLoadObs | async; else InitalTypesLoading">
+      <mat-card>
+         <mat-card-title>Item search</mat-card-title>
+         <div class="searchContent">
+            <app-eve-search mode="production"
+            [inputItemName$]="routerItemNameSubject"></app-eve-search>
+         </div>
+      </mat-card>
+ 
+      <div class="productionContentDiv">
+          <mat-card class="manufacturingContent">
+             <mat-card-title>Manufacturing summary</mat-card-title>
+                <app-blueprint-details *ngIf="!(isLoadingObs | async); else ProdLoadingIndicator"
+                   [runs$]="runsObs"
+                   [endStation$]="currentendStationObs"
+                   [saleTaxPercent$]="characterSaleTaxPercentObs"
+                   [shippingRoute$]="shippingRouteObs"
+                   [shippingService$]="shippingServiceObs"
+                   [mainBpoJobCost$]="mainBpoJobCostObs"
+                   [manufacturingCosts$]="manufacturingCostsObs"
+                   [subComponents$]="subComponentsObs"
+                   [BPOItem$]="itemDetailsObs"
+                   [BPODetails$]="mainBPODetailsObs">
+                </app-blueprint-details>        
+          </mat-card>
+   
+          <mat-card class="manufacturingContent-weight">
+             <mat-card-title>Required BPCs</mat-card-title>
+             <app-sub-blueprints *ngIf="!(isLoadingObs | async); else ProdLoadingIndicator"
+                [subBPOs$]="subComponentsObs">  
+             </app-sub-blueprints>      
+          </mat-card>
+ 
+          <mat-card class="manufacturingContent">
+             <mat-card-title>Shopping list</mat-card-title>
+             <app-blueprint-material-costs
+              [manufacturingCosts$]="manufacturingCostsObs">
+             </app-blueprint-material-costs>
+          </mat-card>
+ 
+ 
+          <mat-card class="manufacturingContent">
+             <mat-card-title>Required materials</mat-card-title>
+             <app-blueprint-materials *ngIf="!(isLoadingObs | async); else ProdLoadingIndicator"
+                [targetItem$]="itemDetailsObs"
+                [allRequiredMaterials$]="allRequiredMaterials">
+             </app-blueprint-materials>        
+          </mat-card>
+      </div>
+   </div>
 </div>  
+
+<ng-template #InitalTypesLoading>
+   <div class="initalTypesLoading">
+      Cleaning ships...
+      <br>No worries, there is no fee for you.
+      <div class="initialLoadingIndicator">
+         <mat-spinner></mat-spinner>
+      </div>
+   </div>
+</ng-template>
 
 <ng-template #NotAuthenticated>
     <div class="notAuthenticated">
