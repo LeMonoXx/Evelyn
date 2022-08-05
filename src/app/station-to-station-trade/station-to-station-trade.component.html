@@ -1,47 +1,58 @@
-<div class="stationToStationTradeMainDiv" *ngIf="authStatusObs | async; else NotAuthenticated">
-   <mat-card>
-      <mat-card-title>Item search</mat-card-title>
-      <div class="searchContent">
-         <app-eve-search mode="trade" [inputItemName$]="routerItemNameSubject"></app-eve-search>
-      </div>
-   </mat-card>
-
-   <div class="sellDetailsAndOrders">
-      <div class="stationPriceMatCard">   
-         <mat-card class="default-mat-card">
-            <ng-container *ngIf="currentItemObs | async; else NoItemSpecified"
-            class="stationPriceContent">
-                  <eve-item-station-price
-                     [saleTaxPercent$]="characterSaleTaxPercentObs"
-                     [numberCount$]="numberCountObs"
-                     [startStation$]="currentstartStationObs"
-                     [sellStation$]="currentendStationObs"
-                     [shippingService$]="shippingServiceObs"
-                     [shippingRoute$]="shippingRouteObs"
-                     [itemIdentifier$]="currentItemObs"
-                     [itemDetails$]="itemDetailsObs">
-                  </eve-item-station-price>       
-            </ng-container>  
-         </mat-card>
-      </div>
-      
-      <div *ngIf="shoppingListObs | async as list">   
-         <mat-card class="default-mat-card" *ngIf="list.length > 0">
-            <app-shopping-list
-               [shoppingList$]="shoppingListObs">
-            </app-shopping-list>  
-         </mat-card>
-      </div>
-      
-      <mat-card class="default-mat-card">
-         <mat-card-title>Active Orders</mat-card-title>
-         <app-station-order-status
-            [station$]="currentendStationObs">
-         </app-station-order-status>
+<div *ngIf="authStatusObs | async; else NotAuthenticated">
+   <div class="stationToStationTradeMainDiv" *ngIf="initalTypesLoadObs | async; else InitalTypesLoading">
+      <mat-card>
+         <mat-card-title>Item search</mat-card-title>
+         <div class="searchContent">
+            <app-eve-search mode="trade" [inputItemName$]="routerItemNameSubject"></app-eve-search>
+         </div>
       </mat-card>
+   
+      <div class="sellDetailsAndOrders">
+         <div class="stationPriceMatCard">   
+            <mat-card class="default-mat-card">
+               <ng-container *ngIf="currentItemObs | async; else NoItemSpecified"
+               class="stationPriceContent">
+                     <eve-item-station-price
+                        [saleTaxPercent$]="characterSaleTaxPercentObs"
+                        [numberCount$]="numberCountObs"
+                        [startStation$]="currentstartStationObs"
+                        [sellStation$]="currentendStationObs"
+                        [shippingService$]="shippingServiceObs"
+                        [shippingRoute$]="shippingRouteObs"
+                        [itemIdentifier$]="currentItemObs"
+                        [itemDetails$]="itemDetailsObs">
+                     </eve-item-station-price>       
+               </ng-container>  
+            </mat-card>
+         </div>
+         
+         <div *ngIf="shoppingListObs | async as list">   
+            <mat-card class="default-mat-card" *ngIf="list.length > 0">
+               <app-shopping-list
+                  [shoppingList$]="shoppingListObs">
+               </app-shopping-list>  
+            </mat-card>
+         </div>
+         
+         <mat-card class="default-mat-card">
+            <mat-card-title>Active Orders</mat-card-title>
+            <app-station-order-status
+               [station$]="currentendStationObs">
+            </app-station-order-status>
+         </mat-card>
+      </div>
    </div>
 </div>
 
+<ng-template #InitalTypesLoading>
+   <div class="initalTypesLoading">
+      Cleaning ships...
+      <br>No worries, there is no fee for you.
+      <div class="initialLoadingIndicator">
+         <mat-spinner></mat-spinner>
+      </div>
+   </div>
+</ng-template>
 
 <ng-template #NotAuthenticated>
    <div class="notAuthenticated">

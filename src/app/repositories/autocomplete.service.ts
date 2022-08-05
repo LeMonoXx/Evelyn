@@ -1,7 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EveItem } from '../models';
-import { distinctUntilChanged, map, Observable } from 'rxjs'
+import { tap, delay, distinctUntilChanged, map, Observable, shareReplay } from 'rxjs'
 import { EsiDataRepositoryService } from './esi-data-repository.service';
 
 @Injectable({
@@ -9,8 +8,7 @@ import { EsiDataRepositoryService } from './esi-data-repository.service';
 })
 export class AutocompleteService {
 
-  constructor(private httpClient: HttpClient,
-    private esiDataService: EsiDataRepositoryService) { }
+  constructor(private esiDataService: EsiDataRepositoryService) { }
 
   public getAutoCompleteSuggestions(searchName: string): Observable<EveItem[]> {
     return this.getGetAllItems().pipe(
@@ -40,7 +38,9 @@ export class AutocompleteService {
         })
 
         return items.sort((a, b) => a.order - b.order);
-      })
+      }),
+      shareReplay(1),
+      distinctUntilChanged()
     )
   }
 

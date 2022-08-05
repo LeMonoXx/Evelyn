@@ -2,7 +2,6 @@ import { HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from "@angula
 
 import { Injectable } from "@angular/core"
 import { map, of, shareReplay } from "rxjs"
-import { environment } from "src/environments/environment"
 
 @Injectable()
 export class ItemSearchCacheInterceptor implements HttpInterceptor {
@@ -14,8 +13,7 @@ export class ItemSearchCacheInterceptor implements HttpInterceptor {
             return next.handle(request)
         }
 
-        if(!(request.url.includes(environment.eveMarketerBaseUrl + '/types/autocomplete?q=')
-        || request.url.includes(environment.evepraisalBaseUrl + 'search.json?q='))) {
+        if(!(request.url.includes('assets/typeIDs.json'))) {
             return next.handle(request)
         }
 
