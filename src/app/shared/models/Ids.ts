@@ -1,6 +1,7 @@
 export const ACCOUNTING_SKILL_ID: number = 16622;
 
 export const MJ5F9_BEANSTAR_STRUCTURE_ID: number = 1038457641673;
+export const O34MN_VALHALLA_STRUCTURE_ID: number = 1032040302179;
 export const MJ5F9_EC_StucturesFuelComponents_STRUCTURE_ID: number = 1038547343252;
 export const MJ5F9_EC_SMALL_MED_LARGE_SHIPS_STRUCTURE_ID: number = 1038547286358;
 export const MJ5F9_REGION_ID: number = 10000066;
@@ -23,6 +24,7 @@ export function getAllowedStationIds() : ({ station_id: number, isStructure: boo
         ({ station_id: JitaIVMoon4CaldariNavyAssemblyPlant_STATION_ID, isStructure: false }), 
 
         // structures
+        ({ station_id: O34MN_VALHALLA_STRUCTURE_ID, isStructure: true }),
         ({ station_id: MJ5F9_BEANSTAR_STRUCTURE_ID, isStructure: true }), 
         ({ station_id: MJ5F9_EC_StucturesFuelComponents_STRUCTURE_ID, isStructure: true }),
         ({ station_id: MJ5F9_EC_SMALL_MED_LARGE_SHIPS_STRUCTURE_ID, isStructure: true }),
@@ -31,6 +33,6 @@ export function getAllowedStationIds() : ({ station_id: number, isStructure: boo
         ({ station_id: RQOO_U_FORT_EQUILIBRIUM_ID, isStructure: true }),
         ({ station_id: RQOO_U_RESEARCH_STRUCTURE_ID, isStructure: true }),
         ({ station_id: RQOO_U_T2_REACTIONS_STRUCTURE_ID, isStructure: true }),
-        ({ station_id: PerimeterTranquilityTradingTower_STATION_ID, isStructure: true })
+        ({ station_id: PerimeterTranquilityTradingTower_STATION_ID, isStructure: true }),
         ];
 }

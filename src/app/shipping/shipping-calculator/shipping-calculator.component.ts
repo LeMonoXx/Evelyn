@@ -2,11 +2,11 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { filter, debounceTime, map, Observable, switchMap, forkJoin, combineLatest, 
-  from, toArray, shareReplay, distinctUntilChanged, mergeMap } from 'rxjs';
+  from, toArray, shareReplay, distinctUntilChanged, mergeMap, tap } from 'rxjs';
 import { AuthService, IAuthResponseData } from 'src/app/auth';
 import { Asset, ItemDetails } from 'src/app/models';
 import { ItemSearchService, UniverseService, InputErrorStateMatcher, copyToClipboard, 
-  MarketService, getPriceForN, CalculateShippingCost, ShippingService, CharacterService, GeneralStation } from 'src/app/shared';
+  MarketService, getPriceForN, CalculateShippingCost, ShippingService, CharacterService, GeneralStation, getAllowedStationIds } from 'src/app/shared';
 
 @Component({
   selector: 'app-shipping-calculator',
@@ -45,6 +45,7 @@ export class ShippingCalculatorComponent implements OnInit {
   
   constructor(
     fb: UntypedFormBuilder,
+   // private characterService: CharacterService,
     private authService: AuthService,
     private itemSearchService: ItemSearchService,
     private universeService: UniverseService,
@@ -69,7 +70,7 @@ export class ShippingCalculatorComponent implements OnInit {
     //   tap(c => console.log(c.CharacterID)),
     //   switchMap(character => this.characterService.getCharacterAssets(character.CharacterID).pipe(
     //     map(assets => {
-    //       const ids = getAllowedStructureIds();
+    //       const ids = getAllowedStationIds();
     //       const filtered: Asset[] = []; 
     //        assets.forEach(a => {
     //         let result = true;
