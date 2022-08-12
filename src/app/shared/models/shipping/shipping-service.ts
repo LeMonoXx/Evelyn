@@ -20,6 +20,9 @@ function getBeanFreightRoutes() : ShippingRoute[] {
             ({ startSystem: 30000142, endSystem: 30005133, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // Jita -> MJ
             ({ startSystem: 30005133, endSystem: 30000142, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // MJ - Jita
 
+            ({ startSystem: 30000142, endSystem: 30000492, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // Jita -> O3-4MN
+            ({ startSystem: 30000492, endSystem: 30000142, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // O3-4MN - Jita
+
             ({ startSystem: 30000142, endSystem: 30002880, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // Jita -> RQOO-U
             ({ startSystem: 30002880, endSystem: 30000142, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // RQOO-U - Jita
             
