@@ -1,131 +1,144 @@
-<div class="shippingCalcMainDiv" *ngIf="authStatusObs | async; else NotAuthenticated">
-    <mat-card>
-        <mat-card-title>Settings</mat-card-title>
-        <div class="searchContent">
-           <app-eve-search mode="shipping"
-            startStationLabelContent="Start"
-            endStationLabelContent="End">
-            </app-eve-search>
-        </div>
-     </mat-card>
-
-     <!-- <mat-card>
-        <div *ngIf="assetsObs | async as assets">
-            {{ assets | json }}
-        </div>
-     </mat-card> -->
-
-    <mat-card>
-        <mat-card-title>Item list</mat-card-title>
-        <form [formGroup]="shippingCalcGroup" class="itemListForm">
-            <mat-form-field>
-                <mat-label>Paste items...</mat-label>
-                <textarea matInput type="text"
-                    class="itemList"
-                    placeholder="Paste items..."
-                    [formControl]="itemListControl"
-                    [errorStateMatcher]="matcher"></textarea>
-                </mat-form-field>
-        </form>
-
-    </mat-card>
-    <mat-card>
-        <mat-card-title>Contract details</mat-card-title>
-        <div class="contractDetails" *ngIf="shippingServiceObs | async as shipping">                  
-            <div class="contractEntryDiv"
-                (click)="copy(shipping.serviceName)">
-                <label class="titleLabel"> Contract To</label>
-                <label class="valueLabel">{{ shipping.serviceName }}</label>
+<div *ngIf="authStatusObs | async; else NotAuthenticated">
+    <div class="shippingCalcMainDiv" *ngIf="initalTypesLoadObs | async; else InitalTypesLoading">
+        <mat-card>
+            <mat-card-title>Settings</mat-card-title>
+            <div class="searchContent">
+            <app-eve-search mode="shipping"
+                startStationLabelContent="Start"
+                endStationLabelContent="End">
+                </app-eve-search>
             </div>
+        </mat-card>
 
-            <div *ngIf="totalVolumeObs | async as totalVolume"
-                class="contractEntryDiv" style="padding-bottom: 10px;" 
-                (click)="copy(totalVolume)">
-                <label class="titleLabel"> Volume</label>
-                <label class="valueLabel">{{ totalVolume | number }} m³</label>
+        <!-- <mat-card>
+            <div *ngIf="assetsObs | async as assets">
+                {{ assets | json }}
             </div>
+        </mat-card> -->
 
-            <mat-divider></mat-divider>
-            
-            <div *ngIf="endStationObs | async as station"
-                class="contractEntryDiv" style="padding-top: 10px;"
-                (click)="copy(station.name)">
-                <label class="titleLabel">Shipping to</label>
-                <label class="valueLabel">{{ station.name }}</label>
+        <mat-card>
+            <mat-card-title>Item list</mat-card-title>
+            <form [formGroup]="shippingCalcGroup" class="itemListForm">
+                <mat-form-field>
+                    <mat-label>Paste items...</mat-label>
+                    <textarea matInput type="text"
+                        class="itemList"
+                        placeholder="Paste items..."
+                        [formControl]="itemListControl"
+                        [errorStateMatcher]="matcher"></textarea>
+                    </mat-form-field>
+            </form>
+
+        </mat-card>
+        <mat-card>
+            <mat-card-title>Contract details</mat-card-title>
+            <div class="contractDetails" *ngIf="shippingServiceObs | async as shipping">                  
+                <div class="contractEntryDiv"
+                    (click)="copy(shipping.serviceName)">
+                    <label class="titleLabel"> Contract To</label>
+                    <label class="valueLabel">{{ shipping.serviceName }}</label>
+                </div>
+
+                <div *ngIf="totalVolumeObs | async as totalVolume"
+                    class="contractEntryDiv" style="padding-bottom: 10px;" 
+                    (click)="copy(totalVolume)">
+                    <label class="titleLabel"> Volume</label>
+                    <label class="valueLabel">{{ totalVolume | number }} m³</label>
+                </div>
+
+                <mat-divider></mat-divider>
+                
+                <div *ngIf="endStationObs | async as station"
+                    class="contractEntryDiv" style="padding-top: 10px;"
+                    (click)="copy(station.name)">
+                    <label class="titleLabel">Shipping to</label>
+                    <label class="valueLabel">{{ station.name }}</label>
+                </div>
+
+                <div *ngIf="shippingPriceObs | async as reward"
+                    class="contractEntryDiv"
+                    (click)="copy(reward)">
+                    <label class="titleLabel">Reward</label>
+                    <label class="valueLabel">{{ reward | currency }}</label>
+                </div>
+
+                <div *ngIf="collateralObs | async as collateral"
+                    class="contractEntryDiv" style="padding-bottom: 10px;" 
+                    (click)="copy(collateral)">
+                    <label class="titleLabel">Collateral</label>
+                    <label class="valueLabel">{{ collateral | currency }}</label>
+                </div>
+
+                <mat-divider></mat-divider>
+
+                <div class="contractEntryDiv" style="padding-top: 10px;" 
+                    (click)="copy(7)">
+                    <label class="titleLabel"> Expiration </label>
+                    <label class="valueLabel"> 7 days</label>
+                </div>
+
+                <div class="contractEntryDiv" title="Days To Complete"
+                    (click)="copy(3)">
+                    <label class="titleLabel"> Days To Complete </label>
+                    <label class="valueLabel"> 3 days</label>
+                </div>
+
             </div>
+        </mat-card>
 
-            <div *ngIf="shippingPriceObs | async as reward"
-                class="contractEntryDiv"
-                (click)="copy(reward)">
-                <label class="titleLabel">Reward</label>
-                <label class="valueLabel">{{ reward | currency }}</label>
+        <mat-card *ngIf="calculationResultObs | async as items">
+            <mat-card-title>Details</mat-card-title>
+            <div>
+                <table mat-table [dataSource]="items" class="itemTable">
+                    <ng-container matColumnDef="count">
+                        <th mat-header-cell *matHeaderCellDef class="tableRowRight"> Qty </th>
+                        <td mat-cell *matCellDef="let element" class="tableRowRight"> {{ element.count | number }} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="image">
+                        <th mat-header-cell *matHeaderCellDef class="tableRowCenter">Image</th>
+                        <td mat-cell *matCellDef="let element" class="tableRowCenter"><img class="foundItemImage" [src]="getImageForItem(element.item.type_id)"></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef class="tableRowLeft">Name</th>
+                        <td mat-cell *matCellDef="let element" class="tableRowLeft"
+                        (click)="copy(element.item.name)">
+                            <div class="nameColumn shortOnPhone" [title]="element.item.name">{{ element.item.name }}</div> 
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="volume">
+                        <th mat-header-cell *matHeaderCellDef class="tableRowRight">Volume</th>
+                        <td mat-cell *matCellDef="let element" class="tableRowRight"> {{element.qubicMeters | number }} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="sell_price">
+                        <th mat-header-cell *matHeaderCellDef class="tableRowRight">Collateral</th>
+                        <td mat-cell *matCellDef="let element" class="tableRowRight"> {{element.totalPrice | currency}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="['count', 'image', 'name', 'volume', 'sell_price']"></tr>
+                    <tr mat-row *matRowDef="let row; columns: ['count', 'image', 'name', 'volume', 'sell_price']"></tr>
+                </table>
             </div>
-
-            <div *ngIf="collateralObs | async as collateral"
-                class="contractEntryDiv" style="padding-bottom: 10px;" 
-                (click)="copy(collateral)">
-                <label class="titleLabel">Collateral</label>
-                <label class="valueLabel">{{ collateral | currency }}</label>
-            </div>
-
-            <mat-divider></mat-divider>
-
-            <div class="contractEntryDiv" style="padding-top: 10px;" 
-                (click)="copy(7)">
-                <label class="titleLabel"> Expiration </label>
-                <label class="valueLabel"> 7 days</label>
-            </div>
-
-            <div class="contractEntryDiv" title="Days To Complete"
-                (click)="copy(3)">
-                <label class="titleLabel"> Days To Complete </label>
-                <label class="valueLabel"> 3 days</label>
-            </div>
-
-        </div>
-    </mat-card>
-
-    <mat-card *ngIf="calculationResultObs | async as items">
-        <mat-card-title>Details</mat-card-title>
-        <div>
-            <table mat-table [dataSource]="items" class="itemTable">
-                <ng-container matColumnDef="count">
-                    <th mat-header-cell *matHeaderCellDef class="tableRowRight"> Qty </th>
-                    <td mat-cell *matCellDef="let element" class="tableRowRight"> {{ element.count | number }} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="image">
-                    <th mat-header-cell *matHeaderCellDef class="tableRowCenter">Image</th>
-                    <td mat-cell *matCellDef="let element" class="tableRowCenter"><img class="foundItemImage" [src]="getImageForItem(element.item.type_id)"></td>
-                </ng-container>
-
-                <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef class="tableRowLeft">Name</th>
-                    <td mat-cell *matCellDef="let element" class="tableRowLeft"
-                    (click)="copy(element.item.name)">
-                        <div class="nameColumn shortOnPhone" [title]="element.item.name">{{ element.item.name }}</div> 
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="volume">
-                    <th mat-header-cell *matHeaderCellDef class="tableRowRight">Volume</th>
-                    <td mat-cell *matCellDef="let element" class="tableRowRight"> {{element.qubicMeters | number }} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="sell_price">
-                    <th mat-header-cell *matHeaderCellDef class="tableRowRight">Collateral</th>
-                    <td mat-cell *matCellDef="let element" class="tableRowRight"> {{element.totalPrice | currency}} </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="['count', 'image', 'name', 'volume', 'sell_price']"></tr>
-                <tr mat-row *matRowDef="let row; columns: ['count', 'image', 'name', 'volume', 'sell_price']"></tr>
-            </table>
-        </div>
-    </mat-card>
-</div>  
+        </mat-card>
+    </div>  
+</div>
 
 <ng-template #NotAuthenticated>
     <div class="notAuthenticated">
        You need to login, to see the station market.
     </div>
  </ng-template>
+
+ <ng-template #InitalTypesLoading>
+    <div class="initalTypesLoading">
+        Dusting off the engines...
+       <br>No worries, there is no fee for you.
+       <div class="initialLoadingIndicator">
+          <mat-spinner></mat-spinner>
+       </div>
+    </div>
+ </ng-template>
+ 

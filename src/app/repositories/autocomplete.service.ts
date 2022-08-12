@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { EveItem } from '../models';
-import { tap, delay, distinctUntilChanged, map, Observable, shareReplay } from 'rxjs'
+import { distinctUntilChanged, map, Observable, shareReplay } from 'rxjs'
 import { EsiDataRepositoryService } from './esi-data-repository.service';
 
 @Injectable({
@@ -42,6 +42,20 @@ export class AutocompleteService {
       shareReplay(1),
       distinctUntilChanged()
     )
+  }
+
+  public getExactItemMatch(searchName: string): Observable<EveItem> {
+    return this.getGetAllItems().pipe(
+      map(a => a.find(i => (i.name?.length === searchName.length) && (i.name?.includes(searchName)))),
+      map(i => {
+        if(i)
+        return i;
+
+        return ({ typeId: 0, name: "", order: 0 })
+      }),
+      shareReplay(1),
+      distinctUntilChanged()
+    );
   }
 
   public getGetAllItems() : Observable<EveItem[]> {

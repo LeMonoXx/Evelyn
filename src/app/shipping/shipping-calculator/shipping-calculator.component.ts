@@ -2,9 +2,10 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { filter, debounceTime, map, Observable, switchMap, forkJoin, combineLatest, 
-  from, toArray, shareReplay, distinctUntilChanged, mergeMap, tap } from 'rxjs';
+  from, toArray, shareReplay, distinctUntilChanged, mergeMap } from 'rxjs';
 import { AuthService, IAuthResponseData } from 'src/app/auth';
 import { Asset, ItemDetails } from 'src/app/models';
+import { AutocompleteService } from 'src/app/repositories/autocomplete.service';
 import { ItemSearchService, UniverseService, InputErrorStateMatcher, copyToClipboard, 
   MarketService, getPriceForN, CalculateShippingCost, ShippingService, CharacterService, GeneralStation, getAllowedStationIds } from 'src/app/shared';
 
@@ -42,11 +43,13 @@ export class ShippingCalculatorComponent implements OnInit {
   public authStatusObs: Observable<IAuthResponseData | null>;
   public assetsObs: Observable<Asset[]>;
   public endStationObs: Observable<GeneralStation>;
+  public initalTypesLoadObs: Observable<any>;
   
   constructor(
     fb: UntypedFormBuilder,
    // private characterService: CharacterService,
     private authService: AuthService,
+    private autoCompleteService: AutocompleteService,
     private itemSearchService: ItemSearchService,
     private universeService: UniverseService,
     private marketService: MarketService,
@@ -62,6 +65,7 @@ export class ShippingCalculatorComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.initalTypesLoadObs = this.autoCompleteService.getGetAllItems();
     this.shippingServiceObs = this.itemSearchService.ShippingServiceObs;
     this.endStationObs = this.itemSearchService.EndStationObs;
     const shippingRouteObs = this.itemSearchService.ShippingRouteObs;
@@ -102,14 +106,14 @@ export class ShippingCalculatorComponent implements OnInit {
             let countStr = itemArray.length > 1 ? itemArray[1].trim() === "" ? "1" : itemArray[1].trim() : "1";
 
             if(countStr.includes('.'))
-            countStr = countStr.replace(".","");
+              countStr = countStr.replace(".","");
 
             const count = parseInt(countStr);
 
             let curOrder = order;
-            const itemObs = this.universeService.findItemByName(itemName).pipe(
-              map(item => ({ order: curOrder, typeId: item.inventory_type[0], itemName: itemName, count: count })));
-            result.push(itemObs);
+            const exactItemObs = this.autoCompleteService.getExactItemMatch(itemName).pipe(
+              map(item => ({ order: curOrder, typeId: item?.typeId, itemName: itemName, count: count })));
+            result.push(exactItemObs);
             order++;
           }
         })
@@ -123,6 +127,7 @@ export class ShippingCalculatorComponent implements OnInit {
             map(item => ({ order: entry.order, item: item, count: entry.count }))
           ), 
           ),
+          filter(x => !!x && !!x.item?.type_id),
           toArray())
         ),
         map(entries => entries.sort(a => a.order))
@@ -143,6 +148,8 @@ export class ShippingCalculatorComponent implements OnInit {
           items.forEach(value => {
             const curObs = this.marketService.getJitaRegionMarketForItem(value.item.type_id).pipe(
               map(buyEntries => {
+
+                console.log("buyEntries:", buyEntries);
                 const singlePrice = getPriceForN(buyEntries, 1).averagePrice;
                 const totalPrice = getPriceForN(buyEntries, value.count).totalPrice;
 
@@ -165,6 +172,7 @@ export class ShippingCalculatorComponent implements OnInit {
 
             result.push(curObs);
           })
+          console.log("build up market data started")
           return result;
         }),
         switchMap(obs => forkJoin(obs)),

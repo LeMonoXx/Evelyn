@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { catchError, distinctUntilChanged, map, Observable, of, shareReplay, switchMap, tap } from 'rxjs';
-import { ItemDetails, SearchResult, EveItem, ItemGroup, StructureDetails, StationDetails, Constellation, Region, System } from 'src/app/models';
+import { catchError, map, Observable, of, switchMap } from 'rxjs';
+import { ItemDetails, SearchResult, ItemGroup, StructureDetails, StationDetails, Constellation, Region, System } from 'src/app/models';
 import { ItemCategory } from 'src/app/models/universe/categories/item-category';
 import { EsiDataRepositoryService } from 'src/app/repositories/esi-data-repository.service';
 import { environment } from 'src/environments/environment';
-import { parse } from 'yaml';
 import { GeneralStation } from '../models/structure/general-station';
 
 @Injectable({

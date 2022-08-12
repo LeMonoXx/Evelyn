@@ -126,6 +126,24 @@
 }
 }
 
-// (?<name>.*)(?<count>\t*\d\t)(?<category>.*)\t(?<qubic>[\d.,?]+) m[3³]
-// (?<name>.*\s)(?<count>\d*)\s(?<category>.*\s)(?<qubic>[\d.,?]+) m[3³]
-// (?<name>.*)\t(?<count>\d+)\t(?<category>.*)\t(?<qubic>[\d.,?]+) m[3³]\t(?<isk>[\d.,?]+) ISK
+
+.initalTypesLoading {
+    font-style: italic;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -50px 0 0 -50px;
+  
+    .initialLoadingIndicator {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: -50px 0 0 -50px;
+    }
+  }
+  
+  .notAuthenticated {
+      font-style: italic;
+      text-align: center;
+  }

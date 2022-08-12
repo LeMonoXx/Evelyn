@@ -46,7 +46,6 @@ export class MarketService {
       const orderType = isBuyOrder ? "buy" : "sell";
       return this.getRegionMarketForItem(itemId, station.region_id, orderType);
     }
-      
   }
 
   // This fixed method for jita is required for colateral calculation -> those are ALWAYS Jita prices.
@@ -55,7 +54,6 @@ export class MarketService {
     // We do not need to load pages of the result because we filter for a type_id, and the service response in a single page
     const url = environment.esiBaseUrl + `/markets/${regionId}/orders/?order_type=${orderType}&page=1&type_id=${itemId}`
     return this.esiDataService.getRequest<MarketEntry[]>(url).pipe(
-      filter(x => !!x && x.length > 0),
               // we get the market for the whole region. But we only want given buy-station.
               map(entries => entries.filter(entry => entry.location_id === JitaIVMoon4CaldariNavyAssemblyPlant_STATION_ID)),
       map(entries => {
