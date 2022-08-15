@@ -36,8 +36,21 @@ function getBeanFreightRoutes() : ShippingRoute[] {
 function getLemmingRoutes() : ShippingRoute[] {
     const lemmingRoutes = 
     [
-        ({ startSystem: 30000142, endSystem: 30005133, cubicMeterPrice: 620, collateral: 1.5,  maxVolume: 350000, maxCollateral: 20000000000 }),   // Jita -> MJ
-        ({ startSystem: 30005133, endSystem: 30000142, cubicMeterPrice: 620, collateral: 1.5,  maxVolume: 150000, maxCollateral: 5000000000 })     // MJ - Jita
+        ({ startSystem: 30000142, endSystem: 30005133, cubicMeterPrice: 400, collateral: 1.0,  maxVolume: 350000, maxCollateral: 20000000000 }),   // Jita -> MJ
+        ({ startSystem: 30005133, endSystem: 30000142, cubicMeterPrice: 400, collateral: 1.0,  maxVolume: 150000, maxCollateral: 5000000000 }),     // MJ - Jita
+        
+        ({ startSystem: 30000144, endSystem: 30005133, cubicMeterPrice: 400, collateral: 1.0, maxVolume: 350000, maxCollateral: 20000000000 }),   // Perimeter -> MJ
+        ({ startSystem: 30005133, endSystem: 30000144, cubicMeterPrice: 400, collateral: 1.0, maxVolume: 150000, maxCollateral: 5000000000 }),    // MJ - Perimeter
+
+        ({ startSystem: 30000142, endSystem: 30000492, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 350000, maxCollateral: 20000000000 }),   // Jita -> O3-4MN
+        ({ startSystem: 30000492, endSystem: 30000142, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 150000, maxCollateral: 5000000000 }),   // O3-4MN - Jita
+
+        ({ startSystem: 30005133, endSystem: 30000492, cubicMeterPrice: 300, collateral: 1.0,  maxVolume: 350000, maxCollateral: 20000000000 }),   // MJ - O3-4MN
+        ({ startSystem: 30000492, endSystem: 30005133, cubicMeterPrice: 300, collateral: 1.0,  maxVolume: 350000, maxCollateral: 20000000000 }),   // O3-4MN - MJ
+
+        ({ startSystem: 30000142, endSystem: 30002880, cubicMeterPrice: 400, collateral: 1.0, maxVolume: 350000, maxCollateral: 20000000000 }),   // Jita -> RQOO-U
+        ({ startSystem: 30002880, endSystem: 30000142, cubicMeterPrice: 400, collateral: 1.0, maxVolume: 150000, maxCollateral: 50000000000 }),   // RQOO-U - Jita
+
     ];
     
     return lemmingRoutes;
