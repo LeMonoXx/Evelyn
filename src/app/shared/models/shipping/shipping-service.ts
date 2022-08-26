@@ -1,4 +1,4 @@
-import { ShippingRoute } from "../..";
+import { JITA_SYSTEM_ID, JVFID_SYSTEM_ID, MJ5F9_SYSTEM_ID, O34MN_SYSTEM_ID, PERIMETER_SYSTEM_ID, RQOO_SYSTEM_ID, ShippingRoute } from "../..";
 
 export interface ShippingService {
     id: number,
@@ -17,17 +17,20 @@ export function getShippingServices() : ShippingService[] {
 function getBeanFreightRoutes() : ShippingRoute[] {
     const beanFreightRoutes = 
         [
-            ({ startSystem: 30000142, endSystem: 30005133, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // Jita -> MJ
-            ({ startSystem: 30005133, endSystem: 30000142, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // MJ - Jita
+            ({ startSystem: JITA_SYSTEM_ID, endSystem: MJ5F9_SYSTEM_ID, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // Jita -> MJ
+            ({ startSystem: MJ5F9_SYSTEM_ID, endSystem: JITA_SYSTEM_ID, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // MJ - Jita
 
-            ({ startSystem: 30000142, endSystem: 30000492, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // Jita -> O3-4MN
-            ({ startSystem: 30000492, endSystem: 30000142, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // O3-4MN - Jita
+            ({ startSystem: JITA_SYSTEM_ID, endSystem: O34MN_SYSTEM_ID, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // Jita -> O3-4MN
+            ({ startSystem: O34MN_SYSTEM_ID, endSystem: JITA_SYSTEM_ID, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // O3-4MN - Jita
 
-            ({ startSystem: 30000142, endSystem: 30002880, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // Jita -> RQOO-U
-            ({ startSystem: 30002880, endSystem: 30000142, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // RQOO-U - Jita
+            ({ startSystem: JITA_SYSTEM_ID, endSystem: JVFID_SYSTEM_ID, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // Jita -> JVF-ID
+            ({ startSystem: JVFID_SYSTEM_ID, endSystem: JITA_SYSTEM_ID, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // JVF-ID - Jita
+
+            ({ startSystem: JITA_SYSTEM_ID, endSystem: RQOO_SYSTEM_ID, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // Jita -> RQOO-U
+            ({ startSystem: RQOO_SYSTEM_ID, endSystem: JITA_SYSTEM_ID, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // RQOO-U - Jita
             
-            ({ startSystem: 30000144, endSystem: 30005133, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // Perimeter -> MJ
-            ({ startSystem: 30005133, endSystem: 30000144, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 })    // MJ - Perimeter
+            ({ startSystem: PERIMETER_SYSTEM_ID, endSystem: MJ5F9_SYSTEM_ID, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 }),   // Perimeter -> MJ
+            ({ startSystem: MJ5F9_SYSTEM_ID, endSystem: PERIMETER_SYSTEM_ID, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 360000, maxCollateral: 50000000000 })    // MJ - Perimeter
         ];
 
         return beanFreightRoutes;
@@ -36,20 +39,23 @@ function getBeanFreightRoutes() : ShippingRoute[] {
 function getLemmingRoutes() : ShippingRoute[] {
     const lemmingRoutes = 
     [
-        ({ startSystem: 30000142, endSystem: 30005133, cubicMeterPrice: 400, collateral: 1.0,  maxVolume: 350000, maxCollateral: 20000000000 }),   // Jita -> MJ
-        ({ startSystem: 30005133, endSystem: 30000142, cubicMeterPrice: 400, collateral: 1.0,  maxVolume: 150000, maxCollateral: 5000000000 }),     // MJ - Jita
+        ({ startSystem: JITA_SYSTEM_ID, endSystem: MJ5F9_SYSTEM_ID, cubicMeterPrice: 400, collateral: 1.0,  maxVolume: 350000, maxCollateral: 20000000000 }),   // Jita -> MJ
+        ({ startSystem: MJ5F9_SYSTEM_ID, endSystem: JITA_SYSTEM_ID, cubicMeterPrice: 400, collateral: 1.0,  maxVolume: 150000, maxCollateral: 5000000000 }),     // MJ - Jita
         
-        ({ startSystem: 30000144, endSystem: 30005133, cubicMeterPrice: 400, collateral: 1.0, maxVolume: 350000, maxCollateral: 20000000000 }),   // Perimeter -> MJ
-        ({ startSystem: 30005133, endSystem: 30000144, cubicMeterPrice: 400, collateral: 1.0, maxVolume: 150000, maxCollateral: 5000000000 }),    // MJ - Perimeter
+        ({ startSystem: PERIMETER_SYSTEM_ID, endSystem: MJ5F9_SYSTEM_ID, cubicMeterPrice: 400, collateral: 1.0, maxVolume: 350000, maxCollateral: 20000000000 }),   // Perimeter -> MJ
+        ({ startSystem: MJ5F9_SYSTEM_ID, endSystem: PERIMETER_SYSTEM_ID, cubicMeterPrice: 400, collateral: 1.0, maxVolume: 150000, maxCollateral: 5000000000 }),    // MJ - Perimeter
 
-        ({ startSystem: 30000142, endSystem: 30000492, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 350000, maxCollateral: 20000000000 }),   // Jita -> O3-4MN
-        ({ startSystem: 30000492, endSystem: 30000142, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 150000, maxCollateral: 5000000000 }),   // O3-4MN - Jita
+        ({ startSystem: JITA_SYSTEM_ID, endSystem: O34MN_SYSTEM_ID, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 350000, maxCollateral: 20000000000 }),   // Jita -> O3-4MN
+        ({ startSystem: O34MN_SYSTEM_ID, endSystem: JITA_SYSTEM_ID, cubicMeterPrice: 300, collateral: 1.0, maxVolume: 150000, maxCollateral: 5000000000 }),   // O3-4MN - Jita
 
-        ({ startSystem: 30005133, endSystem: 30000492, cubicMeterPrice: 300, collateral: 1.0,  maxVolume: 350000, maxCollateral: 20000000000 }),   // MJ - O3-4MN
-        ({ startSystem: 30000492, endSystem: 30005133, cubicMeterPrice: 300, collateral: 1.0,  maxVolume: 350000, maxCollateral: 20000000000 }),   // O3-4MN - MJ
+        ({ startSystem: JITA_SYSTEM_ID, endSystem: JVFID_SYSTEM_ID, cubicMeterPrice: 400, collateral: 1.0, maxVolume: 350000, maxCollateral: 20000000000 }),   // Jita -> JVF-ID
+        ({ startSystem: JVFID_SYSTEM_ID, endSystem: JITA_SYSTEM_ID, cubicMeterPrice: 400, collateral: 1.0, maxVolume: 150000, maxCollateral: 5000000000 }),   // JVF-ID - Jita
 
-        ({ startSystem: 30000142, endSystem: 30002880, cubicMeterPrice: 400, collateral: 1.0, maxVolume: 350000, maxCollateral: 20000000000 }),   // Jita -> RQOO-U
-        ({ startSystem: 30002880, endSystem: 30000142, cubicMeterPrice: 400, collateral: 1.0, maxVolume: 150000, maxCollateral: 50000000000 }),   // RQOO-U - Jita
+        ({ startSystem: MJ5F9_SYSTEM_ID, endSystem: O34MN_SYSTEM_ID, cubicMeterPrice: 300, collateral: 1.0,  maxVolume: 350000, maxCollateral: 20000000000 }),   // MJ - O3-4MN
+        ({ startSystem: O34MN_SYSTEM_ID, endSystem: MJ5F9_SYSTEM_ID, cubicMeterPrice: 300, collateral: 1.0,  maxVolume: 350000, maxCollateral: 20000000000 }),   // O3-4MN - MJ
+
+        ({ startSystem: JITA_SYSTEM_ID, endSystem: RQOO_SYSTEM_ID, cubicMeterPrice: 400, collateral: 1.0, maxVolume: 350000, maxCollateral: 20000000000 }),   // Jita -> RQOO-U
+        ({ startSystem: RQOO_SYSTEM_ID, endSystem: JITA_SYSTEM_ID, cubicMeterPrice: 400, collateral: 1.0, maxVolume: 150000, maxCollateral: 50000000000 }),   // RQOO-U - Jita
 
     ];
     
