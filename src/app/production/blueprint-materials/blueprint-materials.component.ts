@@ -35,8 +35,28 @@ export class BlueprintMaterialsComponent implements OnInit {
   
   public copy(text: string) {
     copyToClipboard(text);
-    
+  }
+
+  public copyComponentMaterial(entry: { subComponent: SubComponent; reqAmount: number; subMaterials: { itemDetails: ItemDetails; quantity_total: number; }[]}) {
+    let text = toMultiBuyString(entry.subComponent.item.name, entry.reqAmount);
+    this.copy(text);
     this.snackBar.open("Copied!", undefined, { duration: 2000 });
+  }
+
+  public copySubComponentMaterial(subMaterial: { itemDetails: ItemDetails; quantity_total: number; }) {
+    let text = toMultiBuyString(subMaterial.itemDetails.name, subMaterial.quantity_total);
+    this.copy(text);
+    this.snackBar.open("Copied!", undefined, { duration: 2000 });
+  }
+
+  public copySubMaterials(subMaterials: { itemDetails: ItemDetails; quantity_total: number; }[]) {
+    let multiBuyStr = "";
+    subMaterials.forEach(material => {
+      multiBuyStr+= toMultiBuyString(material.itemDetails.name, material.quantity_total);
+    });
+
+    copyToClipboard(multiBuyStr);
+    this.snackBar.open("Copied materials for component", undefined, { duration: 2000 });
   }
   
   public getImageForItem(typeId: number | undefined, size = 32): string {
@@ -58,11 +78,13 @@ public copyAllManufacturingCalculation(manuCalcs: ManufacturingCalculation[]) {
   })
 
   this.copy(str);
+  this.snackBar.open("Copied!", undefined, { duration: 2000 });
 }
 
   public copyManufacturingCalculation(manuCalc: ManufacturingCalculation) {
     const str = this.manufacturingCalculationToMultiBuy(manuCalc);
     this.copy(str);
+    this.snackBar.open("Copied!", undefined, { duration: 2000 });
   }
 
   public manufacturingCalculationToMultiBuy(manuCalc: ManufacturingCalculation) {

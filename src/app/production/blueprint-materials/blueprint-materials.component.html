@@ -16,9 +16,10 @@
     <div>
         <div *ngFor="let entry of firstLevelMaterials">
             <div class="mainBPOComponent">
-                <img [src]="getImageForItem(entry.subComponent.item.type_id)">
+                <img class="mainComponentImage" [src]="getImageForItem(entry.subComponent.item.type_id)"
+                (click)="copySubMaterials(entry.subMaterials)">
     
-                <div class="mainComponentName" [title]="entry.subComponent.item.name" (click)="copy(entry.subComponent.item.name)">
+                <div class="mainComponentName" [title]="entry.subComponent.item.name" (click)="copyComponentMaterial(entry)">
                     {{ entry.subComponent.item.name }}
                 </div>
     
@@ -32,7 +33,7 @@
                     <ng-container matColumnDef="image">
                         <td mat-cell *matCellDef="let element" 
                             class="tableRowLeft imageColumn">
-                            <img class="foundItemImage" [src]="getImageForItem(element.itemDetails.type_id)">
+                            <img class="foundItemImage" (click)="copySubComponentMaterial(element)" [src]="getImageForItem(element.itemDetails.type_id)">
                         </td>
                     </ng-container>
             

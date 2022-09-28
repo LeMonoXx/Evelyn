@@ -64,6 +64,10 @@
             // }
         }
 
+        .mainComponentImage {
+            cursor: pointer;
+        }
+
         .mainComponentQuantity {
             margin-left: auto;
             text-align: end;
@@ -95,6 +99,7 @@
 
     .imageColumn {
         width: 32px;
+        cursor: pointer;
     }
 
     .tableRowRight {
