@@ -30,12 +30,17 @@
     <mat-divider></mat-divider>
 
     <div *ngIf="sellDataObs | async as sellData">
-        <div class="calcSummaryEntry" style="padding-top: 10px;">
+        <!-- <div class="calcSummaryEntry" style="padding-top: 10px;">
             <span class="minorInfo">Max Runs</span> <span class="minorInfo">{{ sellData.bpo.maxProductionLimit }}</span> 
-        </div>
+        </div> -->
 
-        <div class="calcSummaryEntry" >
+        <div class="calcSummaryEntry" style="padding-top: 10px;">
             <span class="minorInfo">Product (per run)</span> <span class="minorInfo">{{ sellData.bpo.activities.manufacturing.products[0].quantity }} </span>
+        </div> 
+
+        <div class="calcSummaryEntry" (click)="copy(sellData.single_sellPrice)" *ngIf="sellData.sellAmout > 1">
+            <span class="minorInfo">Single sell</span> <span [ngClass]="sellData.artificialSellPrice ? 'artificialPrice' : 'positivNumber'"
+            class="minorInfo valueLabel canCopy">{{ sellData.single_sellPrice | currency }}</span>
         </div> 
 
         <div class="calcSummaryEntry" (click)="copy(sellData.total_sellPrice)" style="padding-bottom: 10px;">

@@ -46,6 +46,7 @@ export class BlueprintDetailsComponent implements OnInit {
   public sellDataObs: Observable<{ 
     bpo: BlueprintDetails,
     volume: number,
+    sellAmout: number,
     shippingVolume: number
     shippingColateral: number
     shippingCost: number,
@@ -194,6 +195,7 @@ export class BlueprintDetailsComponent implements OnInit {
               const sellCalculation: { 
                 bpo: BlueprintDetails,
                 volume: number,
+                sellAmout: number,
                 shippingVolume: number
                 shippingColateral: number
                 shippingCost: number,
@@ -211,6 +213,7 @@ export class BlueprintDetailsComponent implements OnInit {
               { 
                 bpo: bpo,
                 volume: totalVolume,
+                sellAmout: sellAmout,
                 shippingVolume: shippingVolume,
                 shippingColateral: shippingColateral,
                 shippingCost: shippingCost,
