@@ -2493,7 +2493,7 @@
 	},
 	{
 		"typeId": 1351,
-		"name": "Basic Reactor Control Unit"
+		"name": "'Basic' Reactor Control Unit"
 	},
 	{
 		"typeId": 1353,
@@ -8517,7 +8517,7 @@
 	},
 	{
 		"typeId": 3469,
-		"name": "Basic Co-Processor"
+		"name": "'Basic' Co-Processor"
 	},
 	{
 		"typeId": 3470,
@@ -37373,7 +37373,7 @@
 	},
 	{
 		"typeId": 20387,
-		"name": "Cosmos Badger Mark II"
+		"name": "Cosmos Tayra"
 	},
 	{
 		"typeId": 20388,
@@ -38285,7 +38285,7 @@
 	},
 	{
 		"typeId": 20653,
-		"name": "Sayto's Badger Mark II"
+		"name": "Sayto's Tayra"
 	},
 	{
 		"typeId": 20654,
@@ -38301,7 +38301,7 @@
 	},
 	{
 		"typeId": 20657,
-		"name": "Hochi's Badger Mark II"
+		"name": "Hochi's Tayra"
 	},
 	{
 		"typeId": 20658,
@@ -38421,7 +38421,7 @@
 	},
 	{
 		"typeId": 20687,
-		"name": "Raytio's Badger Mark II"
+		"name": "Raytio's Tayra"
 	},
 	{
 		"typeId": 20688,
@@ -41697,7 +41697,7 @@
 	},
 	{
 		"typeId": 21843,
-		"name": "Cosmos Iteron Mark III"
+		"name": "Cosmos Epithal"
 	},
 	{
 		"typeId": 21844,
@@ -45113,7 +45113,7 @@
 	},
 	{
 		"typeId": 23088,
-		"name": "Angetyn's Iteron Mark III"
+		"name": "Angetyn's Epithal"
 	},
 	{
 		"typeId": 23089,
@@ -47025,7 +47025,7 @@
 	},
 	{
 		"typeId": 23620,
-		"name": "Schabs Xalot's Iteron Mark III"
+		"name": "Schabs Xalot's Epithal"
 	},
 	{
 		"typeId": 23621,
@@ -67797,7 +67797,7 @@
 	},
 	{
 		"typeId": 30439,
-		"name": "mobilestorage"
+		"name": "Warehouse"
 	},
 	{
 		"typeId": 30440,
@@ -76093,7 +76093,7 @@
 	},
 	{
 		"typeId": 33213,
-		"name": "A piece of Steve"
+		"name": "A Piece of Steve"
 	},
 	{
 		"typeId": 33214,
@@ -91077,7 +91077,7 @@
 	},
 	{
 		"typeId": 37881,
-		"name": "Grand Teigjon Casino Chip"
+		"name": "Grand Tiegjon Casino Chip"
 	},
 	{
 		"typeId": 37882,
@@ -123708,14 +123708,6 @@
 		"name": "Yoiul Festival YC120 Coin (Gallente)"
 	},
 	{
-		"typeId": 47066,
-		"name": "TestAsset_01"
-	},
-	{
-		"typeId": 47067,
-		"name": "TestAsset_02"
-	},
-	{
 		"typeId": 47068,
 		"name": "Standup Gravitational Transportation Field Oscillator"
 	},
@@ -124200,40 +124192,12 @@
 		"name": "♦ test_boss"
 	},
 	{
-		"typeId": 47199,
-		"name": "TestAsset_03"
-	},
-	{
-		"typeId": 47200,
-		"name": "TestAsset_04"
-	},
-	{
-		"typeId": 47201,
-		"name": "TestAsset_05"
-	},
-	{
-		"typeId": 47202,
-		"name": "TestAsset_06"
-	},
-	{
-		"typeId": 47203,
-		"name": "TestAsset_07"
-	},
-	{
 		"typeId": 47204,
 		"name": "TestBackground_01"
 	},
 	{
 		"typeId": 47205,
 		"name": "TestBackground_02"
-	},
-	{
-		"typeId": 47206,
-		"name": "TestAsset_08"
-	},
-	{
-		"typeId": 47207,
-		"name": "TestAsset_09"
 	},
 	{
 		"typeId": 47208,
@@ -142849,15 +142813,15 @@
 	},
 	{
 		"typeId": 55821,
-		"name": "2v2 Cruiser Brawl Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 55822,
-		"name": "FFA Destroyers Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 55823,
-		"name": "3v3 Slicers Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 55824,
@@ -142865,7 +142829,7 @@
 	},
 	{
 		"typeId": 55825,
-		"name": "2v2 Battlecruisers Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 55826,
@@ -143461,11 +143425,11 @@
 	},
 	{
 		"typeId": 55982,
-		"name": "5v5 Corvette Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 55983,
-		"name": "2v2 Caldari Destroyer, Interceptor, and Navy Frigate Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 55984,
@@ -143685,15 +143649,15 @@
 	},
 	{
 		"typeId": 56092,
-		"name": "FFA Cruisers Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 56093,
-		"name": "1v1 T1 Combat and Navy Frigates Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 56094,
-		"name": "2v2 Cruiser Clash Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 56095,
@@ -144645,39 +144609,39 @@
 	},
 	{
 		"typeId": 56353,
-		"name": "Crimson Harvest Frigate FFA Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 56354,
-		"name": "2v2 Tactical Destroyer Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 56355,
-		"name": "1v1 T1 Cruisers Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 56356,
-		"name": "Yoiul 2v2v2v2 Destroyers Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 56357,
-		"name": "Yoiul 3v3 Frigates Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 56358,
-		"name": "T1 Cruiser FFA Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 56359,
-		"name": "1v1 T1 Battlecruisers Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 56360,
-		"name": "Gala 2v2 Cruisers Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 56361,
-		"name": "T1 Frigate FFA Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 56362,
@@ -147653,31 +147617,31 @@
 	},
 	{
 		"typeId": 57367,
-		"name": "Grand Prix 1v1 Interceptors Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 57368,
-		"name": "Assault Frigate FFA Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 57369,
-		"name": "Hunt 3v3 Destroyers Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 57370,
-		"name": "2v2 Navy Frigates Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 57372,
-		"name": "Capsuleer Day 18 Cruiser Extravaganza Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 57373,
-		"name": "2v2 Gnosis Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 57374,
-		"name": "Expired 1v1 Battleships Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 57375,
@@ -148057,7 +148021,7 @@
 	},
 	{
 		"typeId": 57485,
-		"name": "Genetic Mutation Inhibiter"
+		"name": "Genetic Mutation Inhibitor"
 	},
 	{
 		"typeId": 57486,
@@ -148205,7 +148169,7 @@
 	},
 	{
 		"typeId": 57522,
-		"name": "Genetic Mutation Inhibiter Blueprint"
+		"name": "Genetic Mutation Inhibitor Blueprint"
 	},
 	{
 		"typeId": 57523,
@@ -149309,7 +149273,7 @@
 	},
 	{
 		"typeId": 58748,
-		"name": "Fortified EoM Junction"
+		"name": "Non-Interactable Amarr Junction (Do Not Translate)"
 	},
 	{
 		"typeId": 58749,
@@ -149665,35 +149629,35 @@
 	},
 	{
 		"typeId": 58843,
-		"name": "2v2v2 Gallente Cruiser and AF Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 58844,
-		"name": "2v2 Destroyers Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 58845,
-		"name": "Liberation Games Rifter FFA Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 58846,
-		"name": "Proving Conduit Throwback Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 58847,
-		"name": "Foundation Day Omen FFA Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 58848,
-		"name": "1v1 Destroyers Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 58849,
-		"name": "Union Day 2v2 Caldari Battlecruisers Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 58850,
-		"name": "Corvette FFA Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 58851,
@@ -150565,7 +150529,7 @@
 	},
 	{
 		"typeId": 59369,
-		"name": "2v2 Interceptors Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 59370,
@@ -152029,23 +151993,23 @@
 	},
 	{
 		"typeId": 60076,
-		"name": "Totality Day 3v3 Kikimoras Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 60077,
-		"name": "1v1 Battleships Redux Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 60078,
-		"name": "Crimson Harvest Destroyer FFA Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 60079,
-		"name": "AT XVII 2v2 Cruisers Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 60080,
-		"name": "AT XVII 1v1 Tactical Destroyers Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 60081,
@@ -152805,7 +152769,7 @@
 	},
 	{
 		"typeId": 60319,
-		"name": "Inaugural Liberation Games: Thukker Tribe"
+		"name": "Liberation Games Champions: Thukker Tribe"
 	},
 	{
 		"typeId": 60321,
@@ -153621,43 +153585,43 @@
 	},
 	{
 		"typeId": 60598,
-		"name": "AT XVII Frigate FFA Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 60599,
-		"name": "AT XVII 1v1 Battlecruisers Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 60600,
-		"name": "Prophecy FFA Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 60601,
-		"name": "Yoiul 2v2 Assault Frigates Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 60602,
-		"name": "Yoiul 1v1 Navy Frigates Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 60603,
-		"name": "Yoiul T1 Cruiser FFA Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 60604,
-		"name": "Yoiul 1v1 Battleships Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 60605,
-		"name": "Exploration Frigate FFA Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 60606,
-		"name": "2v2 T1 Cruiser Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 60607,
-		"name": "Gala 1v1 Destroyers Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 60608,
@@ -153837,11 +153801,11 @@
 	},
 	{
 		"typeId": 60681,
-		"name": "Tetrimon Base Shortcut Keypass"
+		"name": "Expired Tetrimon Base Shortcut Keypass"
 	},
 	{
 		"typeId": 60682,
-		"name": "Crimson Gauntlet Shortcut Keypass"
+		"name": "Expired Crimson Gauntlet Shortcut Keypass"
 	},
 	{
 		"typeId": 60683,
@@ -155453,31 +155417,31 @@
 	},
 	{
 		"typeId": 62273,
-		"name": "1v1 Battleships Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 62274,
-		"name": "Venture FFA Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 62275,
-		"name": "2v2 T1 Frigates Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 62276,
-		"name": "Cruiser Chaos FFA Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 62277,
-		"name": "Hunt 1v1 Assault Frigates Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 62278,
-		"name": "1v1 Strategic Cruisers Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 62279,
-		"name": "Capsuleer Day 2v2 Navy Frigates Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 62287,
@@ -158793,59 +158757,59 @@
 	},
 	{
 		"typeId": 63714,
-		"name": "Capsuleer Day Sunesis FFA Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 63715,
-		"name": "Anger Games 1v1 Cruiser Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 63716,
-		"name": "Anger Games 2v2 Cruiser and AF Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 63717,
-		"name": "Anger Games 2v2 Corvette Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 63718,
-		"name": "Anger Games 1v1 Battleship Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 63719,
-		"name": "Federation Day Thorax FFA Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 63720,
-		"name": "Event 63 Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 63721,
-		"name": "Event 64 Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 63722,
-		"name": "Event 65 Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 63723,
-		"name": "Event 66 Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 63724,
-		"name": "Event 67 Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 63725,
-		"name": "Event 68 Proving Filament"
+		"name": "Expired Proving Filament"
 	},
 	{
 		"typeId": 63726,
-		"name": "Event 69 Proving Filament"
+		"name": "2v2 T1 Cruisers Proving Filament"
 	},
 	{
 		"typeId": 63727,
-		"name": "Event 70 Proving Filament"
+		"name": "Totality Day 1v1 Kikimoras Proving Filament"
 	},
 	{
 		"typeId": 63728,
@@ -158969,7 +158933,7 @@
 	},
 	{
 		"typeId": 63811,
-		"name": "AIR Mining  Range Booster I"
+		"name": "AIR Mining Range Booster I"
 	},
 	{
 		"typeId": 63812,
@@ -159073,27 +159037,27 @@
 	},
 	{
 		"typeId": 63849,
-		"name": "Basic Capsuleer Day Glamourex Booster"
+		"name": "Expired Basic Capsuleer Day Glamourex Booster"
 	},
 	{
 		"typeId": 63850,
-		"name": "Extended Capsuleer Day Glamourex Booster"
+		"name": "Expired Extended Capsuleer Day Glamourex Booster"
 	},
 	{
 		"typeId": 63851,
-		"name": "Potent Capsuleer Day Glamourex Booster"
+		"name": "Expired Potent Capsuleer Day Glamourex Booster"
 	},
 	{
 		"typeId": 63852,
-		"name": "Basic Capsuleer Day Cerebral Accelerator"
+		"name": "Expired Basic Capsuleer Day Cerebral Accelerator"
 	},
 	{
 		"typeId": 63853,
-		"name": "Extended Capsuleer Day Cerebral Accelerator"
+		"name": "Expired Extended Capsuleer Day Cerebral Accelerator"
 	},
 	{
 		"typeId": 63854,
-		"name": "Potent Capsuleer Day Cerebral Accelerator"
+		"name": "Expired Potent Capsuleer Day Cerebral Accelerator"
 	},
 	{
 		"typeId": 63855,
@@ -159185,131 +159149,131 @@
 	},
 	{
 		"typeId": 63878,
-		"name": "Smuggler Low Observability Booster I"
+		"name": "Expired Smuggler Low Observability Booster I"
 	},
 	{
 		"typeId": 63879,
-		"name": "Smuggler Low Observability Booster II"
+		"name": "Expired Smuggler Low Observability Booster II"
 	},
 	{
 		"typeId": 63880,
-		"name": "Smuggler Low Observability Booster III"
+		"name": "Expired Smuggler Low Observability Booster III"
 	},
 	{
 		"typeId": 63881,
-		"name": "Smuggler Low Observability Booster IV"
+		"name": "Expired Smuggler Low Observability Booster IV"
 	},
 	{
 		"typeId": 63882,
-		"name": "DED Scan Booster I"
+		"name": "Expired DED Scan Booster I"
 	},
 	{
 		"typeId": 63883,
-		"name": "DED Scan Booster II"
+		"name": "Expired DED Scan Booster II"
 	},
 	{
 		"typeId": 63884,
-		"name": "DED Scan Booster III"
+		"name": "Expired DED Scan Booster III"
 	},
 	{
 		"typeId": 63885,
-		"name": "DED Scan Booster IV"
+		"name": "Expired DED Scan Booster IV"
 	},
 	{
 		"typeId": 63886,
-		"name": "Smuggler Shield Booster I"
+		"name": "Expired Smuggler Shield Booster I"
 	},
 	{
 		"typeId": 63887,
-		"name": "Smuggler Shield Booster II"
+		"name": "Expired Smuggler Shield Booster II"
 	},
 	{
 		"typeId": 63888,
-		"name": "Smuggler Shield Booster III"
+		"name": "Expired Smuggler Shield Booster III"
 	},
 	{
 		"typeId": 63889,
-		"name": "Smuggler Shield Booster IV"
+		"name": "Expired Smuggler Shield Booster IV"
 	},
 	{
 		"typeId": 63890,
-		"name": "DED Armor Booster I"
+		"name": "Expired DED Armor Booster I"
 	},
 	{
 		"typeId": 63891,
-		"name": "DED Armor Booster II"
+		"name": "Expired DED Armor Booster II"
 	},
 	{
 		"typeId": 63892,
-		"name": "DED Armor Booster III"
+		"name": "Expired DED Armor Booster III"
 	},
 	{
 		"typeId": 63893,
-		"name": "DED Armor Booster IV"
+		"name": "Expired DED Armor Booster IV"
 	},
 	{
 		"typeId": 63894,
-		"name": "Smuggler Blockade Running Booster I"
+		"name": "Expired Smuggler Blockade Running Booster I"
 	},
 	{
 		"typeId": 63895,
-		"name": "Smuggler Blockade Running Booster II"
+		"name": "Expired Smuggler Blockade Running Booster II"
 	},
 	{
 		"typeId": 63896,
-		"name": "Smuggler Blockade Running Booster III"
+		"name": "Expired Smuggler Blockade Running Booster III"
 	},
 	{
 		"typeId": 63897,
-		"name": "Smuggler Blockade Running Booster IV"
+		"name": "Expired Smuggler Blockade Running Booster IV"
 	},
 	{
 		"typeId": 63898,
-		"name": "DED Apprehension Booster I"
+		"name": "Expired DED Apprehension Booster I"
 	},
 	{
 		"typeId": 63899,
-		"name": "DED Apprehension Booster II"
+		"name": "Expired DED Apprehension Booster II"
 	},
 	{
 		"typeId": 63900,
-		"name": "DED Apprehension Booster III"
+		"name": "Expired DED Apprehension Booster III"
 	},
 	{
 		"typeId": 63901,
-		"name": "DED Apprehension Booster IV"
+		"name": "Expired DED Apprehension Booster IV"
 	},
 	{
 		"typeId": 63902,
-		"name": "Smuggler Bay Loading Booster I"
+		"name": "Expired Smuggler Bay Loading Booster I"
 	},
 	{
 		"typeId": 63903,
-		"name": "Smuggler Bay Loading Booster II"
+		"name": "Expired Smuggler Bay Loading Booster II"
 	},
 	{
 		"typeId": 63904,
-		"name": "Smuggler Bay Loading Booster III"
+		"name": "Expired Smuggler Bay Loading Booster III"
 	},
 	{
 		"typeId": 63905,
-		"name": "Smuggler Bay Loading Booster IV"
+		"name": "Expired Smuggler Bay Loading Booster IV"
 	},
 	{
 		"typeId": 63906,
-		"name": "DED Turret Booster I"
+		"name": "Expired DED Turret Booster I"
 	},
 	{
 		"typeId": 63907,
-		"name": "DED Turret Booster II"
+		"name": "Expired DED Turret Booster II"
 	},
 	{
 		"typeId": 63908,
-		"name": "DED Turret Booster III"
+		"name": "Expired DED Turret Booster III"
 	},
 	{
 		"typeId": 63909,
-		"name": "DED Turret Booster IV"
+		"name": "Expired DED Turret Booster IV"
 	},
 	{
 		"typeId": 63910,
@@ -159373,7 +159337,7 @@
 	},
 	{
 		"typeId": 63984,
-		"name": "Smugglers Research Outpost (DO NOT TRANSLATE)"
+		"name": "Caldari Research Outpost (DO NOT TRANSLATE)"
 	},
 	{
 		"typeId": 63985,
@@ -160145,35 +160109,35 @@
 	},
 	{
 		"typeId": 64201,
-		"name": "64201_Male_hair_HeadWear_Cap_M01_Types_HeadWear_Cap_M01_Lib_HQ.png"
+		"name": "Men's Minmatar 'Rebellion' Cap"
 	},
 	{
 		"typeId": 64202,
-		"name": "64202_Female_hair_HeadWear_Cap_F01_Types_HeadWear_Cap_F01_Lib_HQ.png"
+		"name": "Women's Minmatar 'Rebellion' Cap"
 	},
 	{
 		"typeId": 64203,
-		"name": "64203_Female_TopMiddle_TshirtF01_Types_TshirtF01_Lib_HQ.png"
+		"name": "Women's Minmatar 'Rebellion' T-Shirt"
 	},
 	{
 		"typeId": 64204,
-		"name": "64204_Male_topMiddle_TshirtM01_Types_TshirtM01_Lib_HQ.png"
+		"name": "Men's Minmatar 'Rebellion' T-Shirt"
 	},
 	{
 		"typeId": 64268,
-		"name": "64268_Male_topMiddle_TshirtM01_Types_TshirtM01_Lib.png"
+		"name": "Men's Minmatar 'Freedom Fighter' T-Shirt"
 	},
 	{
 		"typeId": 64269,
-		"name": "64269_Female_TopMiddle_TshirtF01_Types_TshirtF01_Lib.png"
+		"name": "Women's Minmatar 'Freedom Fighter' T-Shirt"
 	},
 	{
 		"typeId": 64270,
-		"name": "64270_Male_hair_HeadWear_Cap_M01_Types_HeadWear_Cap_M01_Lib.png"
+		"name": "Men's Minmatar 'Freedom Fighter' Cap"
 	},
 	{
 		"typeId": 64271,
-		"name": "64271_Female_hair_HeadWear_Cap_F01_Types_HeadWear_Cap_F01_Lib.png"
+		"name": "Women's Minmatar 'Freedom Fighter' Cap"
 	},
 	{
 		"typeId": 64345,
@@ -160281,19 +160245,19 @@
 	},
 	{
 		"typeId": 64377,
-		"name": "64377_Female_Outer_RobeF01_Types_RobeAF01_AmarrFoundation.png"
+		"name": "Women's Amarr Devotional Robe"
 	},
 	{
 		"typeId": 64378,
-		"name": "64378_Female_Outer_RobeF01_Types_RobeAF01_AmarrFoundation_HQ.png"
+		"name": "Women's Amarr Courtly Robe"
 	},
 	{
 		"typeId": 64379,
-		"name": "64379_Male_outer_RobeAM01_Types_RobeAM01_AmarrFoundation.png"
+		"name": "Men's Amarr Devotional Robe"
 	},
 	{
 		"typeId": 64380,
-		"name": "64380_Male_outer_RobeAM01_Types_RobeAM01_AmarrFoundation_HQ.png"
+		"name": "Men's Amarr Courtly Robe"
 	},
 	{
 		"typeId": 64390,
@@ -161589,7 +161553,7 @@
 	},
 	{
 		"typeId": 64887,
-		"name": "Minmatar Service Outpost Structure (DO NOT TRANSLATE)"
+		"name": "Minmatar Border Security Outpost"
 	},
 	{
 		"typeId": 64888,
@@ -161598,6 +161562,10 @@
 	{
 		"typeId": 64889,
 		"name": "Minmatar Sentry Gun (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 64890,
+		"name": "ENV_Icefield"
 	},
 	{
 		"typeId": 64892,
@@ -161773,67 +161741,67 @@
 	},
 	{
 		"typeId": 64949,
-		"name": "Liberation Games Accuracy Booster II"
+		"name": "Expired Liberation Games Accuracy Booster II"
 	},
 	{
 		"typeId": 64950,
-		"name": "Liberation Games Accuracy Booster III"
+		"name": "Expired Liberation Games Accuracy Booster III"
 	},
 	{
 		"typeId": 64951,
-		"name": "Liberation Games Accuracy Booster IV"
+		"name": "Expired Liberation Games Accuracy Booster IV"
 	},
 	{
 		"typeId": 64952,
-		"name": "Liberation Games Accuracy Booster I"
+		"name": "Expired Liberation Games Accuracy Booster I"
 	},
 	{
 		"typeId": 64953,
-		"name": "Liberation Games Damage Booster I"
+		"name": "Expired Liberation Games Damage Booster I"
 	},
 	{
 		"typeId": 64954,
-		"name": "Liberation Games Damage Booster II"
+		"name": "Expired Liberation Games Damage Booster II"
 	},
 	{
 		"typeId": 64955,
-		"name": "Liberation Games Damage Booster III"
+		"name": "Expired Liberation Games Damage Booster III"
 	},
 	{
 		"typeId": 64956,
-		"name": "Liberation Games Damage Booster IV"
+		"name": "Expired Liberation Games Damage Booster IV"
 	},
 	{
 		"typeId": 64957,
-		"name": "Liberation Games EWar Booster II"
+		"name": "Expired Liberation Games EWar Booster II"
 	},
 	{
 		"typeId": 64958,
-		"name": "Liberation Games EWar Booster III"
+		"name": "Expired Liberation Games EWar Booster III"
 	},
 	{
 		"typeId": 64959,
-		"name": "Liberation Games EWar Booster IV"
+		"name": "Expired Liberation Games EWar Booster IV"
 	},
 	{
 		"typeId": 64960,
-		"name": "Liberation Games EWar Booster I"
+		"name": "Expired Liberation Games EWar Booster I"
 	},
 	{
 		"typeId": 64961,
-		"name": "Liberation Games Range Booster I"
+		"name": "Expired Liberation Games Range Booster I"
 	},
 	{
 		"typeId": 64962,
-		"name": "Liberation Games Range Booster II"
+		"name": "Expired Liberation Games Range Booster II"
 	},
 	{
 		"typeId": 64963,
-		"name": "Liberation Games Range Booster III"
+		"name": "Expired Liberation Games Range Booster III"
 	},
 	{
 		"typeId": 64964,
-		"name": "Liberation Games Range Booster IV"
+		"name": "Expired Liberation Games Range Booster IV"
 	},
 	{
 		"typeId": 64965,
@@ -162090,6 +162058,2538 @@
 	{
 		"typeId": 65059,
 		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 65061,
+		"name": "Minmatar-Gallente Border Traffic Monitoring"
+	},
+	{
+		"typeId": 65062,
+		"name": "Expired Basic 'Rebel' Cerebral Accelerator"
+	},
+	{
+		"typeId": 65063,
+		"name": "Expired Extended 'Rebel' Cerebral Accelerator"
+	},
+	{
+		"typeId": 65064,
+		"name": "Expired Potent 'Rebel' Cerebral Accelerator"
+	},
+	{
+		"typeId": 65065,
+		"name": "PirateInfestation_Magnet (Do not translate)"
+	},
+	{
+		"typeId": 65079,
+		"name": "Proving Bonus Nexus"
+	},
+	{
+		"typeId": 65080,
+		"name": "Purifier Abyssal Glory SKIN"
+	},
+	{
+		"typeId": 65081,
+		"name": "Harbinger Abyssal Glory SKIN"
+	},
+	{
+		"typeId": 65082,
+		"name": "Imperial Navy Slicer Abyssal Glory SKIN"
+	},
+	{
+		"typeId": 65083,
+		"name": "Augoror Abyssal Glory SKIN"
+	},
+	{
+		"typeId": 65084,
+		"name": "Manticore Abyssal Glory SKIN"
+	},
+	{
+		"typeId": 65085,
+		"name": "Drake Abyssal Glory SKIN"
+	},
+	{
+		"typeId": 65086,
+		"name": "Caldari Navy Hookbill Abyssal Glory SKIN"
+	},
+	{
+		"typeId": 65087,
+		"name": "Osprey Abyssal Glory SKIN"
+	},
+	{
+		"typeId": 65088,
+		"name": "Nemesis Abyssal Glory SKIN"
+	},
+	{
+		"typeId": 65089,
+		"name": "Myrmidon Abyssal Glory SKIN"
+	},
+	{
+		"typeId": 65090,
+		"name": "Federation Navy Comet Abyssal Glory SKIN"
+	},
+	{
+		"typeId": 65091,
+		"name": "Exequror Abyssal Glory SKIN"
+	},
+	{
+		"typeId": 65092,
+		"name": "Hound Abyssal Glory SKIN"
+	},
+	{
+		"typeId": 65093,
+		"name": "Hurricane Abyssal Glory SKIN"
+	},
+	{
+		"typeId": 65094,
+		"name": "Republic Fleet Firetail Abyssal Glory SKIN"
+	},
+	{
+		"typeId": 65095,
+		"name": "Scythe Abyssal Glory SKIN"
+	},
+	{
+		"typeId": 65141,
+		"name": "PirateInfestation_Magnet Spawner"
+	},
+	{
+		"typeId": 65142,
+		"name": "Imperial Navy Security Cordon Outpost"
+	},
+	{
+		"typeId": 65143,
+		"name": "Non-Interactable Amarr Starbase Control Tower (Do not translate)"
+	},
+	{
+		"typeId": 65144,
+		"name": "Amarr Cathedral "
+	},
+	{
+		"typeId": 65145,
+		"name": "Fortified Amarr Chapel"
+	},
+	{
+		"typeId": 65146,
+		"name": "ao1_t1_enviroment_asset"
+	},
+	{
+		"typeId": 65147,
+		"name": "Amarr Statue Dome"
+	},
+	{
+		"typeId": 65148,
+		"name": "Remote Cloaking Array"
+	},
+	{
+		"typeId": 65149,
+		"name": "Amarr Apartments"
+	},
+	{
+		"typeId": 65150,
+		"name": "Preserved Amarr Outpost Platform"
+	},
+	{
+		"typeId": 65151,
+		"name": "BH Sentry Gun"
+	},
+	{
+		"typeId": 65152,
+		"name": "Fortified Amarr Elevator"
+	},
+	{
+		"typeId": 65153,
+		"name": "Fortified Amarr Lookout"
+	},
+	{
+		"typeId": 70746,
+		"name": "Invisible Defender's Beacon (Placeholder DNT)"
+	},
+	{
+		"typeId": 70747,
+		"name": "Invisible Attacker's Beacon (Placeholder DNT)"
+	},
+	{
+		"typeId": 70749,
+		"name": "Amarr Coercer Destroyer"
+	},
+	{
+		"typeId": 70750,
+		"name": "Amarr Arbitrator Cruiser"
+	},
+	{
+		"typeId": 70751,
+		"name": "Amarr Augoror Cruiser"
+	},
+	{
+		"typeId": 70752,
+		"name": "Amarr Omen Cruiser"
+	},
+	{
+		"typeId": 70753,
+		"name": "Amarr Harbinger Battlecruiser"
+	},
+	{
+		"typeId": 70754,
+		"name": "Amarr Prophecy Battlecruiser"
+	},
+	{
+		"typeId": 70755,
+		"name": "Amarr Abaddon Battleship"
+	},
+	{
+		"typeId": 70756,
+		"name": "Amarr Apocalypse Battleship"
+	},
+	{
+		"typeId": 70757,
+		"name": "Amarr Maller Cruiser"
+	},
+	{
+		"typeId": 70758,
+		"name": "Amarr Archon Carrier"
+	},
+	{
+		"typeId": 70759,
+		"name": "Amarr Armageddon Battleship"
+	},
+	{
+		"typeId": 70760,
+		"name": "Amarr Revelation Dreadnaught"
+	},
+	{
+		"typeId": 70761,
+		"name": "Amarr Apostle Force Auxiliary"
+	},
+	{
+		"typeId": 70762,
+		"name": "Amarr Aeon Carrier"
+	},
+	{
+		"typeId": 70774,
+		"name": "Ammatar Fleet Security Cordon Outpost"
+	},
+	{
+		"typeId": 70794,
+		"name": "Sigil Sarum SKIN"
+	},
+	{
+		"typeId": 70795,
+		"name": "Amarr Shuttle Sarum SKIN"
+	},
+	{
+		"typeId": 70797,
+		"name": "Amarr Foundation Day Robe Crate"
+	},
+	{
+		"typeId": 70798,
+		"name": "Sigil War Reserves Lieutenant SKIN"
+	},
+	{
+		"typeId": 70799,
+		"name": "Bestower War Reserves Lieutenant SKIN"
+	},
+	{
+		"typeId": 70811,
+		"name": "Imperial Frigate"
+	},
+	{
+		"typeId": 70812,
+		"name": "Caldari Chimera Carrier"
+	},
+	{
+		"typeId": 70813,
+		"name": "Caldari Wyvern Carrier"
+	},
+	{
+		"typeId": 70814,
+		"name": "Caldari Phoenix Dreadnought"
+	},
+	{
+		"typeId": 70815,
+		"name": "Caldari Blackbird Cruiser"
+	},
+	{
+		"typeId": 70816,
+		"name": "Caldari Caracal Cruiser"
+	},
+	{
+		"typeId": 70817,
+		"name": "Caldari Moa Cruiser"
+	},
+	{
+		"typeId": 70818,
+		"name": "Caldari Osprey Cruiser"
+	},
+	{
+		"typeId": 70819,
+		"name": "Caldari Drake Battlecruiser"
+	},
+	{
+		"typeId": 70820,
+		"name": "Caldari Ferox Battlecruiser"
+	},
+	{
+		"typeId": 70821,
+		"name": "Caldari Raven Battleship"
+	},
+	{
+		"typeId": 70822,
+		"name": "Caldari Rokh Battleship"
+	},
+	{
+		"typeId": 70823,
+		"name": "Caldari Scorpion Battleship"
+	},
+	{
+		"typeId": 70824,
+		"name": "Indestructible Radio Telescope"
+	},
+	{
+		"typeId": 70825,
+		"name": "Caldari Raven Battleship"
+	},
+	{
+		"typeId": 70826,
+		"name": "Commercial Billboard"
+	},
+	{
+		"typeId": 70827,
+		"name": "Caldari Minokawa Force Auxiliary"
+	},
+	{
+		"typeId": 70828,
+		"name": "Caldari Eagle Cruiser"
+	},
+	{
+		"typeId": 70829,
+		"name": "Caldari Vulture Battlecruiser"
+	},
+	{
+		"typeId": 70830,
+		"name": "Caldari Basilisk Cruiser"
+	},
+	{
+		"typeId": 70831,
+		"name": "Caldari Golem Battleship"
+	},
+	{
+		"typeId": 70832,
+		"name": "Caldari Cerberus Cruiser"
+	},
+	{
+		"typeId": 70833,
+		"name": "Caldari Widow Battleship"
+	},
+	{
+		"typeId": 70834,
+		"name": "Caldari Onyx Cruiser"
+	},
+	{
+		"typeId": 70835,
+		"name": "Caldari Nighthawk Battlecruiser"
+	},
+	{
+		"typeId": 70836,
+		"name": "Badger Military Stockpile Captain SKIN"
+	},
+	{
+		"typeId": 70837,
+		"name": "Tayra Military Stockpile Captain SKIN"
+	},
+	{
+		"typeId": 70838,
+		"name": "Men's Caldari Navy Crew Jacket"
+	},
+	{
+		"typeId": 70839,
+		"name": "Men's Ishukone Crew Jacket"
+	},
+	{
+		"typeId": 70840,
+		"name": "Men's CBD Corporation Crew Jacket"
+	},
+	{
+		"typeId": 70841,
+		"name": "Men's Hyasyoda Crew Jacket"
+	},
+	{
+		"typeId": 70842,
+		"name": "Men's Kaalakiota Crew Jacket"
+	},
+	{
+		"typeId": 70843,
+		"name": "Men's Wiyrkomi Crew Jacket"
+	},
+	{
+		"typeId": 70844,
+		"name": "Men's Lai Dai Crew Jacket"
+	},
+	{
+		"typeId": 70845,
+		"name": "Men's Sukuuvestaa Crew Jacket"
+	},
+	{
+		"typeId": 70846,
+		"name": "Men's Nugoeihuvi Crew Jacket"
+	},
+	{
+		"typeId": 70847,
+		"name": "Women's Caldari Navy Crew Jacket"
+	},
+	{
+		"typeId": 70848,
+		"name": "Women's Ishukone Crew Jacket"
+	},
+	{
+		"typeId": 70849,
+		"name": "Women's CBD Corporation Crew Jacket"
+	},
+	{
+		"typeId": 70850,
+		"name": "Women's Hyasyoda Crew Jacket"
+	},
+	{
+		"typeId": 70851,
+		"name": "Women's Kaalakiota Crew Jacket"
+	},
+	{
+		"typeId": 70852,
+		"name": "Women's Wiyrkomi Crew Jacket"
+	},
+	{
+		"typeId": 70853,
+		"name": "Women's Lai Dai Crew Jacket"
+	},
+	{
+		"typeId": 70854,
+		"name": "Women's Sukuuvestaa Crew Jacket"
+	},
+	{
+		"typeId": 70855,
+		"name": "Women's Nugoeihuvi Crew Jacket"
+	},
+	{
+		"typeId": 70877,
+		"name": "Imperial Destroyer"
+	},
+	{
+		"typeId": 70878,
+		"name": "Imperial Cruiser"
+	},
+	{
+		"typeId": 70879,
+		"name": "Imperial Battlecruiser"
+	},
+	{
+		"typeId": 70880,
+		"name": "Imperial Battleship"
+	},
+	{
+		"typeId": 70895,
+		"name": "EDENCOM Secure Relay Alpha"
+	},
+	{
+		"typeId": 70896,
+		"name": "EDENCOM Secure Relay Beta"
+	},
+	{
+		"typeId": 70897,
+		"name": "EDENCOM Secure Relay Gamma"
+	},
+	{
+		"typeId": 70898,
+		"name": "Caldari Charon Freighter"
+	},
+	{
+		"typeId": 70899,
+		"name": "Caldari Badger Hauler"
+	},
+	{
+		"typeId": 70900,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70901,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70902,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70903,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70904,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70905,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70906,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70907,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70908,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70909,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70910,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70911,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70912,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70913,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70914,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70915,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70916,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70917,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70918,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70919,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70920,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70921,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70922,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70923,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70924,
+		"name": "Corrupted Trinary Fragment"
+	},
+	{
+		"typeId": 70925,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70926,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70927,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70928,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70929,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70930,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70931,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70932,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70933,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70934,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70935,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70936,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70937,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70938,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70939,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70940,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70941,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70942,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70943,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70944,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70945,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70946,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70947,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70948,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70949,
+		"name": "EDENCOM Secure Buffer Data"
+	},
+	{
+		"typeId": 70950,
+		"name": "Guristas War Installation"
+	},
+	{
+		"typeId": 70951,
+		"name": "Caldari Navy Defense Post"
+	},
+	{
+		"typeId": 70952,
+		"name": "Caldari Navy Defense Station"
+	},
+	{
+		"typeId": 70953,
+		"name": "Non Interactable Caldari Navy Control Tower (Do Not Translate)"
+	},
+	{
+		"typeId": 70971,
+		"name": "Caldari Navy Defense Redoubt"
+	},
+	{
+		"typeId": 70996,
+		"name": "Warning Sign"
+	},
+	{
+		"typeId": 70997,
+		"name": "FW Amarr Empire Spawner ( DO NOT TRANSLATE )"
+	},
+	{
+		"typeId": 70998,
+		"name": "FW Caldari Empire Spawner ( DO NOT TRANSLATE )"
+	},
+	{
+		"typeId": 70999,
+		"name": "Asteroid Secondary Colony"
+	},
+	{
+		"typeId": 71000,
+		"name": "Asteroid Colony Minor"
+	},
+	{
+		"typeId": 71001,
+		"name": "Asteroid Colony - Factory"
+	},
+	{
+		"typeId": 71002,
+		"name": "Asteroid Colony - Flat Hulk"
+	},
+	{
+		"typeId": 71003,
+		"name": "Hollow Asteroid ( copy )"
+	},
+	{
+		"typeId": 71004,
+		"name": "Hollow Asteroid"
+	},
+	{
+		"typeId": 71005,
+		"name": "Caldari Plinth"
+	},
+	{
+		"typeId": 71008,
+		"name": "FW Gallente Empire Spawner ( DO NOT TRANSLATE )"
+	},
+	{
+		"typeId": 71009,
+		"name": "FW Minmatar Empire Spawner ( DO NOT TRANSLATE )"
+	},
+	{
+		"typeId": 71010,
+		"name": "Gallente Supercarrier Wreckage"
+	},
+	{
+		"typeId": 71011,
+		"name": "Gallente Elite Freighter Wreck"
+	},
+	{
+		"typeId": 71012,
+		"name": "Gallente Obelisk Freighter"
+	},
+	{
+		"typeId": 71013,
+		"name": "Gallente Obelisk Hacking Challenge"
+	},
+	{
+		"typeId": 71014,
+		"name": "Gallente Iteron V Hacking Challenge"
+	},
+	{
+		"typeId": 71015,
+		"name": "Gallente Outpost Hacking Challenge"
+	},
+	{
+		"typeId": 71016,
+		"name": "Elite Gallente Iteron V Hacking Challenge"
+	},
+	{
+		"typeId": 71017,
+		"name": "Elite Gallente Obelisk Hacking Challenge"
+	},
+	{
+		"typeId": 71018,
+		"name": "Elite Gallente Outpost Hacking Challenge"
+	},
+	{
+		"typeId": 71055,
+		"name": "Non-interactable Gallente Barricade (do not translate)"
+	},
+	{
+		"typeId": 71056,
+		"name": "Non-interactable Gallente Barrier (do not translate)"
+	},
+	{
+		"typeId": 71057,
+		"name": "Non-interactable Gallente Battery (do not translate)"
+	},
+	{
+		"typeId": 71058,
+		"name": "Non-interactable Gallente Bunker (do not translate)"
+	},
+	{
+		"typeId": 71059,
+		"name": "Non-interactable Gallente Elevator (do not translate)"
+	},
+	{
+		"typeId": 71060,
+		"name": "Non-interactable Gallente Fence (do not translate)"
+	},
+	{
+		"typeId": 71061,
+		"name": "Non-interactable Gallente Junction (do not translate)"
+	},
+	{
+		"typeId": 71062,
+		"name": "Non-interactable Gallente Lookout (do not translate)"
+	},
+	{
+		"typeId": 71063,
+		"name": "Non-interactable Gallente Wall (do not translate)"
+	},
+	{
+		"typeId": 71075,
+		"name": "Merlin Corporate Police Force SKIN"
+	},
+	{
+		"typeId": 71076,
+		"name": "Stork Corporate Police Force SKIN"
+	},
+	{
+		"typeId": 71077,
+		"name": "Blackbird Corporate Police Force SKIN"
+	},
+	{
+		"typeId": 71078,
+		"name": "Rokh Corporate Police Force SKIN"
+	},
+	{
+		"typeId": 71079,
+		"name": "Union Day Infiltration Wave Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 71080,
+		"name": "Merlin Home Guard SKIN"
+	},
+	{
+		"typeId": 71081,
+		"name": "Stork Home Guard SKIN"
+	},
+	{
+		"typeId": 71082,
+		"name": "Caracal Home Guard SKIN"
+	},
+	{
+		"typeId": 71083,
+		"name": "Rokh Home Guard SKIN"
+	},
+	{
+		"typeId": 71084,
+		"name": "Union Day Infiltration Interdiction Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 71085,
+		"name": "Merlin Internal Security SKIN"
+	},
+	{
+		"typeId": 71086,
+		"name": "Stork Internal Security SKIN"
+	},
+	{
+		"typeId": 71087,
+		"name": "Caracal Internal Security SKIN"
+	},
+	{
+		"typeId": 71088,
+		"name": "Rokh Internal Security SKIN"
+	},
+	{
+		"typeId": 71089,
+		"name": "Union Day Infiltration Boss Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 71090,
+		"name": "Merlin Ishukone Watch SKIN"
+	},
+	{
+		"typeId": 71091,
+		"name": "Flycatcher Ishukone Watch SKIN"
+	},
+	{
+		"typeId": 71092,
+		"name": "Rokh Ishukone Watch SKIN"
+	},
+	{
+		"typeId": 71093,
+		"name": "Merlin Lai Dai Protection Service SKIN"
+	},
+	{
+		"typeId": 71094,
+		"name": "Flycatcher Lai Dai Protection Service SKIN"
+	},
+	{
+		"typeId": 71095,
+		"name": "Caracal Lai Dai Protection Service SKIN"
+	},
+	{
+		"typeId": 71096,
+		"name": "Rokh Lai Dai Protection Service SKIN"
+	},
+	{
+		"typeId": 71097,
+		"name": "Merlin Peace and Order Unit SKIN"
+	},
+	{
+		"typeId": 71098,
+		"name": "Flycatcher Peace and Order Unit SKIN"
+	},
+	{
+		"typeId": 71099,
+		"name": "Rokh Peace and Order Unit SKIN"
+	},
+	{
+		"typeId": 71100,
+		"name": "Merlin Spacelane Patrol SKIN"
+	},
+	{
+		"typeId": 71101,
+		"name": "Flycatcher Spacelane Patrol SKIN"
+	},
+	{
+		"typeId": 71102,
+		"name": "Blackbird Spacelane Patrol SKIN"
+	},
+	{
+		"typeId": 71103,
+		"name": "Rokh Spacelane Patrol SKIN"
+	},
+	{
+		"typeId": 71104,
+		"name": "Republic Frigate"
+	},
+	{
+		"typeId": 71105,
+		"name": "Republic Destroyer"
+	},
+	{
+		"typeId": 71106,
+		"name": "Republic Cruiser"
+	},
+	{
+		"typeId": 71107,
+		"name": "Republic Battlecruiser"
+	},
+	{
+		"typeId": 71108,
+		"name": "Republic Battleship"
+	},
+	{
+		"typeId": 71109,
+		"name": "Merlin Wiyrkomi Peace Corps SKIN"
+	},
+	{
+		"typeId": 71110,
+		"name": "Caracal Wiyrkomi Peace Corps SKIN"
+	},
+	{
+		"typeId": 71111,
+		"name": "Rokh Wiyrkomi Peace Corps SKIN"
+	},
+	{
+		"typeId": 71112,
+		"name": "Amarr Forward Operating Base Wreck"
+	},
+	{
+		"typeId": 71113,
+		"name": "Caldari Forward Operating Base Wreck"
+	},
+	{
+		"typeId": 71114,
+		"name": "Gallente Forward Operating Base Wreck"
+	},
+	{
+		"typeId": 71115,
+		"name": "Minmatar Forward Operating Base Wreck"
+	},
+	{
+		"typeId": 71116,
+		"name": "Amarr Forward Operating Base"
+	},
+	{
+		"typeId": 71117,
+		"name": "Caldari Forward Operating Base"
+	},
+	{
+		"typeId": 71118,
+		"name": "Gallente Forward Operating Base"
+	},
+	{
+		"typeId": 71119,
+		"name": "Minmatar Forward Operating Base"
+	},
+	{
+		"typeId": 71120,
+		"name": "Caldari Sentry"
+	},
+	{
+		"typeId": 71195,
+		"name": "Blackbird Peace and Order Unit SKIN"
+	},
+	{
+		"typeId": 71196,
+		"name": "Stork Wiyrkomi Peace Corps SKIN"
+	},
+	{
+		"typeId": 71240,
+		"name": "Construction Storage Unit"
+	},
+	{
+		"typeId": 71449,
+		"name": "Gallente Federation Stargate Construction"
+	},
+	{
+		"typeId": 71450,
+		"name": "Caldari State Stargate Construction"
+	},
+	{
+		"typeId": 71456,
+		"name": "Caldari Hacking Impediment Mine"
+	},
+	{
+		"typeId": 71457,
+		"name": "Caldari Hacking Accelerant Tower"
+	},
+	{
+		"typeId": 71470,
+		"name": "State Frigate"
+	},
+	{
+		"typeId": 71471,
+		"name": "State Destroyer"
+	},
+	{
+		"typeId": 71472,
+		"name": "State Cruiser"
+	},
+	{
+		"typeId": 71473,
+		"name": "State Battlecruiser"
+	},
+	{
+		"typeId": 71474,
+		"name": "State Battleship"
+	},
+	{
+		"typeId": 71475,
+		"name": "Federation Frigate"
+	},
+	{
+		"typeId": 71476,
+		"name": "Federation Destroyer"
+	},
+	{
+		"typeId": 71477,
+		"name": "Federation Cruiser"
+	},
+	{
+		"typeId": 71478,
+		"name": "Federation Battlecruiser"
+	},
+	{
+		"typeId": 71479,
+		"name": "Federation Battleship"
+	},
+	{
+		"typeId": 71480,
+		"name": "Blackbird Ishukone Watch SKIN"
+	},
+	{
+		"typeId": 71481,
+		"name": "Imperial Navy Security Cordon Outpost"
+	},
+	{
+		"typeId": 71482,
+		"name": "Ammatar Fleet Security Cordon Outpost"
+	},
+	{
+		"typeId": 71707,
+		"name": "Caldari Shuttle Union Day Workers SKIN"
+	},
+	{
+		"typeId": 71708,
+		"name": "Kestrel Union Day Workers SKIN"
+	},
+	{
+		"typeId": 71709,
+		"name": "Heron Union Day Workers SKIN"
+	},
+	{
+		"typeId": 71710,
+		"name": "Caldari Navy Hookbill Union Day Workers SKIN"
+	},
+	{
+		"typeId": 71711,
+		"name": "Raptor Union Day Workers SKIN"
+	},
+	{
+		"typeId": 71712,
+		"name": "Cormorant Union Day Workers SKIN"
+	},
+	{
+		"typeId": 71713,
+		"name": "Stork Union Day Workers SKIN"
+	},
+	{
+		"typeId": 71714,
+		"name": "Caracal Union Day Workers SKIN"
+	},
+	{
+		"typeId": 71715,
+		"name": "Rook Union Day Workers SKIN"
+	},
+	{
+		"typeId": 71716,
+		"name": "Eagle Union Day Workers SKIN"
+	},
+	{
+		"typeId": 71717,
+		"name": "Drake Union Day Workers SKIN"
+	},
+	{
+		"typeId": 71718,
+		"name": "Vulture Union Day Workers SKIN"
+	},
+	{
+		"typeId": 71719,
+		"name": "Scorpion Union Day Workers SKIN"
+	},
+	{
+		"typeId": 71720,
+		"name": "Golem Union Day Workers SKIN"
+	},
+	{
+		"typeId": 71721,
+		"name": "Corax Union Day Executive SKIN"
+	},
+	{
+		"typeId": 71722,
+		"name": "Stork Union Day Executive SKIN"
+	},
+	{
+		"typeId": 71723,
+		"name": "Jackdaw Union Day Executive SKIN"
+	},
+	{
+		"typeId": 71724,
+		"name": "Caracal Union Day Executive SKIN"
+	},
+	{
+		"typeId": 71725,
+		"name": "Cerberus Union Day Executive SKIN"
+	},
+	{
+		"typeId": 71726,
+		"name": "Osprey Navy Issue Union Day Executive SKIN"
+	},
+	{
+		"typeId": 71727,
+		"name": "Nighthawk Union Day Executive SKIN"
+	},
+	{
+		"typeId": 71728,
+		"name": "Bustard Union Day Executive SKIN"
+	},
+	{
+		"typeId": 71729,
+		"name": "Tayra Union Day Executive SKIN"
+	},
+	{
+		"typeId": 71730,
+		"name": "Drake Union Day Executive SKIN"
+	},
+	{
+		"typeId": 71731,
+		"name": "Raven Union Day Executive SKIN"
+	},
+	{
+		"typeId": 71732,
+		"name": "Crane Union Day Executive SKIN"
+	},
+	{
+		"typeId": 71733,
+		"name": "Phoenix Union Day Executive SKIN"
+	},
+	{
+		"typeId": 71734,
+		"name": "Leviathan Union Day Executive SKIN"
+	},
+	{
+		"typeId": 71735,
+		"name": "Caldari Union Day Accuracy Booster IV"
+	},
+	{
+		"typeId": 71736,
+		"name": "Caldari Union Day Accuracy Booster I"
+	},
+	{
+		"typeId": 71737,
+		"name": "Caldari Union Day Accuracy Booster II"
+	},
+	{
+		"typeId": 71738,
+		"name": "Caldari Union Day Accuracy Booster III"
+	},
+	{
+		"typeId": 71739,
+		"name": "Caldari Union Day Damage Booster I"
+	},
+	{
+		"typeId": 71740,
+		"name": "Caldari Union Day Damage Booster II"
+	},
+	{
+		"typeId": 71741,
+		"name": "Caldari Union Day Damage Booster III"
+	},
+	{
+		"typeId": 71742,
+		"name": "Caldari Union Day Damage Booster IV"
+	},
+	{
+		"typeId": 71743,
+		"name": "Caldari Union Day Resistance Booster IV"
+	},
+	{
+		"typeId": 71744,
+		"name": "Caldari Union Day Resistance Booster I"
+	},
+	{
+		"typeId": 71745,
+		"name": "Caldari Union Day Resistance Booster II"
+	},
+	{
+		"typeId": 71746,
+		"name": "Caldari Union Day Resistance Booster III"
+	},
+	{
+		"typeId": 71747,
+		"name": "Caldari Union Day Range Booster I"
+	},
+	{
+		"typeId": 71748,
+		"name": "Caldari Union Day Range Booster II"
+	},
+	{
+		"typeId": 71749,
+		"name": "Caldari Union Day Range Booster III"
+	},
+	{
+		"typeId": 71750,
+		"name": "Caldari Union Day Range Booster IV"
+	},
+	{
+		"typeId": 71755,
+		"name": "Union of Eight Paths Firework"
+	},
+	{
+		"typeId": 72070,
+		"name": "Federation Navy Security Checkpoint"
+	},
+	{
+		"typeId": 72072,
+		"name": "Stellar Construction Site"
+	},
+	{
+		"typeId": 72074,
+		"name": "Construction Storage Unit"
+	},
+	{
+		"typeId": 72075,
+		"name": "Planetary Launch Container"
+	},
+	{
+		"typeId": 72076,
+		"name": "Builders Quarters"
+	},
+	{
+		"typeId": 72083,
+		"name": "Basic 'Union Day' Cerebral Accelerator"
+	},
+	{
+		"typeId": 72084,
+		"name": "Extended 'Union Day' Cerebral Accelerator"
+	},
+	{
+		"typeId": 72085,
+		"name": "Potent 'Union Day' Cerebral Accelerator"
+	},
+	{
+		"typeId": 72086,
+		"name": "Imperial Prototype Stellar Transmuter"
+	},
+	{
+		"typeId": 72087,
+		"name": "Union of Eight Paths Fireworks Crate"
+	},
+	{
+		"typeId": 72091,
+		"name": "Federation Navy Security Station"
+	},
+	{
+		"typeId": 72092,
+		"name": "Non-interactable Outpost Factory (do not translate)"
+	},
+	{
+		"typeId": 72093,
+		"name": "Federation Navy Security Station"
+	},
+	{
+		"typeId": 72094,
+		"name": "Gallente Control Tower (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72095,
+		"name": "Federation Navy Security Command"
+	},
+	{
+		"typeId": 72097,
+		"name": "Proximity Triggered Wave Spawner"
+	},
+	{
+		"typeId": 72098,
+		"name": "Caldari Stasis Webifier Tower"
+	},
+	{
+		"typeId": 72099,
+		"name": "Union Day Easy Drone Wave 1 Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72100,
+		"name": "Union Day Easy Drone Wave 2 Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72101,
+		"name": "Union Day Easy Drone Boss Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72208,
+		"name": "Asteroid Set 2 Xlarge 1 No Collision"
+	},
+	{
+		"typeId": 72209,
+		"name": "Asteroid Set 2 Xlarge 2 No Collision"
+	},
+	{
+		"typeId": 72210,
+		"name": "Asteroid Set 2 Xlarge 3 No Collision"
+	},
+	{
+		"typeId": 72211,
+		"name": "Asteroid Set 2 Xlarge 4 No Collision"
+	},
+	{
+		"typeId": 72212,
+		"name": "Asteroid Set 2 Xlarge 5 No Collision"
+	},
+	{
+		"typeId": 72213,
+		"name": "Asteroid Set 2 Large 1 No Collision"
+	},
+	{
+		"typeId": 72214,
+		"name": "Asteroid Set 2 Large 2 No Collision"
+	},
+	{
+		"typeId": 72215,
+		"name": "Asteroid Set 2 Large 3 No Collision"
+	},
+	{
+		"typeId": 72216,
+		"name": "Asteroid Set 2 Large 4 No Collision"
+	},
+	{
+		"typeId": 72217,
+		"name": "Asteroid Set 2 Large 5 No Collision"
+	},
+	{
+		"typeId": 72238,
+		"name": "Basic 'Boost' Cerebral Accelerator "
+	},
+	{
+		"typeId": 72239,
+		"name": "Standard 'Boost' Cerebral Accelerator"
+	},
+	{
+		"typeId": 72240,
+		"name": "Advanced 'Boost' Cerebral Accelerator"
+	},
+	{
+		"typeId": 72241,
+		"name": "Specialist 'Boost' Cerebral Accelerator"
+	},
+	{
+		"typeId": 72242,
+		"name": "Expert 'Boost' Cerebral Accelerator"
+	},
+	{
+		"typeId": 72258,
+		"name": "Union Day Reward Token"
+	},
+	{
+		"typeId": 72259,
+		"name": "Ishukone Jacket Crate"
+	},
+	{
+		"typeId": 72260,
+		"name": "CBD Corporation Jacket Crate"
+	},
+	{
+		"typeId": 72261,
+		"name": "Hyasyoda Jacket Crate"
+	},
+	{
+		"typeId": 72262,
+		"name": "Kaalakiota Jacket Crate"
+	},
+	{
+		"typeId": 72263,
+		"name": "Wiyrkomi Jacket Crate"
+	},
+	{
+		"typeId": 72264,
+		"name": "Lai Dai Jacket Crate"
+	},
+	{
+		"typeId": 72265,
+		"name": "Sukuuvestaa Jacket Crate"
+	},
+	{
+		"typeId": 72266,
+		"name": "Nugoeihuvi Jacket Crate"
+	},
+	{
+		"typeId": 72268,
+		"name": "Malkalen Attack Memorial"
+	},
+	{
+		"typeId": 72269,
+		"name": "Malkalen Attack Memorial"
+	},
+	{
+		"typeId": 72270,
+		"name": "Grand Tiegjon Casino High-Rollers Platform"
+	},
+	{
+		"typeId": 72271,
+		"name": "Grand Tiegjon Resort Mind Clash Training Facility"
+	},
+	{
+		"typeId": 72272,
+		"name": "Grand Tiegjon Resort & Casino"
+	},
+	{
+		"typeId": 72333,
+		"name": "JSL Partnership Co-ordination Bureau"
+	},
+	{
+		"typeId": 72334,
+		"name": "Combine TNR Meeting Venue"
+	},
+	{
+		"typeId": 72335,
+		"name": "PKN Interstellar Executive Retreat"
+	},
+	{
+		"typeId": 72336,
+		"name": "JSL Partnership Co-ordination Bureau"
+	},
+	{
+		"typeId": 72337,
+		"name": "Combine TNR Meeting Venue"
+	},
+	{
+		"typeId": 72338,
+		"name": "PKN Interstellar Executive Retreat"
+	},
+	{
+		"typeId": 72339,
+		"name": "CBD Corporation Standard"
+	},
+	{
+		"typeId": 72340,
+		"name": "Hyasyoda Corporation Standard"
+	},
+	{
+		"typeId": 72341,
+		"name": "Ishukone Corporation Standard"
+	},
+	{
+		"typeId": 72342,
+		"name": "Kaalakiota Corporation Standard"
+	},
+	{
+		"typeId": 72343,
+		"name": "Lai Dai Corporation Standard"
+	},
+	{
+		"typeId": 72344,
+		"name": "Nugoeihuvi Corporation Standard"
+	},
+	{
+		"typeId": 72345,
+		"name": "Sukuuvestaa Corporation Standard"
+	},
+	{
+		"typeId": 72346,
+		"name": "Wiyrkomi Corporation Standard"
+	},
+	{
+		"typeId": 72347,
+		"name": "Rogue Drone Scavenger Sim"
+	},
+	{
+		"typeId": 72348,
+		"name": "Rogue Drone Forager Sim"
+	},
+	{
+		"typeId": 72349,
+		"name": "Rogue Drone Ripper Sim"
+	},
+	{
+		"typeId": 72350,
+		"name": "Rogue Drone Dismantler Sim"
+	},
+	{
+		"typeId": 72351,
+		"name": "Rogue Drone Commander Sim"
+	},
+	{
+		"typeId": 72352,
+		"name": "Guristas Imputor Sim"
+	},
+	{
+		"typeId": 72353,
+		"name": "Guristas Plunderer Sim"
+	},
+	{
+		"typeId": 72354,
+		"name": "Guristas Wrecker Sim"
+	},
+	{
+		"typeId": 72355,
+		"name": "Guristas Terrorist Sim"
+	},
+	{
+		"typeId": 72356,
+		"name": "Guristas Renegade Sim"
+	},
+	{
+		"typeId": 72357,
+		"name": "Guristas Commander Sim"
+	},
+	{
+		"typeId": 72358,
+		"name": "Federation Atron Sim"
+	},
+	{
+		"typeId": 72359,
+		"name": "Federation Comet Sim"
+	},
+	{
+		"typeId": 72360,
+		"name": "Federation Maulus Sim"
+	},
+	{
+		"typeId": 72361,
+		"name": "Federation Catalyst Sim"
+	},
+	{
+		"typeId": 72362,
+		"name": "Federation Commander Sim"
+	},
+	{
+		"typeId": 72363,
+		"name": "Tangling Damavik Sim"
+	},
+	{
+		"typeId": 72364,
+		"name": "Anchoring Damavik Sim"
+	},
+	{
+		"typeId": 72365,
+		"name": "Starving Damavik Sim"
+	},
+	{
+		"typeId": 72366,
+		"name": "Liminal Damavik Sim"
+	},
+	{
+		"typeId": 72367,
+		"name": "Liminal Kikimora Sim"
+	},
+	{
+		"typeId": 72368,
+		"name": "Triglavian Commander Sim"
+	},
+	{
+		"typeId": 72369,
+		"name": "Stellar Observation Com Tower"
+	},
+	{
+		"typeId": 72370,
+		"name": "Union Day Infiltration Elite Interdiction Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72371,
+		"name": "Union Day Infiltration Elite Wave Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72372,
+		"name": "Union Day Infiltration Elite Boss Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72373,
+		"name": "Encrypted Stellar Research Data"
+	},
+	{
+		"typeId": 72381,
+		"name": "Imperial Prototype Stellar Transmuter"
+	},
+	{
+		"typeId": 72382,
+		"name": "Imperial Prototype Stellar Transmuter"
+	},
+	{
+		"typeId": 72383,
+		"name": "Imperial Prototype Stellar Transmuter"
+	},
+	{
+		"typeId": 72400,
+		"name": "Proving Damage, HP, and Overheating Bonus (Do not translate)"
+	},
+	{
+		"typeId": 72552,
+		"name": "Raven State Police SKIN"
+	},
+	{
+		"typeId": 72553,
+		"name": "Flycatcher State Police SKIN"
+	},
+	{
+		"typeId": 72554,
+		"name": "Cormorant State Police SKIN"
+	},
+	{
+		"typeId": 72555,
+		"name": "Raptor State Police SKIN"
+	},
+	{
+		"typeId": 72556,
+		"name": "Harpy State Police SKIN"
+	},
+	{
+		"typeId": 72557,
+		"name": "Phoenix State Police SKIN"
+	},
+	{
+		"typeId": 72683,
+		"name": "Rogue Drone Commander Sim"
+	},
+	{
+		"typeId": 72684,
+		"name": "Guristas Commander Sim"
+	},
+	{
+		"typeId": 72685,
+		"name": "Federation Commander Sim"
+	},
+	{
+		"typeId": 72686,
+		"name": "Triglavian Commander Sim"
+	},
+	{
+		"typeId": 72687,
+		"name": "Union Day Easy Guristas Wave 1 Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72688,
+		"name": "Union Day Easy Guristas Wave 2 Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72689,
+		"name": "Union Day Easy Guristas Boss Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72690,
+		"name": "Union Day Easy Gal Wave 1 Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72691,
+		"name": "Union Day Easy Gal Wave 2 Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72692,
+		"name": "Union Day Easy Gal Boss Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72693,
+		"name": "Union Day Easy Trig Wave 1 Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72694,
+		"name": "Union Day Easy Trig Wave 2 Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72695,
+		"name": "Union Day Easy Trig Boss Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72696,
+		"name": "Union Day Hard Drone Wave 1 Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72697,
+		"name": "Union Day Hard Drone Wave 2 Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72698,
+		"name": "Union Day Hard Drone Boss Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72699,
+		"name": "Union Day Hard Guristas Wave 1 Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72700,
+		"name": "Union Day Hard Guristas Wave 2 Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72701,
+		"name": "Union Day Hard Guristas Boss Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72702,
+		"name": "Union Day Hard Gal Wave 1 Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72703,
+		"name": "Union Day Hard Gal Wave 2 Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72704,
+		"name": "Union Day Hard Gal Boss Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72705,
+		"name": "Union Day Hard Trig Wave 1 Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72706,
+		"name": "Union Day Hard Trig Wave 2 Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72707,
+		"name": "Union Day Hard Trig Boss Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 72752,
+		"name": "ua01_t1_environment_asset"
+	},
+	{
+		"typeId": 72753,
+		"name": "cct1_t1a_environment_asset"
+	},
+	{
+		"typeId": 72754,
+		"name": "Home Guard Wyvern (Do Not Translate)"
+	},
+	{
+		"typeId": 72755,
+		"name": "cs4_ishukone_environment_asset"
+	},
+	{
+		"typeId": 72756,
+		"name": "cs4_hyasyoda_environment_asset"
+	},
+	{
+		"typeId": 72757,
+		"name": "cs4_wiyrkomi_environment_asset"
+	},
+	{
+		"typeId": 72758,
+		"name": "cs7_kaalakiota_environment_asset"
+	},
+	{
+		"typeId": 72759,
+		"name": "cs8_sukuuvestaa_environment_asset"
+	},
+	{
+		"typeId": 72760,
+		"name": "cs2_laidai_environment_asset"
+	},
+	{
+		"typeId": 72761,
+		"name": "cs2_noh_environment_asset"
+	},
+	{
+		"typeId": 72762,
+		"name": "cs2_cbd_environment_asset "
+	},
+	{
+		"typeId": 72763,
+		"name": "ubp01_environment_asset"
+	},
+	{
+		"typeId": 72811,
+		"name": "Cyclone Fleet Issue"
+	},
+	{
+		"typeId": 72812,
+		"name": "Ferox Navy Issue"
+	},
+	{
+		"typeId": 72814,
+		"name": "Blood Force Auxiliary Wreck"
+	},
+	{
+		"typeId": 72815,
+		"name": "Union Day Frigate Weapon Bonuses (Do not translate)"
+	},
+	{
+		"typeId": 72816,
+		"name": "Guristas Force Auxiliary Wreck"
+	},
+	{
+		"typeId": 72817,
+		"name": "Serpentis Supercarrier Wreck"
+	},
+	{
+		"typeId": 72818,
+		"name": "Harvest Nosferatu Booster I"
+	},
+	{
+		"typeId": 72819,
+		"name": "Harvest Nosferatu Booster II "
+	},
+	{
+		"typeId": 72820,
+		"name": "Harvest Nosferatu Booster III"
+	},
+	{
+		"typeId": 72821,
+		"name": "Harvest Webifier Booster I"
+	},
+	{
+		"typeId": 72822,
+		"name": "Harvest Webifier Booster II"
+	},
+	{
+		"typeId": 72823,
+		"name": "Harvest Webifier Booster III"
+	},
+	{
+		"typeId": 72828,
+		"name": "Harvest Nosferatu Booster IV"
+	},
+	{
+		"typeId": 72829,
+		"name": "Harvest Webifier Booster IV"
+	},
+	{
+		"typeId": 72830,
+		"name": "Harvest Damage Booster III"
+	},
+	{
+		"typeId": 72831,
+		"name": "Harvest Damage Booster IV"
+	},
+	{
+		"typeId": 72832,
+		"name": "Harvest Damage Booster I"
+	},
+	{
+		"typeId": 72833,
+		"name": "Harvest Damage Booster II"
+	},
+	{
+		"typeId": 72834,
+		"name": "Harvest Anti-Disruptor Booster I"
+	},
+	{
+		"typeId": 72835,
+		"name": "Harvest Anti-Disruptor Booster II"
+	},
+	{
+		"typeId": 72836,
+		"name": "Harvest Anti-Disruptor Booster III"
+	},
+	{
+		"typeId": 72837,
+		"name": "Harvest Anti-Disruptor Booster IV"
+	},
+	{
+		"typeId": 72839,
+		"name": "Tetrimon Resistance Booster IV"
+	},
+	{
+		"typeId": 72840,
+		"name": "Tetrimon Resistance Booster I"
+	},
+	{
+		"typeId": 72841,
+		"name": "Tetrimon Resistance Booster II"
+	},
+	{
+		"typeId": 72842,
+		"name": "Tetrimon Resistance Booster III"
+	},
+	{
+		"typeId": 72850,
+		"name": "Amarr Supply Depot"
+	},
+	{
+		"typeId": 72851,
+		"name": "Minmatar Supply Depot"
+	},
+	{
+		"typeId": 72852,
+		"name": "Caldari Supply Depot"
+	},
+	{
+		"typeId": 72853,
+		"name": "Gallente Supply Depot"
+	},
+	{
+		"typeId": 72854,
+		"name": "Tetrimon Capacitor Booster III"
+	},
+	{
+		"typeId": 72855,
+		"name": "Tetrimon Capacitor Booster IV"
+	},
+	{
+		"typeId": 72856,
+		"name": "Tetrimon Capacitor Booster I"
+	},
+	{
+		"typeId": 72857,
+		"name": "Tetrimon Capacitor Booster II"
+	},
+	{
+		"typeId": 72858,
+		"name": "Tetrimon Precision Booster I"
+	},
+	{
+		"typeId": 72859,
+		"name": "Tetrimon Precision Booster II"
+	},
+	{
+		"typeId": 72860,
+		"name": "Tetrimon Precision Booster III"
+	},
+	{
+		"typeId": 72861,
+		"name": "Tetrimon Precision Booster IV"
+	},
+	{
+		"typeId": 72862,
+		"name": "Tetrimon Anti-Drain Booster III"
+	},
+	{
+		"typeId": 72863,
+		"name": "Tetrimon Anti-Drain Booster IV"
+	},
+	{
+		"typeId": 72864,
+		"name": "Tetrimon Anti-Drain Booster I"
+	},
+	{
+		"typeId": 72865,
+		"name": "Tetrimon Anti-Drain Booster II"
+	},
+	{
+		"typeId": 72866,
+		"name": "Basic 'Radiance' Cerebral Accelerator"
+	},
+	{
+		"typeId": 72867,
+		"name": "Potent 'Radiance' Cerebral Accelerator"
+	},
+	{
+		"typeId": 72868,
+		"name": "Extended 'Radiance' Cerebral Accelerator"
+	},
+	{
+		"typeId": 72869,
+		"name": "Myrmidon Navy Issue"
+	},
+	{
+		"typeId": 72872,
+		"name": "Prophecy Navy Issue"
+	},
+	{
+		"typeId": 72873,
+		"name": "Gallente Navy Harbor S01a"
+	},
+	{
+		"typeId": 72874,
+		"name": "Gallente Navy Harbor M01a"
+	},
+	{
+		"typeId": 72875,
+		"name": "Gallente Navy Harbor L01a"
+	},
+	{
+		"typeId": 72876,
+		"name": "Gallente Navy Harbor XL01a"
+	},
+	{
+		"typeId": 72879,
+		"name": "QA Analyzer"
+	},
+	{
+		"typeId": 72902,
+		"name": "Dense Polycrase"
+	},
+	{
+		"typeId": 72903,
+		"name": "Probe Fleet Issue"
+	},
+	{
+		"typeId": 72904,
+		"name": "Heron Navy Issue"
+	},
+	{
+		"typeId": 72907,
+		"name": "Magnate Navy Issue"
+	},
+	{
+		"typeId": 72913,
+		"name": "Imicus Navy Issue"
+	},
+	{
+		"typeId": 72917,
+		"name": "Probe Fleet Issue Blueprint"
+	},
+	{
+		"typeId": 72918,
+		"name": "Caldari State Stargate Construction"
+	},
+	{
+		"typeId": 72919,
+		"name": "Imicus Navy Issue Blueprint"
+	},
+	{
+		"typeId": 72920,
+		"name": "Magnate Navy Issue Blueprint"
+	},
+	{
+		"typeId": 72921,
+		"name": "State Ore Refinery"
+	},
+	{
+		"typeId": 72922,
+		"name": "Heron Navy Issue Blueprint"
+	},
+	{
+		"typeId": 72923,
+		"name": "Cyclone Fleet Issue Blueprint"
+	},
+	{
+		"typeId": 72924,
+		"name": "Prophecy Navy Issue Blueprint"
+	},
+	{
+		"typeId": 72925,
+		"name": "Myrmidon Navy Issue Blueprint"
+	},
+	{
+		"typeId": 72926,
+		"name": "Ferox Navy Issue Blueprint"
+	},
+	{
+		"typeId": 72928,
+		"name": "Gallente Federation Stargate Construction"
+	},
+	{
+		"typeId": 72929,
+		"name": "Serpentis Den non interactable ( copy )"
+	},
+	{
+		"typeId": 72930,
+		"name": "Federation Ore Refinery"
+	},
+	{
+		"typeId": 72935,
+		"name": "Dense Moissanite"
+	},
+	{
+		"typeId": 72941,
+		"name": "Caldari Navy Modular Hub 01a"
+	},
+	{
+		"typeId": 72942,
+		"name": "Caldari Navy Modular Hub 01b"
+	},
+	{
+		"typeId": 72943,
+		"name": "Caldari Navy Modular Hub 01c"
+	},
+	{
+		"typeId": 72944,
+		"name": "Caldari Navy Modular Hub 01d"
+	},
+	{
+		"typeId": 72952,
+		"name": "Caldari Navy Harbor S01a"
+	},
+	{
+		"typeId": 72953,
+		"name": "Caldari Navy Harbor M01a"
+	},
+	{
+		"typeId": 72954,
+		"name": "Caldari Navy Harbor L01a"
+	},
+	{
+		"typeId": 72955,
+		"name": "Caldari Navy Harbor XL01a"
+	},
+	{
+		"typeId": 72976,
+		"name": "Event 72 Proving Filament "
+	},
+	{
+		"typeId": 72977,
+		"name": "Event 73 Proving Filament"
+	},
+	{
+		"typeId": 72978,
+		"name": "Event 74 Proving Filament "
+	},
+	{
+		"typeId": 72979,
+		"name": "Event 75 Proving Filament"
+	},
+	{
+		"typeId": 72980,
+		"name": "Event 76 Proving Filament"
+	},
+	{
+		"typeId": 72981,
+		"name": "Event 77 Proving Filament "
+	},
+	{
+		"typeId": 72982,
+		"name": "Event 78 Proving Filament"
+	},
+	{
+		"typeId": 72983,
+		"name": "Event 79 Proving Filament"
+	},
+	{
+		"typeId": 72984,
+		"name": "Event 80 Proving Filament"
+	},
+	{
+		"typeId": 72985,
+		"name": "Event 81 Proving Filament "
+	},
+	{
+		"typeId": 72986,
+		"name": "Event 82 Proving Filament"
+	},
+	{
+		"typeId": 72987,
+		"name": "Event 83 Proving Filament"
+	},
+	{
+		"typeId": 72988,
+		"name": "Event 84 Proving Filament"
+	},
+	{
+		"typeId": 72989,
+		"name": "Event 85 Proving Filament"
+	},
+	{
+		"typeId": 72990,
+		"name": "Event 86 Proving Filament"
+	},
+	{
+		"typeId": 72991,
+		"name": "Event 87 Proving Filament"
+	},
+	{
+		"typeId": 72992,
+		"name": "Event 88 Proving Filament "
+	},
+	{
+		"typeId": 72993,
+		"name": "Event 89 Proving Filament"
+	},
+	{
+		"typeId": 72994,
+		"name": "Event 90 Proving Filament"
+	},
+	{
+		"typeId": 72995,
+		"name": "Event 91 Proving Filament"
+	},
+	{
+		"typeId": 72996,
+		"name": "Event 92 Proving Filament"
+	},
+	{
+		"typeId": 72997,
+		"name": "Event 93 Proving Filament"
+	},
+	{
+		"typeId": 72998,
+		"name": "Event 94 Proving Filament"
+	},
+	{
+		"typeId": 72999,
+		"name": "Event 95 Proving Filament"
+	},
+	{
+		"typeId": 73000,
+		"name": "Event 96 Proving Filament"
+	},
+	{
+		"typeId": 73001,
+		"name": "Event 97 Proving Filament"
+	},
+	{
+		"typeId": 73002,
+		"name": "Event 98 Proving Filament"
+	},
+	{
+		"typeId": 73003,
+		"name": "Event 99 Proving Filament"
+	},
+	{
+		"typeId": 73004,
+		"name": "Event 100 Proving Filament"
+	},
+	{
+		"typeId": 73012,
+		"name": "Amarr Supply Cache"
+	},
+	{
+		"typeId": 73013,
+		"name": "Minmatar Supply Cache"
+	},
+	{
+		"typeId": 73014,
+		"name": "Caldari Supply Cache"
+	},
+	{
+		"typeId": 73015,
+		"name": "Gallente Supply Cache"
+	},
+	{
+		"typeId": 73016,
+		"name": "Small Military Beacon "
+	},
+	{
+		"typeId": 73017,
+		"name": "Transport Field Effect Subpylon"
+	},
+	{
+		"typeId": 73018,
+		"name": "Stasis Field Effect Subpylon"
+	},
+	{
+		"typeId": 73036,
+		"name": "Captured Triglavian Relay Cache"
+	},
+	{
+		"typeId": 73037,
+		"name": "Captured Triglavian Relay Cache"
+	},
+	{
+		"typeId": 73038,
+		"name": "Captured Triglavian Relay Cache"
+	},
+	{
+		"typeId": 73039,
+		"name": "Preex Gal Site Spawner"
+	},
+	{
+		"typeId": 73040,
+		"name": "Preex Cal Site Spawner"
+	},
+	{
+		"typeId": 73041,
+		"name": "Triglavian Encrypted Relay Data"
+	},
+	{
+		"typeId": 73148,
+		"name": "Merlin Relay Guard"
+	},
+	{
+		"typeId": 73149,
+		"name": "Condor Relay Guard"
+	},
+	{
+		"typeId": 73150,
+		"name": "Kestrel Relay Guard"
+	},
+	{
+		"typeId": 73159,
+		"name": "Tristan Relay Guard"
+	},
+	{
+		"typeId": 73160,
+		"name": "Atron Relay Guard"
+	},
+	{
+		"typeId": 73161,
+		"name": "Incursus Relay Guard"
+	},
+	{
+		"typeId": 73221,
+		"name": "Amarr Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73222,
+		"name": "Minmatar Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73223,
+		"name": "Caldari Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73224,
+		"name": "Gallente Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73225,
+		"name": "Amarr Propaganda Broadcast Structure"
+	},
+	{
+		"typeId": 73226,
+		"name": "Minmatar Propaganda Broadcast Structure"
+	},
+	{
+		"typeId": 73227,
+		"name": "Caldari Propaganda Broadcast Structure"
+	},
+	{
+		"typeId": 73228,
+		"name": "Gallente Propaganda Broadcast Structure"
+	},
+	{
+		"typeId": 73248,
+		"name": "Caldari Loyalty Token"
+	},
+	{
+		"typeId": 73249,
+		"name": "Gallente Loyalty Token"
+	},
+	{
+		"typeId": 73250,
+		"name": "Amarr Loyalty Token"
+	},
+	{
+		"typeId": 73251,
+		"name": "Minmatar Loyalty Token"
+	},
+	{
+		"typeId": 73252,
+		"name": "Stellar Observation Mainframe"
+	},
+	{
+		"typeId": 73253,
+		"name": "Stellar Observation Databank"
+	},
+	{
+		"typeId": 73254,
+		"name": "Imperial Stellar Transmuter Research Laboratory"
+	},
+	{
+		"typeId": 73255,
+		"name": "Republic Stellar Transmuter Research Laboratory"
+	},
+	{
+		"typeId": 73256,
+		"name": "Republic Fleet Firetail Guard"
+	},
+	{
+		"typeId": 73257,
+		"name": "Vigil Fleet Issue Guard"
+	},
+	{
+		"typeId": 73258,
+		"name": "Imperial Navy Slicer Guard"
+	},
+	{
+		"typeId": 73259,
+		"name": "Crucifier Navy Issue Guard"
+	},
+	{
+		"typeId": 73260,
+		"name": "Imperial Stellar Observation Data Hub"
+	},
+	{
+		"typeId": 73261,
+		"name": "Republic Stellar Observation Data Hub"
+	},
+	{
+		"typeId": 73262,
+		"name": "State Strategic Polycrase Cluster"
+	},
+	{
+		"typeId": 73263,
+		"name": "Federal Strategic Moissanite Cluster"
+	},
+	{
+		"typeId": 73267,
+		"name": "State Relay Research Laboratory"
+	},
+	{
+		"typeId": 73268,
+		"name": "Federation Relay Research Laboratory"
+	},
+	{
+		"typeId": 73316,
+		"name": "cs1_construction (Do not translate)"
+	},
+	{
+		"typeId": 73317,
+		"name": "gs1_construction (Do not translate)"
+	},
+	{
+		"typeId": 73336,
+		"name": "Captured Triglavian Relay (Caldari)"
+	},
+	{
+		"typeId": 73337,
+		"name": "Captured Triglavian Relay (Gallente)"
+	},
+	{
+		"typeId": 73338,
+		"name": "Caldari Relay Research Center"
+	},
+	{
+		"typeId": 73339,
+		"name": "Gallente Relay Research Center"
+	},
+	{
+		"typeId": 73340,
+		"name": "Imperial Prototype Stellar Transmuter (Egmar) DO NOT TRANSLATE"
+	},
+	{
+		"typeId": 73341,
+		"name": "Imperial Prototype Stellar Transmuter (Vard) DO NOT TRANSLATE"
+	},
+	{
+		"typeId": 73342,
+		"name": "Preex Amarr S1 (Do not translate)"
+	},
+	{
+		"typeId": 73343,
+		"name": "Preex Minmatar S1 (Do not translate)"
+	},
+	{
+		"typeId": 73344,
+		"name": "Preex Amarr S2 (Do not translate)"
+	},
+	{
+		"typeId": 73345,
+		"name": "Preex Minmatar S2 (Do not translate)"
+	},
+	{
+		"typeId": 73366,
+		"name": "Drake Deathglow Remnant SKIN"
+	},
+	{
+		"typeId": 73367,
+		"name": "Brutix Deathglow Remnant SKIN"
+	},
+	{
+		"typeId": 73368,
+		"name": "Hurricane Deathglow Remnant SKIN"
+	},
+	{
+		"typeId": 73369,
+		"name": "Prophecy Deathglow Remnant SKIN"
+	},
+	{
+		"typeId": 73370,
+		"name": "Corax Deathglow Remnant SKIN"
+	},
+	{
+		"typeId": 73371,
+		"name": "Algos Deathglow Remnant SKIN"
+	},
+	{
+		"typeId": 73372,
+		"name": "Talwar Deathglow Remnant SKIN"
+	},
+	{
+		"typeId": 73373,
+		"name": "Dragoon Deathglow Remnant SKIN"
+	},
+	{
+		"typeId": 73374,
+		"name": "Elder War Monument ( copy )"
+	},
+	{
+		"typeId": 73375,
+		"name": "Amarr Plinth (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73376,
+		"name": "Minmatar Hub (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73380,
+		"name": "Station Caldari 2 (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73389,
+		"name": "Gallente Plinth (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73390,
+		"name": "Gallente Small Station (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73391,
+		"name": "Gallente Research Station (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73395,
+		"name": "73395_Male_bottomOuter_PantsCorpBusinessM01_Types_PantsCorpBusinessM01_DarkTurquoise.png"
+	},
+	{
+		"typeId": 73396,
+		"name": "73396_Male_outer_JacketCorpBusinessM01_Types_JacketCorpBusinessM01_DarkTurquoise.png"
+	},
+	{
+		"typeId": 73408,
+		"name": "Halloween Terrors Firework"
+	},
+	{
+		"typeId": 73409,
+		"name": "Halloween Terrors Fireworks Crate"
+	},
+	{
+		"typeId": 73431,
+		"name": "Crimson Gauntlet Shortcut Keypass "
+	},
+	{
+		"typeId": 73432,
+		"name": "Tetrimon Base Shortcut Keypass "
+	},
+	{
+		"typeId": 73440,
+		"name": "Non-Interactable Gallente Station 6 (Do Not Translate)"
+	},
+	{
+		"typeId": 73441,
+		"name": "Non-Interactable Gallente Station 1 (Do Not Translate)"
+	},
+	{
+		"typeId": 73442,
+		"name": "Non-interactable Caldari Navy Station 4 (Do Not Translate)"
 	},
 	{
 		"typeId": 350916,
