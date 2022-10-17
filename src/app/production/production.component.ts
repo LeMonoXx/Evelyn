@@ -194,8 +194,8 @@ export class ProductionComponent implements OnInit {
       shareReplay(1),
       distinctUntilChanged());
 
-    const subBPOsObs = combineLatest([this.runsObs, materialItemObs]).pipe(
-      mergeMap(([runs, components]) => 
+    const subBPOsObs = materialItemObs.pipe(
+      switchMap(components => 
         from(components).pipe(
           // we could filter here for components that should not be build by a BPO.
           // if its filtered out, the component is calculated as bought form market.
