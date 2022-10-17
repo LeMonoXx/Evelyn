@@ -1,14 +1,9 @@
 export const ACCOUNTING_SKILL_ID: number = 16622;
 
-export const JVFID_SYSTEM_ID: number = 30000451;
-export const JFVID_ROYALSTAR_STRUCTURE_ID: number = 1039762863146;
-
 export const MJ5F9_REGION_ID: number = 10000066;
 export const MJ5F9_SYSTEM_ID: number = 30005133;
 export const MJ5F9_BEANSTAR_STRUCTURE_ID: number = 1038457641673;
 
-export const O34MN_SYSTEM_ID: number = 30000492;
-export const O34MN_VALHALLA_STRUCTURE_ID: number = 1032040302179;
 export const MJ5F9_EC_StucturesFuelComponents_STRUCTURE_ID: number = 1038547343252;
 export const MJ5F9_EC_SMALL_MED_LARGE_SHIPS_STRUCTURE_ID: number = 1038547286358;
 
@@ -36,8 +31,6 @@ export function getAllowedStationIds() : ({ station_id: number, isStructure: boo
         ({ station_id: JitaIVMoon4CaldariNavyAssemblyPlant_STATION_ID, isStructure: false }), 
 
         // structures
-        ({ station_id: JFVID_ROYALSTAR_STRUCTURE_ID, isStructure: true }),
-        ({ station_id: O34MN_VALHALLA_STRUCTURE_ID, isStructure: true }),
         ({ station_id: MJ5F9_BEANSTAR_STRUCTURE_ID, isStructure: true }), 
         ({ station_id: MJ5F9_EC_StucturesFuelComponents_STRUCTURE_ID, isStructure: true }),
         ({ station_id: MJ5F9_EC_SMALL_MED_LARGE_SHIPS_STRUCTURE_ID, isStructure: true }),
