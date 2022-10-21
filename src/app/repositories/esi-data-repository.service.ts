@@ -60,7 +60,7 @@ export class EsiDataRepositoryService {
     return result;
   }
 
-  public postRequest<T>(url: string, body: any): Observable<T> {
-    return this.httpClient.post<T>(url, body);
+  public postRequest(url: string, body: any): Observable<any> {
+    return this.httpClient.post(url, body);
   }
 }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
 import { catchError, filter, map, Observable, of, shareReplay } from 'rxjs';
+import { AuthService } from 'src/app/auth';
 import { MarketEntry, MarketHistory, Prices, MarketOrder } from 'src/app/models';
 import { EsiDataRepositoryService } from 'src/app/repositories/esi-data-repository.service';
 import { environment } from 'src/environments/environment';
@@ -131,5 +132,11 @@ export class MarketService {
         return filtered;
         })
       );
+  }
+
+  public openMarketDetails(type_id: number) : Observable<any> {
+    const url = environment.esiBaseUrl + `/ui/openwindow/marketdetails/?token=${AuthService.authValue?.access_token}&type_id=${type_id}`;
+    console.log(url);
+    return this.esiDataService.postRequest(url, null);
   }
 }

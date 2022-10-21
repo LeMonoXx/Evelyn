@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { combineLatest, debounceTime, defaultIfEmpty, forkJoin, map, mergeMap, Observable, switchMap, tap } from 'rxjs';
+import { type } from 'os';
+import { combineLatest, debounceTime, defaultIfEmpty, forkJoin, map, mergeMap, Observable, switchMap, take, tap } from 'rxjs';
 import { ItemDetails, MarketEntry, MarketOrder } from 'src/app/models';
 import { CharacterService, copyToClipboard, GeneralStation, MarketService, UniverseService } from 'src/app/shared';
 
@@ -73,5 +74,10 @@ export class StationOrderStatusComponent implements OnInit {
     copyToClipboard(text);
     
     this.snackBar.open("Copied!", undefined, { duration: 2000 });
+  }
+
+  public openMarketDetails(type_id: number) {
+    console.log("openMarketDetails: " + type_id);
+    this.marketService.openMarketDetails(type_id).pipe(take(1)).subscribe();
   }
 }
