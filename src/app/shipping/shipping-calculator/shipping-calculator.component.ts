@@ -102,13 +102,14 @@ export class ShippingCalculatorComponent implements OnInit {
         lines.forEach(line => {
           const itemArray = line.split("\t");
           const itemName = itemArray[0];
+          
           if (itemArray.length > 0 && itemName.length > 0) {
             let countStr = itemArray.length > 1 ? itemArray[1].trim() === "" ? "1" : itemArray[1].trim() : "1";
 
-            if(countStr.includes('.'))
-              countStr = countStr.replace(".","");
+          while(countStr.includes('.'))
+            countStr = countStr.replace(".","");
 
-            const count = parseInt(countStr);
+          const count = parseInt(countStr);
 
             let curOrder = order;
             const exactItemObs = this.autoCompleteService.getExactItemMatch(itemName).pipe(
