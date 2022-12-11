@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { type } from 'os';
 import { combineLatest, debounceTime, defaultIfEmpty, forkJoin, map, mergeMap, Observable, switchMap, take, tap } from 'rxjs';
 import { ItemDetails, MarketEntry, MarketOrder } from 'src/app/models';
-import { CharacterService, copyToClipboard, GeneralStation, MarketService, UniverseService } from 'src/app/shared';
+import { CharacterService, copyToClipboard, GeneralStation, ItemSearchService, MarketService, UniverseService } from 'src/app/shared';
 
 @Component({
   selector: 'app-station-order-status',
@@ -19,6 +19,7 @@ export class StationOrderStatusComponent implements OnInit {
   public charMarketOrdersObs: Observable<{ marketOrder?: MarketOrder, itemDetails?: ItemDetails, marketEntry?: MarketEntry }[] | null>;
 
   constructor(private marketService: MarketService,
+    private searchService: ItemSearchService,
     private characterService: CharacterService,
     private universeService: UniverseService,
     private snackBar: MatSnackBar) { }
@@ -77,7 +78,8 @@ export class StationOrderStatusComponent implements OnInit {
   }
 
   public openMarketDetails(type_id: number) {
-    console.log("openMarketDetails: " + type_id);
     this.marketService.openMarketDetails(type_id).pipe(take(1)).subscribe();
+    this.searchService.setItemCount(1);
+    this.searchService.setCurrentItem({ id: type_id });
   }
 }
