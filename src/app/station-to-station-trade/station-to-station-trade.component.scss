@@ -15,7 +15,26 @@
   .default-mat-card {
     width: 565px;
     min-height: 400px;
+    max-height: 400px;
     overflow-x: hidden;
+    padding: 0px;
+
+    mat-card-title {
+      background-color: #424242;
+      position: sticky;
+      top: 0px;
+      padding-top: 10px;
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-bottom: 0px;
+    }
+
+    mat-card-content {
+      padding-top: 10px;
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-bottom: 10px;
+    }
 
     @include breakpoint(1540px) {
       width: 565px;
@@ -57,15 +76,6 @@
 
     @include breakpoint(991px) {
       flex-direction: column;
-    }
-  
-    .stationPriceMatCard {
-
-      .stationPriceContent {
-        flex: 0 0 auto;
-        display: flex;
-        flex-direction: row;
-      }
     }
   }
 }

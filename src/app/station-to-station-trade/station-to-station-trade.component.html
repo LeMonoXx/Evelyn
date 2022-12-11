@@ -8,10 +8,10 @@
       </mat-card>
    
       <div class="sellDetailsAndOrders">
-         <div class="stationPriceMatCard">   
+         <div>   
             <mat-card class="default-mat-card">
-               <ng-container *ngIf="currentItemObs | async; else NoItemSpecified"
-               class="stationPriceContent">
+               <mat-card-content>
+                  <ng-container *ngIf="currentItemObs | async; else NoItemSpecified">
                      <eve-item-station-price
                         [saleTaxPercent$]="characterSaleTaxPercentObs"
                         [numberCount$]="numberCountObs"
@@ -22,30 +22,37 @@
                         [itemIdentifier$]="currentItemObs"
                         [itemDetails$]="itemDetailsObs">
                      </eve-item-station-price>       
-               </ng-container>  
+                  </ng-container> 
+               </mat-card-content>
+ 
             </mat-card>
          </div>
          
          <div *ngIf="shoppingListObs | async as list">   
             <mat-card class="default-mat-card" *ngIf="list.length > 0">
-               <app-shopping-list
-                  [shoppingList$]="shoppingListObs">
-               </app-shopping-list>  
+               <!-- no mat-card-content here, its inside -->
+                  <app-shopping-list style="padding: 10px;"
+                     [shoppingList$]="shoppingListObs">
+                  </app-shopping-list>  
             </mat-card>
          </div>
          
-         <!-- <mat-card class="default-mat-card">
-            <mat-card-title>Active Orders</mat-card-title>
-            <app-station-order-status
-               [station$]="currentendStationObs">
-            </app-station-order-status>
-         </mat-card> -->
-
          <mat-card class="default-mat-card">
+            <mat-card-title>Active Orders</mat-card-title>
+            <mat-card-content>
+               <app-station-order-status
+                  [station$]="currentendStationObs">
+               </app-station-order-status>
+            </mat-card-content>
+         </mat-card>
+
+         <mat-card class="default-mat-card">       
             <mat-card-title>Missing items</mat-card-title>
-            <app-missing-item-list
-               [station$]="currentendStationObs">
-            </app-missing-item-list>
+            <mat-card-content>
+               <app-missing-item-list
+                  [station$]="currentendStationObs">
+               </app-missing-item-list>
+            </mat-card-content>
          </mat-card>
       </div>
    </div>
