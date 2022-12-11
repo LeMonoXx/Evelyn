@@ -34,11 +34,18 @@
             </mat-card>
          </div>
          
-         <mat-card class="default-mat-card">
+         <!-- <mat-card class="default-mat-card">
             <mat-card-title>Active Orders</mat-card-title>
             <app-station-order-status
                [station$]="currentendStationObs">
             </app-station-order-status>
+         </mat-card> -->
+
+         <mat-card class="default-mat-card">
+            <mat-card-title>Missing items</mat-card-title>
+            <app-missing-item-list
+               [station$]="currentendStationObs">
+            </app-missing-item-list>
          </mat-card>
       </div>
    </div>

@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { type } from 'os';
-import { combineLatest, debounceTime, defaultIfEmpty, forkJoin, map, mergeMap, Observable, switchMap, take, tap } from 'rxjs';
+import { combineLatest, debounceTime, defaultIfEmpty, forkJoin, map, mergeMap, Observable, switchMap, take } from 'rxjs';
 import { ItemDetails, MarketEntry, MarketOrder } from 'src/app/models';
 import { CharacterService, copyToClipboard, GeneralStation, ItemSearchService, MarketService, UniverseService } from 'src/app/shared';
 

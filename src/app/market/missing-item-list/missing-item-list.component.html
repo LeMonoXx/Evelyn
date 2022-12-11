@@ -1,0 +1,28 @@
+<div class="missingItemListDiv">
+    <table mat-table [dataSource]="missingAssets" *ngIf="missingAssetsObs | async as missingAssets; else MissigListLoading">
+        <ng-container matColumnDef="image">
+            <th mat-header-cell *matHeaderCellDef class="tableRowCenter"> Image </th>
+            <td mat-cell *matCellDef="let element" class="tableRowCenter pointerCursor"
+            title="Click to open ingame"
+            (click)="openMarketDetails(element.itemDetails.type_id)"
+            ><img class="foundItemImage" [src]="getImageForItem(element.itemDetails.type_id)"></td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef class="tableRowLeft"> Name </th>
+            <td mat-cell *matCellDef="let element" class="tableRowLeft"
+            (click)="copy(element.itemDetails.name)">
+                <div class="nameColumn" [title]="element.itemDetails.name">{{element.itemDetails.name}}</div> 
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['image', 'name']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['image', 'name']"></tr>
+    </table>
+</div>
+
+<ng-template #MissigListLoading>
+    <div class="missigListLoading">
+        <mat-spinner></mat-spinner>
+    </div>
+ </ng-template>

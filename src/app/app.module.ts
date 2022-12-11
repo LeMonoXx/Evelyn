@@ -31,6 +31,7 @@ import {
 } from './production';
 import { ShippingCalculatorComponent } from './shipping';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { MissingItemListComponent } from './market/missing-item-list/missing-item-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +47,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     SubBlueprintsComponent,
     BlueprintMaterialCostsComponent,
     ShippingCalculatorComponent,
-    DashboardComponent
+    DashboardComponent,
+    MissingItemListComponent
   ],
   imports: [
     HttpClientModule,
