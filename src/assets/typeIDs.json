@@ -64593,7 +64593,7 @@
 	},
 	{
 		"typeId": 29296,
-		"name": "Novice Military Beacon"
+		"name": "Scout Military Beacon"
 	},
 	{
 		"typeId": 29297,
@@ -153945,7 +153945,7 @@
 	},
 	{
 		"typeId": 60717,
-		"name": "Proving CH2021 Bonus (Do not translate)"
+		"name": "Proving CH2022 Bonus (Do not translate)"
 	},
 	{
 		"typeId": 60724,
@@ -156749,11 +156749,11 @@
 	},
 	{
 		"typeId": 63135,
-		"name": "63135_Male_Accessories_Masks_Mask_Cyberpunk_M01_Types_Mask_Cyberpunk_M01.png"
+		"name": "Men's Proven Bioadaptive Mask"
 	},
 	{
 		"typeId": 63138,
-		"name": "63138_Female_Accessories_Masks_Mask_Cyberpunk_F01_Types_Mask_Cyberpunk_F01.png"
+		"name": "Women's Proven Bioadaptive Mask"
 	},
 	{
 		"typeId": 63140,
@@ -158813,7 +158813,7 @@
 	},
 	{
 		"typeId": 63728,
-		"name": "Event 71 Proving Filament"
+		"name": "Crimson Harvest Frigate FFA Proving Filament"
 	},
 	{
 		"typeId": 63747,
@@ -163040,6 +163040,10 @@
 		"name": "Construction Storage Unit"
 	},
 	{
+		"typeId": 71361,
+		"name": "Paragon Fulfilment Center"
+	},
+	{
 		"typeId": 71449,
 		"name": "Gallente Federation Stargate Construction"
 	},
@@ -163221,67 +163225,67 @@
 	},
 	{
 		"typeId": 71735,
-		"name": "Caldari Union Day Accuracy Booster IV"
+		"name": "Expired Caldari Union Day Accuracy Booster IV"
 	},
 	{
 		"typeId": 71736,
-		"name": "Caldari Union Day Accuracy Booster I"
+		"name": "Expired Caldari Union Day Accuracy Booster I"
 	},
 	{
 		"typeId": 71737,
-		"name": "Caldari Union Day Accuracy Booster II"
+		"name": "Expired Caldari Union Day Accuracy Booster II"
 	},
 	{
 		"typeId": 71738,
-		"name": "Caldari Union Day Accuracy Booster III"
+		"name": "Expired Caldari Union Day Accuracy Booster III"
 	},
 	{
 		"typeId": 71739,
-		"name": "Caldari Union Day Damage Booster I"
+		"name": "Expired Caldari Union Day Damage Booster I"
 	},
 	{
 		"typeId": 71740,
-		"name": "Caldari Union Day Damage Booster II"
+		"name": "Expired Caldari Union Day Damage Booster II"
 	},
 	{
 		"typeId": 71741,
-		"name": "Caldari Union Day Damage Booster III"
+		"name": "Expired Caldari Union Day Damage Booster III"
 	},
 	{
 		"typeId": 71742,
-		"name": "Caldari Union Day Damage Booster IV"
+		"name": "Expired Caldari Union Day Damage Booster IV"
 	},
 	{
 		"typeId": 71743,
-		"name": "Caldari Union Day Resistance Booster IV"
+		"name": "Expired Caldari Union Day Resistance Booster IV"
 	},
 	{
 		"typeId": 71744,
-		"name": "Caldari Union Day Resistance Booster I"
+		"name": "Expired Caldari Union Day Resistance Booster I"
 	},
 	{
 		"typeId": 71745,
-		"name": "Caldari Union Day Resistance Booster II"
+		"name": "Expired Caldari Union Day Resistance Booster II"
 	},
 	{
 		"typeId": 71746,
-		"name": "Caldari Union Day Resistance Booster III"
+		"name": "Expired Caldari Union Day Resistance Booster III"
 	},
 	{
 		"typeId": 71747,
-		"name": "Caldari Union Day Range Booster I"
+		"name": "Expired Caldari Union Day Range Booster I"
 	},
 	{
 		"typeId": 71748,
-		"name": "Caldari Union Day Range Booster II"
+		"name": "Expired Caldari Union Day Range Booster II"
 	},
 	{
 		"typeId": 71749,
-		"name": "Caldari Union Day Range Booster III"
+		"name": "Expired Caldari Union Day Range Booster III"
 	},
 	{
 		"typeId": 71750,
-		"name": "Caldari Union Day Range Booster IV"
+		"name": "Expired Caldari Union Day Range Booster IV"
 	},
 	{
 		"typeId": 71755,
@@ -163309,15 +163313,15 @@
 	},
 	{
 		"typeId": 72083,
-		"name": "Basic 'Union Day' Cerebral Accelerator"
+		"name": "Expired Basic 'Union Day' Cerebral Accelerator"
 	},
 	{
 		"typeId": 72084,
-		"name": "Extended 'Union Day' Cerebral Accelerator"
+		"name": "Expired Extended 'Union Day' Cerebral Accelerator"
 	},
 	{
 		"typeId": 72085,
-		"name": "Potent 'Union Day' Cerebral Accelerator"
+		"name": "Expired Potent 'Union Day' Cerebral Accelerator"
 	},
 	{
 		"typeId": 72086,
@@ -163429,7 +163433,7 @@
 	},
 	{
 		"typeId": 72258,
-		"name": "Union Day Reward Token"
+		"name": "Operation Center Reward Token"
 	},
 	{
 		"typeId": 72259,
@@ -164152,12 +164156,16 @@
 		"name": "Caldari Navy Harbor XL01a"
 	},
 	{
+		"typeId": 72964,
+		"name": "Rifter Corporation Emblem"
+	},
+	{
 		"typeId": 72976,
-		"name": "Event 72 Proving Filament "
+		"name": "ATXVIII 1v1 Navy Cruisers Proving Filament"
 	},
 	{
 		"typeId": 72977,
-		"name": "Event 73 Proving Filament"
+		"name": "ATXVIII 1v1 T1 Frigates Proving Filament"
 	},
 	{
 		"typeId": 72978,
@@ -164345,19 +164353,19 @@
 	},
 	{
 		"typeId": 73221,
-		"name": "Amarr Spawner (DO NOT TRANSLATE)"
+		"name": "Amarr Propaganda Spawner (DO NOT TRANSLATE)"
 	},
 	{
 		"typeId": 73222,
-		"name": "Minmatar Spawner (DO NOT TRANSLATE)"
+		"name": "Minmatar Propaganda Spawner (DO NOT TRANSLATE)"
 	},
 	{
 		"typeId": 73223,
-		"name": "Caldari Spawner (DO NOT TRANSLATE)"
+		"name": "Caldari Propaganda Spawner (DO NOT TRANSLATE)"
 	},
 	{
 		"typeId": 73224,
-		"name": "Gallente Spawner (DO NOT TRANSLATE)"
+		"name": "Gallente Propaganda Spawner (DO NOT TRANSLATE)"
 	},
 	{
 		"typeId": 73225,
@@ -164446,6 +164454,26 @@
 	{
 		"typeId": 73268,
 		"name": "Federation Relay Research Laboratory"
+	},
+	{
+		"typeId": 73270,
+		"name": "Amarr Listening Outpost"
+	},
+	{
+		"typeId": 73271,
+		"name": "Minmatar Listening Outpost"
+	},
+	{
+		"typeId": 73272,
+		"name": "Caldari Listening Outpost"
+	},
+	{
+		"typeId": 73273,
+		"name": "Gallente Listening Outpost"
+	},
+	{
+		"typeId": 73277,
+		"name": "EverMarks"
 	},
 	{
 		"typeId": 73316,
@@ -164540,6 +164568,10 @@
 		"name": "Minmatar Hub (DO NOT TRANSLATE)"
 	},
 	{
+		"typeId": 73377,
+		"name": "Heron Corporation Emblem"
+	},
+	{
 		"typeId": 73380,
 		"name": "Station Caldari 2 (DO NOT TRANSLATE)"
 	},
@@ -164553,7 +164585,11 @@
 	},
 	{
 		"typeId": 73391,
-		"name": "Gallente Research Station (DO NOT TRANSLATE)"
+		"name": "Non-Interactable Gallente Station 3 (Do Not Translate)"
+	},
+	{
+		"typeId": 73394,
+		"name": "Rifter Alliance Emblem"
 	},
 	{
 		"typeId": 73395,
@@ -164564,12 +164600,112 @@
 		"name": "73396_Male_outer_JacketCorpBusinessM01_Types_JacketCorpBusinessM01_DarkTurquoise.png"
 	},
 	{
+		"typeId": 73397,
+		"name": "Amarr Decoder Package"
+	},
+	{
+		"typeId": 73398,
+		"name": "Minmatar Decoder Package"
+	},
+	{
+		"typeId": 73399,
+		"name": "Caldari Decoder Package"
+	},
+	{
+		"typeId": 73400,
+		"name": "Gallente Decoder Package"
+	},
+	{
+		"typeId": 73401,
+		"name": "Amarr Encoder Splice"
+	},
+	{
+		"typeId": 73402,
+		"name": "Minmatar Encoder Splice"
+	},
+	{
+		"typeId": 73403,
+		"name": "Caldari Encoder Splice"
+	},
+	{
+		"typeId": 73404,
+		"name": "Gallente Encoder Splice"
+	},
+	{
+		"typeId": 73407,
+		"name": "73407_Female_Outer_JacketMilF02_Types_JacketMilF02_WhiteTurquoise.png"
+	},
+	{
 		"typeId": 73408,
-		"name": "Halloween Terrors Firework"
+		"name": "Scarlet Embrace Firework"
 	},
 	{
 		"typeId": 73409,
-		"name": "Halloween Terrors Fireworks Crate"
+		"name": "Scarlet Embrace Fireworks Crate"
+	},
+	{
+		"typeId": 73411,
+		"name": "Amarr Propaganda Broadcast Structure Blueprint (unused)"
+	},
+	{
+		"typeId": 73412,
+		"name": "Minmatar Propaganda Broadcast Structure Blueprint (unused)"
+	},
+	{
+		"typeId": 73413,
+		"name": "Caldari Propaganda Broadcast Structure Blueprint (unused)"
+	},
+	{
+		"typeId": 73414,
+		"name": "Gallente Propaganda Broadcast Structure Blueprint (unused)"
+	},
+	{
+		"typeId": 73419,
+		"name": "Amarr Listening Outpost Blueprint (unused)"
+	},
+	{
+		"typeId": 73420,
+		"name": "Minmatar Listening Outpost Blueprint (unused)"
+	},
+	{
+		"typeId": 73421,
+		"name": "Caldari Listening Outpost Blueprint (unused)"
+	},
+	{
+		"typeId": 73422,
+		"name": "Gallente Listening Outpost Blueprint (unused)"
+	},
+	{
+		"typeId": 73423,
+		"name": "Women's Desert Nomad Mask"
+	},
+	{
+		"typeId": 73424,
+		"name": "Women's Desert Nomad Goggles"
+	},
+	{
+		"typeId": 73425,
+		"name": "Men's Desert Nomad Mask"
+	},
+	{
+		"typeId": 73426,
+		"name": "Men's Desert Nomad Goggles"
+	},
+	{
+		"typeId": 73427,
+		"name": "Amarr Cryptograph Storage"
+	},
+	{
+		"typeId": 73428,
+		"name": "Minmatar Cryptograph Storage"
+	},
+	{
+		"typeId": 73429,
+		"name": "Caldari Cryptograph Storage"
+	},
+	{
+		"typeId": 73430,
+		"name": "Gallente Cryptograph Storage"
 	},
 	{
 		"typeId": 73431,
@@ -164578,6 +164714,22 @@
 	{
 		"typeId": 73432,
 		"name": "Tetrimon Base Shortcut Keypass "
+	},
+	{
+		"typeId": 73436,
+		"name": "73436_Male_Makeup_Augmentations_Face_Paint_M01_Types_Face_Paint_M01_V7_Red.png"
+	},
+	{
+		"typeId": 73437,
+		"name": "73437_Female_Makeup_Augmentations_Face_Paint_F01_Types_Face_Paint_F01_V3_Red.png"
+	},
+	{
+		"typeId": 73438,
+		"name": "TEST Beacon ( copy )"
+	},
+	{
+		"typeId": 73439,
+		"name": "TEST Beacon (Capture Point)"
 	},
 	{
 		"typeId": 73440,
@@ -164590,6 +164742,1954 @@
 	{
 		"typeId": 73442,
 		"name": "Non-interactable Caldari Navy Station 4 (Do Not Translate)"
+	},
+	{
+		"typeId": 73443,
+		"name": "Amarr Control Zone A"
+	},
+	{
+		"typeId": 73444,
+		"name": "Minmatar Control Zone A"
+	},
+	{
+		"typeId": 73445,
+		"name": "Caldari Control Zone A"
+	},
+	{
+		"typeId": 73446,
+		"name": "Gallente Control Zone A"
+	},
+	{
+		"typeId": 73447,
+		"name": "Amarr Scoreboard - DO NOT TRANSLATE"
+	},
+	{
+		"typeId": 73448,
+		"name": "Minmatar Scoreboard - DO NOT TRANSLATE"
+	},
+	{
+		"typeId": 73449,
+		"name": "Caldari Scoreboard - DO NOT TRANSLATE"
+	},
+	{
+		"typeId": 73450,
+		"name": "Gallente Scoreboard - DO NOT TRANSLATE"
+	},
+	{
+		"typeId": 73451,
+		"name": "Apocalypse Sanguinary Savant SKIN"
+	},
+	{
+		"typeId": 73452,
+		"name": "Apocalypse Navy Issue Sanguinary Savant SKIN"
+	},
+	{
+		"typeId": 73453,
+		"name": "Dragoon Sanguinary Savant SKIN"
+	},
+	{
+		"typeId": 73454,
+		"name": "Paladin Sanguinary Savant SKIN"
+	},
+	{
+		"typeId": 73455,
+		"name": "Prophecy Sanguinary Savant SKIN"
+	},
+	{
+		"typeId": 73456,
+		"name": "Punisher Sanguinary Savant SKIN"
+	},
+	{
+		"typeId": 73457,
+		"name": "Retribution Sanguinary Savant SKIN"
+	},
+	{
+		"typeId": 73458,
+		"name": "Tormentor Order of Tetrimon SKIN"
+	},
+	{
+		"typeId": 73459,
+		"name": "Magnate Navy Issue Order of Tetrimon SKIN"
+	},
+	{
+		"typeId": 73460,
+		"name": "Retribution Order of Tetrimon SKIN"
+	},
+	{
+		"typeId": 73461,
+		"name": "Coercer Order of Tetrimon SKIN"
+	},
+	{
+		"typeId": 73462,
+		"name": "Pontifex Order of Tetrimon SKIN"
+	},
+	{
+		"typeId": 73463,
+		"name": "Augoror Order of Tetrimon SKIN"
+	},
+	{
+		"typeId": 73464,
+		"name": "Curse Order of Tetrimon SKIN"
+	},
+	{
+		"typeId": 73465,
+		"name": "Prophecy Navy Issue Order of Tetrimon SKIN"
+	},
+	{
+		"typeId": 73466,
+		"name": "Paladin Order of Tetrimon SKIN"
+	},
+	{
+		"typeId": 73468,
+		"name": "Magnate Navy Issue Ironblood SKIN"
+	},
+	{
+		"typeId": 73474,
+		"name": "Prophecy Navy Issue Ironblood SKIN"
+	},
+	{
+		"typeId": 73486,
+		"name": "Non-interactable Erebus (do not translate)"
+	},
+	{
+		"typeId": 73487,
+		"name": "Non-interactable Anshar (do not translate)"
+	},
+	{
+		"typeId": 73488,
+		"name": "Non-interactable Leviathan (do not translate)"
+	},
+	{
+		"typeId": 73489,
+		"name": "Non-interactable Rhea (do not translate)"
+	},
+	{
+		"typeId": 73490,
+		"name": "Non-interactable Federation Navy Battlestation (do not translate)"
+	},
+	{
+		"typeId": 73491,
+		"name": "Non-Interactable Gallente Station 2 (Do Not Translate)"
+	},
+	{
+		"typeId": 73492,
+		"name": "Non-Interactable Gallente Station 4 (Do Not Translate)"
+	},
+	{
+		"typeId": 73493,
+		"name": "Non-Interactable Gallente Station 5 (Do Not Translate)"
+	},
+	{
+		"typeId": 73494,
+		"name": "Non-Interactable Gallente Station 8 (Do Not Translate)"
+	},
+	{
+		"typeId": 73495,
+		"name": "Non-Interactable Caldari Station 1 (Do Not Translate)"
+	},
+	{
+		"typeId": 73496,
+		"name": "Non-Interactable Caldari Station 3 (Do Not Translate)"
+	},
+	{
+		"typeId": 73497,
+		"name": "Non-Interactable Caldari Station 7 (Do Not Translate)"
+	},
+	{
+		"typeId": 73498,
+		"name": "Non-Interactable Caldari Station 8 (Do Not Translate)"
+	},
+	{
+		"typeId": 73547,
+		"name": "Imperial Frigate"
+	},
+	{
+		"typeId": 73548,
+		"name": "Imperial Destroyer"
+	},
+	{
+		"typeId": 73549,
+		"name": "Imperial Cruiser"
+	},
+	{
+		"typeId": 73550,
+		"name": "Imperial Battlecruiser"
+	},
+	{
+		"typeId": 73551,
+		"name": "Imperial Battleship"
+	},
+	{
+		"typeId": 73552,
+		"name": "Republic Frigate"
+	},
+	{
+		"typeId": 73553,
+		"name": "Republic Destroyer"
+	},
+	{
+		"typeId": 73554,
+		"name": "Republic Cruiser"
+	},
+	{
+		"typeId": 73555,
+		"name": "Republic Battlecruiser"
+	},
+	{
+		"typeId": 73556,
+		"name": "Republic Battleship"
+	},
+	{
+		"typeId": 73557,
+		"name": "State Frigate"
+	},
+	{
+		"typeId": 73558,
+		"name": "State Destroyer"
+	},
+	{
+		"typeId": 73559,
+		"name": "State Cruiser"
+	},
+	{
+		"typeId": 73560,
+		"name": "State Battlecruiser"
+	},
+	{
+		"typeId": 73561,
+		"name": "State Battleship"
+	},
+	{
+		"typeId": 73562,
+		"name": "Federation Frigate"
+	},
+	{
+		"typeId": 73563,
+		"name": "Federation Destroyer"
+	},
+	{
+		"typeId": 73564,
+		"name": "Federation Cruiser"
+	},
+	{
+		"typeId": 73565,
+		"name": "Federation Battlecruiser"
+	},
+	{
+		"typeId": 73566,
+		"name": "Federation Battleship"
+	},
+	{
+		"typeId": 73567,
+		"name": "Providence Alliance Emblem"
+	},
+	{
+		"typeId": 73568,
+		"name": "Tayra Alliance Emblem"
+	},
+	{
+		"typeId": 73569,
+		"name": "Violator Alliance Emblem"
+	},
+	{
+		"typeId": 73570,
+		"name": "Wreathe Alliance Emblem"
+	},
+	{
+		"typeId": 73571,
+		"name": "Amarr Shuttle Corporation Emblem"
+	},
+	{
+		"typeId": 73572,
+		"name": "Apotheosis Corporation Emblem"
+	},
+	{
+		"typeId": 73573,
+		"name": "Astero Corporation Emblem"
+	},
+	{
+		"typeId": 73574,
+		"name": "Atron Corporation Emblem"
+	},
+	{
+		"typeId": 73575,
+		"name": "Badger Corporation Emblem"
+	},
+	{
+		"typeId": 73576,
+		"name": "Bantam Corporation Emblem"
+	},
+	{
+		"typeId": 73577,
+		"name": "Bestower Corporation Emblem"
+	},
+	{
+		"typeId": 73578,
+		"name": "Boobook Corporation Emblem"
+	},
+	{
+		"typeId": 73579,
+		"name": "Breacher Corporation Emblem"
+	},
+	{
+		"typeId": 73580,
+		"name": "Brutix Corporation Emblem"
+	},
+	{
+		"typeId": 73581,
+		"name": "Caldari Shuttle Corporation Emblem"
+	},
+	{
+		"typeId": 73582,
+		"name": "Catalyst Corporation Emblem"
+	},
+	{
+		"typeId": 73583,
+		"name": "Charon Corporation Emblem"
+	},
+	{
+		"typeId": 73584,
+		"name": "Coercer Corporation Emblem"
+	},
+	{
+		"typeId": 73585,
+		"name": "Condor Corporation Emblem"
+	},
+	{
+		"typeId": 73586,
+		"name": "Corax Corporation Emblem"
+	},
+	{
+		"typeId": 73587,
+		"name": "Cormorant Corporation Emblem"
+	},
+	{
+		"typeId": 73588,
+		"name": "Council Diplomatic Shuttle Corporation Emblem"
+	},
+	{
+		"typeId": 73589,
+		"name": "Crucifier Corporation Emblem"
+	},
+	{
+		"typeId": 73590,
+		"name": "Cyclone Corporation Emblem"
+	},
+	{
+		"typeId": 73591,
+		"name": "Drake Corporation Emblem"
+	},
+	{
+		"typeId": 73592,
+		"name": "Echo Corporation Emblem"
+	},
+	{
+		"typeId": 73593,
+		"name": "Epithal Corporation Emblem"
+	},
+	{
+		"typeId": 73594,
+		"name": "Executioner Corporation Emblem"
+	},
+	{
+		"typeId": 73595,
+		"name": "Fenrir Corporation Emblem"
+	},
+	{
+		"typeId": 73596,
+		"name": "Ferox Corporation Emblem"
+	},
+	{
+		"typeId": 73597,
+		"name": "Gallente Shuttle Corporation Emblem"
+	},
+	{
+		"typeId": 73598,
+		"name": "Gnosis Corporation Emblem"
+	},
+	{
+		"typeId": 73599,
+		"name": "Gold Magnate Corporation Emblem"
+	},
+	{
+		"typeId": 73600,
+		"name": "Goru's Shuttle Corporation Emblem"
+	},
+	{
+		"typeId": 73601,
+		"name": "Guristas Shuttle Corporation Emblem"
+	},
+	{
+		"typeId": 73602,
+		"name": "Harbinger Corporation Emblem"
+	},
+	{
+		"typeId": 73603,
+		"name": "Hematos Corporation Emblem"
+	},
+	{
+		"typeId": 73604,
+		"name": "Hoarder Corporation Emblem"
+	},
+	{
+		"typeId": 73605,
+		"name": "Hurricane Corporation Emblem"
+	},
+	{
+		"typeId": 73606,
+		"name": "Ibis Corporation Emblem"
+	},
+	{
+		"typeId": 73607,
+		"name": "Imicus Corporation Emblem"
+	},
+	{
+		"typeId": 73608,
+		"name": "Immolator Corporation Emblem"
+	},
+	{
+		"typeId": 73609,
+		"name": "Impairor Corporation Emblem"
+	},
+	{
+		"typeId": 73610,
+		"name": "Incursus Corporation Emblem"
+	},
+	{
+		"typeId": 73611,
+		"name": "InterBus Shuttle Corporation Emblem"
+	},
+	{
+		"typeId": 73612,
+		"name": "Iteron Mark V Corporation Emblem"
+	},
+	{
+		"typeId": 73613,
+		"name": "Kestrel Corporation Emblem"
+	},
+	{
+		"typeId": 73614,
+		"name": "Kryos Corporation Emblem"
+	},
+	{
+		"typeId": 73615,
+		"name": "Leopard Corporation Emblem"
+	},
+	{
+		"typeId": 73616,
+		"name": "Magnate Corporation Emblem"
+	},
+	{
+		"typeId": 73617,
+		"name": "Mammoth Corporation Emblem"
+	},
+	{
+		"typeId": 73618,
+		"name": "Maulus Corporation Emblem"
+	},
+	{
+		"typeId": 73619,
+		"name": "Merlin Corporation Emblem"
+	},
+	{
+		"typeId": 73620,
+		"name": "Miasmos Corporation Emblem"
+	},
+	{
+		"typeId": 73621,
+		"name": "Moros Corporation Emblem"
+	},
+	{
+		"typeId": 73622,
+		"name": "Myrmidon Corporation Emblem"
+	},
+	{
+		"typeId": 73623,
+		"name": "Naga Corporation Emblem"
+	},
+	{
+		"typeId": 73624,
+		"name": "Naglfar Corporation Emblem"
+	},
+	{
+		"typeId": 73625,
+		"name": "Navitas Corporation Emblem"
+	},
+	{
+		"typeId": 73626,
+		"name": "Nereus Corporation Emblem"
+	},
+	{
+		"typeId": 73627,
+		"name": "Obelisk Corporation Emblem"
+	},
+	{
+		"typeId": 73628,
+		"name": "Oracle Corporation Emblem"
+	},
+	{
+		"typeId": 73629,
+		"name": "Phoenix Corporation Emblem"
+	},
+	{
+		"typeId": 73630,
+		"name": "Probe Corporation Emblem"
+	},
+	{
+		"typeId": 73631,
+		"name": "Providence Corporation Emblem"
+	},
+	{
+		"typeId": 73632,
+		"name": "Punisher Corporation Emblem"
+	},
+	{
+		"typeId": 73633,
+		"name": "Reaper Corporation Emblem"
+	},
+	{
+		"typeId": 73634,
+		"name": "Revelation Corporation Emblem"
+	},
+	{
+		"typeId": 73635,
+		"name": "Sigil Corporation Emblem"
+	},
+	{
+		"typeId": 73636,
+		"name": "Silver Magnate Corporation Emblem"
+	},
+	{
+		"typeId": 73637,
+		"name": "Slasher Corporation Emblem"
+	},
+	{
+		"typeId": 73638,
+		"name": "Sunesis Corporation Emblem"
+	},
+	{
+		"typeId": 73639,
+		"name": "Taipan Corporation Emblem"
+	},
+	{
+		"typeId": 73640,
+		"name": "Talos Corporation Emblem"
+	},
+	{
+		"typeId": 73641,
+		"name": "Tayra Corporation Emblem"
+	},
+	{
+		"typeId": 73642,
+		"name": "Thrasher Corporation Emblem"
+	},
+	{
+		"typeId": 73643,
+		"name": "Tormentor Corporation Emblem"
+	},
+	{
+		"typeId": 73644,
+		"name": "Tornado Corporation Emblem"
+	},
+	{
+		"typeId": 73645,
+		"name": "Tristan Corporation Emblem"
+	},
+	{
+		"typeId": 73646,
+		"name": "Velator Corporation Emblem"
+	},
+	{
+		"typeId": 73647,
+		"name": "Venture Corporation Emblem"
+	},
+	{
+		"typeId": 73648,
+		"name": "Vigil Corporation Emblem"
+	},
+	{
+		"typeId": 73649,
+		"name": "Violator Corporation Emblem"
+	},
+	{
+		"typeId": 73650,
+		"name": "Wreathe Corporation Emblem"
+	},
+	{
+		"typeId": 73651,
+		"name": "Astero Alliance Emblem"
+	},
+	{
+		"typeId": 73652,
+		"name": "Atron Alliance Emblem"
+	},
+	{
+		"typeId": 73653,
+		"name": "Badger Alliance Emblem"
+	},
+	{
+		"typeId": 73654,
+		"name": "Bantam Alliance Emblem"
+	},
+	{
+		"typeId": 73655,
+		"name": "Bestower Alliance Emblem"
+	},
+	{
+		"typeId": 73656,
+		"name": "Boobook Alliance Emblem"
+	},
+	{
+		"typeId": 73657,
+		"name": "Breacher Alliance Emblem"
+	},
+	{
+		"typeId": 73658,
+		"name": "Brutix Alliance Emblem"
+	},
+	{
+		"typeId": 73659,
+		"name": "Burst Alliance Emblem"
+	},
+	{
+		"typeId": 73660,
+		"name": "Caldari Shuttle Alliance Emblem"
+	},
+	{
+		"typeId": 73661,
+		"name": "Charon Alliance Emblem"
+	},
+	{
+		"typeId": 73662,
+		"name": "Coercer Alliance Emblem"
+	},
+	{
+		"typeId": 73663,
+		"name": "Condor Alliance Emblem"
+	},
+	{
+		"typeId": 73664,
+		"name": "Corax Alliance Emblem"
+	},
+	{
+		"typeId": 73665,
+		"name": "Cormorant Alliance Emblem"
+	},
+	{
+		"typeId": 73666,
+		"name": "Council Diplomatic Shuttle Alliance Emblem"
+	},
+	{
+		"typeId": 73667,
+		"name": "Crucifier Alliance Emblem"
+	},
+	{
+		"typeId": 73668,
+		"name": "Cyclone Alliance Emblem"
+	},
+	{
+		"typeId": 73669,
+		"name": "Dragoon Alliance Emblem"
+	},
+	{
+		"typeId": 73670,
+		"name": "Drake Alliance Emblem"
+	},
+	{
+		"typeId": 73671,
+		"name": "Epithal Alliance Emblem"
+	},
+	{
+		"typeId": 73672,
+		"name": "Executioner Alliance Emblem"
+	},
+	{
+		"typeId": 73673,
+		"name": "Fenrir Alliance Emblem"
+	},
+	{
+		"typeId": 73674,
+		"name": "Ferox Alliance Emblem"
+	},
+	{
+		"typeId": 73675,
+		"name": "Gallente Shuttle Alliance Emblem"
+	},
+	{
+		"typeId": 73676,
+		"name": "Gnosis Alliance Emblem"
+	},
+	{
+		"typeId": 73677,
+		"name": "Gold Magnate Alliance Emblem"
+	},
+	{
+		"typeId": 73678,
+		"name": "Goru's Shuttle Alliance Emblem"
+	},
+	{
+		"typeId": 73679,
+		"name": "Griffin Alliance Emblem"
+	},
+	{
+		"typeId": 73680,
+		"name": "Guristas Shuttle Alliance Emblem"
+	},
+	{
+		"typeId": 73681,
+		"name": "Hematos Alliance Emblem"
+	},
+	{
+		"typeId": 73682,
+		"name": "Heron Alliance Emblem"
+	},
+	{
+		"typeId": 73683,
+		"name": "Hoarder Alliance Emblem"
+	},
+	{
+		"typeId": 73684,
+		"name": "Hurricane Alliance Emblem"
+	},
+	{
+		"typeId": 73685,
+		"name": "Ibis Alliance Emblem"
+	},
+	{
+		"typeId": 73686,
+		"name": "Imicus Alliance Emblem"
+	},
+	{
+		"typeId": 73687,
+		"name": "Immolator Alliance Emblem"
+	},
+	{
+		"typeId": 73688,
+		"name": "Impairor Alliance Emblem"
+	},
+	{
+		"typeId": 73689,
+		"name": "Incursus Alliance Emblem"
+	},
+	{
+		"typeId": 73690,
+		"name": "Inquisitor Alliance Emblem"
+	},
+	{
+		"typeId": 73691,
+		"name": "Iteron Mark V Alliance Emblem"
+	},
+	{
+		"typeId": 73692,
+		"name": "Kestrel Alliance Emblem"
+	},
+	{
+		"typeId": 73693,
+		"name": "Kryos Alliance Emblem"
+	},
+	{
+		"typeId": 73694,
+		"name": "Leopard Alliance Emblem"
+	},
+	{
+		"typeId": 73695,
+		"name": "Magnate Alliance Emblem"
+	},
+	{
+		"typeId": 73696,
+		"name": "Mammoth Alliance Emblem"
+	},
+	{
+		"typeId": 73697,
+		"name": "Maulus Alliance Emblem"
+	},
+	{
+		"typeId": 73698,
+		"name": "Merlin Alliance Emblem"
+	},
+	{
+		"typeId": 73699,
+		"name": "Miasmos Alliance Emblem"
+	},
+	{
+		"typeId": 73700,
+		"name": "Minmatar Shuttle Alliance Emblem"
+	},
+	{
+		"typeId": 73701,
+		"name": "Myrmidon Alliance Emblem"
+	},
+	{
+		"typeId": 73702,
+		"name": "Naga Alliance Emblem"
+	},
+	{
+		"typeId": 73703,
+		"name": "Naglfar Alliance Emblem"
+	},
+	{
+		"typeId": 73704,
+		"name": "Navitas Alliance Emblem"
+	},
+	{
+		"typeId": 73705,
+		"name": "Nereus Alliance Emblem"
+	},
+	{
+		"typeId": 73706,
+		"name": "Obelisk Alliance Emblem"
+	},
+	{
+		"typeId": 73707,
+		"name": "Oracle Alliance Emblem"
+	},
+	{
+		"typeId": 73708,
+		"name": "Phoenix Alliance Emblem"
+	},
+	{
+		"typeId": 73709,
+		"name": "Probe Alliance Emblem"
+	},
+	{
+		"typeId": 73710,
+		"name": "Prophecy Alliance Emblem"
+	},
+	{
+		"typeId": 73711,
+		"name": "Punisher Alliance Emblem"
+	},
+	{
+		"typeId": 73712,
+		"name": "Reaper Alliance Emblem"
+	},
+	{
+		"typeId": 73713,
+		"name": "Revelation Alliance Emblem"
+	},
+	{
+		"typeId": 73714,
+		"name": "Sigil Alliance Emblem"
+	},
+	{
+		"typeId": 73715,
+		"name": "Silver Magnate Alliance Emblem"
+	},
+	{
+		"typeId": 73716,
+		"name": "Slasher Alliance Emblem"
+	},
+	{
+		"typeId": 73717,
+		"name": "Sunesis Alliance Emblem"
+	},
+	{
+		"typeId": 73718,
+		"name": "Taipan Alliance Emblem"
+	},
+	{
+		"typeId": 73719,
+		"name": "Talos Alliance Emblem"
+	},
+	{
+		"typeId": 73720,
+		"name": "Talwar Alliance Emblem"
+	},
+	{
+		"typeId": 73721,
+		"name": "Thrasher Alliance Emblem"
+	},
+	{
+		"typeId": 73722,
+		"name": "Tormentor Alliance Emblem"
+	},
+	{
+		"typeId": 73723,
+		"name": "Tornado Alliance Emblem"
+	},
+	{
+		"typeId": 73724,
+		"name": "Tristan Alliance Emblem"
+	},
+	{
+		"typeId": 73725,
+		"name": "Velator Alliance Emblem"
+	},
+	{
+		"typeId": 73726,
+		"name": "Venture Alliance Emblem"
+	},
+	{
+		"typeId": 73727,
+		"name": "Vigil Alliance Emblem"
+	},
+	{
+		"typeId": 73728,
+		"name": "Algos Alliance Emblem"
+	},
+	{
+		"typeId": 73729,
+		"name": "Amarr Shuttle Alliance Emblem"
+	},
+	{
+		"typeId": 73730,
+		"name": "Algos Corporation Emblem"
+	},
+	{
+		"typeId": 73731,
+		"name": "Burst Corporation Emblem"
+	},
+	{
+		"typeId": 73732,
+		"name": "Dragoon Corporation Emblem"
+	},
+	{
+		"typeId": 73733,
+		"name": "Griffin Corporation Emblem"
+	},
+	{
+		"typeId": 73734,
+		"name": "Inquisitor Corporation Emblem"
+	},
+	{
+		"typeId": 73735,
+		"name": "Minmatar Shuttle Corporation Emblem"
+	},
+	{
+		"typeId": 73736,
+		"name": "Prophecy Corporation Emblem"
+	},
+	{
+		"typeId": 73737,
+		"name": "Talwar Corporation Emblem"
+	},
+	{
+		"typeId": 73738,
+		"name": "Apotheosis Alliance Emblem"
+	},
+	{
+		"typeId": 73739,
+		"name": "Catalyst Alliance Emblem"
+	},
+	{
+		"typeId": 73740,
+		"name": "Echo Alliance Emblem"
+	},
+	{
+		"typeId": 73741,
+		"name": "Harbinger Alliance Emblem"
+	},
+	{
+		"typeId": 73742,
+		"name": "InterBus Shuttle Alliance Emblem"
+	},
+	{
+		"typeId": 73743,
+		"name": "Moros Alliance Emblem"
+	},
+	{
+		"typeId": 73748,
+		"name": "Wormhole J244"
+	},
+	{
+		"typeId": 73749,
+		"name": "Wormhole J377"
+	},
+	{
+		"typeId": 73750,
+		"name": "Gallente Navy Harbor S01b"
+	},
+	{
+		"typeId": 73751,
+		"name": "Gallente Navy Harbor M01b"
+	},
+	{
+		"typeId": 73752,
+		"name": "Gallente Navy Harbor L01b"
+	},
+	{
+		"typeId": 73753,
+		"name": "Gallente Navy Harbor XL01b"
+	},
+	{
+		"typeId": 73754,
+		"name": "Caldari Navy Harbor S01b"
+	},
+	{
+		"typeId": 73755,
+		"name": "Caldari Navy Harbor M01b"
+	},
+	{
+		"typeId": 73756,
+		"name": "Caldari Navy Harbor L01b"
+	},
+	{
+		"typeId": 73757,
+		"name": "Caldari Navy Harbor XL01b"
+	},
+	{
+		"typeId": 73758,
+		"name": "Gallente Navy Harbor S01c"
+	},
+	{
+		"typeId": 73759,
+		"name": "Gallente Navy Harbor M01c"
+	},
+	{
+		"typeId": 73760,
+		"name": "Gallente Navy Harbor L01c"
+	},
+	{
+		"typeId": 73761,
+		"name": "Gallente Navy Harbor XL01c"
+	},
+	{
+		"typeId": 73762,
+		"name": "Caldari Navy Harbor S01c"
+	},
+	{
+		"typeId": 73763,
+		"name": "Caldari Navy Harbor M01c"
+	},
+	{
+		"typeId": 73764,
+		"name": "Caldari Navy Harbor L01c"
+	},
+	{
+		"typeId": 73765,
+		"name": "Caldari Navy Harbor XL01c"
+	},
+	{
+		"typeId": 73766,
+		"name": "Gallente Navy Harbor S01d"
+	},
+	{
+		"typeId": 73767,
+		"name": "Gallente Navy Harbor M01d"
+	},
+	{
+		"typeId": 73768,
+		"name": "Gallente Navy Harbor L01d"
+	},
+	{
+		"typeId": 73769,
+		"name": "Gallente Navy Harbor XL01d"
+	},
+	{
+		"typeId": 73770,
+		"name": "Caldari Navy Harbor S01d"
+	},
+	{
+		"typeId": 73771,
+		"name": "Caldari Navy Harbor M01d"
+	},
+	{
+		"typeId": 73772,
+		"name": "Caldari Navy Harbor L01d"
+	},
+	{
+		"typeId": 73773,
+		"name": "Caldari Navy Harbor XL01d"
+	},
+	{
+		"typeId": 73774,
+		"name": "Gallente Navy Harbor S01e"
+	},
+	{
+		"typeId": 73775,
+		"name": "Gallente Navy Harbor M01e"
+	},
+	{
+		"typeId": 73776,
+		"name": "Gallente Navy Harbor L01e"
+	},
+	{
+		"typeId": 73777,
+		"name": "Gallente Navy Harbor XL01e"
+	},
+	{
+		"typeId": 73778,
+		"name": "Caldari Navy Harbor S01e"
+	},
+	{
+		"typeId": 73779,
+		"name": "Caldari Navy Harbor M01e"
+	},
+	{
+		"typeId": 73780,
+		"name": "Caldari Navy Harbor L01e"
+	},
+	{
+		"typeId": 73781,
+		"name": "Caldari Navy Harbor XL01e"
+	},
+	{
+		"typeId": 73783,
+		"name": "Amarr Ops Center Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73784,
+		"name": "Minmatar Ops Center Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73785,
+		"name": "Caldari Ops Center Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73786,
+		"name": "Gallente Ops Center Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73787,
+		"name": "Naglfar Fleet Issue"
+	},
+	{
+		"typeId": 73789,
+		"name": "Coercer Navy Issue"
+	},
+	{
+		"typeId": 73790,
+		"name": "Revelation Navy Issue"
+	},
+	{
+		"typeId": 73792,
+		"name": "Moros Navy Issue"
+	},
+	{
+		"typeId": 73793,
+		"name": "Phoenix Navy Issue"
+	},
+	{
+		"typeId": 73794,
+		"name": "Thrasher Fleet Issue"
+	},
+	{
+		"typeId": 73795,
+		"name": "Cormorant Navy Issue"
+	},
+	{
+		"typeId": 73796,
+		"name": "Catalyst Navy Issue"
+	},
+	{
+		"typeId": 73797,
+		"name": "Imperial Officer Battleship"
+	},
+	{
+		"typeId": 73798,
+		"name": "Republic Officer Battleship"
+	},
+	{
+		"typeId": 73799,
+		"name": "State Officer Battleship"
+	},
+	{
+		"typeId": 73800,
+		"name": "Federation Officer Battleship"
+	},
+	{
+		"typeId": 73801,
+		"name": "Amarr Rendezvous Point Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73802,
+		"name": "Minmatar Rendezvous Point Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73803,
+		"name": "Caldari Rendezvous Point Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73804,
+		"name": "Gallente Rendezvous Point Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73807,
+		"name": "Amarr Rendezvous Point Officer Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73808,
+		"name": "Minmatar Rendezvous Point Officer Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73809,
+		"name": "Caldari Rendezvous Point Officer Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73810,
+		"name": "Gallente Rendezvous Point Officer Spawner (DO NOT TRANSLATE)"
+	},
+	{
+		"typeId": 73811,
+		"name": "Blood Raider Dreadnought Wreck"
+	},
+	{
+		"typeId": 73838,
+		"name": "Magnate Navy Issue Semiotique Superluminal SKIN"
+	},
+	{
+		"typeId": 73839,
+		"name": "Heron Navy Issue Semiotique Superluminal SKIN"
+	},
+	{
+		"typeId": 73840,
+		"name": "Imicus Navy Issue Semiotique Superluminal SKIN"
+	},
+	{
+		"typeId": 73841,
+		"name": "Probe Fleet Issue Semiotique Superluminal SKIN"
+	},
+	{
+		"typeId": 73842,
+		"name": "Amarr Station State Large"
+	},
+	{
+		"typeId": 73843,
+		"name": "Amarr Gate State Medium"
+	},
+	{
+		"typeId": 73844,
+		"name": "Caldari Station State Large"
+	},
+	{
+		"typeId": 73845,
+		"name": "Caldari Gate State Medium"
+	},
+	{
+		"typeId": 73846,
+		"name": "Gallente Station State Large"
+	},
+	{
+		"typeId": 73847,
+		"name": "Gallente Gate State Medium"
+	},
+	{
+		"typeId": 73848,
+		"name": "Minmatar Station State Large"
+	},
+	{
+		"typeId": 73849,
+		"name": "Minmatar Gate State Medium"
+	},
+	{
+		"typeId": 73854,
+		"name": "Amarr Control Zone B"
+	},
+	{
+		"typeId": 73855,
+		"name": "Amarr Control Zone C"
+	},
+	{
+		"typeId": 73856,
+		"name": "Minmatar Control Zone B"
+	},
+	{
+		"typeId": 73857,
+		"name": "Minmatar Control Zone C"
+	},
+	{
+		"typeId": 73858,
+		"name": "Caldari Control Zone B"
+	},
+	{
+		"typeId": 73859,
+		"name": "Caldari Control Zone C"
+	},
+	{
+		"typeId": 73860,
+		"name": "Gallente Control Zone B"
+	},
+	{
+		"typeId": 73861,
+		"name": "Gallente Control Zone C"
+	},
+	{
+		"typeId": 73864,
+		"name": "Revelation Navy Issue Wreck"
+	},
+	{
+		"typeId": 73865,
+		"name": "Phoenix Navy Issue Wreck"
+	},
+	{
+		"typeId": 73866,
+		"name": "Naglfar Navy Issue Wreck"
+	},
+	{
+		"typeId": 73868,
+		"name": "Moros Navy Issue Wreck"
+	},
+	{
+		"typeId": 73869,
+		"name": "Cyclone Fleet Issue Snowline Bladeracer SKIN"
+	},
+	{
+		"typeId": 73870,
+		"name": "Ferox Navy Issue Steel Cardinal SKIN"
+	},
+	{
+		"typeId": 73871,
+		"name": "Myrmidon Navy Issue Inner Zone Vanguard SKIN"
+	},
+	{
+		"typeId": 73872,
+		"name": "Prophecy Navy Issue Crown and Swords SKIN"
+	},
+	{
+		"typeId": 73873,
+		"name": "Caldari Navy Hookbill Versus Blueforce SKIN"
+	},
+	{
+		"typeId": 73874,
+		"name": "Ferox Navy Issue Versus Blueforce SKIN"
+	},
+	{
+		"typeId": 73875,
+		"name": "Imperial Navy Slicer Versus Blueforce SKIN"
+	},
+	{
+		"typeId": 73876,
+		"name": "Prophecy Navy Issue Versus Blueforce SKIN"
+	},
+	{
+		"typeId": 73877,
+		"name": "Federation Navy Comet Versus Redforce SKIN"
+	},
+	{
+		"typeId": 73878,
+		"name": "Myrmidon Navy Issue Versus Redforce SKIN"
+	},
+	{
+		"typeId": 73879,
+		"name": "Republic Fleet Firetail Versus Redforce SKIN"
+	},
+	{
+		"typeId": 73880,
+		"name": "Cyclone Fleet Issue Versus Redforce SKIN"
+	},
+	{
+		"typeId": 73909,
+		"name": "Sun A0 (Disrupted Blue Small)"
+	},
+	{
+		"typeId": 73910,
+		"name": "Elite Infomorph Psychology"
+	},
+	{
+		"typeId": 73911,
+		"name": "Planet (Scorched Barren)"
+	},
+	{
+		"typeId": 73912,
+		"name": "Advanced Contracting"
+	},
+	{
+		"typeId": 73917,
+		"name": "Amarr Navy Small Hologram 01a"
+	},
+	{
+		"typeId": 73918,
+		"name": "Amarr Navy Small Structure 01a"
+	},
+	{
+		"typeId": 73919,
+		"name": "Amarr Navy Small Structure 02a"
+	},
+	{
+		"typeId": 73920,
+		"name": "Amarr Navy Small Structure 03a"
+	},
+	{
+		"typeId": 73921,
+		"name": "Amarr Navy Small Structure 04a"
+	},
+	{
+		"typeId": 73922,
+		"name": "Amarr Navy Small Structure 05a"
+	},
+	{
+		"typeId": 73923,
+		"name": "Amarr Navy Small Structure 06a"
+	},
+	{
+		"typeId": 73924,
+		"name": "Amarr Navy Small Structure 07a"
+	},
+	{
+		"typeId": 73925,
+		"name": "Amarr Navy Medium Structure 01a"
+	},
+	{
+		"typeId": 73926,
+		"name": "Amarr Navy Medium Structure 02a"
+	},
+	{
+		"typeId": 73927,
+		"name": "Amarr Navy Medium Structure 03a"
+	},
+	{
+		"typeId": 73928,
+		"name": "Amarr Navy Medium Structure 04a"
+	},
+	{
+		"typeId": 73929,
+		"name": "Amarr Navy Medium Structure 05a"
+	},
+	{
+		"typeId": 73930,
+		"name": "Caldari Navy Small Hologram 01a"
+	},
+	{
+		"typeId": 73931,
+		"name": "Caldari Navy Small Structure 01a"
+	},
+	{
+		"typeId": 73932,
+		"name": "Caldari Navy Small Structure 02a"
+	},
+	{
+		"typeId": 73933,
+		"name": "Caldari Navy Small Structure 03a"
+	},
+	{
+		"typeId": 73934,
+		"name": "Caldari Navy Small Structure 04a"
+	},
+	{
+		"typeId": 73935,
+		"name": "Caldari Navy Small Structure 05a"
+	},
+	{
+		"typeId": 73936,
+		"name": "Caldari Navy Small Structure 06a"
+	},
+	{
+		"typeId": 73937,
+		"name": "Caldari Navy Small Structure 07a"
+	},
+	{
+		"typeId": 73938,
+		"name": "Caldari Navy Medium Structure 01a"
+	},
+	{
+		"typeId": 73939,
+		"name": "Caldari Navy Medium Structure 02a"
+	},
+	{
+		"typeId": 73940,
+		"name": "Caldari Navy Medium Structure 03a"
+	},
+	{
+		"typeId": 73941,
+		"name": "Caldari Navy Medium Structure 04a"
+	},
+	{
+		"typeId": 73942,
+		"name": "Caldari Navy Medium Structure 05a"
+	},
+	{
+		"typeId": 73943,
+		"name": "Gallente Navy Small Hologram 01a"
+	},
+	{
+		"typeId": 73944,
+		"name": "Gallente Navy Small Structure 01a"
+	},
+	{
+		"typeId": 73945,
+		"name": "Gallente Navy Small Structure 02a"
+	},
+	{
+		"typeId": 73946,
+		"name": "Gallente Navy Small Structure 03a"
+	},
+	{
+		"typeId": 73947,
+		"name": "Gallente Navy Small Structure 04a"
+	},
+	{
+		"typeId": 73948,
+		"name": "Gallente Navy Small Structure 05a"
+	},
+	{
+		"typeId": 73949,
+		"name": "Gallente Navy Small Structure 06a"
+	},
+	{
+		"typeId": 73950,
+		"name": "Gallente Navy Small Structure 07a"
+	},
+	{
+		"typeId": 73951,
+		"name": "Gallente Navy Medium Structure 01a"
+	},
+	{
+		"typeId": 73952,
+		"name": "Gallente Navy Medium Structure 02a"
+	},
+	{
+		"typeId": 73953,
+		"name": "Gallente Navy Medium Structure 03a"
+	},
+	{
+		"typeId": 73954,
+		"name": "Gallente Navy Medium Structure 04a"
+	},
+	{
+		"typeId": 73955,
+		"name": "Gallente Navy Medium Structure 05a"
+	},
+	{
+		"typeId": 73956,
+		"name": "Minmatar Fleet Small Hologram 01a"
+	},
+	{
+		"typeId": 73957,
+		"name": "Minmatar Fleet Small Structure 01a"
+	},
+	{
+		"typeId": 73958,
+		"name": "Minmatar Fleet Small Structure 02a"
+	},
+	{
+		"typeId": 73959,
+		"name": "Minmatar Fleet Small Structure 03a"
+	},
+	{
+		"typeId": 73960,
+		"name": "Minmatar Fleet Small Structure 04a"
+	},
+	{
+		"typeId": 73961,
+		"name": "Minmatar Fleet Small Structure 05a"
+	},
+	{
+		"typeId": 73962,
+		"name": "Minmatar Fleet Small Structure 06a"
+	},
+	{
+		"typeId": 73963,
+		"name": "Minmatar Fleet Small Structure 07a"
+	},
+	{
+		"typeId": 73964,
+		"name": "Minmatar Fleet Medium Structure 01a"
+	},
+	{
+		"typeId": 73965,
+		"name": "Minmatar Fleet Medium Structure 02a"
+	},
+	{
+		"typeId": 73966,
+		"name": "Minmatar Fleet Medium Structure 03a"
+	},
+	{
+		"typeId": 73967,
+		"name": "Minmatar Fleet Medium Structure 04a"
+	},
+	{
+		"typeId": 73968,
+		"name": "Minmatar Fleet Medium Structure 05a"
+	},
+	{
+		"typeId": 73972,
+		"name": "Catalyst Navy Issue Blueprint"
+	},
+	{
+		"typeId": 73973,
+		"name": "Coercer Navy Issue Blueprint"
+	},
+	{
+		"typeId": 73974,
+		"name": "Amarr Navy ring 55k 01a"
+	},
+	{
+		"typeId": 73975,
+		"name": "Amarr Navy ring 55k 01b"
+	},
+	{
+		"typeId": 73976,
+		"name": "Amarr Navy ring 55k 01c"
+	},
+	{
+		"typeId": 73977,
+		"name": "Amarr Navy ring 55k 01d"
+	},
+	{
+		"typeId": 73978,
+		"name": "Cormorant Navy Issue Blueprint"
+	},
+	{
+		"typeId": 73979,
+		"name": "Thrasher Fleet Issue Blueprint"
+	},
+	{
+		"typeId": 73991,
+		"name": "Amarr Navy ring 35k 01a"
+	},
+	{
+		"typeId": 73992,
+		"name": "Amarr Navy ring 35k 01b"
+	},
+	{
+		"typeId": 73993,
+		"name": "Amarr Navy ring 35k 01c"
+	},
+	{
+		"typeId": 73994,
+		"name": "Amarr Navy ring 35k 01d"
+	},
+	{
+		"typeId": 73995,
+		"name": "Phoenix Navy Issue Blueprint"
+	},
+	{
+		"typeId": 73996,
+		"name": "Moros Navy Issue Blueprint"
+	},
+	{
+		"typeId": 73999,
+		"name": "Naglfar Fleet Issue Blueprint"
+	},
+	{
+		"typeId": 74000,
+		"name": "Revelation Navy Issue Blueprint"
+	},
+	{
+		"typeId": 74001,
+		"name": "Military Navigation Telemetry"
+	},
+	{
+		"typeId": 74002,
+		"name": "Turnur Aftermath"
+	},
+	{
+		"typeId": 74007,
+		"name": "Probe Fleet Issue Alliance Emblem"
+	},
+	{
+		"typeId": 74008,
+		"name": "Heron Navy Issue Alliance Emblem"
+	},
+	{
+		"typeId": 74009,
+		"name": "Caldari Navy Connection 01a"
+	},
+	{
+		"typeId": 74010,
+		"name": "Magnate Navy Issue Alliance Emblem"
+	},
+	{
+		"typeId": 74011,
+		"name": "Caldari Navy Connection 02a"
+	},
+	{
+		"typeId": 74012,
+		"name": "Caldari Navy Connection 03a"
+	},
+	{
+		"typeId": 74013,
+		"name": "Imicus Navy Issue Alliance Emblem"
+	},
+	{
+		"typeId": 74014,
+		"name": "Caldari Navy Connection 04a"
+	},
+	{
+		"typeId": 74015,
+		"name": "Cyclone Fleet Issue Alliance Emblem"
+	},
+	{
+		"typeId": 74016,
+		"name": "Caldari Navy Connection 04b"
+	},
+	{
+		"typeId": 74017,
+		"name": "Caldari Navy Connection 04c"
+	},
+	{
+		"typeId": 74018,
+		"name": "Ferox Navy Issue Alliance Emblem"
+	},
+	{
+		"typeId": 74019,
+		"name": "Caldari Navy Connection 04d"
+	},
+	{
+		"typeId": 74020,
+		"name": "Prophecy Navy Issue Alliance Emblem"
+	},
+	{
+		"typeId": 74021,
+		"name": "Caldari Navy Connection 05a"
+	},
+	{
+		"typeId": 74022,
+		"name": "Caldari Navy Connection 05b"
+	},
+	{
+		"typeId": 74023,
+		"name": "Myrmidon Navy Issue Alliance Emblem"
+	},
+	{
+		"typeId": 74024,
+		"name": "Caldari Navy Connection 05c"
+	},
+	{
+		"typeId": 74025,
+		"name": "Revelation Navy Issue Alliance Emblem"
+	},
+	{
+		"typeId": 74026,
+		"name": "Caldari Navy Platform 01a"
+	},
+	{
+		"typeId": 74027,
+		"name": "Caldari Navy Platform 02a"
+	},
+	{
+		"typeId": 74028,
+		"name": "Moros Navy Issue Alliance Emblem"
+	},
+	{
+		"typeId": 74029,
+		"name": "Phoenix Navy Issue Alliance Emblem"
+	},
+	{
+		"typeId": 74030,
+		"name": "Naglfar Fleet Issue Alliance Emblem"
+	},
+	{
+		"typeId": 74031,
+		"name": "Coercer Navy Issue Alliance Emblem"
+	},
+	{
+		"typeId": 74032,
+		"name": "Cormorant Navy Issue Alliance Emblem"
+	},
+	{
+		"typeId": 74033,
+		"name": "Catalyst Navy Issue Alliance Emblem"
+	},
+	{
+		"typeId": 74034,
+		"name": "Thrasher Fleet Issue Alliance Emblem"
+	},
+	{
+		"typeId": 74035,
+		"name": "Probe Fleet Issue Corporation Emblem"
+	},
+	{
+		"typeId": 74036,
+		"name": "Heron Navy Issue Corporation Emblem"
+	},
+	{
+		"typeId": 74037,
+		"name": "Magnate Navy Issue Corporation Emblem"
+	},
+	{
+		"typeId": 74038,
+		"name": "Imicus Navy Issue Corporation Emblem"
+	},
+	{
+		"typeId": 74039,
+		"name": "Cyclone Fleet Issue Corporation Emblem"
+	},
+	{
+		"typeId": 74040,
+		"name": "Ferox Navy Issue Corporation Emblem"
+	},
+	{
+		"typeId": 74041,
+		"name": "Prophecy Navy Issue Corporation Emblem"
+	},
+	{
+		"typeId": 74042,
+		"name": "Myrmidon Navy Issue Corporation Emblem"
+	},
+	{
+		"typeId": 74043,
+		"name": "Revelation Navy Issue Corporation Emblem"
+	},
+	{
+		"typeId": 74044,
+		"name": "Moros Navy Issue Corporation Emblem"
+	},
+	{
+		"typeId": 74045,
+		"name": "Phoenix Navy Issue Corporation Emblem"
+	},
+	{
+		"typeId": 74046,
+		"name": "Naglfar Fleet Issue Corporation Emblem"
+	},
+	{
+		"typeId": 74047,
+		"name": "Coercer Navy Issue Corporation Emblem"
+	},
+	{
+		"typeId": 74048,
+		"name": "Cormorant Navy Issue Corporation Emblem"
+	},
+	{
+		"typeId": 74049,
+		"name": "Catalyst Navy Issue Corporation Emblem"
+	},
+	{
+		"typeId": 74050,
+		"name": "Thrasher Fleet Issue Corporation Emblem"
+	},
+	{
+		"typeId": 74051,
+		"name": "Minmatar Fleet Connection 01a"
+	},
+	{
+		"typeId": 74052,
+		"name": "Minmatar Fleet Connection 01b"
+	},
+	{
+		"typeId": 74053,
+		"name": "Minmatar Fleet Connection 01c"
+	},
+	{
+		"typeId": 74054,
+		"name": "Minmatar Fleet Connection 01d"
+	},
+	{
+		"typeId": 74055,
+		"name": "Minmatar Fleet Connection 02a"
+	},
+	{
+		"typeId": 74056,
+		"name": "Minmatar Fleet Connection 02b"
+	},
+	{
+		"typeId": 74057,
+		"name": "Minmatar Fleet Connection 02c"
+	},
+	{
+		"typeId": 74058,
+		"name": "Minmatar Fleet Connection 03a"
+	},
+	{
+		"typeId": 74059,
+		"name": "Minmatar Fleet Connection 03b"
+	},
+	{
+		"typeId": 74060,
+		"name": "Minmatar Fleet Connection 03c"
+	},
+	{
+		"typeId": 74061,
+		"name": "Minmatar Fleet Connection 04a"
+	},
+	{
+		"typeId": 74062,
+		"name": "Minmatar Fleet Connection 04b"
+	},
+	{
+		"typeId": 74063,
+		"name": "Minmatar Fleet Platform 01a"
+	},
+	{
+		"typeId": 74064,
+		"name": "Minmatar Fleet Platform 02a"
+	},
+	{
+		"typeId": 74065,
+		"name": "Non-interactable Moros Navy Issue(do not translate)"
+	},
+	{
+		"typeId": 74066,
+		"name": "Non-interactable Catalyst Navy Issue(do not translate)"
+	},
+	{
+		"typeId": 74067,
+		"name": "Non-interactable Myrmidon Navy Issue(do not translate)"
+	},
+	{
+		"typeId": 74082,
+		"name": "Gallente Navy Connection 01a"
+	},
+	{
+		"typeId": 74083,
+		"name": "Gallente Navy Connection 01b"
+	},
+	{
+		"typeId": 74084,
+		"name": "Gallente Navy Connection 02a"
+	},
+	{
+		"typeId": 74085,
+		"name": "Gallente Navy Connection 02b"
+	},
+	{
+		"typeId": 74086,
+		"name": "Gallente Navy Connection 03a"
+	},
+	{
+		"typeId": 74087,
+		"name": "Gallente Navy Connection 03b"
+	},
+	{
+		"typeId": 74088,
+		"name": "Gallente Navy Connection 04a"
+	},
+	{
+		"typeId": 74089,
+		"name": "Gallente Navy Connection 04b"
+	},
+	{
+		"typeId": 74090,
+		"name": "Gallente Navy Connection 04c"
+	},
+	{
+		"typeId": 74091,
+		"name": "Gallente Navy Connection 05a"
+	},
+	{
+		"typeId": 74092,
+		"name": "Gallente Navy Connection 05b"
+	},
+	{
+		"typeId": 74093,
+		"name": "Gallente Navy Connection 06a"
+	},
+	{
+		"typeId": 74094,
+		"name": "Gallente Navy Connection 07a"
+	},
+	{
+		"typeId": 74095,
+		"name": "Gallente Navy Connection 07b"
+	},
+	{
+		"typeId": 74096,
+		"name": "Gallente Navy Connection 07c"
+	},
+	{
+		"typeId": 74097,
+		"name": "Gallente Navy Connection 08a"
+	},
+	{
+		"typeId": 74098,
+		"name": "Gallente Navy Connection 08b"
+	},
+	{
+		"typeId": 74099,
+		"name": "Gallente Navy Connection 08c"
+	},
+	{
+		"typeId": 74100,
+		"name": "Gallente Navy Hub 01a"
+	},
+	{
+		"typeId": 74101,
+		"name": "Gallente Navy Hub 01b"
+	},
+	{
+		"typeId": 74102,
+		"name": "Gallente Navy Hub 02a"
 	},
 	{
 		"typeId": 350916,
