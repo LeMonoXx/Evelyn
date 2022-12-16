@@ -10,7 +10,11 @@
 
 .missingItemListDiv {
     display: flex;
-    justify-content: center;
+    justify-content: stretch;
+
+    mat-table {
+        width: 100%;
+    }
 
     th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
         padding-left: 10px;

@@ -31,7 +31,7 @@
          <div *ngIf="shoppingListObs | async as list">   
             <mat-card class="default-mat-card" *ngIf="list.length > 0">
                <!-- no mat-card-content here, its inside -->
-                  <app-shopping-list style="padding: 10px;"
+                  <app-shopping-list
                      [shoppingList$]="shoppingListObs">
                   </app-shopping-list>  
             </mat-card>
