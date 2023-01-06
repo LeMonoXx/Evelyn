@@ -20,13 +20,26 @@
         float: right;
         display: flex;
         justify-content: space-between;
-        align-items: center;
         font-size: 85%;
 
+        .characterDetails {
+            display: block;
+
+            .characterWallet {
+                font-size: 80%;
+                float: right;
+                color: $accent3-strong3;
+            }
+        }
+        
         img {
             margin-left: 5px;
             margin-right: 5px;
             width: 36px;
+        }
+
+        .characterLogout {
+            align-self: center;
         }
     }
 }

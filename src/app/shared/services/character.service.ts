@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { ServerStatus, Character, AuthenticatedCharacter, Portrait, CharacterSkillBook, Asset } from 'src/app/models';
 import { EsiDataRepositoryService } from 'src/app/repositories';
 import { environment } from 'src/environments/environment';
@@ -23,7 +23,13 @@ export class CharacterService {
   }
 
   public getAuthenticatedCharacterInfo() : Observable<AuthenticatedCharacter> {
-    return this.esiDataService.getRequest<AuthenticatedCharacter>(environment.esiVerifyUrl)
+    return this.esiDataService.getRequest<AuthenticatedCharacter>(environment.esiVerifyUrl).pipe(
+      switchMap(char => this.getCharacterWallet(char.CharacterID).pipe(map(wallet => {
+        // we add the wallet to the auth-character information
+        char.Wallet = wallet;
+        return char;
+      })))
+    );
   }
 
   public getCharacterImage(characterId: number): Observable<Portrait> {
@@ -39,5 +45,10 @@ export class CharacterService {
   public getCharacterAssets(characterId: number): Observable<Asset[]> {
     const url = environment.esiBaseUrl + `/characters/${characterId}/assets/`;
     return this.esiDataService.getPagingRequest<Asset>(url)
+  }
+
+  public getCharacterWallet(characterId: number): Observable<number> {
+    const url = environment.esiBaseUrl + `/characters/${characterId}/wallet/`;
+    return this.esiDataService.getRequest<number>(url)
   }
 }

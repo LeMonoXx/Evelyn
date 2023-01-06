@@ -6,5 +6,6 @@ export interface AuthenticatedCharacter {
     TokenType: string;
     CharacterOwnerHash: string;
     ClientID: string;
+    Wallet?: number;
 }
 
