@@ -1,10 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EsiDataRepositoryService, EveMarketerDataRepositoryService } from '../repositories';
 import { CharacterService, FavoritesService, IndustryService, ItemSearchService, MarketService, ShoppingListService, UniverseService } from './index';
 import { AppCookieService } from '../auth';
 import { EveSearchComponent } from '../eve-search/eve-search.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,6 +20,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { AutocompleteService } from '../repositories/autocomplete.service';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
