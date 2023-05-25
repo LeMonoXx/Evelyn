@@ -17,6 +17,7 @@ export interface TradeCalculation {
     nettoSalePrice: number,
     shippingCost: number,
     profit: number
+    netMargin: number,
     usedMarketEntries: MarketEntry[],
     hasEnoughMarketVolumen: boolean,
     requiresShipping: boolean,

@@ -87,6 +87,7 @@ export function getTradeCalculation(
       saleTax: 0,
       nettoSalePrice: 0,
       profit: 0,
+      netMargin: 0,
       shippingCost: 0,
       usedMarketEntries: [],
       hasEnoughMarketVolumen: false,
@@ -116,7 +117,6 @@ export function getTradeCalculation(
       let singleItemShipping = 0;
       if (prices.requiresShipping) {
         singleItemShipping = CalculateShippingCost(prices.singleBuyPrice, itemDetails.packaged_volume, 1, shippingRoute);
-        
       }
       
       const artificialPrice = usedOrders.averagePrice + ((usedOrders.averagePrice / 100) * 20) + singleItemShipping;
@@ -136,6 +136,6 @@ export function getTradeCalculation(
 
     prices.nettoSalePrice = (sellPriceForX - brokerFee) - saleTax;
     prices.profit = (prices.nettoSalePrice - prices.buyPriceX) - prices.shippingCost;
-
+    prices.netMargin = (prices.profit / sellPriceForX);
     return prices;
 }

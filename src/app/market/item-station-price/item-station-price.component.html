@@ -8,8 +8,14 @@
                 <div class="itemDetails" *ngIf="itemDetails$ | async as itemDetails">
                     <div class="itemInfoName" [title]="itemDetails.name"
                         (click)="copy(itemDetails.name)">{{ itemDetails.name }}</div>
-                    <div class="itemInfoId">{{ itemDetails.type_id }}</div>
-                    <div  class="itemInfoId"> {{ itemDetails.packaged_volume }} m³ </div>
+
+                    <div class="itemNetMargin" [ngClass]="tradeData.artificialSellPrice ? 'artificialPrice' : tradeData.profit <= 0 ? 'negativeProfit' : 'positivProfit'">
+                     {{ tradeData.netMargin | percent }} 
+                    </div>
+                    <!-- The type_id is not required for users -->
+                    <!-- <div class="itemInfoId">{{ itemDetails.type_id }}</div> --> 
+                    <div class="itemInfoId"> {{ itemDetails.packaged_volume }} m³ </div>
+
                 </div>
             </div>
 
