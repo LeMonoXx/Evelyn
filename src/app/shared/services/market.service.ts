@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import * as moment from 'moment';
 import { catchError, filter, map, Observable, of, shareReplay } from 'rxjs';
 import { AuthService } from 'src/app/auth';

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { Observable } from 'rxjs';
 import { ItemDetails } from 'src/app/models';
 import { calculateComponentMaterialCosts, copyToClipboard, toMultiBuyString, UniverseService } from 'src/app/shared';

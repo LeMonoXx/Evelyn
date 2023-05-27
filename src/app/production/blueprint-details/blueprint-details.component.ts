@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { combineLatest, debounceTime, filter, map, mergeMap, Observable, shareReplay, switchMap } from 'rxjs';
 import { BlueprintDetails, ItemDetails, MarketEntry, StructureDetails } from 'src/app/models';
 import { calculateComponentMaterialCosts, calculateComponentShippingColaterial, calculateShippingComponentVolume, 

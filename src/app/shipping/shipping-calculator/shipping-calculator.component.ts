@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { filter, debounceTime, map, Observable, switchMap, forkJoin, combineLatest, 
   from, toArray, shareReplay, distinctUntilChanged, mergeMap } from 'rxjs';
 import { AuthService, IAuthResponseData } from 'src/app/auth';
