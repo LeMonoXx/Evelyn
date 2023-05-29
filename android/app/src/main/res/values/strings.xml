@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Evelyn</string>
+    <string name="title_activity_main">Evelyn</string>
+    <string name="package_name">de.monoxnet.evelyn</string>
+    <string name="custom_url_scheme">de.monoxnet.evelyn</string>
+</resources>
