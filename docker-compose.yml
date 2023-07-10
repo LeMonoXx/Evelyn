@@ -1,0 +1,10 @@
+services:
+  web:
+    image: nginx:latest
+    volumes:
+     - ./app:/usr/share/nginx/html:ro
+     - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.evelyn.rule=Host(`evelyn.monoxnet.de`)"
+      - "traefik.http.routers.evelyn.tls.certresolver=letsencrypt"
