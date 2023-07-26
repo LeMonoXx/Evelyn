@@ -22,7 +22,13 @@ export class EsiDataRepositoryService {
   }
 
   public getText(url: string): Observable<string> {
-    return this.httpClient.get(url, {responseType: 'text'})
+    return this.httpClient.get(url, { 
+      headers: {
+        'Accept-Language': 'en-US',
+        'Access-Control-Allow-Origin': '*',
+      },
+      responseType: 'text'
+    });
   }
 
   public getPagingRequest<T>(url: string): Observable<Array<T>> {
