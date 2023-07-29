@@ -24,10 +24,11 @@ export class EsiDataRepositoryService {
   public getText(url: string): Observable<string> {
     return this.httpClient.get(url, { 
       headers: {
-        'Accept-Language': 'en-US'
+        'Accept-Language': 'en-US',
+        'Referrer-Policy': 'origin'
       },
       responseType: 'text'
-    }).pipe(shareReplay(1));
+    });
   }
 
   public getPagingRequest<T>(url: string): Observable<Array<T>> {
