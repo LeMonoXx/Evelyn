@@ -1,10 +1,16 @@
 <div class="materialCostsDiv" *ngIf="manufacturingCostsGroupedObs | async as manuFacCostsGrouped">
     <div *ngFor="let entry of manuFacCostsGrouped | keyvalue">
-        <button class="multibuyButton" mat-button title="Copy in Multibuy format"
-            (click)="copyAsMultibuyFormat(entry.value, entry.key)">
-            <mat-icon>assignment</mat-icon>
-            {{ entry.key }}
-        </button>
+        <div class="action-buttons">
+            <button class="multibuyButton" mat-button title="Copy in Multibuy format"
+                (click)="copyAsMultibuyFormat(entry.value, entry.key)">
+                <mat-icon>assignment</mat-icon>
+                {{ entry.key }}
+            </button>
+            <button class="addToShoppingListButton" mat-button title="Add all entries shopping list"
+                (click)="addToShoppingList(entry.value)">
+                <mat-icon>add_shopping_cart</mat-icon>
+            </button>
+        </div>
         
         <table mat-table [dataSource]="entry.value" class="materialsTable">
             <ng-container matColumnDef="image">

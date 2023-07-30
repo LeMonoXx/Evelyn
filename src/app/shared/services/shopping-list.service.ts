@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable, shareReplay, tap } from 'rxjs';
+import { BehaviorSubject, Observable, shareReplay, tap } from 'rxjs';
 import { ShoppingEntry } from '..';
 import { getStoredShoppingList, storeShoppingList } from '../functions/storage';
 
@@ -14,7 +14,8 @@ export class ShoppingListService {
     item_name: "",
     buy_price: 0,
     sell_price: 0,
-    profit: 0
+    profit: 0,
+    forProduction: false
   }]);
   public ShoppingListObs: Observable<ShoppingEntry[]>;
 

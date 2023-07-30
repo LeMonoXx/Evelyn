@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
-import { groupBy, map, Observable } from 'rxjs';
-import { copyToClipboard, toMultiBuyString, UniverseService } from 'src/app/shared';
+import { map, Observable } from 'rxjs';
+import { copyToClipboard, ShoppingEntry, ShoppingListService, toMultiBuyString, UniverseService } from 'src/app/shared';
 import { ManufacturingCostEntry } from '../models/manufacturing-cost-entry';
 
 @Component({
@@ -18,6 +18,7 @@ export class BlueprintMaterialCostsComponent implements OnInit {
 
   constructor(
     private universeService: UniverseService,
+    private shoppingListService: ShoppingListService,
     private snackBar: MatSnackBar
     ) { }
 
@@ -62,4 +63,24 @@ export class BlueprintMaterialCostsComponent implements OnInit {
 
     this.copy(multiBuyStr, "Copied material for " + station,);
   }
+
+  public addToShoppingList(entries: ManufacturingCostEntry[]) {
+    entries.forEach(entry => {
+      const shoppingEntry: ShoppingEntry = {
+        quantity: entry.quantity_total,
+        type_id: entry.typeID,
+        item_name: entry.itemName,
+        buy_price: entry.single_buyPrice,
+        sell_price: 0,
+        profit: 0,
+        forProduction: true
+      }
+  
+      this.shoppingListService.AddShoppingEntry(shoppingEntry);
+    });
+
+    this.snackBar.open(`Added ${entries.length} items to the shopping list!`, undefined, { duration: 2000 });
+
+  }
+
 }

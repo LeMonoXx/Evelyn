@@ -3,9 +3,25 @@
 
 .materialCostsDiv {
 
-    .multibuyButton {
-        padding: 0px;
+    .action-buttons {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .multibuyButton {
+            padding: 0px;
+        }
+        
+        .mat-button {
+            line-height: 15px;
+            min-width: 15px;
+            padding: 2px;
+                      
+            mat-icon {
+                transform: scale(0.8);
+            }
+        }
     }
+
 
     .materialsTable {
         width: 100%; 

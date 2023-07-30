@@ -41,7 +41,7 @@ export class ItemStationPriceComponent implements OnInit {
   constructor(
     private marketService: MarketService, 
     private universeService: UniverseService,
-    private shopphingListService: ShoppingListService,
+    private shoppingListService: ShoppingListService,
     private favoriteService: FavoritesService,
     private snackBar: MatSnackBar) {
 
@@ -100,11 +100,11 @@ export class ItemStationPriceComponent implements OnInit {
   }
 
   public IsOnShoppingList(type_id: number): boolean {
-    return this.shopphingListService.ContainsItem(type_id);
+    return this.shoppingListService.ContainsItem(type_id);
   }
 
   public addOrRemoveShoppingList(sell: TradeCalculation) {
-    const existingEntry = this.shopphingListService.GetEntryById(sell.type_id);
+    const existingEntry = this.shoppingListService.GetEntryById(sell.type_id);
 
     if(!existingEntry) {
       const shoppingEntry: ShoppingEntry = {
@@ -113,13 +113,14 @@ export class ItemStationPriceComponent implements OnInit {
         item_name: sell.type_name,
         buy_price: sell.singleBuyPrice,
         sell_price: sell.singleSellPrice,
-        profit: sell.profit
+        profit: sell.profit,
+        forProduction: false
       }
 
-      this.shopphingListService.AddShoppingEntry(shoppingEntry);
+      this.shoppingListService.AddShoppingEntry(shoppingEntry);
       
     } else {
-      this.shopphingListService.RemoveShoppingEntry(existingEntry);
+      this.shoppingListService.RemoveShoppingEntry(existingEntry);
     }
   }
 
